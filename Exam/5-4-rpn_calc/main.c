@@ -6,7 +6,7 @@
 /*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:25:13 by jwalsh            #+#    #+#             */
-/*   Updated: 2016/12/04 18:55:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2016/12/05 22:16:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,8 @@
 int	main(int ac, char **av)
 {
 	if (ac == 2 && check_input(av[1]))
-	{
-		printf("VALID\n");
 		rpn_calc(av[1]);
-	}
 	else
-	{
 		printf("Error\n");
-	}
 	return (0);
 }
