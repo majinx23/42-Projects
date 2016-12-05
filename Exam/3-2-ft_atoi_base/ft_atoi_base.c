@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int isblank(char c)
 {
@@ -11,15 +12,10 @@ int		isvalid(char c, int base)
 {
 	char digits[17] = "0123456789abcdef";
 	char digits2[17] = "0123456789ABCDEF";
-	int i;
 
-	i = 0;
-	while (i < base)
-	{
-		if (digits[i] == c || digits2[i] == c)
+	while (base--)
+		if (digits[base] == c || digits2[base] == c)
 			return (1);
-		i++;
-	}
 	return (0);
 }
 
@@ -27,22 +23,12 @@ int		value_of(char c)
 {
 	if (c >= '0' && c <= '9')
 		return (c - '0');
-	if (c == 'a' || c == 'A')
-		return (10);
-	if (c == 'b' || c == 'B')
-		return (11);
-	if (c == 'c' || c == 'C')
-		return (12);
-	if (c == 'd' || c == 'D')
-		return (13);
-	if (c == 'e' || c == 'E')
-		return (14);
-	if (c == 'f' || c == 'F')
-		return (15);
+	else if (c >= 'a' && c <= 'f')
+		return (c - 'a' + 10);
+	else if (c >= 'A' && c <= 'F')
+		return (c - 'A' + 10);
 	return (0);
 }
-
-
 
 int		ft_atoi_base(const char *str, int str_base)
 {
@@ -50,19 +36,18 @@ int		ft_atoi_base(const char *str, int str_base)
 	int sign;
 
 	result = 0;
-	sign = 1;
 	while (isblank(*str))
 		str++;
-	if (*str == '-' || *str == '+')
-		if (*str++ == '-')
-			sign = -1;
+	sign = (*str == '-') ? -1 : 1;
+	(*str == '-' || *str == '+') ? ++str : 0;
 	while (isvalid(*str, str_base))
 		result = result * str_base + value_of(*str++);
 	return (result * sign);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
-	printf("result: %d\n", ft_atoi_base("-22", 5));
+	if (ac == 3)
+		printf("result: %d\n", ft_atoi_base(av[1], atoi(av[2])));
 	return (0);
 }
