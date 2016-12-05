@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 17:43:17 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/04 21:59:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/05 18:57:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	rostring(char *s)
 
 int		main(int ac, char **av)
 {
-	if (ac == 2 && av[1][0])
+	if (ac > 1 && *av[1])
 		rostring(av[1]);
 	write(1, "\n", 1);
 	return (0);
