@@ -6,13 +6,13 @@ char	*ft_strcpy(char *s1, char *s2)
 	int i;
 
 	i = 0;
-	while (s1[i])
+	while (s2[i])
 	{
-		s2[i] = s1[i];
+		s1[i] = s2[i];
 		i++;
 	}
-	s2[i] = '\0';
-	return (s2);
+	s1[i] = '\0';
+	return (s1);
 }
 
 int		main(void)
@@ -26,6 +26,6 @@ int		main(void)
 	while (a[len])
 		len++;	
 	b = (char *)malloc(sizeof(char) * len + 1);
-	write(1, ft_strcpy(a, b), len);
+	write(1, ft_strcpy(b, a), len);
 	return (0);
 }
