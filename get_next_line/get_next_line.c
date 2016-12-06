@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:56:47 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 21:23:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/06 21:37:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int				get_next_line(int const fd, char **line)
 	(((char*)p->content)[ret] == 10) ? ++ret : 0;
 	tmp = p->content;
 	p->content = ft_strdup(tmp + ret);
-	(p = begin) ? free(tmp) : 0;
+	p = begin;
+	free(tmp);
 	return (ret ? 1 : 0);
 }
