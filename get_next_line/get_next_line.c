@@ -6,55 +6,52 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:56:47 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/05 21:48:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/06 20:09:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static t_list	*ft_findfd(t_list **begin, int fd)
+static t_list	*ft_node_browser(t_list **begin, int fd)
 {
-	t_list	*tmp;
+	t_list	*p;
 
-	tmp = *begin;
-	if (tmp)
+	p = *begin;
+	while (p)
 	{
-		while (tmp)
-		{
-			if (fd == (int)tmp->content_size)
-				return (tmp);
-			tmp = tmp->next;
-		}
+		if (fd == (int)p->content_size)
+			return (p);
+		p = p->next;
 	}
-	tmp = ft_lstnew("\0", 1);
-	tmp->content_size = fd;
-	ft_lstadd(begin, tmp);
-	return (tmp);
+	p = ft_lstnew("\0", 1);
+	p->content_size = fd;
+	ft_lstadd(begin, p);
+	return (p);
 }
 
 int				get_next_line(int const fd, char **line)
 {
 	char			buf[BUFF_SIZE + 1];
 	int				ret;
-	static t_list	*list = NULL;
+	static t_list	*p = NULL;
 	t_list			*begin;
-	char			*copy;
+	char			*tmp;
 
 	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0)
 		return (-1);
-	begin = list;
-	list = ft_findfd(&begin, fd);
-	while (!ft_strchr(list->content, '\n') && (ret = read(fd, buf, BUFF_SIZE)))
-		list->content = ft_strnjoinfree(list->content, buf, ret, 'L');
+	begin = p;
+	p = ft_node_browser(&begin, fd);
+	while ((ret = read(fd, buf, BUFF_SIZE)))
+		p->content = ft_strnjoinfree(p->content, buf, ret, 'L');
 	ret = 0;
-	while (((char*)list->content)[ret] && ((char*)list->content)[ret] != '\n')
+	tmp = p->content;
+	while (((char*)p->content)[ret] && ((char*)p->content)[ret] != 10)
 		++ret;
-	*line = ft_strndup(list->content, ret);
-	if (((char*)list->content)[ret] == '\n')
+	*line = ft_strndup(p->content, ret);
+	if (((char*)p->content)[ret] == 10)
 		++ret;
-	copy = list->content;
-	list->content = ft_strdup(list->content + ret);
-	free(copy);
-	list = begin;
+	p->content = ft_strdup(tmp + ret);
+	free(tmp);
+	p = begin;
 	return (ret ? 1 : 0);
 }

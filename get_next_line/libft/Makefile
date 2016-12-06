@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by angavrel          #+#    #+#              #
-#    Updated: 2016/12/02 17:57:44 by angavrel         ###   ########.fr        #
+#    Updated: 2016/12/06 19:21:38 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,14 +82,15 @@ SRC = ft_atoi.c \
 	  ft_strsplit.c \
 	  ft_strlencmp.c \
 	  ft_clamp.c \
-	  ft_strjoinfree.c \
 	  ft_strctrim.c \
 	  ft_memswap.c \
 	  ft_strrev.c \
 	  ft_bubblesort_array.c \
-	  ft_strnjoinfree.c \
 	  ft_strndup.c \
 	  ft_strnjoin.c \
+	  ft_strjoinfree.c \
+	  ft_strnjoinfree.c \
+	  ft_strdupfree.c \
 	  ft_intnew.c \
 	  ft_putnbr_base.c
 

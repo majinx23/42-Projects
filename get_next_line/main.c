@@ -6,22 +6,21 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:57:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/11/30 11:57:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/06 17:22:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	main(int argc, char **argv)
+int		main(int ac, char **av)
 {
 	int		fd;
-	int		i;
 	char	*line;
 
-	i = 1;
-	while (i <= argc)
+	while (--ac)
 	{
-		if ((fd = open(argv[i++], O_RDONLY)) < 0 && argc == 1)
+		av++;
+		if ((fd = open(*av, O_RDONLY)) < 0)
 			fd = 0;
 		while (get_next_line(fd, &line) == 1)
 		{
