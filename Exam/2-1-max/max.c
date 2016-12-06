@@ -5,27 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 20:57:54 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/03 21:24:18 by angavrel         ###   ########.fr       */
+/*   Created: 2016/12/06 15:30:33 by angavrel          #+#    #+#             */
+/*   Updated: 2016/12/06 15:44:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <stdio.h>//
+#include <stdlib.h>//
 
 int		max(int *tab, unsigned int len)
 {
 	int	max;
-	int	i;
 
-	if (len == 0)
-		return (0);
-	i = 0;
-	max = tab[i];
+	max = (len) ? tab[len - 1] : 0;
 	while (len--)
-	{
-		if (tab[i] > max)
-			max = tab[i];
-		++i;
-	}
+		if (tab[len] > max)
+			max = tab[len];
 	return (max);
 }
+
+int		main(void)//
+{//
+	int	*tab;//
+
+	if (!(tab = (int*)malloc(sizeof(int) * 3)))//
+		return (0);//
+	tab[0] = 7;//
+	tab[1] = 6;//
+	tab[2] = 4;//
+	printf("%d", max(tab, 3));//
+	return (0);//
+}//
