@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:56:47 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 20:09:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/06 21:23:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				get_next_line(int const fd, char **line)
 {
 	char			buf[BUFF_SIZE + 1];
 	int				ret;
-	static t_list	*p = NULL;
+	static t_list	*p;
 	t_list			*begin;
 	char			*tmp;
 
@@ -43,15 +43,12 @@ int				get_next_line(int const fd, char **line)
 	p = ft_node_browser(&begin, fd);
 	while ((ret = read(fd, buf, BUFF_SIZE)))
 		p->content = ft_strnjoinfree(p->content, buf, ret, 'L');
-	ret = 0;
-	tmp = p->content;
 	while (((char*)p->content)[ret] && ((char*)p->content)[ret] != 10)
 		++ret;
 	*line = ft_strndup(p->content, ret);
-	if (((char*)p->content)[ret] == 10)
-		++ret;
+	(((char*)p->content)[ret] == 10) ? ++ret : 0;
+	tmp = p->content;
 	p->content = ft_strdup(tmp + ret);
-	free(tmp);
-	p = begin;
+	(p = begin) ? free(tmp) : 0;
 	return (ret ? 1 : 0);
 }
