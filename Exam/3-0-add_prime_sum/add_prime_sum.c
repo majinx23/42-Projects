@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 17:53:51 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 18:41:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/06 22:30:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);
+}
+
+void	ft_putposnbr(int n)
+{
+	if (n > 9)
+		ft_putposnbr(n / 10);
+	ft_putchar(n % 10 + '0');
 }
 
 int		ft_atoi_nc(char *s)
@@ -27,12 +34,9 @@ int		ft_atoi_nc(char *s)
 	return (r);
 }
 
-int		is_prime(int n)
+int		is_prime(int n, int i)
 {
-	int i;
-
-	i = 2;
-	while (i < n)
+	while (i <= n)
 		if (n % i++ == 0)
 			return (0);
 	return (1);
@@ -44,13 +48,13 @@ void	add_prime_sum(int n)
 
 	if (n == 1)
 		ft_putchar('1');
-	i = 1;
+	i = 2;
 	while (n >= i)
 	{
-		if (is_prime(i))
+		if (is_prime(n, i))
 		{
 			n /= i;
-			ft_putchar(i + '0');
+			ft_putposnbr(i);
 			i = n - 1;
 		}
 		++i;
