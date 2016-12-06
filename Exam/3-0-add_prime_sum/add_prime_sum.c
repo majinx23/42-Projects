@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 17:53:51 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/03 20:31:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/06 16:08:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_atoi_osefvalid(char *s)
 	return (r);
 }
 
-void	add_prime_sum(int n)
+void	add_prime_sum(int n)//wrong
 {
 	int	i;
 
