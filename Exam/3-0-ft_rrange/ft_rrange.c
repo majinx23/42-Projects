@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 15:46:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 15:58:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/07 16:17:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int     *ft_rrange(int start, int end)
 	if (!(r = (int*)malloc(sizeof(int) * len)))
 		return (NULL);
 	 while (len--)
-		 r[len] = (end > start) ? end-- : end++;
+		 r[len] = (end >= start) ? start++ : start--;
 	return (r);
 }
