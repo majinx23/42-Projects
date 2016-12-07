@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:16:08 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/07 18:32:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/07 18:36:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int		r_size(char *s)
 	return (len);
 }
 
-char			**ft_strsplit(char *s)
+char			**ft_split(char *s)
 {
 	int		i = 0;
 	int		j = 0;
