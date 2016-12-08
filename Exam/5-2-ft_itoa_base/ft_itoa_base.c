@@ -6,12 +6,12 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 22:36:30 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/05 16:25:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/08 17:20:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h> //
+#include <stdio.h> //malloc protection isn't required for the exam
 
 char	*ft_itoa_base(int value, int base)
 {
@@ -25,8 +25,7 @@ char	*ft_itoa_base(int value, int base)
 	i = (sign == -1) ? 2 : 1;
 	while ((n /= base) >= 1)
 		i++;
-	if (!(s = (char*)malloc(sizeof(char) * (i + 1))))
-		return (NULL);
+	s = (char*)malloc(sizeof(char) * (i + 1));
 	s[i] = '\0';
 	n = (value < 0) ? -(long)value : value;
 	while (i-- + sign)
