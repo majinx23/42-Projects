@@ -6,16 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 19:31:19 by angavrel          #+#    #+#             */
-/*   Updated: 2016/11/30 16:58:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/08 16:40:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-/*
-** replace #include libft.h with #include <stdlib.h>
-** replace ft_intnew(n - 1) with protected malloc(sizeof(int) * (n));
-*/
+#include <stdlib.h>
 
 int		*ft_range(int min, int max)
 {
@@ -23,7 +18,7 @@ int		*ft_range(int min, int max)
 	int		*s;
 
 	n = max >= min ? max - min : min - max;
-	if (!(s = ft_intnew(n - 1)))
+	if (!(s = (int *)malloc(sizeof(int) * (n))))
 		return (NULL);
 	while (max != min)
 		*s++ = max > min ? min++ : min--;
