@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h>//
+#include <stdlib.h>//
 
 int isblank(char c)
 {
@@ -45,9 +45,9 @@ int		ft_atoi_base(const char *str, int str_base)
 	return (result * sign);
 }
 
-int		main(int ac, char **av)
-{
-	if (ac == 3)
-		printf("result: %d\n", ft_atoi_base(av[1], atoi(av[2])));
-	return (0);
-}
+int		main(int ac, char **av)//
+{//
+	if (ac == 3)//
+		printf("result: %d\n", ft_atoi_base(av[1], atoi(av[2])));//
+	return (0);//
+}//
