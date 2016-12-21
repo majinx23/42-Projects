@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 20:56:20 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/05 17:25:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/21 14:54:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_chars(unsigned char *t, size_t n)
 {
 	while (n--)
 	{
-		(*t > 32 && *t < 127) ? ft_putchar(*t) : ft_putchar('.');
+		(*t > 31 && *t < 127) ? ft_putchar(*t) : ft_putchar('.');
 		++t;
 	}
 	ft_putchar('\n');
