@@ -6,13 +6,13 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 20:08:36 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/08 22:29:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/21 08:02:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 #include <unistd.h>
 
-// gcc checkmate.c && ./a.out '..Q.' '...K' '....' '....' | cat -e
+// gcc checkmate.c && ./a.out '..R.' '.Q..' '..BK' '...P' | cat -e
 // B = 3      Rook = 2 and Queen == 6   an P == 1
 
 int		checkmate(int ac, char **av)
@@ -53,62 +53,73 @@ int		checkmate(int ac, char **av)
 	if (m[b + 1][a + 1] == 'P' || m[b + 1][a - 1] == 'P')
 		return (0);
 
-	//other checks
-	y = b;
-	x = a;
-	while (y < len)
+	int		i = 0;
+	while (i < len)
 	{
-		if (m[y][x] == 'R' || m[y][x] == 'Q')
+		if (m[b][i] == 'Q' || m[i][a] == 'Q' || m[b][i] == 'R' || m[i][a] == 'R')
 			return (0);
-		if (m[y + 1])
+		if (i < b)
 		{
-			if (m[y + 1][x + (y + 1 - b)] == 'B' ||
-					m[y + 1][x + (b - y - 1)] == 'B' ||
-					m[y - 1][x + (y + 1 - b)] == 'B' ||
-					m[y - 1][x + (b - y - 1)] == 'B')
+			if (i < a && (m[b - i - 1][a - i - 1] == 'B' || m[b - i - 1][a - i - 1] == 'Q') )
 				return (0);
-			if (m[y + 1][x + (y + 1 - b)] == 'Q' ||
-					m[y + 1][x + (b - y - 1)] == 'Q' ||
-					m[y - 1][x + (y + 1 - b)] == 'Q' ||
-					m[y - 1][x + (b - y - 1)] == 'Q')
+			if (a + i < len && (m[b - i - 1][a + i + 1] == 'B' || m[b - i - 1][a + i + 1] == 'Q'))
 				return (0);
 		}
-	
-		++y;		
-	}
-	int i = 0;
-	while (a && b && i < b && i < a)
-	{
-		if (m[b - i][a - i] == 'B' || m[b - i][a - i] == 'Q')
-			return (0);
+		if (b + i < len)
+		{
+			if (i < a && (m[b + i + 1] [a - i - 1] == 'B' || m[b + i + 1] [a - i - 1] == 'Q'))
+				return (0);
+			if (a + i < len && (m[b + i + 1] [a + i + 1] == 'B' || m[b + i + 1] [a + i + 1] == 'Q' ))
+				return (0);
+		}
 		i++;
 	}
+	return (1);
+}
 
-	y = b;
-	x = 0;
-	while (x < len)
+
+void	print(int ac, char **av)
+{	
+	int		len;
+	int		x;
+	int		y;
+	char	**m;
+
+	// creating map
+	while (ac-- > 1)
+		len++;
+	if (!(m = (char **)malloc(sizeof(char *) * len * (len + 1))))
+		return ;
+	y = 0;
+	while (y < len)
 	{
-		if (m[y][x] == 'R' || m[y][x] == 'Q')
-			return (0);
-		++x;
+		if (!(m[y] = (char *)malloc(sizeof(char) * (len + 1))))
+			return ;
+		x = 0;
+		while (av[y + 1][x])
+		{
+			m[y][x] = av[y + 1][x];
+			++x;
+		}
+		m[y][x] = 0;
+		++y;
 	}
-
-	// print map and solution
+	// printing map
 	y = 0;
 	while (y < len)
 	{
 		write(1, m[y++], len);
 		write(1, "\n", 1);
 	}
-	return (1);
 }
+
 
 int		main(int ac, char **av)
 {
 	if (ac > 1 && checkmate(ac, av))
-		write(1, "Success", 7);
+		write(1, "Success\n", 8);
 	else
-		write(1, "Fail", 4);
-	write(1, "\n", 1);
+		write(1, "Fail\n", 5);
+	print(ac, av);
 	return (0);
 }
