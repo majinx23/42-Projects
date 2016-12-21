@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 12:05:27 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/21 12:14:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/21 12:42:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int		ft_strlen(char *s)
 int		ft_isblank(char c)
 {
 	if (c == ' ' || c == '\t')
+		return (1);
+	if (c >= 9 && c <= 13)
 		return (1);
 	return (0);
 }
