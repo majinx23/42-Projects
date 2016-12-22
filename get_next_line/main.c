@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:57:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 21:34:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/22 18:08:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		main(int ac, char **av)
 {
 	int		fd;
+	int		ret;
 	char	*line;
 
 	while (--ac)
@@ -22,11 +23,15 @@ int		main(int ac, char **av)
 		av++;
 		if ((fd = open(*av, O_RDONLY)) < 0)
 			fd = 0;
-		while (get_next_line(fd, &line) == 1)
+		while ((ret = (get_next_line(fd, &line))) == 1)
 		{
 			ft_putendl(line);
 			free(line);
+			ft_putnbr(ret);
 		}
+		free(line);
+		ft_putnbr(ret);
 	}
+	while (1);
 	return (0);
 }
