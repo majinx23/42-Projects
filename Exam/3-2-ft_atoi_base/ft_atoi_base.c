@@ -1,5 +1,14 @@
-#include <stdio.h>//
-#include <stdlib.h>//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/27 10:58:15 by angavrel          #+#    #+#             */
+/*   Updated: 2016/12/27 10:58:30 by angavrel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 int isblank(char c)
 {
@@ -44,10 +53,3 @@ int		ft_atoi_base(const char *str, int str_base)
 		result = result * str_base + value_of(*str++);
 	return (result * sign);
 }
-
-int		main(int ac, char **av)//
-{//
-	if (ac == 3)//
-		printf("result: %d\n", ft_atoi_base(av[1], atoi(av[2])));//
-	return (0);//
-}//
