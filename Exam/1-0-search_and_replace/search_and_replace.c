@@ -1,41 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   search_and_replace.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/27 06:33:21 by angavrel          #+#    #+#             */
+/*   Updated: 2016/12/27 06:44:12 by angavrel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 
-int		ft_count(char *str)
+void	ft_putstr(char *s)
 {
-	int nb;
-
-	nb = 0;
-	while (*str++)
-		nb++;
-	return (nb);
+	while (*s)
+		write(1, s++, 1);
 }
 
-void	ft_putstr(char *str)
+char	*search_and_replace(char *s, char a, char b)
 {
-	while (*str)
-		write(1, str++, 1);
-}
+	int	i = -1;
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-char	*search_and_replace(char *str, char a, char b)
-{
-	int i;
-
-	i = -1;
-	while (str[++i] != '\0')
-		if (str[i] == a)
-			str[i] = b;
-	return (str);
+	while (s[++i])
+		s[i] = (s[i] == a) ? b : s[i];
+	return (s);
 }
 
 int		main(int ac, char **av)
 {
-	if (ac == 4 && ft_count(av[2]) == 1 && ft_count(av[3]) == 1)
-		ft_putstr(search_and_replace(av[1], av[2][0], av[3][0]));
-	ft_putchar('\n');
+	if (ac == 4 && *av[2] && !av[2][1] && *av[3] && !av[3][1])
+		ft_putstr(search_and_replace(av[1], *av[2], *av[3]));
+	write(1, "\n", 1);
 	return (0);
 }
