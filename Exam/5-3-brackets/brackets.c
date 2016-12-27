@@ -6,12 +6,12 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 16:31:57 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 11:23:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/27 12:57:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h> //
+
 int		isclosing(char c)
 {
 	if (c == 125)
@@ -32,26 +32,33 @@ int		isopening(char c)
 	else if (c == 40)
 		return (1);
 	return (0);
-
 }
 
+static int		is_matching_bracket(char a, char b)
+{
+	return ((a == '(' && b == ')') ||
+			(a == '{' && b == '}') ||
+			(a == '[' && b == ']'));
+
+}
 char	*find_match(char b, char *s, int i)
 {
 	while (i >= 0)
 	{
 		if (is_matching_bracket(s[i], b))
 			return (s + i);
-		if (is_open_bracket(s[i]) && !is_matching_bracket(s[i], b))
+		if (isopening(s[i]) && !is_matching_bracket(s[i], b))
 			return (NULL);
 		i--;
 	}
 	return (NULL);
 }
 
-void	brackets(char *s)
+int		brackets(char *s)
 {
 	int		i;
 	int		a;
+	char	*b;
 
 	i = 0;
 	a = 0;
@@ -59,7 +66,7 @@ void	brackets(char *s)
 	{
 		if (isclosing(s[i]))
 		{
-			a = isclosing(s[i])
+			a = isclosing(s[i]);
 			if ((b = find_match(s[i], s, i)))
 			{
 				s[i] = '.';
@@ -71,10 +78,13 @@ void	brackets(char *s)
 		}
 		i++;
 	}
-	i = 0;
-	while (s[i])
-		if (is_bracket(s[i++]))
-			return (error());
+	i = -1;
+	while (s[++i])
+		if (isopening(s[i] || isclosing(s[i])))
+		{
+			write(1, "Error", 5);
+			return (0);
+		}
 	return (1);
 }
 
@@ -83,10 +93,8 @@ int		main(int ac, char **av)
 	int		i;
 
 	i = 0;
-	while (i < ac)
-	{
-		(brackets(av[++i])) ? write(1, "OK", 2) : write(1, "Error", 5);
-		write (1, "\n", 1);
-	}
+	while (++i < ac)
+		(brackets(av[i])) ? write(1, "OK", 2) : write(1, "Error", 5);
+	write (1, "\n", 1);
 	return (0);
 }
