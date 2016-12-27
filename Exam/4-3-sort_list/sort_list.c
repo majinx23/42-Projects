@@ -6,24 +6,35 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 21:43:06 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 11:15:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/27 11:29:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.h"
 
-int		ascending(int a, int b)
+void	swap(int *a, int *b)
 {
-	return (a <= b);
+	*a = *a + *b;
+	*b = *a - *b;
+	*a = *a - *b;
 }
 
-t_list	*sort_list(t_list* lst, int (*cmp)(int, int))
+t_list	*sort_list(t_list *lst, int (*cmp)(int, int))
 {
-	t_list	*tmp;
+	t_list	*p;
+	t_list	*t;
 
-	tmp = lst;
-	while (lst->next)
-		if (((*cmp)(lst->data, lst->next->data)) == 0)
-			ascending(lst->data, lst->next->data);
-	return (tmp);
+	t = lst;
+	while (lst)
+	{
+		p = lst->next;
+		while (p)
+		{
+			if (!(*cmp)(lst->data, p->data))
+				swap(&lst->data, &p->data);
+			p = p->next;
+		}
+		lst = lst->next;
+	}
+	return (t);
 }
