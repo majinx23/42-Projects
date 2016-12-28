@@ -6,12 +6,17 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 16:59:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 18:47:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+
+/*
+** fcntl to use O_RDONLY, math for formulacs, nlx.h to trace pixel and window
+** colors to use custom colors and keycode handle buttons and clicks' events.
+*/
 
 # include <fcntl.h>
 # include <math.h>
@@ -25,7 +30,7 @@
 # define HEIGHT 600
 
 /*
-** More Colors
+** more awesome colors
 */
 # define PINK 0xcc00cc
 # define BLACK 0x000000
@@ -39,11 +44,20 @@
 
 double		vector_len(double x, double y, double z);
 
+
+/*
+** using t_xy.x and t_xy.y instead of x and y for index.
+*/
+
 typedef struct	s_xy
 {
 	unsigned	x;
 	unsigned	y;
 }				t_xy;
+
+/*
+** *s is map parsed as a string and *c a save from each point's color.
+*/
 
 typedef struct	s_3d
 {
@@ -54,9 +68,15 @@ typedef struct	s_3d
 	float		phi;
 	float		theta;
 	float		**m;
+	char		*s;
+	int			*c;
 }				t_3d;
 
+/*
+** check_validity checks that map is valid and parse color.
+** get_map_dimension malloc x y z into **m
+*/
 unsigned		check_validity(char *s);
-int				get_map_dimension(t_3d *d, char *s);
+int				get_map_dimension(t_3d *d);
 
 #endif

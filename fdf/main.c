@@ -6,25 +6,24 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 17:30:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 18:28:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
-** Check for map validity and determine max y and max x.
+** Check for map validity, stock map in d->s and determine max y and max x.
 */
 static int		get_x_y(t_3d *d, char *s)
 {
 	char		*line;
 	int			fd;
 
-	d->x = 0;
-	d->y = 0;
 	fd = open(s, O_RDONLY);
 	if (get_next_line(fd, &line) == 1)
 	{
+		d->s = ft_strdup(line);
 		d->x = check_validity(line);
 		++d->y;
 		(line) ? free(line) : 0;
@@ -33,6 +32,8 @@ static int		get_x_y(t_3d *d, char *s)
 	{
 		if (d->x != check_validity(line))
 			return (ft_error("Invalid file"));
+		d->s = ft_strjoin(d->s, " ");
+		d->s = ft_strjoin(d->s, line);
 		++d->y;
 		(line) ? free(line) : 0;
 	}
@@ -44,31 +45,60 @@ static int		get_x_y(t_3d *d, char *s)
 	return (d->x ? ft_error("One tile only") : ft_error("Empty file"));
 }
 
-int			get_map_dimension(t_3d *d, char **s)
+
+/*
+** debug function
+*/
+
+int		printmap(t_3d *d)//
+{
+	int x;
+	int y = 0;
+	while (y < d->y)
+	{
+		x = 0;
+		while (x < d->x)
+		{
+			ft_putnbr(d->m[y][x++]);
+			ft_putchar(' ');
+		}
+		ft_putchar('\n');
+		++y;
+	}
+	return (1);
+}
+
+
+/*
+** Stock int into an array
+*/
+
+int			get_map_dimension(t_3d *d)
 {
 	t_xy	i;
-	int		fd;
 
-	i.y = 0;
-	i.x = 0;
 	if (!(d->m = (float **)malloc(sizeof(float *) * d->y * d->x)))
 		return (0);
-	fd = open(s, O_RDONLY);
+	i.y = 0;
 	while (i.y < d->y)
 	{
 		if (!(d->m[i.y] = (float *)malloc(sizeof(float) * d->x)))
 			return (0);
+		i.x = 0;
 		while (i.x < d->x)
 		{
-			d->m[i.y][i.x++] = ft_atoi(*s);
-			while (*s && (*s != ' ' || *s != '\n'))
-				++s;
+			while (*d->s && *d->s == ' ')
+				++d->s;
+			d->m[i.y][i.x++] = ft_atoi(d->s);
+			while (*d->s && *d->s != ' ')
+				++d->s;
 		}
-		d->m[++i.y][i.x];
+		++i.y;
 	}
-	close (fd);
+	printmap(d);
 	return (1);
 }
+
 
 static void	fdf(t_3d *d)
 {
@@ -86,13 +116,15 @@ int			main(int ac, char  **av)
 	t_3d	d;
 	int		fd;
 
+	d.x = 0;
+	d.y = 0;
 	if (ac < 2)
 		return (ft_error("Usage: ./fdf [File]"));
 	if ((fd = open(av[1], O_RDONLY) == -1))
 		return (ft_error("Could not open file"));
 	if (!(get_x_y(&d, av[1])))
 		return (0);
-	get_map_dimension(&d, av[1]); // malloc de la map
+	get_map_dimension(&d); // malloc de la map
 
 	//	else if ((fd = open(av[1], O_RDONLY)) == -1)
 	//		return (ft_error("Error while opening file"));

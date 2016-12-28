@@ -6,11 +6,15 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 19:11:48 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 16:13:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 18:47:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+** checks that color is valid and stocks it into *d->c
+*/
 
 static t_bool	check_RGB_validity(char *s, unsigned *i)
 {
@@ -27,6 +31,10 @@ static t_bool	check_RGB_validity(char *s, unsigned *i)
 	}
 	return (True);
 }
+
+/*
+** checks that digit is a valid one.
+*/
 
 static t_bool	check_digit_validity(char *s, unsigned *i)
 {
@@ -49,6 +57,10 @@ static t_bool	check_digit_validity(char *s, unsigned *i)
 	}
 	return (True);
 }
+
+/*
+** checks that the map is a valid one with above functions' help
+*/
 
 unsigned		check_validity(char *s)
 {
