@@ -6,13 +6,16 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 13:08:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 17:30:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			get_x_y(t_3d *d, char *s)
+/*
+** Check for map validity and determine max y and max x.
+*/
+static int		get_x_y(t_3d *d, char *s)
 {
 	char		*line;
 	int			fd;
@@ -41,20 +44,30 @@ int			get_x_y(t_3d *d, char *s)
 	return (d->x ? ft_error("One tile only") : ft_error("Empty file"));
 }
 
-void		get_map_dimension(t_3d *d, char *s)
+int			get_map_dimension(t_3d *d, char **s)
 {
-	int		y;
+	t_xy	i;
 	int		fd;
 
-	y = 0;
-	d->m = (double **)malloc(sizeof(double *) * d->y);
+	i.y = 0;
+	i.x = 0;
+	if (!(d->m = (float **)malloc(sizeof(float *) * d->y * d->x)))
+		return (0);
 	fd = open(s, O_RDONLY);
-	//	while (get_next_line(fd, &line) && y < d->y)
-	//	{
-	//		d->m[y] = (int *)malloc(sizeof(int) * d->x);
-	//		++y;
-	//	}
-	close(fd);
+	while (i.y < d->y)
+	{
+		if (!(d->m[i.y] = (float *)malloc(sizeof(float) * d->x)))
+			return (0);
+		while (i.x < d->x)
+		{
+			d->m[i.y][i.x++] = ft_atoi(*s);
+			while (*s && (*s != ' ' || *s != '\n'))
+				++s;
+		}
+		d->m[++i.y][i.x];
+	}
+	close (fd);
+	return (1);
 }
 
 static void	fdf(t_3d *d)
