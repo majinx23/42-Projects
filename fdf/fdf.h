@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 18:47:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 20:23:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ typedef struct	s_3d
 	float		theta;
 	float		**m;
 	char		*s;
-	int			*c;
+	int			**c;
 }				t_3d;
 
 /*
 ** check_validity checks that map is valid and parse color.
 ** get_map_dimension malloc x y z into **m
 */
-unsigned		check_validity(char *s);
+unsigned		check_validity(t_3d *d, char *s);
 int				get_map_dimension(t_3d *d);
 
 #endif

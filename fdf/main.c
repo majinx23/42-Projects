@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 18:28:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 19:00:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int		get_x_y(t_3d *d, char *s)
 	if (get_next_line(fd, &line) == 1)
 	{
 		d->s = ft_strdup(line);
-		d->x = check_validity(line);
+		d->x = check_validity(d, line);
 		++d->y;
 		(line) ? free(line) : 0;
 	}
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (d->x != check_validity(line))
+		if (d->x != check_validity(d, line))
 			return (ft_error("Invalid file"));
 		d->s = ft_strjoin(d->s, " ");
 		d->s = ft_strjoin(d->s, line);
