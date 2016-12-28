@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2016/12/22 20:46:08 by angavrel         ###   ########.fr        #
+#    Updated: 2016/12/28 10:43:57 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ CPPFLAGS = -I.
 
 SRC_NAME = main.c \
 		   formula.c \
+		   parsing.c
 		  # $(NAME).c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

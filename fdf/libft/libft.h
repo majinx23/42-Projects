@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/21 09:39:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 11:46:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdlib.h>
+
+typedef enum		e_bool
+{
+	True,
+	False
+}					t_bool;
 
 typedef struct		s_list
 {

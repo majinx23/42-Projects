@@ -6,61 +6,39 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 19:18:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 13:08:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	x_len(char *s)
-{
-	int		i;
-	int		len;
-
-	i = 0;
-	len = 0;
-	while (s[i])
-	{
-		if (ft_isdigit(s[i++]))
-		{
-			while (ft_isdigit(s[i]))
-				++i;
-			++len;
-		}
-		while (s[i] == ' ')
-			++i;
-	}
-	return (len);
-}
-
 int			get_x_y(t_3d *d, char *s)
 {
-	char	*line;
-	int		fd;
-	int		check;
+	char		*line;
+	int			fd;
 
 	d->x = 0;
 	d->y = 0;
 	fd = open(s, O_RDONLY);
 	if (get_next_line(fd, &line) == 1)
 	{
-		if (!(check = check_validity(line)))
-			return (ft_error("Invalid file"));
-		d->x = x_len(line);
+		d->x = check_validity(line);
 		++d->y;
 		(line) ? free(line) : 0;
 	}
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (check != check_validity(line))
+		if (d->x != check_validity(line))
 			return (ft_error("Invalid file"));
 		++d->y;
 		(line) ? free(line) : 0;
 	}
-	printf("%f\n", d->x);
-	printf("%f\n", d->y);
+	printf("x : %f\n", d->x);
+	printf("y : %f\n", d->y);
 	close(fd);
-	return (1);
+	if (d->x > 1)
+		return (1);
+	return (d->x ? ft_error("One tile only") : ft_error("Empty file"));
 }
 
 void		get_map_dimension(t_3d *d, char *s)
@@ -86,7 +64,7 @@ static void	fdf(t_3d *d)
 	d->z = 8;
 
 	d->w = vector_len(d->x, d->y, d->z);
-	printf("%f\n", d->w);
+	printf("test function : %f\n", d->w);
 }
 
 
@@ -96,10 +74,11 @@ int			main(int ac, char  **av)
 	int		fd;
 
 	if (ac < 2)
-		return (ft_error("Usage: ./fdf [File]i\n"));
+		return (ft_error("Usage: ./fdf [File]"));
 	if ((fd = open(av[1], O_RDONLY) == -1))
-		return (ft_error("Could not open file\n"));
-	get_x_y(&d, av[1]); // obtenir x et y
+		return (ft_error("Could not open file"));
+	if (!(get_x_y(&d, av[1])))
+		return (0);
 	get_map_dimension(&d, av[1]); // malloc de la map
 
 	//	else if ((fd = open(av[1], O_RDONLY)) == -1)

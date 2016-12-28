@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 19:17:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 11:48:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ typedef struct	s_3d
 	double		**m;
 }				t_3d;
 
-int				check_RGB_validity(char *s);
-int				check_digit_validity(char *s, unsigned i);
-int				check_validity(char *s);
+unsigned		check_validity(char *s);
 int				get_x_y(t_3d *d, char *s);
 void			get_map_dimension(t_3d *d, char *s);
 

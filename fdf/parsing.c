@@ -6,60 +6,54 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 19:11:48 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 19:14:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 13:08:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		check_RGB_validity(char *s)
+static t_bool	check_RGB_validity(char *s, unsigned *i)
 {
 	unsigned	len;
 
 	len = 0;
-	while (*s && (ft_isdigit(*s) || (*s >= 'A' && *s <= 'F')
-				|| (*s >= 'a' && *s <= 'f')))
+	while (s[*i] && (ft_isdigit(s[*i]) || (s[*i] >= 'A' && s[*i] <= 'F')
+				|| (s[*i] >= 'a' && s[*i] <= 'f')))
 	{
 		++len;
 		if (len > 8)
-			return (0);
-		++s;
+			return (False);
+		++*i;
 	}
-	return (len);
+	return (True);
 }
 
-int		check_digit_validity(char *s, unsigned i)
+static t_bool	check_digit_validity(char *s, unsigned *i)
 {
-	unsigned	t;
-	unsigned	j;
-
-	j = 0;
-	if (!i || ((s[j - 1]) == ' ') || (s[j - 1] == '-'))
-		++j;
+	if (!*i || ((s[*i - 1]) == ' ') || (s[*i - 1] == '-'))
+		++*i;
 	else
-		return (0);
-	while (s[j] && ft_isdigit(s[j]))
-		++j;
-	if (s[j] == ',')
+		return (False);
+	while (s[*i] && ft_isdigit(s[*i]))
+		++*i;
+	if (s[*i] == ',')
 	{
-		if (s[j + 1] && s[j + 2] && s[j + 1] == '0' && s[j + 2] == 'x')
+		if (s[*i + 1] && s[*i + 2] && s[*i + 1] == '0' && s[*i + 2] == 'x')
 		{
-			t = (j += 2);
-			j += check_RGB_validity(s + j);
-			if (t == j)
-				return (0);
+			*i += 3;
+			if (check_RGB_validity(s, i) == False)
+				return (False);
 		}
 		else
-			return (0);
+			return (False);
 	}
-	return (j);
+	return (True);
 }
 
-int		check_validity(char *s)
+unsigned		check_validity(char *s)
 {
 	unsigned	i;
 	unsigned	x_len;
-	unsigned	t;
 
 	i = 0;
 	x_len = 0;
@@ -67,19 +61,16 @@ int		check_validity(char *s)
 	{
 		if (ft_isdigit(s[i]))
 		{
-			if (!(t == (check_digit_validity(s + i, i))))
+			if (check_digit_validity(s, &i) == False)
 				return (0);
 			++x_len;
-			i += t;
 		}
-		else if (s[i] == '-' && ((s[i - 1] && s[i - 1] == ' ') || !i) &&
-				(s[i + 1] && ft_isdigit(s[i - 1])))
+		else if (s[i] == '-' && s[i + 1] && ft_isdigit(s[i + 1]))
 			++i;
-		else if (s[i] != ' ')
-		{
+		else if (s[i] == ' ')
+			++i;
+		else
 			return (0);
-			++i;
-		}
 	}
 	return (x_len);
 }

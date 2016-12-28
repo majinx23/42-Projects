@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:56:31 by angavrel          #+#    #+#             */
-/*   Updated: 2016/11/30 14:49:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/28 10:39:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 # define BUFF_SIZE 8192
 # include <fcntl.h>
-# include <unistd.h>
-# include "libft/libft.h"
+# include "libft.h"
 
 int	get_next_line(int const fd, char **line);
 
