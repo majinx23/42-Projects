@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 17:32:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/29 23:18:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
-# define WIDTH 400
-# define HEIGHT 600
+# define WIDTH 1600
+# define HEIGHT 900
 
 /*
 ** more awesome colors
@@ -42,7 +42,6 @@
 # define GREY 0xd3d3d3
 # define BROWN 0x996633
 
-double		vector_len(double x, double y, double z);
 
 
 /*
@@ -61,16 +60,18 @@ typedef struct	s_xy
 
 typedef struct	s_3d
 {
-	float		y;
-	float		x;
+	unsigned	y;
+	unsigned	x;
 	float		z;
-	float		w;
+	float		v;
 	float		phi;
 	float		theta;
 	float		**m;
+	float		**n;
 	char		*s;
 	int			**c;
-	int			base_color;
+	void		*mlx;
+	void		*w;
 }				t_3d;
 
 /*
@@ -79,5 +80,11 @@ typedef struct	s_3d
 */
 unsigned		check_validity(char *s);
 int				get_depth_and_colors(t_3d *d);
+float			vector_len(int x, int y, int z);
+float			get_3d_y(int x, int y, int z);
+float			get_3d_x(int x, int y);
+int				convert_2d_to_3d(t_3d *d);
+int				put_pixels(t_3d *d);
+
 
 #endif

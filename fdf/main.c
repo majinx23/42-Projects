@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 18:45:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/29 23:18:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static int		get_x_y(t_3d *d, char *s)
 		++d->y;
 		(line) ? free(line) : 0;
 	}
-	printf("x : %f\n", d->x);
-	printf("y : %f\n", d->y);
+	printf("x : %d\n", d->x);
+	printf("y : %d\n", d->y);
 	close(fd);
 	if (d->x > 1)
 		return (1);
@@ -53,8 +53,8 @@ static int		get_x_y(t_3d *d, char *s)
 */
 static int		printmap(t_3d *d)//
 {
-	int x;
-	int y = 0;
+	unsigned x;
+	unsigned y = 0;
 	while (y < d->y)
 	{
 		x = 0;
@@ -143,8 +143,8 @@ static void	fdf(t_3d *d)
 	d->y = sqrt(20);
 	d->z = 8;
 
-	d->w = vector_len(d->x, d->y, d->z);
-	printf("test function : %f\n", d->w);
+	d->v = vector_len(d->x, d->y, d->z);
+	printf("test function : %f\n", d->v);
 }
 
 
@@ -168,6 +168,7 @@ int			main(int ac, char  **av)
 	//	else if (close(fd) == -1)
 	//	return (ft_error("Error while closing file"));
 	//	fdf(ac, av, &d);
+	put_pixels(&d);
 	fdf(&d);
 	return (0);
 }

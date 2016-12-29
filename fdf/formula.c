@@ -6,15 +6,25 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 16:59:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/29 22:57:03 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-double		vector_len(double x, double y, double z)
+float		vector_len(int x, int y, int z)
 {
 	return (sqrt(x * x + y * y + z * z));
+}
+
+float		get_3d_y(int x, int y, int z)
+{
+	return (y / 2 - x / 2 - z);
+}
+
+float		get_3d_x(int x, int y)
+{
+	return (x + y);
 }
 
 double		spher_theta(t_3d *d)
