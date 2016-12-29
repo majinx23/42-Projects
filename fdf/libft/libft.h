@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 11:46:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/29 18:26:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,7 @@ char				*ft_strnjoin(const char *s1, const char *s2, size_t len);
 void				putnbr_base(int n, int b);
 int					ft_error(char *s);
 int					get_next_line(int const fd, char **line);
+int					ft_htoi(char *s);
+void				ft_puthex(int n);
 
 #endif
