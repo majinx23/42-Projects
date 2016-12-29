@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 18:26:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/29 18:45:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ static int		printmap(t_3d *d)//
 		{
 			ft_putnbr(d->m[y][x]);
 			ft_putstr(" 0x");
-			ft_puthex(d->c[y][x++]);
+			ft_puthex(d->c[y][x]);
 			ft_putchar(' ');
+			++x;
 		}
 		ft_putchar('\n');
 		++y;
