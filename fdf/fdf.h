@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 21:20:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 21:55:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
+# define TITLE "FDF"
 # define WIDTH (100 + 1.2 * (d->x + d->y))
 # define HEIGHT (100 + 6 * (d->margin_bot - d->margin_top))
 # define dy (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
@@ -84,10 +85,15 @@ typedef struct	s_3d
 	int			**c;
 	void		*mlx;
 	void		*w;
+	void		*img;
 	int			margin_top;
 	int			margin_bot;
 	int			offs;
 	short		slope;
+	char		*data_address;
+	int			bpp;
+	int			s_lines;
+	int			endian;
 }				t_3d;
 
 /*
@@ -101,6 +107,9 @@ float			get_3d_y(int x, int y, int z);
 float			get_3d_x(int x, int y);
 int				convert_2_to_3d(t_3d *d);
 int				put_pixels(t_3d *d);
-
+void			open_window(t_3d *d);
+void			create_image(t_3d *d);
+void			destroy_image(t_3d *d);
+void			close_window(t_3d *d);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 21:20:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 21:38:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ void	link_pixels(t_3d *d)
 				if (dx > 0)
 					while (p.x++ <= d->p[i.y][i.x + 1].x)
 					{
-						mlx_pixel_put(d->mlx, d->w, d->p[i.y][i.x].x,
-								d->p[i.y][i.x].y, NICE_BLUE);
+						mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
+								6 * d->p[i.y][i.x].y, NICE_BLUE);
 						p.y += dly;
 					}
 				else
 					while (p.x-- >= d->p[i.y][i.x + 1].x)
 					{
-						mlx_pixel_put(d->mlx, d->w, d->p[i.y][i.x].x, 
-								d->p[i.y][i.x].y, NICE_BLUE);
+						mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x, 
+								6 * d->p[i.y][i.x].y, NICE_BLUE);
 						p.y -= dly;
 					}
 				++i.x;
@@ -99,12 +99,13 @@ void	link_pixels(t_3d *d)
 
 int		put_pixels(t_3d *d)
 {
-	t_xy	i;
+	//t_xy	i;
 	//	int		tile;
 
 	ft_putstr("b");//
 	d->mlx = mlx_init(); // create connection
 	d->w = mlx_new_window(d->mlx, 6 * WIDTH, 6 * HEIGHT, "FDF");
+	/*
 	i.y = 0;
 	while (i.y < d->y)
 	{
@@ -118,7 +119,8 @@ int		put_pixels(t_3d *d)
 		}
 		i.y++;
 	}
-	//	link_pixels(d);
+	*/
+		link_pixels(d);
 	//	mlx_key_hook(w, funct, 0);
 	mlx_loop(d->mlx); // pixels' display is only at this point
 	return (0);
