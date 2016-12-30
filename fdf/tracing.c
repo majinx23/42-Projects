@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 15:18:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 15:39:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		convert_2_to_3d(t_3d *d)
 	if (!(d->n = (float **)malloc(sizeof(float *) * d->y)))
 		return (0);
 	i.y = 0;
-	ft_putstr("c");
 	while (i.y < d->y)
 	{
 		if (!(d->n[i.y] = (float *)malloc(sizeof(float) * d->x)))
@@ -52,7 +51,20 @@ int		convert_2_to_3d(t_3d *d)
 */
 void	link_pixels(t_3d *d)
 {
+	float	vector;
+	t_xy	i;
 
+	i.y = 0;
+	while (i.y < d->y)
+	{
+		i.x = 0;
+		while (i.x < d->x)
+		{
+			vector = vector_len(i.x, i.y, d->m[i.y][i.x]);
+			++i.x;
+		}
+		++i.y;
+	}
 }
 
 /*
@@ -65,11 +77,9 @@ int		put_pixels(t_3d *d)
 //	int		tile;
 	int		offs;
 	
-	ft_putstr("a");
 	if (!(convert_2_to_3d(d)))
 		return (0);
-	printf("ok");
-	ft_putstr("b");
+	ft_putstr("b");//
 	d->mlx = mlx_init(); // create connection
 	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, "FDF");
 	i.y = 0;
@@ -80,7 +90,7 @@ int		put_pixels(t_3d *d)
 		while (i.x < d->x)
 		{
 				mlx_pixel_put(d->mlx, d->w, offs + i.x + i.y,
-						offs + d->margin_top  + d->n[i.y][i.x], HOT_PINK);
+						offs + d->margin_top  + d->n[i.y][i.x], NICE_BLUE);
 			i.x++;
 		}
 		i.y++;

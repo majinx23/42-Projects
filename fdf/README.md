@@ -1,7 +1,7 @@
 # FDF
 
 FDF is a 42 Project taking a map as parameter and creating its 3d representation.
-
+<img align="center" src="http://image.noelshack.com/fichiers/2016/52/1483109173-screen-shot-2016-12-30-at-3-40-16-pm.png" width="100%" />
 * Create a 3d representation of a map using vectors and matrix.
 * You can rotate, translate and zoom/dezoom.
 * Colors of the map altermate according to seasons.
