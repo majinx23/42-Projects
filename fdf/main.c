@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 16:05:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 21:20:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ static int		get_x_y(t_3d *d, char *s)
 		++d->y;
 		(line) ? free(line) : 0;
 	}
-	printf("x : %d\n", d->x);
-	printf("y : %d\n", d->y);
+	printf("x : %d\n", d->x);//
+	printf("y : %d\n", d->y);//
 	close(fd);
+	d->offs = 10;
 	if (d->x > 1)
 		return (1);
 	return (d->x ? ft_error("One tile only") : ft_error("Empty file"));
@@ -174,6 +175,6 @@ int				main(int ac, char  **av)
 			|| !(convert_2_to_3d(&d)))
 		return (ft_error("Malloc failed"));
 	put_pixels(&d);
-	link_pixels(&d);
+//	link_pixels(&d);
 	return (0);
 }

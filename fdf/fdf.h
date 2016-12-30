@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 16:05:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 21:20:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
-# define WIDTH (200 + (d->x + d->y))
-# define HEIGHT (200 + (d->margin_bot - d->margin_top))
-
+# define WIDTH (100 + 1.2 * (d->x + d->y))
+# define HEIGHT (100 + 6 * (d->margin_bot - d->margin_top))
+# define dy (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
+# define dx (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
 /*
 ** more awesome colors
 */
@@ -54,6 +55,16 @@ typedef struct	s_xy
 	unsigned	y;
 }				t_xy;
 
+
+/*
+** points are stored using this structure in convert_2_to_3d
+*/
+typedef struct	s_2p
+{
+	float		x;
+	float		y;
+}				t_2p;
+
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
 */
@@ -68,12 +79,15 @@ typedef struct	s_3d
 	float		theta;
 	float		**m;
 	float		**n;
+	t_2p		**p;
 	char		*s;
 	int			**c;
 	void		*mlx;
 	void		*w;
 	int			margin_top;
 	int			margin_bot;
+	int			offs;
+	short		slope;
 }				t_3d;
 
 /*
@@ -87,7 +101,6 @@ float			get_3d_y(int x, int y, int z);
 float			get_3d_x(int x, int y);
 int				convert_2_to_3d(t_3d *d);
 int				put_pixels(t_3d *d);
-void			link_pixels(t_3d *d);
 
 
 #endif
