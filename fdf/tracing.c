@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 22:30:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 22:43:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ int			user_input(int keycode, t_3d *d)
 	{
 		close_window(d);
 		return (0);
+	}
+	if (keycode == 69)
+	{
+		d->zoom *= 1.25;
+		// erase and rewrite pixels
+	}
+	else if (keycode == 78)
+	{
+		d->zoom *= 0.80;
 	}
    return (1);
 }
