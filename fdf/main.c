@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 21:20:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 22:30:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int		get_x_y(t_3d *d, char *s)
 
 /*
 ** debug function
-*/
+
 static int		printmap(t_3d *d)//
 {
 	unsigned x;
@@ -70,7 +70,7 @@ static int		printmap(t_3d *d)//
 	}
 	return (1);
 }
-
+*/
 /*
 ** storing color in d->c
 ** maybe think to add ishex(char) in the future
@@ -153,7 +153,7 @@ int				get_depth_and_colors(t_3d *d)
 		++i.y;
 	}
 	get_window_w_and_h(d);
-	printmap(d);
+//	printmap(d);
 	return (1);
 }
 
@@ -175,6 +175,5 @@ int				main(int ac, char  **av)
 			|| !(convert_2_to_3d(&d)))
 		return (ft_error("Malloc failed"));
 	put_pixels(&d);
-//	link_pixels(&d);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2016/12/29 21:49:39 by angavrel         ###   ########.fr        #
+#    Updated: 2016/12/30 22:20:49 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ MLX =-L ./minilibx_macos/ -framework OPENGL -framework AppKit -lmlx
 SRC_NAME = main.c \
 		   formula.c \
 		   parsing.c \
-		   tracing.c
+		   tracing.c \
+		   mlx.c
 		  # $(NAME).c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

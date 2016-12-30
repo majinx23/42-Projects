@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 21:55:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 22:17:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct	s_3d
 	int			bpp;
 	int			s_lines;
 	int			endian;
+	int			zoom;
 }				t_3d;
 
 /*

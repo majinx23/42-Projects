@@ -6,25 +6,28 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 21:38:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 22:30:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*
-   int	funct(int keycode, void *param)
-   {
-   printf("ok%d\n", keycode);
-   return (1);
-   }
-   */
 
+int			user_input(int keycode, t_3d *d)
+{
+   printf("ok%d\n", keycode);
+	if (keycode == 53)
+	{
+		close_window(d);
+		return (0);
+	}
+   return (1);
+}
 
 /*
  ** Converting points from 2d to 3d
  */
-int		convert_2_to_3d(t_3d *d)
+int			convert_2_to_3d(t_3d *d)
 {
 	t_xy	i;
 
@@ -52,7 +55,7 @@ int		convert_2_to_3d(t_3d *d)
 
 /*
  ** Tracing vectors to link each pixels put
- */
+
 
 void	link_pixels(t_3d *d)
 {
@@ -92,20 +95,18 @@ void	link_pixels(t_3d *d)
 		}
 	}
 }
-/*
+
  ** Put pixels in order to get our map's isometric 3d representation
  ** (d->x + d->y) / 10 is to set 10% space on sides. (hence 1.2 * d->x + d->y)
  */
 
 int		put_pixels(t_3d *d)
 {
-	//t_xy	i;
+	t_xy	i;
 	//	int		tile;
 
-	ft_putstr("b");//
-	d->mlx = mlx_init(); // create connection
-	d->w = mlx_new_window(d->mlx, 6 * WIDTH, 6 * HEIGHT, "FDF");
-	/*
+	open_window(d);
+	
 	i.y = 0;
 	while (i.y < d->y)
 	{
@@ -119,9 +120,9 @@ int		put_pixels(t_3d *d)
 		}
 		i.y++;
 	}
-	*/
-		link_pixels(d);
-	//	mlx_key_hook(w, funct, 0);
+	
+	//	link_pixels(d);
+	mlx_key_hook(d->w, user_input, d);
 	mlx_loop(d->mlx); // pixels' display is only at this point
 	return (0);
 }

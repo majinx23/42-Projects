@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 21:40:34 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 21:55:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 22:19:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	open_window(t_3d *d)
 {
+	d->zoom = 6;
 	d->mlx = mlx_init();
-	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
+	d->w = mlx_new_window(d->mlx, WIDTH * d->zoom, HEIGHT * d->zoom, TITLE);
 }
 
 void	create_image(t_3d *d)
