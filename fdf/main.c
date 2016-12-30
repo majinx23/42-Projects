@@ -6,13 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 15:18:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 16:05:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-
 
 /*
 ** Check for map validity, stock map in d->s and determine max y and max x.
@@ -158,19 +156,10 @@ int				get_depth_and_colors(t_3d *d)
 	return (1);
 }
 
-
-static void	fdf(t_3d *d)
-{
-	d->x = 4;
-	d->y = sqrt(20);
-	d->z = 8;
-
-	d->v = vector_len(d->x, d->y, d->z);
-	printf("test function : %f\n", d->v);
-}
-
-
-int			main(int ac, char  **av)
+/*
+** Main function
+*/
+int				main(int ac, char  **av)
 {
 	t_3d	d;
 	int		fd;
@@ -181,16 +170,10 @@ int			main(int ac, char  **av)
 		return (ft_error("Usage: ./fdf [File]"));
 	if ((fd = open(av[1], O_RDONLY) == -1))
 		return (ft_error("Could not open file"));
-	if (!(get_x_y(&d, av[1])))
-		return (0);
-	get_depth_and_colors(&d); // malloc de la map
-
-	//	else if ((fd = open(av[1], O_RDONLY)) == -1)
-	//		return (ft_error("Error while opening file"));
-	//	else if (close(fd) == -1)
-	//	return (ft_error("Error while closing file"));
-	//	fdf(ac, av, &d);
+	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d)
+			|| !(convert_2_to_3d(&d)))
+		return (ft_error("Malloc failed"));
 	put_pixels(&d);
-	fdf(&d);
+	link_pixels(&d);
 	return (0);
 }

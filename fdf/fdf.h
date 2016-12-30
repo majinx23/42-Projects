@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 15:11:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 16:05:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ int				get_depth_and_colors(t_3d *d);
 float			vector_len(int x, int y, int z);
 float			get_3d_y(int x, int y, int z);
 float			get_3d_x(int x, int y);
-int				convert_2d_to_3d(t_3d *d);
+int				convert_2_to_3d(t_3d *d);
 int				put_pixels(t_3d *d);
+void			link_pixels(t_3d *d);
 
 
 #endif

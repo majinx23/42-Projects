@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 15:39:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 16:05:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ int		put_pixels(t_3d *d)
 //	int		tile;
 	int		offs;
 	
-	if (!(convert_2_to_3d(d)))
-		return (0);
 	ft_putstr("b");//
 	d->mlx = mlx_init(); // create connection
 	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, "FDF");
