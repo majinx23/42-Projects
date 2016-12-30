@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 23:18:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 15:18:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,33 @@ static	int		get_colors(t_3d *d)
 }
 
 
+static	void	get_window_w_and_h(t_3d *d)
+{
+	t_xy	i;
+
+	i.y = 0;
+	d->margin_top = 0;
+	while (i.y < d->y)
+	{
+		i.x = 0;
+		while (i.x < d->x)
+		{
+			if (d->margin_top < d->m[i.y][i.x] - i.x / 2 + i.y / 2)
+				d->margin_top = d->m[i.y][i.x] - i.x / 2 + i.y / 2;
+			if (d->margin_bot < d->m[i.y][i.x] + i.x / 2 - i.y / 2)
+				d->margin_bot = d->m[i.y][i.x] + i.x / 2 - i.y / 2;
+			++i.x;
+		}
+		++i.y;
+	}
+}
+
 
 /*
 ** Stock int into an array
 */
 
-int			get_depth_and_colors(t_3d *d)
+int				get_depth_and_colors(t_3d *d)
 {
 	t_xy	i;
 
@@ -132,6 +153,7 @@ int			get_depth_and_colors(t_3d *d)
 		}
 		++i.y;
 	}
+	get_window_w_and_h(d);
 	printmap(d);
 	return (1);
 }

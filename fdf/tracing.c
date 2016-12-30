@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 23:27:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 15:18:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ int	funct(int keycode, void *param)
 }
 */
 
+
+/*
+** Converting points from 2d to 3d
+*/
 int		convert_2_to_3d(t_3d *d)
 {
 	t_xy	i;
@@ -33,18 +37,27 @@ int		convert_2_to_3d(t_3d *d)
 		if (!(d->n[i.y] = (float *)malloc(sizeof(float) * d->x)))
 			return (0);
 		i.x = 0;
-		ft_putstr("d");
 		while (i.x < d->x)
 		{
 			d->n[i.y][i.x] = get_3d_y(i.x, i.y, d->m[i.y][i.x]);
 			++i.x;
-				printf("d->x : %d i.x:%d d->m[x][y]: %f\n", d->x, i.x, d->m[i.y][i.x]);
 		}
-		ft_putstr("f");
 		++i.y;
 	}
 	return (1);
 }
+
+/*
+** Tracing vectors to link each pixels put
+*/
+void	link_pixels(t_3d *d)
+{
+
+}
+
+/*
+** Put pixels in order to get our map's isometric 3d representation
+*/
 
 int		put_pixels(t_3d *d)
 {
@@ -67,11 +80,12 @@ int		put_pixels(t_3d *d)
 		while (i.x < d->x)
 		{
 				mlx_pixel_put(d->mlx, d->w, offs + i.x + i.y,
-						offs + d->n[i.y][i.x], HOT_PINK);
+						offs + d->margin_top  + d->n[i.y][i.x], HOT_PINK);
 			i.x++;
 		}
 		i.y++;
 	}
+	link_pixels(d);
 //	mlx_key_hook(w, funct, 0);
 	mlx_loop(d->mlx); // pixels' display is only at this point
 	return (0);

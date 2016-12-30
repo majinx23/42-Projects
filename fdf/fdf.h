@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 23:18:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/30 15:11:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
-# define WIDTH 1600
-# define HEIGHT 900
+# define WIDTH (200 + (d->x + d->y))
+# define HEIGHT (200 + (d->margin_bot - d->margin_top))
 
 /*
 ** more awesome colors
@@ -72,6 +72,8 @@ typedef struct	s_3d
 	int			**c;
 	void		*mlx;
 	void		*w;
+	int			margin_top;
+	int			margin_bot;
 }				t_3d;
 
 /*
