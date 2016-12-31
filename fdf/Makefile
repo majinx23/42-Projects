@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2016/12/30 22:20:49 by angavrel         ###   ########.fr        #
+#    Updated: 2016/12/31 14:58:55 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC_NAME = main.c \
 		   formula.c \
 		   parsing.c \
 		   tracing.c \
-		   mlx.c
+		   mlx.c \
+		   vector.c
 		  # $(NAME).c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

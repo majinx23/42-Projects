@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 22:17:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 15:13:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 # include "keycode_mac.h"
 
 # define TITLE "FDF"
-# define WIDTH (100 + 1.2 * (d->x + d->y))
-# define HEIGHT (100 + 6 * (d->margin_bot - d->margin_top))
-# define dy (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
-# define dx (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
+# define WIDTH (51 * (1.2 * (d->x + d->y)))
+# define HEIGHT (600 + 1.2 * 512 * (d->margin_bot - d->margin_top))
+# define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
+# define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
 /*
 ** more awesome colors
 */
@@ -52,8 +52,8 @@
 
 typedef struct	s_xy
 {
-	unsigned	x;
-	unsigned	y;
+	unsigned long	x;
+	unsigned long	y;
 }				t_xy;
 
 
@@ -62,8 +62,8 @@ typedef struct	s_xy
 */
 typedef struct	s_2p
 {
-	float		x;
-	float		y;
+	int			x;
+	int			y;
 }				t_2p;
 
 /*
@@ -112,5 +112,6 @@ void			open_window(t_3d *d);
 void			create_image(t_3d *d);
 void			destroy_image(t_3d *d);
 void			close_window(t_3d *d);
+void			vector(t_3d *d, int ix, int iy, int color);
 
 #endif
