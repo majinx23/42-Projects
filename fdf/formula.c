@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 22:57:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 19:32:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,14 @@ int			spher_to_cart(t_3d *d)
 	d->y = sin(d->phi) * sin(d->theta);
 	d->z = cos(d->theta);
 	return (1); 
+}
+
+t_3d		*rotate_point(t_3d *d, t_xy i)
+{
+	t_xyz	new;
+
+	new.x = i.x;
+	new.y = i.y;
+	new.z = 0;
+	return (d);
 }

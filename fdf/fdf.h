@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 18:15:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 19:32:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ typedef struct	s_xy
 	unsigned long	y;
 }				t_xy;
 
+typedef struct s_xyz
+{
+	unsigned long	x;
+	unsigned long	y;
+	unsigned long	z;
+}				t_xyz;
 
 /*
 ** points are stored using this structure in convert_2_to_3d
@@ -115,5 +121,6 @@ void			open_window(t_3d *d);
 void			create_image(t_3d *d);
 void			destroy_image(t_3d *d);
 void			close_window(t_3d *d);
+t_3d			*rotate_point(t_3d *d, t_xy i);
 
 #endif
