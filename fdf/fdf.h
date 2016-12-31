@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 15:13:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 18:15:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ typedef struct	s_3d
 	unsigned	x;
 	float		z;
 	float		v;
-	float		phi;
-	float		theta;
+	float		phi;//
+	float		theta;//
 	float		**m;
 	float		**n;
 	t_2p		**p;
@@ -85,16 +85,18 @@ typedef struct	s_3d
 	int			**c;
 	void		*mlx;
 	void		*w;
-	void		*img;
+	int			*img;
 	int			margin_top;
 	int			margin_bot;
 	int			offs;
 	short		slope;
 	char		*data_address;
 	int			bpp;
-	int			s_lines;
+	int			line_size;
 	int			endian;
 	int			zoom;
+	int			x_tr;
+	int			y_tr;
 }				t_3d;
 
 /*
@@ -108,10 +110,10 @@ float			get_3d_y(int x, int y, int z);
 float			get_3d_x(int x, int y);
 int				convert_2_to_3d(t_3d *d);
 int				put_pixels(t_3d *d);
+void			vector(t_3d *d, int ix, int iy, int color);
 void			open_window(t_3d *d);
 void			create_image(t_3d *d);
 void			destroy_image(t_3d *d);
 void			close_window(t_3d *d);
-void			vector(t_3d *d, int ix, int iy, int color);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 15:13:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 17:08:13 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	vector(t_3d *d, int ix, int iy, int color)
 	while (l < 512)
 	{
 		printf("x = d->p[i->y][i->x].x: %i   x << 9 + 255 : %lu   x >> 9 : %lu\n", d->p[iy][ix].x * 512, x, (x >> 9));
-		mlx_pixel_put(d->mlx, d->w, x >> 9, y >> 9, color);
+		mlx_pixel_put(d->mlx, d->w, 100 + (x >> 9), 100 + (y >> 9), color);
 		x += dx;
 		y += dy;
 		++l;

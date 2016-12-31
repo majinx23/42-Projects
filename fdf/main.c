@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/30 22:43:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 17:10:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ int				main(int ac, char  **av)
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d)
 			|| !(convert_2_to_3d(&d)))
 		return (ft_error("Malloc failed"));
+	open_window(&d);
+	vector(&d, 0, 0, NICE_BLUE);
 	put_pixels(&d);
 	return (0);
 }

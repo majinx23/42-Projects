@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 15:13:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2016/12/31 17:54:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,6 @@ int		put_pixels(t_3d *d)
 	t_xy	i;
 	//	int		tile;
 
-	open_window(d);
-	
 	i.y = 0;
 	while (i.y < d->y)
 	{
@@ -123,7 +121,7 @@ int		put_pixels(t_3d *d)
 		while (i.x < d->x)
 		{
 
-			vector(d, i.x, i.y, NICE_BLUE);
+			//vector(d, i.x, i.y, NICE_BLUE);
 			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
 			//		6 * d->p[i.y][i.x].y, NICE_BLUE);
 			i.x++;
