@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 17:10:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/02 17:11:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ static	void	get_window_w_and_h(t_3d *d)
 		}
 		++i.y;
 	}
+	ft_putendl("w and h");
 }
 
 
@@ -152,6 +153,7 @@ int				get_depth_and_colors(t_3d *d)
 		}
 		++i.y;
 	}
+	ft_putstr("depth and color\n");
 	get_window_w_and_h(d);
 //	printmap(d);
 	return (1);
@@ -172,10 +174,9 @@ int				main(int ac, char  **av)
 	if ((fd = open(av[1], O_RDONLY) == -1))
 		return (ft_error("Could not open file"));
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d)
-			|| !(convert_2_to_3d(&d)))
+			|| !(convert_3_to_2d(&d)))
 		return (ft_error("Malloc failed"));
 	open_window(&d);
-	vector(&d, 0, 0, NICE_BLUE);
 	put_pixels(&d);
 	return (0);
 }

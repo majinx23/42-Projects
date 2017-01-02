@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 19:32:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/02 17:23:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ float		vector_len(int x, int y, int z)
 	return (sqrt(x * x + y * y + z * z));
 }
 
-float		get_3d_y(int x, int y, int z)
+long		get_3d_y(int x, int y, int z)
 {
-	return (y / 2 - x / 2 - z);
+	return (512 * y / 2 - 512 * x / 2 - 512 * z);
 }
 
-float		get_3d_x(int x, int y)
+long		get_3d_x(int x, int y)
 {
-	return (x + y);
+	return ((x + y) * 512);
 }
 
 double		spher_theta(t_3d *d)

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 19:32:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/02 17:12:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,25 @@
 
 typedef struct	s_xy
 {
-	unsigned long	x;
-	unsigned long	y;
+	long	x;
+	long	y;
 }				t_xy;
 
 typedef struct s_xyz
 {
-	unsigned long	x;
-	unsigned long	y;
-	unsigned long	z;
+	long	x;
+	long	y;
+	long	z;
 }				t_xyz;
 
 /*
 ** points are stored using this structure in convert_2_to_3d
 */
-typedef struct	s_2p
+typedef struct	s_index
 {
-	int			x;
-	int			y;
-}				t_2p;
+	short	x;
+	short	y;
+}				t_index;
 
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
@@ -78,15 +78,14 @@ typedef struct	s_2p
 
 typedef struct	s_3d
 {
-	unsigned	y;
-	unsigned	x;
+	short		y;
+	short		x;
 	float		z;
 	float		v;
 	float		phi;//
 	float		theta;//
 	float		**m;
-	float		**n;
-	t_2p		**p;
+	t_xy		**n;
 	char		*s;
 	int			**c;
 	void		*mlx;
@@ -109,14 +108,16 @@ typedef struct	s_3d
 ** check_validity checks that map is valid and parse color.
 ** get_map_dimension malloc x y z into **m
 */
-unsigned		check_validity(char *s);
+short			check_validity(char *s);
 int				get_depth_and_colors(t_3d *d);
 float			vector_len(int x, int y, int z);
-float			get_3d_y(int x, int y, int z);
-float			get_3d_x(int x, int y);
-int				convert_2_to_3d(t_3d *d);
+long			get_3d_y(int x, int y, int z);
+long			get_3d_x(int x, int y);
+int				convert_3_to_2d(t_3d *d);
 int				put_pixels(t_3d *d);
-void			vector(t_3d *d, int ix, int iy, int color);
+void			put_pixel_in_image(t_3d *d, t_xy i);
+void			vector2(t_3d *d, int ix, int iy, int color);
+void			vector(t_3d *d, t_xy a, t_xy b);
 void			open_window(t_3d *d);
 void			create_image(t_3d *d);
 void			destroy_image(t_3d *d);

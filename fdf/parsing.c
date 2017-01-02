@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 19:11:48 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 21:53:02 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/02 17:12:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static t_bool	check_digit_validity(char *s, unsigned *i)
  ** checks that the map is a valid one with above functions' help
  */
 
-unsigned		check_validity(char *s)
+short			check_validity(char *s)
 {
 	unsigned	i;
 	unsigned	x_len;

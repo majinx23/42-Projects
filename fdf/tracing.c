@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/31 19:38:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/02 17:39:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int			user_input(int keycode, t_3d *d)
 	if (keycode == 53)
 	{
 		close_window(d);
+		exit(0);
 		return (0);
 	}
 	if (keycode == 69)
@@ -36,29 +37,31 @@ int			user_input(int keycode, t_3d *d)
 /*
  ** Converting points from 2d to 3d
  */
-int			convert_2_to_3d(t_3d *d)
+int			convert_3_to_2d(t_3d *d)
 {
-	t_xy	i;
+	t_index		i;
 
-	if (!(d->n = (float **)malloc(sizeof(float *) * d->y)) ||
-			!(d->p = (t_2p **)malloc(sizeof(t_2p **) * d->y)))
+	if (!(d->n = (t_xy **)malloc(sizeof(t_xy *) * d->y)))
 		return (0);
 	i.y = 0;
+	ft_putendl("AA");
 	while (i.y < d->y)
 	{
-		if (!(d->n[i.y] = (float *)malloc(sizeof(float) * d->x)) ||
-				!(d->p[i.y] = (t_2p *)malloc(sizeof(t_2p *) * d->x)))
+		if (!(d->n[i.y] = (t_xy *)malloc(sizeof(t_xy) * d->x)))
 			return (0);
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			d->n[i.y][i.x] = get_3d_y(i.x, i.y, d->m[i.y][i.x]);
-			d->p[i.y][i.x].x = (d->x + d->y) / 10 + i.x + i.y;
-			d->p[i.y][i.x].y = d->offs + d->margin_top + d->n[i.y][i.x];
+			d->n[i.y][i.x].y = get_3d_y(i.x, i.y, d->m[i.y][i.x]);
+			d->n[i.y][i.x].x = get_3d_x(i.x, i.y);
+
+			//d->p[i.y][i.x].x = (d->x + d->y) + i.x + i.y;
+			//d->p[i.y][i.x].y = d->margin_top + d->n[i.y][i.x];
 			++i.x;
 		}
 		++i.y;
 	}
+	ft_putendl("coords converted");
 	return (1);
 }
 
@@ -114,14 +117,20 @@ int		put_pixels(t_3d *d)
 	t_xy	i;
 	//	int		tile;
 
+	d->mlx = mlx_init();
+	d->w = mlx_new_window(d->mlx, WIDTH * d->zoom, HEIGHT * d->zoom, TITLE);
 	i.y = 0;
-	while (i.y < d->y)
+	while (i.y < d->y - 1)
 	{
 		i.x = 0;
-		while (i.x < d->x)
+		while (i.x < d->x - 1)
 		{
-
-			//vector(d, i.x, i.y, NICE_BLUE);
+			d->c[i.y][i.x] = NICE_BLUE;
+			printf("d->n[i.y][i.x].x : %ld\n", d->n[i.y][i.x].x);
+			vector(d, d->n[i.y][i.x], d->n[i.y][i.x + 1]);
+			//vector(d, d->p[i.y][i.x], d->p[i.y + 1][i.x]);
+			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
+			
 			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
 			//		6 * d->p[i.y][i.x].y, NICE_BLUE);
 			i.x++;
