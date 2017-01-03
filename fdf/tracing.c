@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 17:28:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 19:42:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,21 @@ int			convert_3_to_2d(t_3d *d)
 	t_index		i;
 
 	printf("convert_3_to_2d\n");
-	if (!(d->n = (t_xy **)malloc(sizeof(t_xy *) * d->y)))
+	if (!(d->n = (t_fxy **)malloc(sizeof(t_fxy *) * d->y)))
 		return (0);
 	i.y = 0;
 	ft_putendl("AA");
 	while (i.y < d->y)
 	{
-		if (!(d->n[i.y] = (t_xy *)malloc(sizeof(t_xy) * d->x)))
+		if (!(d->n[i.y] = (t_fxy *)malloc(sizeof(t_fxy) * d->x)))
 			return (0);
 		i.x = 0;
 		while (i.x < d->x)
 		{
 			//printf("x: %i y: %i d->m: %i\n",i.x, i.y, d->m[i.y][i.x]);
-			d->n[i.y][i.x].y = 100 + 100 * get_3d_y(i.x, i.y, d->m[i.y][i.x]);
-			d->n[i.y][i.x].x = 100 + 100 * get_3d_x(i.x, i.y);
-			printf("(y, x)(%li, %li) ", d->n[i.y][i.x].y, d->n[i.y][i.x].x);
+			d->n[i.y][i.x].y = 300 + 10 * get_3d_y(i.x, i.y, d->m[i.y][i.x]);
+			d->n[i.y][i.x].x = 100 + 10 * get_3d_x(i.x, i.y);
+			printf("(y, x)(%lf, %lf) ", d->n[i.y][i.x].y, d->n[i.y][i.x].x);
 
 			//d->p[i.y][i.x].x = (d->x + d->y) + i.x + i.y;
 			//d->p[i.y][i.x].y = d->margin_top + d->n[i.y][i.x];
@@ -118,28 +118,28 @@ void	link_pixels(t_3d *d)
 
 int		put_pixels(t_3d *d)
 {
-	t_xy	i;
+	t_fxy	i;
 	//	int		tile;
 
 	d->mlx = mlx_init();
 	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
 	//create_image(d);
 	i.y = 0;
-	while (i.y < d->y - 1)
+	while (i.y < d->y)
 	{
 		i.x = 0;
-		while (i.x < d->x - 1)
+		while (i.x < d->x)
 		{
-			d->c[i.y][i.x] = NICE_BLUE;
-			printf("a.x : %ld\n", d->n[i.y][i.x].x);
-			printf("b.x : %ld\n", d->n[i.y][i.x + 1].x);
+			d->c[(int)i.y][(int)i.x] = NICE_BLUE;
+			printf("a.x : %f\n", d->n[(int)i.y][(int)i.x].x);
+			if (i.x < d->x - 1)//
+				printf("b.x : %f\n", d->n[(int)i.y][(int)i.x + 1].x);
 			printf("d.x : %hd\n", d->x);
 			printf("d.y : %hd\n", d->y);
-
-				vector(d, d->n[i.y][i.x], d->n[i.y][i.x + 1]);
-			vector(d, d->n[i.y][i.x], d->n[i.y + 1][i.x]);
-			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
-			
+			if (i.x < d->x - 1)
+				draw(d, d->n[(int)i.y][(int)i.x], d->n[(int)i.y][(int)i.x + 1]);
+			if (i.y < d->y - 1)
+				draw(d, d->n[(int)i.y][(int)i.x], d->n[(int)i.y + 1][(int)i.x]);
 			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
 			//		6 * d->p[i.y][i.x].y, NICE_BLUE);
 			i.x++;

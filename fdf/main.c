@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 16:20:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 19:45:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int		get_x_y(t_3d *d, char *s)
 	char		*line;
 	int			fd;
 
-	printf("get_x_y\n");
 	fd = open(s, O_RDONLY);
 	if (get_next_line(fd, &line) == 1)
 	{
@@ -179,7 +178,7 @@ int				main(int ac, char  **av)
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d)
 			|| !(convert_3_to_2d(&d)))
 		return (ft_error("Malloc failed"));
-	open_window(&d);
+	init_variables(&d);
 	put_pixels(&d);
 	return (0);
 }

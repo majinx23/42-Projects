@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 17:14:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 19:43:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** opens a new window
 */
-void	open_window(t_3d *d)
+void	init_variables(t_3d *d)
 {
 	d->x_tr = 100;
 	d->y_tr = 100;

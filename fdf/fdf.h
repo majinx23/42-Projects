@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 16:44:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 19:43:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ typedef struct	s_xy
 	long	y;
 }				t_xy;
 
+typedef struct s_fxy
+{
+	float	x;
+	float	y;
+}				t_fxy;
+
 typedef struct s_xyz
 {
 	long	x;
@@ -85,7 +91,7 @@ typedef struct	s_3d
 	float		phi;//
 	float		theta;//
 	int			**m; //stores orginial input from file (z coords)
-	t_xy		**n;
+	t_fxy		**n;
 	char		*s;
 	int			**c;
 	void		*mlx;
@@ -111,14 +117,14 @@ typedef struct	s_3d
 short			check_validity(char *s);
 int				get_depth_and_colors(t_3d *d);
 float			vector_len(int x, int y, int z);
-long			get_3d_y(int x, int y, int z);
-long			get_3d_x(int x, int y);
+float			get_3d_y(int x, int y, int z);
+float			get_3d_x(int x, int y);
 int				convert_3_to_2d(t_3d *d);
 int				put_pixels(t_3d *d);
 void			put_pixel_in_image(t_3d *d, t_xy i);
-void			vector2(t_3d *d, int ix, int iy, int color);
-void			vector(t_3d *d, t_xy a, t_xy b);
-void			open_window(t_3d *d);
+//void			vector2(t_3d *d, int ix, int iy, int color);
+void			draw(t_3d *d, t_fxy a, t_fxy b);
+void			init_variables(t_3d *d);
 void			create_image(t_3d *d);
 void			destroy_image(t_3d *d);
 void			close_window(t_3d *d);
