@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/02 16:29:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 17:14:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 */
 void	open_window(t_3d *d)
 {
-	d->x_tr = 0;
-	d->x_tr = 0;
+	d->x_tr = 100;
+	d->y_tr = 100;
 	d->zoom = 6;
+	d->offs = 100;
 	ft_putendl("global varibles initialized");
 }
 

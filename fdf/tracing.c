@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/02 17:39:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 17:28:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int			convert_3_to_2d(t_3d *d)
 {
 	t_index		i;
 
+	printf("convert_3_to_2d\n");
 	if (!(d->n = (t_xy **)malloc(sizeof(t_xy *) * d->y)))
 		return (0);
 	i.y = 0;
@@ -52,13 +53,16 @@ int			convert_3_to_2d(t_3d *d)
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			d->n[i.y][i.x].y = get_3d_y(i.x, i.y, d->m[i.y][i.x]);
-			d->n[i.y][i.x].x = get_3d_x(i.x, i.y);
+			//printf("x: %i y: %i d->m: %i\n",i.x, i.y, d->m[i.y][i.x]);
+			d->n[i.y][i.x].y = 100 + 100 * get_3d_y(i.x, i.y, d->m[i.y][i.x]);
+			d->n[i.y][i.x].x = 100 + 100 * get_3d_x(i.x, i.y);
+			printf("(y, x)(%li, %li) ", d->n[i.y][i.x].y, d->n[i.y][i.x].x);
 
 			//d->p[i.y][i.x].x = (d->x + d->y) + i.x + i.y;
 			//d->p[i.y][i.x].y = d->margin_top + d->n[i.y][i.x];
 			++i.x;
 		}
+		printf("\n");
 		++i.y;
 	}
 	ft_putendl("coords converted");
@@ -118,7 +122,8 @@ int		put_pixels(t_3d *d)
 	//	int		tile;
 
 	d->mlx = mlx_init();
-	d->w = mlx_new_window(d->mlx, WIDTH * d->zoom, HEIGHT * d->zoom, TITLE);
+	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
+	//create_image(d);
 	i.y = 0;
 	while (i.y < d->y - 1)
 	{
@@ -126,9 +131,13 @@ int		put_pixels(t_3d *d)
 		while (i.x < d->x - 1)
 		{
 			d->c[i.y][i.x] = NICE_BLUE;
-			printf("d->n[i.y][i.x].x : %ld\n", d->n[i.y][i.x].x);
-			vector(d, d->n[i.y][i.x], d->n[i.y][i.x + 1]);
-			//vector(d, d->p[i.y][i.x], d->p[i.y + 1][i.x]);
+			printf("a.x : %ld\n", d->n[i.y][i.x].x);
+			printf("b.x : %ld\n", d->n[i.y][i.x + 1].x);
+			printf("d.x : %hd\n", d->x);
+			printf("d.y : %hd\n", d->y);
+
+				vector(d, d->n[i.y][i.x], d->n[i.y][i.x + 1]);
+			vector(d, d->n[i.y][i.x], d->n[i.y + 1][i.x]);
 			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
 			
 			//mlx_pixel_put(d->mlx, d->w, 6 * d->p[i.y][i.x].x,
@@ -137,7 +146,7 @@ int		put_pixels(t_3d *d)
 		}
 		i.y++;
 	}
-	
+	//mlx_put_image_to_window(d->mlx, d->w, d->img, d->x_tr, d->y_tr);
 	//	link_pixels(d);
 	mlx_key_hook(d->w, user_input, d);
 	mlx_loop(d->mlx); // pixels' display is only at this point

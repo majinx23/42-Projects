@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/02 17:12:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 16:44:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "keycode_mac.h"
 
 # define TITLE "FDF"
-# define WIDTH (51 * (1.2 * (d->x + d->y)))
-# define HEIGHT (600 + 1.2 * 512 * (d->margin_bot - d->margin_top))
+# define WIDTH 900//(51 * (1.2 * (d->x + d->y)))
+# define HEIGHT 600//(600 + 1.2 * 512 * (d->margin_bot - d->margin_top))
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
 /*
@@ -84,7 +84,7 @@ typedef struct	s_3d
 	float		v;
 	float		phi;//
 	float		theta;//
-	float		**m;
+	int			**m; //stores orginial input from file (z coords)
 	t_xy		**n;
 	char		*s;
 	int			**c;

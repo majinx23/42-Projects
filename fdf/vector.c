@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/02 17:39:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 17:29:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	create_image(t_3d *d)
 {
 	d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT);
 	d->data_address = mlx_get_data_addr(d->img, &(d->bpp),
-			&(d->line_size), &(d->endian));
-	mlx_put_image_to_window(d->mlx, d->w, d->img, 50 + d->x_tr, 50 + d->y_tr);
+	&(d->line_size), &(d->endian));
 }
 
 /*
@@ -67,6 +66,7 @@ void	vector(t_3d *d, t_xy a, t_xy b)
 	t_xy		dif;
 	t_index		i;
 	int			pixel;
+	int			v = 0;
 
 	printf("a.x : %ld  b.x : %ld  a.y: %ld  b.y: %ld\n", a.x, b.x, a.y, b.y);
 	dif.x = labs(b.x - a.x);
@@ -74,13 +74,22 @@ void	vector(t_3d *d, t_xy a, t_xy b)
 	printf("dif.x : %ld\n  .y: %ld\n", dif.x, dif.y),
 	i.x = (a.x < b.x) ? 1 : -1;
 	i.y = (a.y < b.y) ? 1 : -1;
-	
 	pixel = (dif.x > dif.y) ? dif.x : dif.y;
-	while (a.x < b.x) //&& a.y < b.y)
+	!pixel ? pixel = 1 : 0;
+	float x_incr = dif.x / pixel;
+	float y_incr = dif.x / pixel;
+
+	printf("pixels: %i\n", pixel);
+	//while (labs(b.x - a.x) && labs(b.y - a.y))
+	while (v < pixel)
 	{
-		d->zoom = 5;
+		printf("draw pixel(%li, %li)\n", a.x, a.y);
 		mlx_pixel_put(d->mlx, d->w, a.x, a.y, NICE_BLUE);
-		a.x += i.x * dif.x / (256 * pixel);
-		a.y += i.y * dif.y / (256 * pixel);
+		//put_pixel_in_image(d, a);
+		//a.x += i.x * dif.x / pixel;
+		//a.y += i.y * dif.y / pixel;
+		a.x += x_incr;
+		a.y += y_incr;
+		++v;
 	}
 }

@@ -6,20 +6,21 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/02 17:11:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/03 16:20:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
-** Check for map validity, stock map in d->s and determine max y and max x.
+** Check for map validity, store map in d->s and determine max y and max x.
 */
 static int		get_x_y(t_3d *d, char *s)
 {
 	char		*line;
 	int			fd;
 
+	printf("get_x_y\n");
 	fd = open(s, O_RDONLY);
 	if (get_next_line(fd, &line) == 1)
 	{
@@ -37,10 +38,9 @@ static int		get_x_y(t_3d *d, char *s)
 		++d->y;
 		(line) ? free(line) : 0;
 	}
-	printf("x : %d\n", d->x);//
-	printf("y : %d\n", d->y);//
+	printf("d->x : %d\n", d->x);//
+	printf("d->y : %d\n", d->y);//
 	close(fd);
-	d->offs = 10;
 	if (d->x > 1)
 		return (1);
 	return (d->x ? ft_error("One tile only") : ft_error("Empty file"));
@@ -126,20 +126,21 @@ static	void	get_window_w_and_h(t_3d *d)
 
 
 /*
-** Stock int into an array
+** Store z and colors into an array
 */
 
 int				get_depth_and_colors(t_3d *d)
 {
 	t_xy	i;
 
-	if (!(d->m = (float **)malloc(sizeof(float *) * d->y))
+	printf("get_depth_and_colors\n");
+	if (!(d->m = (int **)malloc(sizeof(int *) * d->y))
 			|| (!(d->c = (int **)malloc(sizeof(int *) * d->y))))
 		return (0);
 	i.y = 0;
 	while (i.y < d->y)
 	{
-		if (!(d->m[i.y] = (float *)malloc(sizeof(float) * d->x))
+		if (!(d->m[i.y] = (int *)malloc(sizeof(int) * d->x))
 				|| (!(d->c[i.y] = (int *)malloc(sizeof(int) * d->x))))
 			return (0);
 		i.x = 0;
@@ -148,9 +149,11 @@ int				get_depth_and_colors(t_3d *d)
 			while (*d->s && *d->s == ' ')
 				++d->s;
 			d->m[i.y][i.x] = ft_atoi(d->s);
+			printf("(%i)", d->m[i.y][i.x]);
 			d->c[i.y][i.x] = get_colors(d);
 			++i.x;
 		}
+		printf("\n");
 		++i.y;
 	}
 	ft_putstr("depth and color\n");
@@ -171,7 +174,7 @@ int				main(int ac, char  **av)
 	d.y = 0;
 	if (ac < 2)
 		return (ft_error("Usage: ./fdf [File]"));
-	if ((fd = open(av[1], O_RDONLY) == -1))
+	if ((fd = open(av[1], O_RDONLY)) == -1)
 		return (ft_error("Could not open file"));
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d)
 			|| !(convert_3_to_2d(&d)))
