@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 19:42:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 15:23:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ void	draw(t_3d *d, t_fxy a, t_fxy b)
 	printf("dif x : %lf dif y: %lf\n", dif.x, dif.y);//
 	pixel = (dif.x > dif.y) ? dif.x : dif.y;
 	!pixel ? pixel = 1 : 0;
-	i.x = round(dif.x / pixel * (a.x < b.x ? 1 : -1));
-	i.y = round(dif.y / pixel * (a.y < b.y ? 1 : -1));
+	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
+	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	printf("pixels: %i\n", pixel);//
 	//while (labs(b.x - a.x) && labs(b.y - a.y))
 	while (pixel--)
 	{
 		printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
-		mlx_pixel_put(d->mlx, d->w, a.x, a.y, NICE_BLUE);
+		mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
 		//put_pixel_in_image(d, a);
 		a.x += i.x;
 		a.y += i.y;

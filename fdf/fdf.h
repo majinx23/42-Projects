@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 19:43:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 15:37:03 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "keycode_mac.h"
 
 # define TITLE "FDF"
-# define WIDTH 900//(51 * (1.2 * (d->x + d->y)))
-# define HEIGHT 600//(600 + 1.2 * 512 * (d->margin_bot - d->margin_top))
+# define WIDTH (d->x + d->y) * 8
+# define HEIGHT 1.2 * (d->margin_bot - d->margin_top) / 4
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
 /*

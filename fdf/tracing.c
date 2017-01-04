@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 19:42:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 15:28:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int			convert_3_to_2d(t_3d *d)
 		while (i.x < d->x)
 		{
 			//printf("x: %i y: %i d->m: %i\n",i.x, i.y, d->m[i.y][i.x]);
-			d->n[i.y][i.x].y = 300 + 10 * get_3d_y(i.x, i.y, d->m[i.y][i.x]);
-			d->n[i.y][i.x].x = 100 + 10 * get_3d_x(i.x, i.y);
+			d->n[i.y][i.x].y = 300 + 4 * get_3d_y(i.x, i.y, d->m[i.y][i.x]);
+			d->n[i.y][i.x].x = 100 + 4 * get_3d_x(i.x, i.y);
 			printf("(y, x)(%lf, %lf) ", d->n[i.y][i.x].y, d->n[i.y][i.x].x);
 
 			//d->p[i.y][i.x].x = (d->x + d->y) + i.x + i.y;
