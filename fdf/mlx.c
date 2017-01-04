@@ -6,14 +6,14 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 19:43:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:25:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
-** opens a new window
+** Initialize variables
 */
 void	init_variables(t_3d *d)
 {
@@ -21,21 +21,6 @@ void	init_variables(t_3d *d)
 	d->y_tr = 100;
 	d->zoom = 6;
 	d->offs = 100;
+	d->img = NULL;
 	ft_putendl("global varibles initialized");
-}
-
-/*
-** destroys an image previously created
-*/
-void	destroy_image(t_3d *d)
-{
-	mlx_destroy_image(d->mlx, d->img);
-}
-
-/*
-** closes window on user input (esc button)
-*/
-void	close_window(t_3d *d)
-{
-	mlx_destroy_window(d->mlx, d->w);
 }

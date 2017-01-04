@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/04 15:37:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 19:07:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "keycode_mac.h"
 
 # define TITLE "FDF"
-# define WIDTH (d->x + d->y) * 8
+# define WIDTH 900 //(d->x + d->y) * 8
 # define HEIGHT 1.2 * (d->margin_bot - d->margin_top) / 4
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
@@ -108,6 +108,7 @@ typedef struct	s_3d
 	int			zoom;
 	int			x_tr;
 	int			y_tr;
+	t_xy		colors;
 }				t_3d;
 
 /*
@@ -121,13 +122,11 @@ float			get_3d_y(int x, int y, int z);
 float			get_3d_x(int x, int y);
 int				convert_3_to_2d(t_3d *d);
 int				put_pixels(t_3d *d);
-void			put_pixel_in_image(t_3d *d, t_xy i);
+void			put_pixel_in_image(t_3d *d, int a, int b, int color);
 //void			vector2(t_3d *d, int ix, int iy, int color);
-void			draw(t_3d *d, t_fxy a, t_fxy b);
+void			draw(t_3d *d, t_fxy a, t_fxy b, t_xy c);
 void			init_variables(t_3d *d);
 void			create_image(t_3d *d);
-void			destroy_image(t_3d *d);
-void			close_window(t_3d *d);
 t_3d			*rotate_point(t_3d *d, t_xy i);
 
 #endif

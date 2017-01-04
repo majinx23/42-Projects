@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/03 19:45:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:58:00 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static	int		get_colors(t_3d *d)
 	while (ft_isdigit(*d->s))
 		++d->s;
 	if (*(d->s) == ' ')
-		return (WHITE);
+		return (NICE_BLUE);
 	d->s = d->s + 2;
 	while (*(d->s + n) && (ft_isdigit(*(d->s + n)) || (*(d->s + n) >= 'A' &&
 				*(d->s + n) <= 'F')
@@ -94,7 +94,7 @@ static	int		get_colors(t_3d *d)
 	if (!n || !(c = ft_htoi(ft_strndup(d->s, n))))
 	{
 		d->s += n;
-		return (WHITE);
+		return (NICE_BLUE);
 	}
 	d->s += n;
 	return (c);
@@ -112,10 +112,10 @@ static	void	get_window_w_and_h(t_3d *d)
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			if (d->margin_top < d->m[i.y][i.x] - i.x / 2 + i.y / 2)
-				d->margin_top = d->m[i.y][i.x] - i.x / 2 + i.y / 2;
-			if (d->margin_bot < d->m[i.y][i.x] + i.x / 2 - i.y / 2)
-				d->margin_bot = d->m[i.y][i.x] + i.x / 2 - i.y / 2;
+			if (d->margin_top < d->m[i.y][i.x] - i.x / 2)
+				d->margin_top = d->m[i.y][i.x] - i.x / 2;
+			if (d->margin_bot < d->m[i.y][i.x] + i.y / 2)
+				d->margin_bot = d->m[i.y][i.x] + i.y / 2;
 			++i.x;
 		}
 		++i.y;

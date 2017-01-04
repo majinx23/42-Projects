@@ -6,13 +6,13 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/04 15:28:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/04 16:07:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-
+/*
 int			user_input(int keycode, t_3d *d)
 {
    printf("ok%d\n", keycode);
@@ -33,7 +33,7 @@ int			user_input(int keycode, t_3d *d)
 	}
    return (1);
 }
-
+*/
 /*
  ** Converting points from 2d to 3d
  */
@@ -114,7 +114,7 @@ void	link_pixels(t_3d *d)
 
  ** Put pixels in order to get our map's isometric 3d representation
  ** (d->x + d->y) / 10 is to set 10% space on sides. (hence 1.2 * d->x + d->y)
- */
+ 
 
 int		put_pixels(t_3d *d)
 {
@@ -152,5 +152,5 @@ int		put_pixels(t_3d *d)
 	mlx_loop(d->mlx); // pixels' display is only at this point
 	return (0);
 }
-
+*/
 // gcc tracing.c fdf.h -L minilibx_macos/ -lmlx -framework OpenGL -framework AppKit
