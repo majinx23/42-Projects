@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/04 19:07:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 00:31:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,32 @@ int		user_input(int keycode, t_3d *d)
 	if (keycode == 69)
 	{
 		d->zoom *= 1.25;
+		fdf(d);
 	}
-	else if (keycode == 78)
+	if (keycode == 78)
 	{
 		d->zoom *= 0.80;
+		fdf(d);
+	}
+	if (keycode == 123)
+	{
+		d->offs.x -= 1;
+		fdf(d);
+	}
+	if (keycode == 124)
+	{
+		d->offs.x += 1;
+		fdf(d);
+	}
+	if (keycode == 125)
+	{
+		d->offs.y += 1;
+		fdf(d);
+	}
+	if (keycode == 126)
+	{
+		d->offs.y -= 1;
+		fdf(d);
 	}
 	return (1);
 }
@@ -50,7 +72,7 @@ void	create_image(t_3d *d)
  ** of d->data_address and then cast it as (int *) before dereferencing to
  ** save color value inside.
  */
-void	put_pixel_in_image(t_3d *d, int x, int y, int color)
+void	put_pixel_in_image(t_3d *d, int x, int y, unsigned color)
 {
 	if (x > 0 && y > 0 && x < WIDTH && y < HEIGHT)
 		*(int *)&d->data_address[(x * d->bpp / 8) +
@@ -82,16 +104,48 @@ void	put_pixel_in_image(t_3d *d, int x, int y, int color)
  ++l;
  }
  }
+*/
 
 
+/*
+** get the gradiant color increase
+*/
+float	gradient(unsigned a, unsigned b, int pixel)
+{
+	t_rgb		x;
+	t_rgb		y;
+	
+	x.b = a % 256;
+	y.b = a % 256;
+	y.b = (y.b - x.b) / pixel;
+	x.g = 0;
+	y.g = 0;
+	x.r = 0;
+	y.r = 0;
+	if (a >= 256)
+		x.g = ((a % 65536) - x.b);
+	if (b >= 256)
+		y.g = (b % 65536) - y.b;
+	y.g = (y.g - x.g) / pixel;
+	if (a >= 65536)
+		x.r = a - x.g;
+	if (b >= 65536)
+		y.r = b - y.g;
+	y.r = (y.r - x.r) / pixel;
+	y.r = y.r * 65536 + y.g * 256 + y.b;
+	return (y.r);
+}
+
+/*
  ** draw lines between points (no bits)
  */
-void	draw(t_3d *d, t_fxy a, t_fxy b, t_xy c)
+void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 {
 	t_fxy		dif;
 	t_fxy		i;
 	int			pixel;
-	int			gradiant_color;
+	float		gradient_color;
+	float		color;
 
 	printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
 	ft_putnbr(b.x);
@@ -103,48 +157,54 @@ void	draw(t_3d *d, t_fxy a, t_fxy b, t_xy c)
 	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	printf("pixels: %i\n", pixel);//
-	gradiant_color = (d->c[c.y][c.x] - d->c[c.y][c.x]) / pixel;
+	gradient_color = gradient(255 /*c.x*/, 65535/*c.y*/, pixel);
+	color = 255;//c.x;
+	c.x = 0;
 	while (pixel--)
 	{
 		printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
 		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
-		put_pixel_in_image(d, round(a.x), round(a.y), d->c[c.y][c.x]);
+		put_pixel_in_image(d, round(a.x), round(a.y), round(color));
 		a.x += i.x;
 		a.y += i.y;
-		d->c[c.y][c.x] += gradiant_color;
+		color += gradient_color;
+	}
+}
+void	draw(t_3d *d)
+{
+	t_xy	i;
+	t_uixy	color;
+	
+	i.y = -1;
+	while (++i.y < d->y)
+	{
+		i.x = -1;
+		while (++i.x < d->x)
+		{
+			color.x = d->c[i.y][i.x];
+			if (i.x < d->x - 1)
+			{
+				color.y = d->c[i.y][i.x + 1];
+				lines_draw(d, d->n[i.y][i.x], d->n[i.y][i.x + 1], color);
+			}
+			if (i.y < d->y - 1)
+			{
+				color.y = d->c[i.y + 1][i.x];
+				lines_draw(d, d->n[i.y][i.x], d->n[i.y + 1][i.x], color);
+			}
+		}
 	}
 }
 
-int		put_pixels(t_3d *d)
+int		fdf(t_3d *d)
 {
-	t_xy	i;
+	if (!convert_3_to_2d(d))
+		return (ft_error("Conversion to isometric 3d failed"));
 	d->mlx = mlx_init();
 	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
 	create_image(d);
-	i.y = 0;
-	while (i.y < d->y)
-	{
-		i.x = 0;
-		while (i.x < d->x)
-		{
-		//	(!d->c[i.y][i.x]) ? d->c[i.y][i.x] = NICE_BLUE : 0;
-			printf("a.x : %f\n", d->n[i.y][i.x].x);
-			if (i.x < d->x - 1)
-				printf("b.x : %f\n", d->n[i.y][i.x + 1].x);
-			printf("d.x : %hd\n", d->x);
-			printf("d.y : %hd\n", d->y);
-			if (i.x < d->x - 1)
-				draw(d, d->n[i.y][i.x], d->n[i.y][i.x + 1],
-						d->c[i.y][i.x], d->c[i.y][i.x + 1]);
-			if (i.y < d->y - 1)
-				draw(d, d->n[i.y][i.x], d->n[i.y + 1][i.x],
-						d->c[i.y][i.x], d->c[i.y + 1][i.x]);
-
-			i.x++;
-		}
-		i.y++;
-	}
-	mlx_put_image_to_window(d->mlx, d->w, d->img, d->x_tr, d->y_tr);
+	draw(d);
+	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
 	mlx_key_hook(d->w, user_input, d);
 	mlx_loop(d->mlx); // pixels' display is only at this point
 	return (0);
