@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 00:31:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 13:18:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,20 @@ typedef struct	s_rgbxy
 	t_rgb		x;
 	t_rgb		y;
 }				t_rgbxy;
+
+typedef struct	s_hsl
+{
+	float		h;
+	float		s;
+	float		l;
+}				t_hsl;
+
+typedef struct	s_h
+{
+	float		max;
+	float		min;
+	float		d;
+}				t_h;
 
 typedef struct	s_uixy
 {

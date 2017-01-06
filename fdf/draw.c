@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 00:31:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 13:18:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,36 +104,72 @@ void	put_pixel_in_image(t_3d *d, int x, int y, unsigned color)
  ++l;
  }
  }
-*/
+ */
 
 
 /*
-** get the gradiant color increase
-*/
+ ** get the gradiant color increase
+ */
 float	gradient(unsigned a, unsigned b, int pixel)
 {
 	t_rgb		x;
 	t_rgb		y;
-	
-	x.b = a % 256;
-	y.b = a % 256;
+
+	x.b = a % 0x100;
+	y.b = a % 0x100;
 	y.b = (y.b - x.b) / pixel;
 	x.g = 0;
 	y.g = 0;
 	x.r = 0;
 	y.r = 0;
-	if (a >= 256)
-		x.g = ((a % 65536) - x.b);
+	if (a >= 0x100)
+		x.g = ((a % 0x10000) - x.b);
 	if (b >= 256)
-		y.g = (b % 65536) - y.b;
+		y.g = (b % 0x10000) - y.b;
 	y.g = (y.g - x.g) / pixel;
-	if (a >= 65536)
+	if (a >= 0x10000)
 		x.r = a - x.g;
-	if (b >= 65536)
+	if (b >= 0x10000)
 		y.r = b - y.g;
 	y.r = (y.r - x.r) / pixel;
-	y.r = y.r * 65536 + y.g * 256 + y.b;
+	y.r = y.r * 0x10000 + y.g * 0x100 + y.b;
 	return (y.r);
+}
+
+
+unsigned	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
+{
+	t_rgb	c;
+	t_h		h;
+	t_hsl	hsl;
+
+	c.r = (rgb >> (0 * 8)) & 255,
+	c.g = (rgb >> (1 * 8)) & 255,
+	c.b = (rgb >> (2 * 8)) & 255;
+	c.r /= 255;
+	c.g /= 255;
+	c.b /= 255;
+
+	h.max = fmax(fmax(c.r, c.g), c.b);
+	h.min = fmin(fmin(c.r, c.g), c.b);
+	hsl.h = 0;
+	hsl.s = 0;
+	hsl.l = (h.max + h.min) / 2;
+	if (h.max != h.min)
+	{
+		h.d = h.max - h.min;
+		hsl.s = hsl.l > 0.5 ? h.d / (2 - h.max - h.min) : h.d / (h.max + h.min);
+		if (h.max == c.r)
+		{ 
+			h = (g - b) / d + (g < b ? 6 : 0); }
+		else if (maxv == g) { h = (b - r) / d + 2; }
+		else if (maxv == b) { h = (r - g) / d + 4; }
+		h /= 6;
+	}
+	return ((unsigned int)(h * 255) << (0 * 8)) |
+		((unsigned int)(s * 255) << (1 * 8)) |
+		((unsigned int)(l * 255) << (2 * 8)) |
+		(((rgb >> (3 * 8)) & 255) << (3 * 8));
 }
 
 /*
@@ -157,8 +193,9 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	printf("pixels: %i\n", pixel);//
-	gradient_color = gradient(255 /*c.x*/, 65535/*c.y*/, pixel);
-	color = 255;//c.x;
+	//gradient_color = gradient(0xff /*c.x*/, 0xff00/*c.y*/, pixel);
+	gradient_color = rgb_to_hsl(
+	color = 0xff;//c.x;
 	c.x = 0;
 	while (pixel--)
 	{
@@ -174,7 +211,7 @@ void	draw(t_3d *d)
 {
 	t_xy	i;
 	t_uixy	color;
-	
+
 	i.y = -1;
 	while (++i.y < d->y)
 	{
