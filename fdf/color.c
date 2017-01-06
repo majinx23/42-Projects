@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 17:02:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 18:24:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ float	gradient(unsigned a, unsigned b, int pixel)
 	return (y.r);
 }
 
+/*
 unsigned	hsl_to_hslint(t_hsl hsl, unsigned rgb)
 {
 	return (((unsigned int)(hsl.h * 0xff) << (0 * 8)) |
@@ -48,7 +49,7 @@ unsigned	hsl_to_hslint(t_hsl hsl, unsigned rgb)
 		((unsigned int)(hsl.l * 0xff) << (2 * 8)) |
 		(((rgb >> (3 * 8)) & 0xff) << (3 * 8)));
 }
-
+*/
 
 
 t_hsl	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
@@ -87,50 +88,53 @@ t_hsl	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
 	return (hsl);
 }
 
-
-/*
-unsigned	hsl_to_rgb(t_3dunsigned hsl)
+static  float hue_to_rgb(float p, float q, float t)
 {
-	t_hsl	hsl;
-	t_rgb	c;
-	
-	hsl.h = ;
-	hsl.s =;
-	hsl.l =;
-
-	if(s == 0)
-		c.r = c.g = c.b = l; // achromatic
-	else{
-			function hue2rgb(p, q, t){
-				if(t < 0) t += 1;
-				if(t > 1) t -= 1;
-				if(t < 1/6) return p + (q - p) * 6 * t;
-				if(t < 1/2) return q;
-				if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-				return p;
-			}
-
-			var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-			var p = 2 * l - q;
-			r = hue2rgb(p, q, h + 1/3);
-			g = hue2rgb(p, q, h);
-			b = hue2rgb(p, q, h - 1/3);
-		}
-		return (c.r * 0xff, c.g * 0xff, c.b * 0xff);
-	}
+	if (t < 0)
+		t += 1;
+	else if (t > 1)
+		t -= 1;
+	if (t < 1/6)
+		return (p + (q - p) * 6 * t);
+	if (t < 1/2)
+		return (q);
+	if (t < 2/3)
+		return (p + (q - p) * (2/3 - t) * 6);
+	return (p);
 }
 
-*/
-unsigned		get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel)
-{
-	unsigned	hsl_unsigned;
-	unsigned	hsl_unsigned2;
-	t_hsl		hsl;
-	t_hsl		hsl2;
 
-	hsl = rgb_to_hsl(rgb);
-	hsl_unsigned = hsl_to_hslint(hsl, rgb);
-	hsl2 = rgb_to_hsl(rgb2);
-	hsl_unsigned2 = hsl_to_hslint(hsl2, rgb2);
-	return ((hsl_unsigned2 - hsl_unsigned) / pixel);
+unsigned	hsl_to_rgb(t_hsl h)
+{
+	t_rgb	c;
+	float	q;
+	float	p;
+
+	if (!h.s)
+		c.r = c.g = c.b = h.l; // achromatic
+	else
+	{
+		q = h.l < 0.5 ? h.l * (1 + h.s) : h.l * (1 - h.s) + h.s;
+		printf("q = %f\n", q);
+		p = 2 * h.l - q;
+		printf("p = %f\n", p);
+		c.r = 0xff * hue_to_rgb(p, q, h.h + 1/3);
+		c.g = 0xff * hue_to_rgb(p, q, h.h);
+		c.b = 0xff * hue_to_rgb(p, q, h.h - 1/3);
+	}
+	return ((unsigned)(c.r * 0x10000 + c.g * 0x100 + c.b));
+}
+
+
+t_hsb		get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel)
+{
+	t_hsb		hsb;
+	t_hsl		b;
+
+	hsb.a = rgb_to_hsl(rgb);
+	b = rgb_to_hsl(rgb2);
+	hsb.i.h = (b.h - hsb.a.h) / pixel;
+	hsb.i.s = (b.s - hsb.a.s) / pixel;
+	hsb.i.l = (b.l - hsb.a.l) / pixel;
+	return (hsb);
 }

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 15:57:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 18:24:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
 
+
+/*
+** macros used for still inputs
+*/
 # define KEYPRESS 2
 # define KEYRELEASE 3
 # define KEYPRESSMASK (1L << 0)
@@ -75,6 +79,12 @@ typedef struct	s_hsl
 	float		s;
 	float		l;
 }				t_hsl;
+
+typedef struct	s_hsb
+{
+	t_hsl		a;
+	t_hsl		i;
+}				t_hsb;
 
 typedef struct	s_h
 {
@@ -149,23 +159,43 @@ typedef struct	s_3d
 }				t_3d;
 
 /*
-** check_validity checks that map is valid and parse color.
-** get_map_dimension malloc x y z into **m
+** parsing.c ~ parsing functions
 */
 short			check_validity(char *s);
 int				get_depth_and_colors(t_3d *d);
 float			vector_len(int x, int y, int z);
+
+/*
+** formula.c ~ formulas, coordinates calculation and variables initialization
+*/
 float			get_3d_y(int x, int y, int z);
 float			get_3d_x(int x, int y);
 int				convert_3_to_2d(t_3d *d);
+void			init_variables(t_3d *d);
+
+/*
+** fdf.c ~ tracing lines algorythmes and listening to user input
+*/
 int				fdf(t_3d *d);
-void			put_pixel_in_image(t_3d *d, int a, int b, unsigned color);
+void			put_pixel_in_img(t_3d *d, int a, int b, unsigned color);
 //void			vector2(t_3d *d, int ix, int iy, int color);
 void			draw(t_3d *d);
 void			lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c);
-void			init_variables(t_3d *d);
 void			create_image(t_3d *d);
-t_3d			*rotate_point(t_3d *d, t_xy i);
 int				user_input(int keycode, t_3d *d);
+
+/*
+** ?.c ~ vectors translation and rotation
+*/
+t_3d			*rotate_point(t_3d *d, t_xy i);
+
+/*
+** color.c ~ gradient colors functions
+*/
+float			gradient(unsigned a, unsigned b, int pixel);
+//unsigned		hsl_to_hslint(t_hsl hsl, unsigned rgb);
+t_hsl			rgb_to_hsl(unsigned rgb);
+unsigned		hsl_to_rgb(t_hsl h);
+t_hsb			get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel);
 
 #endif

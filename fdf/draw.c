@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 17:03:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 18:24:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	create_image(t_3d *d)
  ** of d->data_address and then cast it as (int *) before dereferencing to
  ** save color value inside.
  */
-void	put_pixel_in_image(t_3d *d, int x, int y, unsigned color)
+void	put_pixel_in_img(t_3d *d, int x, int y, unsigned color)
 {
 	if (x > 0 && y > 0 && x < WIDTH && y < HEIGHT)
 		*(int *)&d->data_address[(x * d->bpp / 8) +
@@ -114,8 +114,7 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	t_fxy		dif;
 	t_fxy		i;
 	int			pixel;
-	float		gradient_color;
-	float		color;
+	t_hsb		grad;
 
 	//printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
 	ft_putnbr(b.x);
@@ -128,18 +127,20 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	//printf("pixels: %i\n", pixel);//
 	//gradient_color = gradient(0xff /*c.x*/, 0xff00/*c.y*/, pixel);
-	gradient_color = get_gradient(0xff, 0xffff, pixel);
+	grad = get_gradient(0xff, 0xff0000, pixel);
 	//printf("rgb > hsl : %f\n", gradient_color);
-	color = hsl_to_hslint(rgb_to_hsl(0xff), 0xff);//c.x;
 	c.x = 0;
 	while (pixel--)
 	{
+		printf("color int value: %d\n ", hsl_to_rgb(grad.a));
 		//printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
 		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
-		put_pixel_in_image(d, round(a.x), round(a.y), round(color));
+		put_pixel_in_img(d, round(a.x), round(a.y), hsl_to_rgb(grad.a));
 		a.x += i.x;
 		a.y += i.y;
-		color += gradient_color;
+		grad.a.h += grad.i.h;
+		grad.a.s += grad.i.s;
+		grad.a.l += grad.i.l;
 	}
 }
 
