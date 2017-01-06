@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 13:18:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 16:19:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,8 @@ int				main(int ac, char  **av)
 	init_variables(&d);
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d))
 		return (ft_error("Malloc failed"));
+	d.mlx = mlx_init();
+	d.w = mlx_new_window(d.mlx, WIDTH, HEIGHT, TITLE);
 	fdf(&d);
 	return (0);
 }

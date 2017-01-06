@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 13:18:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 16:19:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int		user_input(int keycode, t_3d *d)
 		exit(0);
 		return (0);
 	}
-	if (keycode == 69)
+	if (keycode == 69 && d->zoom < 300)
 	{
 		d->zoom *= 1.25;
 		fdf(d);
 	}
-	if (keycode == 78)
+	if (keycode == 78 && d->zoom > 1.25)
 	{
 		d->zoom *= 0.80;
 		fdf(d);
@@ -136,19 +136,28 @@ float	gradient(unsigned a, unsigned b, int pixel)
 	return (y.r);
 }
 
+unsigned	hsl_to_hslint(t_hsl hsl, unsigned rgb)
+{
+	return (((unsigned int)(hsl.h * 0xff) << (0 * 8)) |
+		((unsigned int)(hsl.s * 0xff) << (1 * 8)) |
+		((unsigned int)(hsl.l * 0xff) << (2 * 8)) |
+		(((rgb >> (3 * 8)) & 0xff) << (3 * 8)));
+}
 
-unsigned	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
+
+
+t_hsl	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
 {
 	t_rgb	c;
 	t_h		h;
 	t_hsl	hsl;
 
-	c.r = (rgb >> (0 * 8)) & 255,
-	c.g = (rgb >> (1 * 8)) & 255,
-	c.b = (rgb >> (2 * 8)) & 255;
-	c.r /= 255;
-	c.g /= 255;
-	c.b /= 255;
+	c.r = (rgb >> (0 * 8)) & 0xff,
+	c.g = (rgb >> (1 * 8)) & 0xff,
+	c.b = (rgb >> (2 * 8)) & 0xff;
+	c.r /= 0xff;
+	c.g /= 0xff;
+	c.b /= 0xff;
 
 	h.max = fmax(fmax(c.r, c.g), c.b);
 	h.min = fmin(fmin(c.r, c.g), c.b);
@@ -160,18 +169,66 @@ unsigned	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
 		h.d = h.max - h.min;
 		hsl.s = hsl.l > 0.5 ? h.d / (2 - h.max - h.min) : h.d / (h.max + h.min);
 		if (h.max == c.r)
-		{ 
-			h = (g - b) / d + (g < b ? 6 : 0); }
-		else if (maxv == g) { h = (b - r) / d + 2; }
-		else if (maxv == b) { h = (r - g) / d + 4; }
-		h /= 6;
+			hsl.h = (c.g - c.b) / h.d + (c.g < c.b ? 6 : 0);
+		else if (h.max == c.g)
+			hsl.h = (c.b - c.r) / h.d + 2;
+		else if (h.max == c.b)
+			hsl.h = (c.r - c.g) / h.d + 4;
+		hsl.h /= 6;
 	}
-	return ((unsigned int)(h * 255) << (0 * 8)) |
-		((unsigned int)(s * 255) << (1 * 8)) |
-		((unsigned int)(l * 255) << (2 * 8)) |
-		(((rgb >> (3 * 8)) & 255) << (3 * 8));
+	printf("%f hue : ", hsl.h);
+	printf("%f saturation : ", hsl.s);
+	printf("%f light : ", hsl.l);
+	return (hsl);
 }
 
+
+/*
+unsigned	hsl_to_rgb(t_3dunsigned hsl)
+{
+	t_hsl	hsl;
+	t_rgb	c;
+	
+	hsl.h = ;
+	hsl.s =;
+	hsl.l =;
+
+	if(s == 0)
+		c.r = c.g = c.b = l; // achromatic
+	else{
+			function hue2rgb(p, q, t){
+				if(t < 0) t += 1;
+				if(t > 1) t -= 1;
+				if(t < 1/6) return p + (q - p) * 6 * t;
+				if(t < 1/2) return q;
+				if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+				return p;
+			}
+
+			var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+			var p = 2 * l - q;
+			r = hue2rgb(p, q, h + 1/3);
+			g = hue2rgb(p, q, h);
+			b = hue2rgb(p, q, h - 1/3);
+		}
+		return (c.r * 0xff, c.g * 0xff, c.b * 0xff);
+	}
+}
+
+*/
+unsigned		get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel)
+{
+	unsigned	hsl_unsigned;
+	unsigned	hsl_unsigned2;
+	t_hsl		hsl;
+	t_hsl		hsl2;
+
+	hsl = rgb_to_hsl(rgb);
+	hsl_unsigned = hsl_to_hslint(hsl, rgb);
+	hsl2 = rgb_to_hsl(rgb2);
+	hsl_unsigned2 = hsl_to_hslint(hsl2, rgb2);
+	return ((hsl_unsigned2 - hsl_unsigned) / pixel);
+}
 /*
  ** draw lines between points (no bits)
  */
@@ -194,12 +251,13 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	printf("pixels: %i\n", pixel);//
 	//gradient_color = gradient(0xff /*c.x*/, 0xff00/*c.y*/, pixel);
-	gradient_color = rgb_to_hsl(
-	color = 0xff;//c.x;
+	gradient_color = get_gradient(0xff, 0xffff, pixel);
+	printf("rgb > hsl : %f\n", gradient_color);
+	color = hsl_to_hslint(rgb_to_hsl(0xff), 0xff);//c.x;
 	c.x = 0;
 	while (pixel--)
 	{
-		printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
+		//printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
 		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
 		put_pixel_in_image(d, round(a.x), round(a.y), round(color));
 		a.x += i.x;
@@ -237,12 +295,14 @@ int		fdf(t_3d *d)
 {
 	if (!convert_3_to_2d(d))
 		return (ft_error("Conversion to isometric 3d failed"));
-	d->mlx = mlx_init();
-	d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
+	//d->mlx = mlx_init();
+	//d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
 	create_image(d);
 	draw(d);
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
-	mlx_key_hook(d->w, user_input, d);
+	mlx_string_put(d->mlx, d->w, 10, 10, 0x33ffaa, "Click to display commands");
+	mlx_hook(d->w, KEYPRESS, KEYPRESSMASK, user_input, d);
+	//mlx_key_hook(d->w,user_input, d);
 	mlx_loop(d->mlx); // pixels' display is only at this point
 	return (0);
 }

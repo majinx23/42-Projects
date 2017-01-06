@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 13:18:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 15:57:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 # define HEIGHT 1600 //1.2 * (d->margin_bot - d->margin_top) / 4
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
+
+# define KEYPRESS 2
+# define KEYRELEASE 3
+# define KEYPRESSMASK (1L << 0)
+# define KEYRELEASEMASK (1L << 1)
+
 /*
 ** more awesome colors
 */
@@ -137,7 +143,7 @@ typedef struct	s_3d
 	int			bpp;
 	int			line_size;
 	int			endian;
-	int			zoom;
+	float		zoom;
 	t_xy		offs;
 	t_xy		colors;
 }				t_3d;
@@ -160,5 +166,6 @@ void			lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c);
 void			init_variables(t_3d *d);
 void			create_image(t_3d *d);
 t_3d			*rotate_point(t_3d *d, t_xy i);
+int				user_input(int keycode, t_3d *d);
 
 #endif
