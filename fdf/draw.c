@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 16:19:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 16:59:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		user_input(int keycode, t_3d *d)
 {
-	printf("ok%d\n", keycode);
+	//printf("ok%d\n", keycode);
 	if (keycode == 53)
 	{
 		mlx_destroy_window(d->mlx, d->w);
@@ -33,22 +33,22 @@ int		user_input(int keycode, t_3d *d)
 	}
 	if (keycode == 123)
 	{
-		d->offs.x -= 1;
+		d->offs.x -= d->zoom;
 		fdf(d);
 	}
 	if (keycode == 124)
 	{
-		d->offs.x += 1;
+		d->offs.x += d->zoom;
 		fdf(d);
 	}
 	if (keycode == 125)
 	{
-		d->offs.y += 1;
+		d->offs.y += d->zoom;
 		fdf(d);
 	}
 	if (keycode == 126)
 	{
-		d->offs.y -= 1;
+		d->offs.y -= d->zoom;
 		fdf(d);
 	}
 	return (1);
@@ -176,9 +176,9 @@ t_hsl	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
 			hsl.h = (c.r - c.g) / h.d + 4;
 		hsl.h /= 6;
 	}
-	printf("%f hue : ", hsl.h);
-	printf("%f saturation : ", hsl.s);
-	printf("%f light : ", hsl.l);
+	//printf("%f hue : ", hsl.h);
+	//printf("%f saturation : ", hsl.s);
+	//printf("%f light : ", hsl.l);
 	return (hsl);
 }
 
@@ -240,19 +240,19 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	float		gradient_color;
 	float		color;
 
-	printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
+	//printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
 	ft_putnbr(b.x);
 	dif.x = fabs(b.x - a.x);
 	dif.y = fabs(b.y - a.y);
-	printf("dif x : %lf dif y: %lf\n", dif.x, dif.y);//
+	//printf("dif x : %lf dif y: %lf\n", dif.x, dif.y);//
 	pixel = (dif.x > dif.y) ? dif.x : dif.y;
 	!pixel ? pixel = 1 : 0;
 	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
-	printf("pixels: %i\n", pixel);//
+	//printf("pixels: %i\n", pixel);//
 	//gradient_color = gradient(0xff /*c.x*/, 0xff00/*c.y*/, pixel);
 	gradient_color = get_gradient(0xff, 0xffff, pixel);
-	printf("rgb > hsl : %f\n", gradient_color);
+	//printf("rgb > hsl : %f\n", gradient_color);
 	color = hsl_to_hslint(rgb_to_hsl(0xff), 0xff);//c.x;
 	c.x = 0;
 	while (pixel--)

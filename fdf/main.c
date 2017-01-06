@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 16:19:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/06 16:59:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int		get_x_y(t_3d *d, char *s)
 		++d->y;
 		(line) ? free(line) : 0;
 	}
-	printf("d->x : %d\n", d->x);//
-	printf("d->y : %d\n", d->y);//
+	//printf("d->x : %d\n", d->x);//
+	//printf("d->y : %d\n", d->y);//
 	close(fd);
 	if (d->x > 1)
 		return (1);
@@ -120,7 +120,7 @@ static	void	get_window_w_and_h(t_3d *d)
 		}
 		++i.y;
 	}
-	ft_putendl("w and h");
+	//ft_putendl("w and h");
 }
 
 
@@ -132,7 +132,7 @@ int				get_depth_and_colors(t_3d *d)
 {
 	t_xy	i;
 
-	printf("get_depth_and_colors\n");
+	//printf("get_depth_and_colors\n");
 	if (!(d->m = (int **)malloc(sizeof(int *) * d->y))
 			|| (!(d->c = (int **)malloc(sizeof(int *) * d->y))))
 		return (0);
@@ -148,14 +148,14 @@ int				get_depth_and_colors(t_3d *d)
 			while (*d->s && *d->s == ' ')
 				++d->s;
 			d->m[i.y][i.x] = ft_atoi(d->s);
-			printf("(%i)", d->m[i.y][i.x]);
+			//printf("(%i)", d->m[i.y][i.x]);
 			d->c[i.y][i.x] = get_colors(d);
 			++i.x;
 		}
-		printf("\n");
+		//printf("\n");
 		++i.y;
 	}
-	ft_putstr("depth and color\n");
+	//ft_putstr("depth and color\n");
 	get_window_w_and_h(d);
 //	printmap(d);
 	return (1);
@@ -180,6 +180,7 @@ int				main(int ac, char  **av)
 		return (ft_error("Malloc failed"));
 	d.mlx = mlx_init();
 	d.w = mlx_new_window(d.mlx, WIDTH, HEIGHT, TITLE);
+//	mlx_string_put(d.mlx, d.w, 10, 10, 0x33ffaa, "Click to display commands");
 	fdf(&d);
 	return (0);
 }
