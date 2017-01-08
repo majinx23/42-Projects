@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 19:43:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/08 20:28:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct	s_3d
 	short		y;
 	short		x;
 	float		z;
+	long		depth;
 	float		v;
 	float		phi;//
 	float		theta;//
@@ -174,7 +175,7 @@ float			vector_len(int x, int y, int z);
 /*
 ** formula.c ~ formulas, coordinates calculation and variables initialization
 */
-float			get_3d_y(int x, int y, int z);
+float			get_3d_y(int x, int y, int z, t_3d *d);
 float			get_3d_x(int x, int y);
 int				convert_3_to_2d(t_3d *d);
 void			init_variables(t_3d *d);

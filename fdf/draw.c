@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 19:43:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/08 20:48:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,24 @@ int		user_input(int keycode, t_3d *d)
 		return (0);
 	}
 	if (keycode == 69 && d->zoom < 300)
-	{
 		d->zoom *= 1.25;
-		fdf(d);
-	}
 	if (keycode == 78 && d->zoom > 1.25)
-	{
 		d->zoom *= 0.80;
-		fdf(d);
-	}
 	if (keycode == 123)
-	{
 		d->offs.x -= d->zoom;
-		fdf(d);
-	}
 	if (keycode == 124)
-	{
 		d->offs.x += d->zoom;
-		fdf(d);
-	}
 	if (keycode == 125)
-	{
 		d->offs.y += d->zoom;
-		fdf(d);
-	}
 	if (keycode == 126)
-	{
 		d->offs.y -= d->zoom;
-		fdf(d);
-	}
+	if (keycode == 12 && d->depth > 25)
+		d->depth *= 0.80;
+	if (keycode == 14 && d->depth < 7600)
+		d->depth *= 1.25;
+	if (keycode == 15) // reset for W
+		init_variables(d);
+	fdf(d);
 	return (1);
 }
 
@@ -117,7 +106,6 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	t_rgb2		grad;
 
 	//printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
-	ft_putnbr(b.x);
 	dif.x = fabs(b.x - a.x);
 	dif.y = fabs(b.y - a.y);
 	//printf("dif x : %lf dif y: %lf\n", dif.x, dif.y);//
@@ -127,7 +115,7 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	//printf("pixels: %i\n", pixel);//
 	//gradient_color = gradient(0xff /*c.x*/, 0xff00/*c.y*/, pixel);
-	grad = gradient(0xff, 0x00ff00, pixel);
+	grad = gradient(c.x, c.y, pixel);
 	//printf("rgb > hsl : %f\n", gradient_color);
 	c.x = 0;
 	while (pixel--)
@@ -156,15 +144,18 @@ void	draw(t_3d *d)
 		i.x = -1;
 		while (++i.x < d->x)
 		{
-			color.x = d->c[i.y][i.x];
+			if (!(color.x = d->c[i.y][i.x]))
+				color.x = 0x00ff00;
 			if (i.x < d->x - 1)
 			{
-				color.y = d->c[i.y][i.x + 1];
+				if (!(color.y = d->c[i.y][i.x + 1]))
+					color.y = 0x00ff00;
 				lines_draw(d, d->n[i.y][i.x], d->n[i.y][i.x + 1], color);
 			}
 			if (i.y < d->y - 1)
 			{
-				color.y = d->c[i.y + 1][i.x];
+				if (!(color.y = d->c[i.y + 1][i.x]))
+					color.y = 0x00ff00;
 				lines_draw(d, d->n[i.y][i.x], d->n[i.y + 1][i.x], color);
 			}
 		}
