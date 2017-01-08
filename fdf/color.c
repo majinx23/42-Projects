@@ -6,40 +6,31 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 18:24:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/08 19:43:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
- ** get the gradiant color increase
+ ** store the gradiant color increase in c.y and starting color in c.x
  */
-float	gradient(unsigned a, unsigned b, int pixel)
+t_rgb2	gradient(unsigned a, unsigned b, int pixel)
 {
-	t_rgb		x;
-	t_rgb		y;
+	t_rgb2		c;
 
-	x.b = a % 0x100;
-	y.b = a % 0x100;
-	y.b = (y.b - x.b) / pixel;
-	x.g = 0;
-	y.g = 0;
-	x.r = 0;
-	y.r = 0;
-	if (a >= 0x100)
-		x.g = ((a % 0x10000) - x.b);
-	if (b >= 256)
-		y.g = (b % 0x10000) - y.b;
-	y.g = (y.g - x.g) / pixel;
-	if (a >= 0x10000)
-		x.r = a - x.g;
-	if (b >= 0x10000)
-		y.r = b - y.g;
-	y.r = (y.r - x.r) / pixel;
-	y.r = y.r * 0x10000 + y.g * 0x100 + y.b;
-	return (y.r);
+	c.x.b = a & 0xFF;
+	c.y.b = b & 0xFF;
+	c.y.b = (c.y.b - c.x.b) / pixel;
+	c.x.g = a >> 8 & 0xFF;
+	c.y.g = b >> 8 & 0xFF;
+	c.y.g = (c.y.g - c.x.g) / pixel;
+	c.x.r = a >> 16;
+	c.y.r = b >> 16;
+	c.y.r = (c.y.r - c.x.r) / pixel;
+	return (c);
 }
+
 
 /*
 unsigned	hsl_to_hslint(t_hsl hsl, unsigned rgb)
@@ -49,7 +40,7 @@ unsigned	hsl_to_hslint(t_hsl hsl, unsigned rgb)
 		((unsigned int)(hsl.l * 0xff) << (2 * 8)) |
 		(((rgb >> (3 * 8)) & 0xff) << (3 * 8)));
 }
-*/
+
 
 
 t_hsl	rgb_to_hsl(unsigned rgb)  // Alpha value is simply passed through
@@ -138,3 +129,5 @@ t_hsb		get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel)
 	hsb.i.l = (b.l - hsb.a.l) / pixel;
 	return (hsb);
 }
+
+*/

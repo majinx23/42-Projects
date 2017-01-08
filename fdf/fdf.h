@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/06 18:24:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/08 19:43:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ typedef struct	s_rgb
 	float		g;
 	float		b;
 }				t_rgb;
+
+typedef struct	s_rgb2
+{
+	t_rgb		x;
+	t_rgb		y;
+}				t_rgb2;
 
 typedef struct	s_rgbxy
 {
@@ -192,7 +198,7 @@ t_3d			*rotate_point(t_3d *d, t_xy i);
 /*
 ** color.c ~ gradient colors functions
 */
-float			gradient(unsigned a, unsigned b, int pixel);
+t_rgb2			gradient(unsigned a, unsigned b, int pixel);
 //unsigned		hsl_to_hslint(t_hsl hsl, unsigned rgb);
 t_hsl			rgb_to_hsl(unsigned rgb);
 unsigned		hsl_to_rgb(t_hsl h);
