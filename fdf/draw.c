@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:48:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/08 20:51:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		user_input(int keycode, t_3d *d)
 {
-	//printf("ok%d\n", keycode);
+	printf("ok%d\n", keycode);
 	if (keycode == 53)
 	{
 		mlx_destroy_window(d->mlx, d->w);
@@ -37,7 +37,7 @@ int		user_input(int keycode, t_3d *d)
 		d->depth *= 0.80;
 	if (keycode == 14 && d->depth < 7600)
 		d->depth *= 1.25;
-	if (keycode == 15) // reset for W
+	if (keycode == 49) // reset for SPACE
 		init_variables(d);
 	fdf(d);
 	return (1);
