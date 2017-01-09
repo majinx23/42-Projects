@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 18:05:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 20:59:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int		user_input(int keycode, t_3d *d)
 		d->depth *= 0.80;
 	else if (keycode == 14 && d->depth < 7600)
 		d->depth *= 1.25;
-//	else if (keycode == 4)
-//		matrix_rotation_z(d, 5); // TO BE CHANGED
+	else if (keycode == 4)
+		rotate_matrix(d, 5, 'z'); // TO BE CHANGED
 	if (keycode == 49) // reset for SPACE
 		init_variables(d);
 	fdf(d);
@@ -107,6 +107,8 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	int			pixel;
 	t_rgb2		grad;
 
+	//c.x = 0xff0000;
+	//c.y = 0xee;
 	//printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
 	dif.x = fabs(b.x - a.x);
 	dif.y = fabs(b.y - a.y);
@@ -116,17 +118,16 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	//printf("pixels: %i\n", pixel);//
-	//gradient_color = gradient(0xff /*c.x*/, 0xff00/*c.y*/, pixel);
 	grad = gradient(c.x, c.y, pixel);
-	//printf("rgb > hsl : %f\n", gradient_color);
 	c.x = 0;
 	while (pixel--)
 	{
 	//	printf("color int value: %d\n ", hsl_to_rgb(grad.a));
 		//printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
 		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
-		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y), (unsigned)(round(grad.x.r)
-					* 0x10000 + round(grad.x.g) * 0x100 + round(grad.x.b)));
+		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y),
+				round(grad.x.r) * 0x10000 + round(grad.x.g)
+				* 0x100 + round(grad.x.b));
 		a.x += i.x;
 		a.y += i.y;
 		grad.x.r += grad.y.r;

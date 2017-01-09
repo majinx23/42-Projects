@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/09 18:13:12 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/09 21:00:52 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ SRC_NAME = main.c \
 		   tracing.c \
 		   mlx.c \
 		   draw.c \
-		   color.c
+		   color.c \
+		   matrix.c \
+			matrix2.c
 		  # $(NAME).c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 17:54:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 21:03:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,14 @@ typedef struct	s_fxyz
 	float	z;
 }				t_fxyz;
 
+typedef struct	s_fxyzw
+{
+	float	x;
+	float	y;
+	float	z;
+	float	w;
+}				t_fxyzw;
+
 typedef struct s_xyz
 {
 	long	x;
@@ -175,6 +183,7 @@ typedef struct	s_3d
 	float		zoom;
 	t_xy		offs;
 	t_xy		colors;
+	t_fxyz		ma;
 }				t_3d;
 
 /*
@@ -223,8 +232,10 @@ t_hsb			get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel);
 ** matrix rotations
 */
 float		**identity_matrix(void);
-float		**matrix_rotation_x(t_3d *d, float x);
-float		**matrix_rotation_y(t_3d *d, float y);
-float		**matrix_rotation_z(t_3d *d, float z);
+float		**matrix_rotation_x(float x);
+float		**matrix_rotation_y(float y);
+float		**matrix_rotation_z(float z);
+void		apply_matrix(t_3d *d, float **m);
+void		rotate_matrix(t_3d *d, float n, char axis);
 
 #endif
