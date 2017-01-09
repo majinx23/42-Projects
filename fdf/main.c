@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 14:37:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 18:05:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,29 +100,32 @@ static	int		get_colors(t_3d *d)
 	return (c);
 }
 
-
+/*
+** offs.y is margin from highest point and offs.x margin from lowest point
+*/
 static	void	get_window_w_and_h(t_3d *d)
 {
 	t_xy	i;
 
 	i.y = 0;
-	d->margin_top = 0;
+	d->offs.y = 0;
+	d->offs.x = 0;
 	while (i.y < d->y)
 	{
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			if (d->margin_top < d->m[i.y][i.x] - i.x / 2)
-				d->margin_top = d->m[i.y][i.x] - i.x / 2;
-			if (d->margin_bot < d->m[i.y][i.x] + i.y / 2)
-				d->margin_bot = d->m[i.y][i.x] + i.y / 2;
+			if (d->offs.y < d->m[i.y][i.x] - i.x / 2)
+				d->offs.y = d->m[i.y][i.x] - i.x / 2;
+			if (d->offs.x < d->m[i.y][i.x] + i.y / 2)
+				d->offs.x = d->m[i.y][i.x] + i.y / 2;
 			++i.x;
 		}
 		++i.y;
 	}
-	//ft_putendl("w and h");
+	d->dimension.y = 8 * (d->offs.x - d->offs.y) * 3.6;
+	d->dimension.x = 8 * 1.2 * (d->x + d->y);
 }
-
 
 /*
 ** Store z and colors into an array
@@ -130,7 +133,7 @@ static	void	get_window_w_and_h(t_3d *d)
 
 int				get_depth_and_colors(t_3d *d)
 {
-	t_xy	i;
+	t_index	i;
 
 	//printf("get_depth_and_colors\n");
 	if (!(d->m = (int **)malloc(sizeof(int *) * d->y))
@@ -156,7 +159,6 @@ int				get_depth_and_colors(t_3d *d)
 		++i.y;
 	}
 	//ft_putstr("depth and color\n");
-	get_window_w_and_h(d);
 //	printmap(d);
 	return (1);
 }
@@ -177,9 +179,10 @@ int				main(int ac, char  **av)
 		return (ft_error("Could not open file"));
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d))
 		return (ft_error("Malloc failed"));
+	get_window_w_and_h(&d);
 	init_variables(&d);
 	d.mlx = mlx_init();
-	d.w = mlx_new_window(d.mlx, 8 * 1.4 * (d.x + d.y), HEIGHT, TITLE);
+	d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE);
 //	mlx_string_put(d.mlx, d.w, 10, 10, 0x33ffaa, "Click to display commands");
 	fdf(&d);
 	return (0);

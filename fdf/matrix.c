@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:35:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 16:58:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 17:29:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ float	**identity_matrix(void)
 		i = 0;
 		while (i < 4)
 		{
-			m[j][i] = (i == j) ? 1.0f : 0.0f;
+			m[j][i] = (i == j) ? 1.0 : 0.0;
 			++i;
 		}
 		++j;
@@ -36,38 +36,43 @@ float	**identity_matrix(void)
 	return (m);
 }
 
-float	**matrix_rotation_x(t_3d *d, t_fxyz v)
+float	**matrix_rotation_x(t_3d *d, float x)
 {
 	float	**m;
 
 	m = identity_matrix();
-	m[1][1] = cos(v.x);
-	m[1][2] = sin(v.x);
-	m[2][1] = -sin(v.x);
-	m[2][2] = cos(v.x);
+	m[1][1] = cos(x);
+	m[1][2] = sin(x);
+	m[2][1] = -sin(x);
+	m[2][2] = cos(x);
 	return (m);
 }
 
-float	**matrix_rotation_y(t_3d *d, t_fxyz v)
+float	**matrix_rotation_y(t_3d *d, float y)
 {
 	float	**m;
 
 	m = identity_matrix();
-	m[0][0] = cos(v.y);
-	m[0][2] = sin(v.y);
-	m[2][0] = -sin(v.y);
-	m[2][2] = cos(v.y);
+	m[0][0] = cos(y);
+	m[0][2] = sin(y);
+	m[2][0] = -sin(y);
+	m[2][2] = cos(y);
 	return (m);
 }
 
-float	**matrix_rotation_z(t_3d *d, t_fxyz v)
+float	**matrix_rotation_z(t_3d *d, float z)
 {
 	float	**m;
 
 	m = identity_matrix();
-	m[0][0] = cos(v.z);
-	m[0][1] = -sin(v.z);
-	m[1][0] = sin(v.z);
-	m[1][1] = cos(v.z);
+	m[0][0] = cos(z);
+	m[0][1] = -sin(z);
+	m[1][0] = sin(z);
+	m[1][1] = cos(z);
 	return (m);
 }
+/*
+float	apply_matrix()
+{
+
+}*/

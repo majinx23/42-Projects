@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 15:47:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 18:05:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,24 @@ int		user_input(int keycode, t_3d *d)
 		exit(0);
 		return (0);
 	}
-	if (keycode == 69 && d->zoom < 300)
+	else if (keycode == 69 && d->zoom < 300)
 		d->zoom *= 1.25;
-	if (keycode == 78 && d->zoom > 1.25)
+	else if (keycode == 78 && d->zoom > 1.25)
 		d->zoom *= 0.80;
-	if (keycode == 123)
+	else if (keycode == 123)
 		d->offs.x -= d->zoom;
-	if (keycode == 124)
+	else if (keycode == 124)
 		d->offs.x += d->zoom;
-	if (keycode == 125)
+	else if (keycode == 125)
 		d->offs.y += d->zoom;
-	if (keycode == 126)
+	else if (keycode == 126)
 		d->offs.y -= d->zoom;
-	if (keycode == 12 && d->depth > 25)
+	else if (keycode == 12 && d->depth > 25)
 		d->depth *= 0.80;
-	if (keycode == 14 && d->depth < 7600)
+	else if (keycode == 14 && d->depth < 7600)
 		d->depth *= 1.25;
+//	else if (keycode == 4)
+//		matrix_rotation_z(d, 5); // TO BE CHANGED
 	if (keycode == 49) // reset for SPACE
 		init_variables(d);
 	fdf(d);
@@ -50,7 +52,7 @@ void	create_image(t_3d *d)
 {
 	d->img ? mlx_destroy_image(d->mlx, d->img) : 0;
 	mlx_clear_window(d->mlx, d->w);
-	d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT);
+	d->img = mlx_new_image(d->mlx, d->dimension.x, d->dimension.y);
 	d->data_address = mlx_get_data_addr(d->img, &(d->bpp),
 			&(d->line_size), &(d->endian));
 }
@@ -63,7 +65,7 @@ void	create_image(t_3d *d)
  */
 void	put_pixel_in_img(t_3d *d, int x, int y, unsigned color)
 {
-	if (x > 0 && y > 0 && x < WIDTH && y < HEIGHT)
+	if (x > 0 && y > 0 && x < d->dimension.x && y < d->dimension.y)
 		*(int *)&d->data_address[(x * d->bpp / 8) +
 			(y * d->line_size)] = color;
 }

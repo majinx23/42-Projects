@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 16:58:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 17:54:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "keycode_mac.h"
 
 # define TITLE "FDF"
-# define WIDTH (8 * 1.4 * (d->x + d->y))
-# define HEIGHT 1600 //1.2 * (d->margin_bot - d->margin_top) / 4
+//# define WIDTH (8 * 1.4 * (d->x + d->y))
+//# define HEIGHT 1.2 * (d->x + d->x) //(d->margin_bot - d->margin_top) / 4
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
 
@@ -166,8 +166,7 @@ typedef struct	s_3d
 	void		*mlx;
 	void		*w;
 	int			*img;
-	int			margin_top;
-	int			margin_bot;
+	t_index		dimension;
 	short		slope;
 	char		*data_address;
 	int			bpp;
@@ -192,6 +191,8 @@ float			get_3d_y(int x, int y, int z, t_3d *d);
 float			get_3d_x(int x, int y);
 int				convert_3_to_2d(t_3d *d);
 void			init_variables(t_3d *d);
+short			width(t_3d *d);
+short			height(t_3d *d);
 
 /*
 ** fdf.c ~ tracing lines algorythmes and listening to user input
@@ -222,8 +223,8 @@ t_hsb			get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel);
 ** matrix rotations
 */
 float		**identity_matrix(void);
-float		**matrix_rotation_x(t_3d *d, t_fxyz v);
-float		**matrix_rotation_y(t_3d *d, t_fxyz v);
-float		**matrix_rotation_z(t_3d *d, t_fxyz v);
+float		**matrix_rotation_x(t_3d *d, float x);
+float		**matrix_rotation_y(t_3d *d, float y);
+float		**matrix_rotation_z(t_3d *d, float z);
 
 #endif
