@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:28:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 16:58:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "keycode_mac.h"
 
 # define TITLE "FDF"
-# define WIDTH 2400 //(d->x + d->y) * 8
+# define WIDTH (8 * 1.4 * (d->x + d->y))
 # define HEIGHT 1600 //1.2 * (d->margin_bot - d->margin_top) / 4
 # define DY (d->p[i.y][i.x + 1].y - d->p[i.y][i.x].y)
 # define DX (d->p[i.y][i.x + 1].x - d->p[i.y][i.x].x)
@@ -117,12 +117,25 @@ typedef struct s_fxy
 	float	y;
 }				t_fxy;
 
+typedef struct	s_fxyz
+{
+	float	x;
+	float	y;
+	float	z;
+}				t_fxyz;
+
 typedef struct s_xyz
 {
 	long	x;
 	long	y;
 	long	z;
 }				t_xyz;
+
+
+typedef struct	s_matrix
+{
+	float	n[4][4];
+}				t_matrix;
 
 /*
 ** points are stored using this structure in convert_2_to_3d
@@ -204,5 +217,13 @@ t_rgb2			gradient(unsigned a, unsigned b, int pixel);
 t_hsl			rgb_to_hsl(unsigned rgb);
 unsigned		hsl_to_rgb(t_hsl h);
 t_hsb			get_gradient(unsigned rgb, unsigned rgb2, unsigned pixel);
+
+/*
+** matrix rotations
+*/
+float		**identity_matrix(void);
+float		**matrix_rotation_x(t_3d *d, t_fxyz v);
+float		**matrix_rotation_y(t_3d *d, t_fxyz v);
+float		**matrix_rotation_z(t_3d *d, t_fxyz v);
 
 #endif

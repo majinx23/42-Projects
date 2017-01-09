@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:51:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 15:47:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	//	printf("color int value: %d\n ", hsl_to_rgb(grad.a));
 		//printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
 		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
-		put_pixel_in_img(d, round(a.x), round(a.y), (unsigned)(round(grad.x.r)
+		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y), (unsigned)(round(grad.x.r)
 					* 0x10000 + round(grad.x.g) * 0x100 + round(grad.x.b)));
 		a.x += i.x;
 		a.y += i.y;

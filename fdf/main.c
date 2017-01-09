@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:34:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 14:37:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,11 +175,11 @@ int				main(int ac, char  **av)
 		return (ft_error("Usage: ./fdf [File]"));
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 		return (ft_error("Could not open file"));
-	init_variables(&d);
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d))
 		return (ft_error("Malloc failed"));
+	init_variables(&d);
 	d.mlx = mlx_init();
-	d.w = mlx_new_window(d.mlx, WIDTH, HEIGHT, TITLE);
+	d.w = mlx_new_window(d.mlx, 8 * 1.4 * (d.x + d.y), HEIGHT, TITLE);
 //	mlx_string_put(d.mlx, d.w, 10, 10, 0x33ffaa, "Click to display commands");
 	fdf(&d);
 	return (0);

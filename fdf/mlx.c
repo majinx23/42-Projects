@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:39:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/09 15:45:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 */
 void	init_variables(t_3d *d)
 {
-	d->offs.x = 100;
-	d->offs.y = 400;
+	d->offs.x = 0.2 * (d->x + d->y);
+	d->offs.y = d->x * 2;
 	d->zoom = 6;
 	d->depth = 3125;
 	d->img = NULL;
