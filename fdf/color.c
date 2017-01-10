@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 20:22:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 20:57:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ t_rgb2				gradient(unsigned a, unsigned b, int pixel)
 }
 
 /*
-** ssaw for spring, summer, autumn, winter. Color depending on altitude.
+** ssaw : 0 = spring, 1 = summer, 2 = autumn, 3 = winter.
+** level : 0 lowest, 3 highest.
 */
+
 static	unsigned	season(int ssaw, int level)
 {
 	unsigned season[4][4];
@@ -41,21 +43,25 @@ static	unsigned	season(int ssaw, int level)
 	season[0][0] = CYAN;
 	season[0][1] = LIME;
 	season[0][2] = BROWN;
-	season[0][3] = SILVER;
+	season[0][3] = WHITE;
 	season[1][0] = CYAN ;
 	season[1][1] = NICE_BLUE;
 	season[1][2] = RED;
-	season[1][3] = PINK;
-	season[2][0] = BROWN;
-	season[2][1] = ORANGE;
-	season[2][2] = RED;
-	season[2][3] = GOLD;
+	season[1][3] = WHITE;
+	season[2][0] = GOLD;
+	season[2][1] = RED;
+	season[2][2] = GOLD;
+	season[2][3] = WHITE;
 	season[3][0] = CORAL;
 	season[3][1] = SKY_BLUE;
-	season[3][2] = SILVER;
+	season[3][2] = NICE_BLUE;
 	season[3][3] = WHITE;
 	return (season[ssaw][level]);
 }
+
+/*
+** colors map according to current season
+*/
 
 void	color_map(t_3d *d)
 {

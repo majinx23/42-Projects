@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 17:21:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 20:47:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,8 @@ int				main(int ac, char  **av)
 	get_window_w_and_h(&d);
 	init_variables(&d);
 	d.mlx = mlx_init();
-	d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE);
+	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
+		return (ft_error("Window's creation failed"));
 //	mlx_string_put(d.mlx, d.w, 10, 10, 0x33ffaa, "Click to display commands");
 	if (!d.def_color.x)
 		color_map(&d);
