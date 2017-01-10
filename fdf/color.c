@@ -6,15 +6,18 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 20:57:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 21:57:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
- ** store the gradiant color increase in c.y and starting color in c.x
- */
+** stores the needed gradiant color increase in c.y and starting color in c.x
+** on bitwise operators: a & 0xFF is equivalent to a % 256  as 0xFF = 255. 
+** >> 8 is used to divide color by 2^8 = 256, removing blue, and then red.
+*/
+
 t_rgb2				gradient(unsigned a, unsigned b, int pixel)
 {
 	t_rgb2		c;
@@ -60,7 +63,7 @@ static	unsigned	season(int ssaw, int level)
 }
 
 /*
-** colors map according to current season
+** Shiki no Uta ~ colors map using above function
 */
 
 void	color_map(t_3d *d)
