@@ -1,7 +1,8 @@
 # FDF Project
 
-FDF is a 42 Project to learn about 3d programming. The program takes a map as parameter and creates its 3d representation.
+## Summary and functionalities
 <img align="center" src="http://image.noelshack.com/fichiers/2016/52/1483109173-screen-shot-2016-12-30-at-3-40-16-pm.png" width="100%" />
+FDF is a 42 Project to learn about 3d programming. The program takes a map as parameter and creates its 3d representation.
 * Create a 3d representation of a map using vectors and matrix.
 * You can rotate, translate and zoom/dezoom.
 * Colors of the map altermate according to seasons and altitude.
@@ -9,10 +10,10 @@ FDF is a 42 Project to learn about 3d programming. The program takes a map as pa
 <img align="center" src="http://image.noelshack.com/fichiers/2017/02/1483981975-screen-shot-2017-01-09-at-6-12-01-pm.png" width ="100%" />
 * Also many thanks to these very informative sites: https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions and https://web.archive.org/web/20150225192611/http://www.arcsynthesis.org/gltut/index.html
 
-# Project Schema
+## Project Schema
 <img align="center" src="http://image.noelshack.com/fichiers/2017/02/1484084381-screen-shot-2017-01-10-at-10-37-48-pm.png" width ="100%" />
 
-# Project Overview
+## Project Overview
 <img align="center" src="http://image.noelshack.com/fichiers/2017/02/1484078689-output-j4anyk-1.gif" width ="100%" />
 
 ## Contact & contribute
