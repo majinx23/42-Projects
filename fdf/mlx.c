@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 18:05:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 20:12:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	init_variables(t_3d *d)
 	d->zoom = 6;
 	d->depth = 3125;
 	d->img = NULL;
+	d->season = 0;
 	//ft_putendl("global varibles initialized");
 }

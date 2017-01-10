@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 20:59:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 20:17:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int		user_input(int keycode, t_3d *d)
 		d->depth *= 1.25;
 	else if (keycode == 4)
 		rotate_matrix(d, 5, 'z'); // TO BE CHANGED
+	else if (keycode == 35)
+	{
+		d->season = (d->season < 3) ? d->season + 1 : 0;
+		color_map(d);
+	}
 	if (keycode == 49) // reset for SPACE
 		init_variables(d);
 	fdf(d);
@@ -126,8 +131,8 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 		//printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
 		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
 		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y),
-				round(grad.x.r) * 0x10000 + round(grad.x.g)
-				* 0x100 + round(grad.x.b));
+				((int)round(grad.x.r) << 16) + ((int)round(grad.x.g) << 8)
+				+ round(grad.x.b));
 		a.x += i.x;
 		a.y += i.y;
 		grad.x.r += grad.y.r;

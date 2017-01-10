@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/09 20:01:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 17:21:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static int		printmap(t_3d *d)//
 /*
 ** storing color in d->c
 ** maybe think to add ishex(char) in the future
+** we put def_color.x equal to 1 to indicate that we will use color provided
+** by the map instead of our own colors.
 */
 static	int		get_colors(t_3d *d)
 {
@@ -85,7 +87,7 @@ static	int		get_colors(t_3d *d)
 	while (ft_isdigit(*d->s))
 		++d->s;
 	if (*(d->s) == ' ')
-		return (NICE_BLUE);
+		return (0xffffff);
 	d->s = d->s + 2;
 	while (*(d->s + n) && (ft_isdigit(*(d->s + n)) || (*(d->s + n) >= 'A' &&
 				*(d->s + n) <= 'F')
@@ -94,8 +96,9 @@ static	int		get_colors(t_3d *d)
 	if (!n || !(c = ft_htoi(ft_strndup(d->s, n))))
 	{
 		d->s += n;
-		return (NICE_BLUE);
+		return (0xffffff);
 	}
+	d->def_color.x = 1;
 	d->s += n;
 	return (c);
 }
@@ -151,6 +154,8 @@ int				get_depth_and_colors(t_3d *d)
 			while (*d->s && *d->s == ' ')
 				++d->s;
 			d->m[i.y][i.x] = ft_atoi(d->s);
+			d->m[i.y][i.x] > d->z_max ? d->z_max = d->m[i.y][i.x] : 0;
+			d->m[i.y][i.x] < d->z_min ? d->z_min = d->m[i.y][i.x] : 0;
 			//printf("(%i)", d->m[i.y][i.x]);
 			d->c[i.y][i.x] = get_colors(d);
 			++i.x;
@@ -184,6 +189,8 @@ int				main(int ac, char  **av)
 	d.mlx = mlx_init();
 	d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE);
 //	mlx_string_put(d.mlx, d.w, 10, 10, 0x33ffaa, "Click to display commands");
+	if (!d.def_color.x)
+		color_map(&d);
 	fdf(&d);
 	return (0);
 }

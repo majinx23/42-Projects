@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:38:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 20:22:51 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  ** store the gradiant color increase in c.y and starting color in c.x
  */
-t_rgb2	gradient(unsigned a, unsigned b, int pixel)
+t_rgb2				gradient(unsigned a, unsigned b, int pixel)
 {
 	t_rgb2		c;
 
@@ -31,6 +31,57 @@ t_rgb2	gradient(unsigned a, unsigned b, int pixel)
 	return (c);
 }
 
+/*
+** ssaw for spring, summer, autumn, winter. Color depending on altitude.
+*/
+static	unsigned	season(int ssaw, int level)
+{
+	unsigned season[4][4];
+
+	season[0][0] = CYAN;
+	season[0][1] = LIME;
+	season[0][2] = BROWN;
+	season[0][3] = SILVER;
+	season[1][0] = CYAN ;
+	season[1][1] = NICE_BLUE;
+	season[1][2] = RED;
+	season[1][3] = PINK;
+	season[2][0] = BROWN;
+	season[2][1] = ORANGE;
+	season[2][2] = RED;
+	season[2][3] = GOLD;
+	season[3][0] = CORAL;
+	season[3][1] = SKY_BLUE;
+	season[3][2] = SILVER;
+	season[3][3] = WHITE;
+	return (season[ssaw][level]);
+}
+
+void	color_map(t_3d *d)
+{
+	t_index		i;
+	float		range;
+
+	range = d->z_max - d->z_min;
+	i.y = 0;
+	while (i.y < d->y)
+	{
+		i.x = 0;
+		while (i.x < d->x)
+		{
+			if (d->m[i.y][i.x] - d->z_min < 0.20 * range)
+				d->c[i.y][i.x] = season(d->season, 0);
+			else if (d->m[i.y][i.x] - d->z_min < 0.65 * range)
+				d->c[i.y][i.x] = season(d->season, 1);
+			else if (d->m[i.y][i.x] - d->z_min < 0.85 * range)
+				d->c[i.y][i.x] = season(d->season, 2);
+			else
+				d->c[i.y][i.x] = season(d->season, 3);
+			++i.x;
+		}
+		++i.y;
+	}
+}
 
 /*
 unsigned	hsl_to_hslint(t_hsl hsl, unsigned rgb)
