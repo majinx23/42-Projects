@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 23:04:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 15:46:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 ** stores the needed gradiant color increase in c.y and starting color in c.x
 ** on bitwise operators: a & 0xFF is equivalent to a % 256  as 0xFF = 255. 
 ** >> 8 is used to divide color by 2^8 = 256, removing blue, and then red.
+** the more c.x.a is close to 0xff and the more it will be transparent.
 */
 
-t_rgb2				gradient(unsigned a, unsigned b, int pixel)
+t_argb2				gradient(unsigned a, unsigned b, int pixel)
 {
-	t_rgb2		c;
+	t_argb2		c;
 
 	c.x.b = a & 0xFF;
 	c.y.b = b & 0xFF;
@@ -28,9 +29,12 @@ t_rgb2				gradient(unsigned a, unsigned b, int pixel)
 	c.x.g = a >> 8 & 0xFF;
 	c.y.g = b >> 8 & 0xFF;
 	c.y.g = (c.y.g - c.x.g) / pixel;
-	c.x.r = a >> 16;
-	c.y.r = b >> 16;
+	c.x.r = a >> 16 & 0xFF;
+	c.y.r = b >> 16 & 0xFF;
 	c.y.r = (c.y.r - c.x.r) / pixel;
+	c.x.a = a >> 24;
+	c.y.a = b >> 24;
+	c.y.a = (c.y.a - c.x.a) / pixel;
 	return (c);
 }
 
@@ -43,9 +47,9 @@ static	unsigned	season(int ssaw, int level)
 {
 	unsigned season[4][4];
 
-	season[0][0] = DARK_GREEN;
-	season[0][1] = SPRING_GREEN;
-	season[0][2] = SEA_GREEN;
+	season[0][0] = NICE_BLUE;
+	season[0][1] = LAWN_GREEN;
+	season[0][2] = YELLOW;
 	season[0][3] = WHITE;
 	season[1][0] = CYAN ;
 	season[1][1] = NICE_BLUE;

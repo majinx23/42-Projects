@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 20:27:20 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 15:49:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,19 @@
 ** using t_xy.x and t_xy.y instead of x and y for index.
 */
 
-typedef struct	s_rgb
+typedef struct	s_argb
 {
+	float		a;
 	float		r;
 	float		g;
 	float		b;
-}				t_rgb;
+}				t_argb;
 
-typedef struct	s_rgb2
+typedef struct	s_argb2
 {
-	t_rgb		x;
-	t_rgb		y;
-}				t_rgb2;
-
-typedef struct	s_rgbxy
-{
-	t_rgb		x;
-	t_rgb		y;
-}				t_rgbxy;
+	t_argb		x;
+	t_argb		y;
+}				t_argb2;
 
 typedef struct	s_hsl
 {
@@ -192,6 +187,7 @@ typedef struct	s_3d
 	short		z_min;
 	t_xyz		def_color;
 	short		season;
+	unsigned	g;
 }				t_3d;
 
 /*
@@ -229,7 +225,7 @@ int				user_input(int keycode, t_3d *d);
 */
 
 void			color_map(t_3d *d);
-t_rgb2			gradient(unsigned a, unsigned b, int pixel);
+t_argb2			gradient(unsigned a, unsigned b, int pixel);
 
 /*
 ** matrix rotations

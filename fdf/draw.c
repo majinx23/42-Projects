@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 20:47:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 15:57:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int		user_input(int keycode, t_3d *d)
 		d->season = (d->season < 3) ? d->season + 1 : 0;
 		color_map(d);
 	}
+	else if (keycode == 47 && d->g < 0xf8)
+		d->g = d->g + 8;
+	else if (keycode == 43 && d->g)
+		d->g = d->g - 8;
 	if (keycode == 49) // reset for SPACE
 		init_variables(d);
 	fdf(d);
@@ -110,34 +114,27 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	t_fxy		dif;
 	t_fxy		i;
 	int			pixel;
-	t_rgb2		grad;
+	t_argb2		grad;
 
-	//c.x = 0xff0000;
-	//c.y = 0xee;
-	//printf("a.x : %lf  b.x : %lf  a.y: %lf  b.y: %lf\n", a.x, b.x, a.y, b.y);//
 	dif.x = fabs(b.x - a.x);
 	dif.y = fabs(b.y - a.y);
-	//printf("dif x : %lf dif y: %lf\n", dif.x, dif.y);//
 	pixel = (dif.x > dif.y) ? dif.x : dif.y;
 	!pixel ? pixel = 1 : 0;
 	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
-	//printf("pixels: %i\n", pixel);//
 	grad = gradient(c.x, c.y, pixel);
 	c.x = 0;
 	while (pixel--)
 	{
-	//	printf("color int value: %d\n ", hsl_to_rgb(grad.a));
-		//printf("draw pixel(%lf, %lf)\n", a.x, a.y);//
-		//mlx_pixel_put(d->mlx, d->w, round(a.x), round(a.y), NICE_BLUE);
 		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y),
 				((int)round(grad.x.r) << 16) + ((int)round(grad.x.g) << 8)
-				+ round(grad.x.b));
+				+ round(grad.x.b) + (((int)round(grad.x.a) + d->g) << 24));
 		a.x += i.x;
 		a.y += i.y;
 		grad.x.r += grad.y.r;
 		grad.x.g += grad.y.g;
 		grad.x.b += grad.y.b;
+		grad.x.a += grad.y.a;
 	}
 }
 
