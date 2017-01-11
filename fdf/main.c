@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 22:58:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 18:44:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 */
 static int		get_x_y(t_3d *d, char *s)
 {
-	char		*line;
-	int			fd;
+	char	*line;
+	int		fd;
 
 	fd = open(s, O_RDONLY);
 	if (get_next_line(fd, &line) == 1)
@@ -37,8 +37,6 @@ static int		get_x_y(t_3d *d, char *s)
 		++d->y;
 		(line) ? free(line) : 0;
 	}
-	//printf("d->x : %d\n", d->x);//
-	//printf("d->y : %d\n", d->y);//
 	close(fd);
 	if (d->x > 1)
 		return (1);
@@ -118,10 +116,10 @@ static	void	get_window_w_and_h(t_3d *d)
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			if (d->offs.y < d->m[i.y][i.x] - i.x / 2)
-				d->offs.y = d->m[i.y][i.x] - i.x / 2;
-			if (d->offs.x < d->m[i.y][i.x] + i.y / 2)
-				d->offs.x = d->m[i.y][i.x] + i.y / 2;
+			if (d->offs.y < d->m[i.y][i.x].z - i.x / 2)
+				d->offs.y = d->m[i.y][i.x].z - i.x / 2;
+			if (d->offs.x < d->m[i.y][i.x].z + i.y / 2)
+				d->offs.x = d->m[i.y][i.x].z + i.y / 2;
 			++i.x;
 		}
 		++i.y;
@@ -138,27 +136,26 @@ int				get_depth_and_colors(t_3d *d)
 {
 	t_index	i;
 
-	if (!(d->m = (int **)malloc(sizeof(int *) * d->y))
+	if (!(d->m = (t_vector **)malloc(sizeof(t_vector *) * d->y))
 			|| (!(d->c = (int **)malloc(sizeof(int *) * d->y))))
 		return (0);
-	i.y = 0;
-	while (i.y < d->y)
+	i.y = -1;
+	while (++i.y < d->y && (i.x = -1) != 0)
 	{
-		if (!(d->m[i.y] = (int *)malloc(sizeof(int) * d->x))
+		if (!(d->m[i.y] = (t_vector *)malloc(sizeof(t_vector) * d->x))
 				|| (!(d->c[i.y] = (int *)malloc(sizeof(int) * d->x))))
 			return (0);
-		i.x = 0;
-		while (i.x < d->x)
+		while (++i.x < d->x)
 		{
 			while (*d->s && *d->s == ' ')
 				++d->s;
-			d->m[i.y][i.x] = ft_atoi(d->s);
-			d->m[i.y][i.x] > d->z_max ? d->z_max = d->m[i.y][i.x] : 0;
-			d->m[i.y][i.x] < d->z_min ? d->z_min = d->m[i.y][i.x] : 0;
+			d->m[i.y][i.x].z = ft_atoi(d->s);
+			d->m[i.y][i.x].y = i.y;
+			d->m[i.y][i.x].x = i.x;
+			d->m[i.y][i.x].z > d->z_max ? d->z_max = d->m[i.y][i.x].z : 0;
+			d->m[i.y][i.x].z < d->z_min ? d->z_min = d->m[i.y][i.x].z : 0;
 			d->c[i.y][i.x] = get_colors(d);
-			++i.x;
 		}
-		++i.y;
 	}
 //	printmap(d);
 	return (1);
@@ -185,7 +182,6 @@ int				main(int ac, char  **av)
 	d.mlx = mlx_init();
 	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
-//	mlx_string_put(d.mlx, d.w, 10, 10, 0x33ffaa, "Click to display commands");
 	if (!d.def_color.x)
 		color_map(&d);
 	fdf(&d);

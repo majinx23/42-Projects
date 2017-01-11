@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 15:49:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 18:46:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
-# define TITLE "FDF"
 
+# define TITLE "FDF"
+/*
+** PI is equal to PI * 2^24 or << 24
+*/
+# define PI 52707179
 /*
 ** macros used for still inputs
 */
@@ -107,12 +111,12 @@ typedef struct s_fxy
 	float	y;
 }				t_fxy;
 
-typedef struct	s_fxyz
+typedef struct	s_vector
 {
 	float	x;
 	float	y;
 	float	z;
-}				t_fxyz;
+}				t_vector;
 
 typedef struct	s_fxyzw
 {
@@ -124,16 +128,11 @@ typedef struct	s_fxyzw
 
 typedef struct s_xyz
 {
-	long	x;
-	long	y;
-	long	z;
+	int		x;
+	int		y;
+	int		z;
 }				t_xyz;
 
-
-typedef struct	s_matrix
-{
-	float	n[4][4];
-}				t_matrix;
 
 /*
 ** points are stored using this structure in convert_2_to_3d
@@ -166,7 +165,8 @@ typedef struct	s_3d
 	float		v;
 	float		phi;//
 	float		theta;//
-	int			**m; //stores orginial input from file (z coords)
+	t_vector	**m; //stores orginial input from file (z coords)
+	t_vector	**mm; //modified 3d coords
 	t_fxy		**n;
 	char		*s;
 	int			**c;
@@ -182,7 +182,7 @@ typedef struct	s_3d
 	float		zoom;
 	t_xy		offs;
 	t_xy		colors;
-	t_fxyz		ma;
+	float		**matrix;
 	short		z_max;
 	short		z_min;
 	t_xyz		def_color;
@@ -234,7 +234,8 @@ float			**identity_matrix(void);
 float			**matrix_rotation_x(float x);
 float			**matrix_rotation_y(float y);
 float			**matrix_rotation_z(float z);
-void			apply_matrix(t_3d *d, float **m);
+void			apply_matrix(t_3d *d);
+t_vector		apply_matrix_to_vector(float **m, t_vector v);
 void			rotate_matrix(t_3d *d, float n, char axis);
 
 /*

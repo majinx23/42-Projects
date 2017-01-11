@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 15:57:17 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 18:47:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		user_input(int keycode, t_3d *d)
 	else if (keycode == 14 && d->depth < 7600)
 		d->depth *= 1.25;
 	else if (keycode == 4)
-		rotate_matrix(d, 5, 'z'); // TO BE CHANGED
+		rotate_matrix(d, (90 * PI / 180) >> 24), 'z'); // TO BE CHANGED
 	else if (keycode == 35)
 	{
 		d->season = (d->season < 3) ? d->season + 1 : 0;

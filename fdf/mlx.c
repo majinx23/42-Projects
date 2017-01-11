@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 15:49:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 18:42:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	init_variables(t_3d *d)
 	d->img = NULL;
 	d->season = 0;
 	d->g = 0;
-	//ft_putendl("global varibles initialized");
+	d->matrix = identity_matrix();
 }
