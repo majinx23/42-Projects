@@ -10,10 +10,10 @@ FDF is a 42 Project to learn about 3d programming. The program takes a map as pa
 * Also many thanks to these very informative sites: https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions and https://web.archive.org/web/20150225192611/http://www.arcsynthesis.org/gltut/index.html
 
 ## Installation
-'''
+```
 $> make
 $> ./fdf map.fdf
-'''
+```
 
 ## Project Schema
 <img align="center" src="http://image.noelshack.com/fichiers/2017/02/1484084381-screen-shot-2017-01-10-at-10-37-48-pm.png" width ="100%" />
