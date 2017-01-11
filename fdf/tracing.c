@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 14:29:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 18:45:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 20:37:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ int			convert_3_to_2d(t_3d *d)
 {
 	t_index		i;
 
-	//printf("convert_3_to_2d\n");
 	if (!(d->n = (t_fxy **)malloc(sizeof(t_fxy *) * d->y)))
 		return (0);
 	i.y = 0;
-	//ft_putendl("AA");
 	while (i.y < d->y)
 	{
 		if (!(d->n[i.y] = (t_fxy *)malloc(sizeof(t_fxy) * d->x)))
@@ -53,21 +51,14 @@ int			convert_3_to_2d(t_3d *d)
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			//printf("x: %i y: %i d->m: %i\n",i.x, i.y, d->m[i.y][i.x]);
 			d->n[i.y][i.x].y = d->offs.y + d->zoom * get_3d_y(d->m[i.y][i.x].x,
 					d->m[i.y][i.x].y, d->m[i.y][i.x].z, d);
 			d->n[i.y][i.x].x = d->offs.x + d->zoom *
 				get_3d_x(d->m[i.y][i.x].x, d->m[i.y][i.x].y);
-			//printf("(y, x)(%lf, %lf) ", d->n[i.y][i.x].y, d->n[i.y][i.x].x);
-
-			//d->p[i.y][i.x].x = (d->x + d->y) + i.x + i.y;
-			//d->p[i.y][i.x].y = d->margin_top + d->n[i.y][i.x];
 			++i.x;
 		}
-		//printf("\n");
 		++i.y;
 	}
-	//ft_putendl("coords converted");
 	return (1);
 }
 

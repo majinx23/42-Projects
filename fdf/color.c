@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 18:45:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 19:52:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	color_map(t_3d *d)
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			if (d->m[i.y][i.x].z - d->z_min < 0.20 * range)
+			if (d->m[i.y][i.x].z - d->z_min < 0.25 * range)
 				d->c[i.y][i.x] = season(d->season, 0);
 			else if (d->m[i.y][i.x].z - d->z_min < 0.65 * range)
 				d->c[i.y][i.x] = season(d->season, 1);

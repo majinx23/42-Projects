@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 18:46:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 21:59:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 /*
 ** PI is equal to PI * 2^24 or << 24
 */
-# define PI 52707179
+# define PI 314159.265359
 /*
 ** macros used for still inputs
 */
@@ -188,6 +188,7 @@ typedef struct	s_3d
 	t_xyz		def_color;
 	short		season;
 	unsigned	g;
+	t_vector	angle;
 }				t_3d;
 
 /*
@@ -235,8 +236,9 @@ float			**matrix_rotation_x(float x);
 float			**matrix_rotation_y(float y);
 float			**matrix_rotation_z(float z);
 void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_vector(float **m, t_vector v);
-void			rotate_matrix(t_3d *d, float n, char axis);
+t_vector		apply_matrix_to_point(float **m, t_vector v);
+float			**factor_matrix(float **a, float **b);
+void			rotate(t_3d *d, char axis, char direction);
 
 /*
 ** matrix2.c ~ vectors translation and rotation

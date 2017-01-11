@@ -6,30 +6,42 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 16:23:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 19:10:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 22:21:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void		apply_matrix(t_3d *d)
+int			convert_3_to_2d(t_3d *d)
 {
 	t_index		i;
 
+	if (!(d->n = (t_fxy **)malloc(sizeof(t_fxy *) * d->y)) ||
+			!(d->mm = (t_vector **)malloc(sizeof(t_vector *) * d->y)))
+		return (0);
 	i.y = 0;
 	while (i.y < d->y)
 	{
+		if (!(d->n[i.y] = (t_fxy *)malloc(sizeof(t_fxy) * d->x)) ||
+				!(d->mm[i.y] = (t_vector *)malloc(sizeof(t_vector) * d->x)))
+			return (0);
 		i.x = 0;
 		while (i.x < d->x)
 		{
-			d->mm[i.y][i.x] = apply_matrix_to_vector(d->matrix, d->m[i.y][i.x]);
+			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix, d->m[i.y][i.x]);
+			d->n[i.y][i.x].y = d->offs.y + d->zoom *
+				get_3d_y(d->mm[i.y][i.x].x,
+						d->mm[i.y][i.x].y, d->mm[i.y][i.x].z, d);
+			d->n[i.y][i.x].x = d->offs.x + d->zoom *
+				get_3d_x(d->mm[i.y][i.x].x, d->mm[i.y][i.x].y);
 			++i.x;
 		}
 		++i.y;
 	}
+	return (1);
 }
 
-t_vector	apply_matrix_to_vector(float **m, t_vector v)
+t_vector	apply_matrix_to_point(float **m, t_vector v)
 {
 	t_vector	n;
 
@@ -39,33 +51,48 @@ t_vector	apply_matrix_to_vector(float **m, t_vector v)
 	return (n);
 }
 
-
-float		**factor_matrix(float	**a, float **b)
+/*
+float		**factor_matrix(float **a, float **b)
 {
 	float	**m;
 	t_xyz	i;
 
+	if (!(m = (float **)malloc(sizeof(float *) * 4)))
+		return (0);
 	i.y = -1;
-	while (++i.y < 3 && (i.x = -1) != 0)
+	while (++i.y < 4 && (i.x = -1) != 0)
 	{
-		while (++i.x < 3 && (i.z = -1) != 0)
+		while (++i.x < 4 && (i.z = -1) != 0)
 		{
-			while (++i.z < 3)
+			while (++i.z < 4)
 				m[i.y][i.x] += a[i.y][i.z] * b[i.z][i.x];
 		}
 	}
-	return (a);
+	return (m);
 }
-
-void		rotate(t_3d *d, float angle, char axis)
+*/
+void		rotate(t_3d *d, char axis, char i)
 {
-	float	**m;
-	if (axis == 'x')
-		m = matrix_rotation_x(angle);
-	else
-		m = (axis == 'y') ? matrix_rotation_y(angle) :
-			matrix_rotation_z(angle);
-	d->matrix = factor_matrix(d->matrix, m);
-	apply_matrix(d);
-	free(m);
+//	float	**m;
+	if (axis == 'z' || axis == 'a')
+	{
+		d->angle.z = (i == '+') ? d->angle.z + (5.625 * PI) / 18000000 :
+						d->angle.z - (5.625 * PI) / 18000000;
+		d->matrix = matrix_rotation_z(d->angle.z);
+	}
+	if (axis == 'y' || axis == 'a')
+	{
+		d->angle.y = (i == '+') ? d->angle.y + (5.625 * PI) / 18000000 :
+						d->angle.y - (5.625 * PI) / 18000000;
+		d->matrix = matrix_rotation_y(d->angle.y);
+	}
+	if (axis == 'x' || axis == 'a')
+	{
+		d->angle.x = (i == '+') ? d->angle.x + (5.625 * PI) / 18000000 :
+						d->angle.x - (5.625 * PI) / 18000000;
+		d->matrix = matrix_rotation_x(d->angle.x);
+	}
+//	d->matrix = factor_matrix(d->matrix, m);
+	convert_3_to_2d(d);
+//	free(m);
 }

@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/10 19:17:00 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/11 22:21:13 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,15 +25,13 @@ CPPFLAGS = -I.
 MLX =-L ./minilibx_macos/ -framework OPENGL -framework AppKit -lmlx
 
 SRC_NAME = main.c \
-		   formula.c \
 		   parsing.c \
-		   tracing.c \
-		   mlx.c \
+		   formula.c \
 		   draw.c \
 		   color.c \
+		   hook.c \
 		   matrix.c \
 			matrix2.c
-		  # $(NAME).c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

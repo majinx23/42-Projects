@@ -6,57 +6,15 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 18:47:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 20:08:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		user_input(int keycode, t_3d *d)
-{
-	printf("ok%d\n", keycode);
-	if (keycode == 53)
-	{
-		mlx_destroy_window(d->mlx, d->w);
-		exit(0);
-		return (0);
-	}
-	else if (keycode == 69 && d->zoom < 300)
-		d->zoom *= 1.25;
-	else if (keycode == 78 && d->zoom > 1.25)
-		d->zoom *= 0.80;
-	else if (keycode == 123)
-		d->offs.x -= d->zoom;
-	else if (keycode == 124)
-		d->offs.x += d->zoom;
-	else if (keycode == 125)
-		d->offs.y += d->zoom;
-	else if (keycode == 126)
-		d->offs.y -= d->zoom;
-	else if (keycode == 12 && d->depth > 25)
-		d->depth *= 0.80;
-	else if (keycode == 14 && d->depth < 7600)
-		d->depth *= 1.25;
-	else if (keycode == 4)
-		rotate_matrix(d, (90 * PI / 180) >> 24), 'z'); // TO BE CHANGED
-	else if (keycode == 35)
-	{
-		d->season = (d->season < 3) ? d->season + 1 : 0;
-		color_map(d);
-	}
-	else if (keycode == 47 && d->g < 0xf8)
-		d->g = d->g + 8;
-	else if (keycode == 43 && d->g)
-		d->g = d->g - 8;
-	if (keycode == 49) // reset for SPACE
-		init_variables(d);
-	fdf(d);
-	return (1);
-}
-
 /*
- ** create a new image
- */
+** creates a new image
+*/
 void	create_image(t_3d *d)
 {
 	d->img ? mlx_destroy_image(d->mlx, d->img) : 0;
@@ -67,11 +25,11 @@ void	create_image(t_3d *d)
 }
 
 /*
- ** Puts exactly one pixel in the image
- ** As d->c[y][x] is the color expressed as integer, we take the address
- ** of d->data_address and then cast it as (int *) before dereferencing to
- ** save color value inside.
- */
+** Puts exactly one pixel in the image
+** As d->c[y][x] is the color expressed as integer, we take the address
+** of d->data_address and then cast it as (int *) before dereferencing to
+** save color value inside.
+*/
 void	put_pixel_in_img(t_3d *d, int x, int y, unsigned color)
 {
 	if (x > 0 && y > 0 && x < d->dimension.x && y < d->dimension.y)
@@ -123,7 +81,6 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
 	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
 	grad = gradient(c.x, c.y, pixel);
-	c.x = 0;
 	while (pixel--)
 	{
 		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y),
@@ -171,8 +128,6 @@ int		fdf(t_3d *d)
 {
 	if (!convert_3_to_2d(d))
 		return (ft_error("Conversion to isometric 3d failed"));
-	//d->mlx = mlx_init();
-	//d->w = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE);
 	create_image(d);
 	draw(d);
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
