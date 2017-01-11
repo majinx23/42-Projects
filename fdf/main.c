@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/10 21:49:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/10 22:58:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ int				get_depth_and_colors(t_3d *d)
 {
 	t_index	i;
 
-	//printf("get_depth_and_colors\n");
 	if (!(d->m = (int **)malloc(sizeof(int *) * d->y))
 			|| (!(d->c = (int **)malloc(sizeof(int *) * d->y))))
 		return (0);
@@ -156,14 +155,11 @@ int				get_depth_and_colors(t_3d *d)
 			d->m[i.y][i.x] = ft_atoi(d->s);
 			d->m[i.y][i.x] > d->z_max ? d->z_max = d->m[i.y][i.x] : 0;
 			d->m[i.y][i.x] < d->z_min ? d->z_min = d->m[i.y][i.x] : 0;
-			//printf("(%i)", d->m[i.y][i.x]);
 			d->c[i.y][i.x] = get_colors(d);
 			++i.x;
 		}
-		//printf("\n");
 		++i.y;
 	}
-	//ft_putstr("depth and color\n");
 //	printmap(d);
 	return (1);
 }
