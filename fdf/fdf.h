@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 21:59:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 00:43:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,6 @@ typedef struct	s_3d
 	float		z;
 	long		depth;
 	float		v;
-	float		phi;//
-	float		theta;//
 	t_vector	**m; //stores orginial input from file (z coords)
 	t_vector	**mm; //modified 3d coords
 	t_fxy		**n;
@@ -185,9 +183,8 @@ typedef struct	s_3d
 	float		**matrix;
 	short		z_max;
 	short		z_min;
-	t_xyz		def_color;
 	short		season;
-	unsigned	g;
+	t_argb		l;
 	t_vector	angle;
 }				t_3d;
 
@@ -215,7 +212,7 @@ short			height(t_3d *d);
 */
 
 int				fdf(t_3d *d);
-void			put_pixel_in_img(t_3d *d, int a, int b, unsigned color);
+void			put_pixel_in_img(t_3d *d, t_fxy a, t_argb color);
 void			draw(t_3d *d);
 void			lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c);
 void			create_image(t_3d *d);

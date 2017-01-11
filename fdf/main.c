@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 19:22:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 00:28:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static	int		get_colors(t_3d *d)
 		d->s += n;
 		return (0xffffff);
 	}
-	d->def_color.x = 1;
 	d->s += n;
 	return (c);
 }
@@ -182,8 +181,6 @@ int				main(int ac, char  **av)
 	d.mlx = mlx_init();
 	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
-	if (!d.def_color.x)
-		color_map(&d);
 	fdf(&d);
 	return (0);
 }

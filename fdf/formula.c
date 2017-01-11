@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/08 20:37:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/11 23:58:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,4 @@ double		spher_phi(t_3d *d)
 	double	p;
 	p = atan2(d->y, d->x);
 	return (p < 0) ? p + 2 * M_PI : p;
-}
-
-int			cart_to_spher(t_3d *d)
-{
-	d->theta = acos(d->z);
-	d->phi = atan2(d->y, d->x);
-	return (1);
-}
-
-int			spher_to_cart(t_3d *d)
-{
-	d->x = cos(d->phi) * sin(d->theta);
-	d->y = sin(d->phi) * sin(d->theta);
-	d->z = cos(d->theta);
-	return (1); 
-}
-
-t_3d		*rotate_point(t_3d *d, t_xy i)
-{
-	t_xyz	new;
-
-	new.x = i.x;
-	new.y = i.y;
-	new.z = 0;
-	return (d);
 }

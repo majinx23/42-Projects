@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 20:08:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 00:49:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,18 @@ void	create_image(t_3d *d)
 ** of d->data_address and then cast it as (int *) before dereferencing to
 ** save color value inside.
 */
-void	put_pixel_in_img(t_3d *d, int x, int y, unsigned color)
+void	put_pixel_in_img(t_3d *d, t_fxy a, t_argb c)
 {
+	int			x;
+	int			y;
+	unsigned	color;
+
+	x = d->offs.x + round(a.x);
+	y = d->offs.y + round(a.y);
+	color = (ft_clamp((int)(round(c.r) + d->l.r - 1), 0, 0xff) << 16) +
+		(ft_clamp((int)(round(c.g) + d->l.g - 1), 0, 0xff) << 8) +
+		ft_clamp(round(c.b) + d->l.b - 1, 0, 0xff) +
+		(ft_clamp(((int)round(c.a) + d->l.a - 1), 0, 0xff) << 24);
 	if (x > 0 && y > 0 && x < d->dimension.x && y < d->dimension.y)
 		*(int *)&d->data_address[(x * d->bpp / 8) +
 			(y * d->line_size)] = color;
@@ -83,9 +93,7 @@ void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
 	grad = gradient(c.x, c.y, pixel);
 	while (pixel--)
 	{
-		put_pixel_in_img(d, d->offs.x + round(a.x), d->offs.y + round(a.y),
-				((int)round(grad.x.r) << 16) + ((int)round(grad.x.g) << 8)
-				+ round(grad.x.b) + (((int)round(grad.x.a) + d->g) << 24));
+		put_pixel_in_img(d, a, grad.x);
 		a.x += i.x;
 		a.y += i.y;
 		grad.x.r += grad.y.r;
@@ -106,18 +114,18 @@ void	draw(t_3d *d)
 		i.x = -1;
 		while (++i.x < d->x)
 		{
-			if (!(color.x = d->c[i.y][i.x]))
-				color.x = 0x00ff00;
+		//	if (!(color.x = d->c[i.y][i.x]))
+			color.x = d->c[i.y][i.x];
 			if (i.x < d->x - 1)
 			{
-				if (!(color.y = d->c[i.y][i.x + 1]))
-					color.y = 0x00ff00;
+			//	if (!(color.y = d->c[i.y][i.x + 1]))
+				color.y = d->c[i.y][i.x + 1];
 				lines_draw(d, d->n[i.y][i.x], d->n[i.y][i.x + 1], color);
 			}
 			if (i.y < d->y - 1)
 			{
-				if (!(color.y = d->c[i.y + 1][i.x]))
-					color.y = 0x00ff00;
+			//	if (!(color.y = d->c[i.y + 1][i.x]))
+				color.y = d->c[i.y + 1][i.x];
 				lines_draw(d, d->n[i.y][i.x], d->n[i.y + 1][i.x], color);
 			}
 		}

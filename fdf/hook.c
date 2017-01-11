@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 22:20:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 00:48:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	init_variables(t_3d *d)
 	d->depth = 3125;
 	d->img = NULL;
 	d->season = 0;
-	d->g = 0;
+	d->l.r = 0;
+	d->l.g = 0;
+	d->l.b = 0;
+	d->l.a = 0;
 	d->angle.x = 0;
 	d->angle.y = 0;
 	d->angle.z = 0;
@@ -45,10 +48,22 @@ static	int	user_input3(int keycode, t_3d *d)
 		d->season = (d->season < 3) ? d->season + 1 : 0;
 		color_map(d);
 	}
-	else if (keycode == 47 && d->g < 0xf9)
-		d->g = d->g + 8;
-	else if (keycode == 43 && d->g)
-		d->g = d->g - 8;
+	else if (keycode == 47)
+		d->l.a = ft_clamp((int)d->l.a + 4, 0, 0xff);
+	else if (keycode == 43)
+		d->l.a = ft_clamp((int)d->l.a - 4, 0, 0xff);
+	else if (keycode == 25)
+	{
+		d->l.r = ft_clamp((int)d->l.r + 4, -0xff, 0xff);
+		d->l.g = ft_clamp((int)d->l.g + 4, -0xff, 0xff);
+		d->l.b = ft_clamp((int)d->l.b + 4, -0xff, 0xff);
+	}
+	else if (keycode == 29)
+	{
+		d->l.r = ft_clamp((int)d->l.r - 4, -0xff, 0xff);
+		d->l.g = ft_clamp((int)d->l.g - 4, -0xff, 0xff);
+		d->l.b = ft_clamp((int)d->l.b - 4, -0xff, 0xff);
+	}
 	return (1);
 }
 
@@ -71,7 +86,7 @@ static	int	user_input2(int keycode, t_3d *d)
 
 int			user_input(int keycode, t_3d *d)
 {
-	printf("ok%d\n", keycode);
+	printf("ok%d\n", keycode);//
 	if (keycode == 53)
 	{
 		mlx_destroy_window(d->mlx, d->w);
