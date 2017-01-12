@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 18:40:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 23:30:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void	draw(t_3d *d)
 
 int		fdf(t_3d *d)
 {
+	apply_matrix(d);
 	convert_3_to_2d(d);
 	create_image(d);
 	draw(d);

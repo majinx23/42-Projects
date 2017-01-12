@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 18:39:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 00:10:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 /*
 ** PI is equal to PI * 2^24 or << 24
 */
-# define PI 314159.265359
+# define PI 3.14159265359
 /*
 ** macros used for still inputs
 */
@@ -116,6 +116,7 @@ typedef struct	s_vector
 	float	x;
 	float	y;
 	float	z;
+	float	w;
 }				t_vector;
 
 typedef struct	s_fxyzw
@@ -181,10 +182,12 @@ typedef struct	s_3d
 	t_xy		offs;
 	t_xy		colors;
 	float		**matrix;
+	float		**matrix_tmp;
 	short		z_max;
 	short		z_min;
 	short		season;
 	t_argb		l;
+	t_vector	scaling;
 	t_vector	angle;
 	short		display;
 }				t_3d;
@@ -233,8 +236,10 @@ float			**identity_matrix(void);
 float			**matrix_rotation_x(float x);
 float			**matrix_rotation_y(float y);
 float			**matrix_rotation_z(float z);
+float			**matrix_scaling(t_vector v);
+float			**matrix_translation(t_vector v);
 void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_point(float **m, t_vector v);
+t_vector		apply_matrix_to_point(float **m, t_vector v, t_index center);
 float			**factor_matrix(float **a, float **b);
 void			rotate(t_3d *d, char axis, char direction);
 

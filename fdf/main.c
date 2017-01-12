@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 18:37:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 23:52:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ static	void	get_window_w_and_h(t_3d *d)
 int				get_depth_and_colors(t_3d *d)
 {
 	t_index	i;
+	d->z_min = 0;
+	d->z_max = 0;
 
 	if (!(d->m = (t_vector **)malloc(sizeof(t_vector *) * d->y))
 			|| (!(d->c = (int **)malloc(sizeof(int *) * d->y))))
@@ -183,6 +185,7 @@ int				main(int ac, char  **av)
 		return (ft_error("Window's creation failed"));
 	if (!malloc_map(&d))
 				return (ft_error("Conversion to isometric 3d failed"));
+	color_map(&d);
 	fdf(&d);
 	return (0);
 }

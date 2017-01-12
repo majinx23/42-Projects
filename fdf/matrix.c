@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:35:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 18:29:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 23:57:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,29 @@ float	**identity_matrix(void)
 	return (m);
 }
 
+float	**matrix_scaling(t_vector v)
+{
+	float	**m;
+
+	if (!(m = identity_matrix()))
+		return (0);
+	m[0][0] = v.x;
+	m[1][1] = v.y;
+	m[2][2] = v.z;
+	return (m);
+}
+
+float	**matrix_translation(t_vector v)
+{
+	float	**m;
+
+	if (!(m = identity_matrix()))
+		return (0);
+	m[0][3] = v.x;
+	m[1][3] = v.y;
+	return (m);
+}
+
 float	**matrix_rotation_x(float x)
 {
 	float	**m;
@@ -43,8 +66,8 @@ float	**matrix_rotation_x(float x)
 	if (!(m = identity_matrix()))
 		return (0);
 	m[1][1] = cos(x);
-	m[1][2] = sin(x);
-	m[2][1] = -sin(x);
+	m[1][2] = -sin(x);
+	m[2][1] = sin(x);
 	m[2][2] = cos(x);
 	return (m);
 }
