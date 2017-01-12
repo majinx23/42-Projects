@@ -23,6 +23,3 @@ $> ./fdf map.fdf
 
 ## Contact & contribute
 To contact me and helping me to (fix bugs || improve) FDF, feel free to e-mail me at **angavrel at student dot 42 dot fr**
-
-## Random and totally unrelated stuff
-<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fchipsetnoi%2Fvideos%2F1313145338760917%2F&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
