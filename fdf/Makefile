@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/11 22:21:13 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/12 18:38:18 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC_NAME = main.c \
 		   color.c \
 		   hook.c \
 		   matrix.c \
-			matrix2.c
+		   matrix2.c \
+		   memory_manager.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

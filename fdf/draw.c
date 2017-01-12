@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 00:49:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 18:40:13 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,7 @@ void	draw(t_3d *d)
 
 int		fdf(t_3d *d)
 {
-	if (!convert_3_to_2d(d))
-		return (ft_error("Conversion to isometric 3d failed"));
+	convert_3_to_2d(d);
 	create_image(d);
 	draw(d);
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 00:28:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 18:37:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ int				main(int ac, char  **av)
 	d.mlx = mlx_init();
 	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
+	if (!malloc_map(&d))
+				return (ft_error("Conversion to isometric 3d failed"));
 	fdf(&d);
 	return (0);
 }

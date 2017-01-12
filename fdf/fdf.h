@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 00:43:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 18:39:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ typedef struct	s_3d
 	short		season;
 	t_argb		l;
 	t_vector	angle;
+	short		display;
 }				t_3d;
 
 /*
@@ -241,5 +242,11 @@ void			rotate(t_3d *d, char axis, char direction);
 ** matrix2.c ~ vectors translation and rotation
 */
 t_3d			*rotate_point(t_3d *d, t_xy i);
+
+
+/*
+** functions handling memory
+*/
+int				malloc_map(t_3d *d);
 
 #endif

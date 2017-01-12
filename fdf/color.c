@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 19:52:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/12 16:46:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static	unsigned	season(int ssaw, int level)
 
 	season[0][0] = NICE_BLUE;
 	season[0][1] = LAWN_GREEN;
-	season[0][2] = YELLOW;
+	season[0][2] = BROWN;
 	season[0][3] = WHITE;
-	season[1][0] = CYAN ;
+	season[1][0] = CYAN;
 	season[1][1] = NICE_BLUE;
 	season[1][2] = RED;
 	season[1][3] = WHITE;
