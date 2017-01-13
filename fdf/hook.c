@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 00:23:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 02:31:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ int		rotation_translation_hook(int k, t_3d *d)
 	if (k >= 123 && k <= 126)
 	{
 		if (k == 123 || k == 124)
-			d->offs.x += (k == 123) ? -d->zoom : d->zoom;
+			d->offs.x += (k == 123) ? -20 : 20;
 		else if (k == 125 || k == 126)
-			d->offs.y += (k == 125) ? d->zoom : -d->zoom;
+			d->offs.y += (k == 125) ? 20 : -20;;
 	}
 	return (1);
 }
@@ -118,8 +118,6 @@ int		rotation_translation_hook(int k, t_3d *d)
 
 int		user_input(int k, t_3d *d)
 {
-	float	a;
-
 	printf("ok%d\n", k);//
 	if (k == 53)
 	{
@@ -131,12 +129,10 @@ int		user_input(int k, t_3d *d)
 		init_variables(d);
 	if (k == 69 || k == 78)
 	{
-		a = (k == 69) ? 1.25 : 0.8;
-		d->scaling.x *= a ;
-		d->scaling.y *= a;
-		d->scaling.z *= a;
+		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
+		d->scaling.y *= (k == 69) ? 1.25 : 0.8;
+		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.w = 1;
-		d->matrix = matrix_scaling(d->scaling);
 	}
 	/*	else if (keycode == 69 && d->zoom < 300)
 		d->zoom *= 1.25;

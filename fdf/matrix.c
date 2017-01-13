@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:35:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 23:57:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 01:49:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,20 @@ float	**matrix_scaling(t_vector v)
 {
 	float	**m;
 
-	if (!(m = identity_matrix()))
-		return (0);
+	m = identity_matrix();
 	m[0][0] = v.x;
 	m[1][1] = v.y;
 	m[2][2] = v.z;
 	return (m);
 }
 
-float	**matrix_translation(t_vector v)
+float	**matrix_translation(t_xy offset)
 {
 	float	**m;
 
-	if (!(m = identity_matrix()))
-		return (0);
-	m[0][3] = v.x;
-	m[1][3] = v.y;
+	m = identity_matrix();
+	m[0][3] = offset.x;
+	m[1][3] = offset.y;
 	return (m);
 }
 
@@ -63,8 +61,7 @@ float	**matrix_rotation_x(float x)
 {
 	float	**m;
 
-	if (!(m = identity_matrix()))
-		return (0);
+	m = identity_matrix();
 	m[1][1] = cos(x);
 	m[1][2] = -sin(x);
 	m[2][1] = sin(x);
@@ -76,8 +73,7 @@ float	**matrix_rotation_y(float y)
 {
 	float	**m;
 
-	if (!(m = identity_matrix()))
-		return (0);
+	m = identity_matrix();
 	m[0][0] = cos(y);
 	m[0][2] = sin(y);
 	m[2][0] = -sin(y);
@@ -89,8 +85,7 @@ float	**matrix_rotation_z(float z)
 {
 	float	**m;
 
-	if (!(m = identity_matrix()))
-		return (0);
+	m = identity_matrix();
 	m[0][0] = cos(z);
 	m[0][1] = -sin(z);
 	m[1][0] = sin(z);

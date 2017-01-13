@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 00:10:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 02:30:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@
 
 
 # define TITLE "FDF"
+
 /*
 ** PI is equal to PI * 2^24 or << 24
 */
-# define PI 3.14159265359
+
+# define PI 31.41927
+
 /*
 ** macros used for still inputs
 */
@@ -162,7 +165,7 @@ typedef struct	s_3d
 	short		y;
 	short		x;
 	float		z;
-	long		depth;
+	float		depth;
 	float		v;
 	t_vector	**m; //stores orginial input from file (z coords)
 	t_vector	**mm; //modified 3d coords
@@ -232,12 +235,13 @@ t_argb2			gradient(unsigned a, unsigned b, int pixel);
 /*
 ** matrix rotations
 */
+
 float			**identity_matrix(void);
 float			**matrix_rotation_x(float x);
 float			**matrix_rotation_y(float y);
 float			**matrix_rotation_z(float z);
 float			**matrix_scaling(t_vector v);
-float			**matrix_translation(t_vector v);
+float			**matrix_translation(t_xy offset);
 void			apply_matrix(t_3d *d);
 t_vector		apply_matrix_to_point(float **m, t_vector v, t_index center);
 float			**factor_matrix(float **a, float **b);
@@ -246,8 +250,8 @@ void			rotate(t_3d *d, char axis, char direction);
 /*
 ** matrix2.c ~ vectors translation and rotation
 */
-t_3d			*rotate_point(t_3d *d, t_xy i);
 
+t_3d			*rotate_point(t_3d *d, t_xy i);
 
 /*
 ** functions handling memory

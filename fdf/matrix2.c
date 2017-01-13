@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 16:23:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 00:40:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 02:11:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ int			convert_3_to_2d(t_3d *d)
 {
 	t_index		i;
 
+	printf("%d", d->dimension.x);
+	printf("%d", d->dimension.y);
+	d->dimension.x = 1800;
+	d->dimension.y = 1200;
 	apply_matrix(d);
 	i.y = 0;
 	while (i.y < d->y)
@@ -41,10 +45,10 @@ int			convert_3_to_2d(t_3d *d)
 		{
 			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix,
 					d->m[i.y][i.x], d->dimension);
-			d->n[i.y][i.x].y = d->offs.y + /*d->zoom * */
+			d->n[i.y][i.x].y = /*d->offs.y + d->zoom * */
 				get_3d_y(d->mm[i.y][i.x].x,
 						d->mm[i.y][i.x].y, d->mm[i.y][i.x].z, d);
-			d->n[i.y][i.x].x = d->offs.x + /*d->zoom * */
+			d->n[i.y][i.x].x = /*d->offs.x + d->zoom * */
 				get_3d_x(d->mm[i.y][i.x].x, d->mm[i.y][i.x].y);
 			++i.x;
 		}
@@ -67,6 +71,8 @@ void		apply_matrix(t_3d *d)
 	//print_matrix(d->matrix_tmp);
 	d->matrix = factor_matrix(d->matrix_tmp, matrix_rotation_x(d->angle.x));
 	//print_matrix(d->matrix);
+	d->matrix_tmp = factor_matrix(d->matrix, matrix_translation(d->offs));
+	d->matrix = d->matrix_tmp;
 	printf("matrix print finished\n");
 }
 
@@ -117,15 +123,15 @@ float		**factor_matrix(float **a, float **b)
 
 void		rotate(t_3d *d, char axis, char i)
 {
+	float	a;
+
+	a = (5.625 * PI) / 1800;
 	if (axis == 'z' || axis == 'a')
-		d->angle.z = (i == '+') ? d->angle.z + (5.625 * PI) / 180 :
-			d->angle.z - (5.625 * PI) / 180;
+		d->angle.z += (i == '+') ? a : -a;
 	if (axis == 'y' || axis == 'a')
-		d->angle.y = (i == '+') ? d->angle.y + (5.625 * PI) / 180 :
-			d->angle.y - (5.625 * PI) / 180;
+		d->angle.y += (i == '+') ? a : -a;
 	if (axis == 'x' || axis == 'a')
-		d->angle.x = (i == '+') ? d->angle.x + (5.625 * PI) / 180 :
-			d->angle.x - (5.625 * PI) / 180;
+		d->angle.x += (i == '+') ? a : -a;
 	//	print_matrix(d->matrix);
 	convert_3_to_2d(d);
 	//	free(d->matrix);
