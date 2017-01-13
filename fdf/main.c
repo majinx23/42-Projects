@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/12 23:52:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 19:06:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@ static int		get_x_y(t_3d *d, char *s)
 	if (get_next_line(fd, &line) == 1)
 	{
 		d->s = ft_strdup(line);
-		d->x = check_validity(line);
-		++d->y;
+		d->max.x = check_validity(line);
+		++d->max.y;
 		(line) ? free(line) : 0;
 	}
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (d->x != check_validity(line))
+		if (d->max.x != check_validity(line))
 			return (ft_error("Invalid file"));
 		d->s = ft_strjoin(d->s, " ");
 		d->s = ft_strjoin(d->s, line);
-		++d->y;
+		++d->max.y;
 		(line) ? free(line) : 0;
 	}
 	close(fd);
-	if (d->x > 1)
+	if (d->max.x > 1)
 		return (1);
-	return (d->x ? ft_error("One tile only") : ft_error("Empty file"));
+	return (d->max.x ? ft_error("One tile only") : ft_error("Empty file"));
 }
 
 
@@ -97,6 +97,7 @@ static	int		get_colors(t_3d *d)
 		return (0xffffff);
 	}
 	d->s += n;
+	d->season = 1;
 	return (c);
 }
 
@@ -105,26 +106,12 @@ static	int		get_colors(t_3d *d)
 */
 static	void	get_window_w_and_h(t_3d *d)
 {
-	t_xy	i;
-
-	i.y = 0;
-	d->offs.y = 0;
-	d->offs.x = 0;
-	while (i.y < d->y)
-	{
-		i.x = 0;
-		while (i.x < d->x)
-		{
-			if (d->offs.y < d->m[i.y][i.x].z - i.x / 2)
-				d->offs.y = d->m[i.y][i.x].z - i.x / 2;
-			if (d->offs.x < d->m[i.y][i.x].z + i.y / 2)
-				d->offs.x = d->m[i.y][i.x].z + i.y / 2;
-			++i.x;
-		}
-		++i.y;
-	}
-	d->dimension.y = 8 * (d->offs.x - d->offs.y) * 3.6;
-	d->dimension.x = 8 * 1.2 * (d->x + d->y);
+	d->dimension.y = 1400;
+	d->dimension.x = 2000;
+	d->center.y = d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y / 2;
+	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].y / 2;
+	d->offs.y = d->dimension.y / 2 - d->center.y;
+	d->offs.x = d->dimension.x / 2 - d->center.x;
 }
 
 /*
@@ -137,16 +124,16 @@ int				get_depth_and_colors(t_3d *d)
 	d->z_min = 0;
 	d->z_max = 0;
 
-	if (!(d->m = (t_vector **)malloc(sizeof(t_vector *) * d->y))
-			|| (!(d->c = (int **)malloc(sizeof(int *) * d->y))))
+	if (!(d->m = (t_vector **)malloc(sizeof(t_vector *) * d->max.y))
+			|| (!(d->c = (int **)malloc(sizeof(int *) * d->max.y))))
 		return (0);
 	i.y = -1;
-	while (++i.y < d->y && (i.x = -1) != 0)
+	while (++i.y < d->max.y && (i.x = -1) != 0)
 	{
-		if (!(d->m[i.y] = (t_vector *)malloc(sizeof(t_vector) * d->x))
-				|| (!(d->c[i.y] = (int *)malloc(sizeof(int) * d->x))))
+		if (!(d->m[i.y] = (t_vector *)malloc(sizeof(t_vector) * d->max.x))
+				|| (!(d->c[i.y] = (int *)malloc(sizeof(int) * d->max.x))))
 			return (0);
-		while (++i.x < d->x)
+		while (++i.x < d->max.x)
 		{
 			while (*d->s && *d->s == ' ')
 				++d->s;
@@ -156,7 +143,9 @@ int				get_depth_and_colors(t_3d *d)
 			d->m[i.y][i.x].z > d->z_max ? d->z_max = d->m[i.y][i.x].z : 0;
 			d->m[i.y][i.x].z < d->z_min ? d->z_min = d->m[i.y][i.x].z : 0;
 			d->c[i.y][i.x] = get_colors(d);
+			printf("%f, %f, %f", d->m[i.y][i.x].x, d->m[i.y][i.x].y, d->m[i.y][i.x].z);
 		}
+		printf("\n");
 	}
 //	printmap(d);
 	return (1);
@@ -170,22 +159,21 @@ int				main(int ac, char  **av)
 	t_3d	d;
 	int		fd;
 
-	d.x = 0;
-	d.y = 0;
 	if (ac < 2)
 		return (ft_error("Usage: ./fdf [File]"));
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 		return (ft_error("Could not open file"));
+	init_variables(&d);
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d))
 		return (ft_error("Malloc failed"));
 	get_window_w_and_h(&d);
-	init_variables(&d);
 	d.mlx = mlx_init();
 	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
 	if (!malloc_map(&d))
 				return (ft_error("Conversion to isometric 3d failed"));
-	color_map(&d);
+	if (d.season != 4)
+		color_map(&d);
 	fdf(&d);
 	return (0);
 }

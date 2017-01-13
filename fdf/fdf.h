@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 02:30:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 19:04:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,9 @@ typedef struct	s_uabcd
 
 typedef struct	s_3d
 {
-	short		y;
-	short		x;
+	t_index		max;
+	t_xy		offs;
+	t_xy		center;
 	float		z;
 	float		depth;
 	float		v;
@@ -181,8 +182,6 @@ typedef struct	s_3d
 	int			bpp;
 	int			line_size;
 	int			endian;
-	float		zoom;
-	t_xy		offs;
 	t_xy		colors;
 	float		**matrix;
 	float		**matrix_tmp;
@@ -207,7 +206,7 @@ float			vector_len(int x, int y, int z);
 ** formula.c ~ formulas, coordinates calculation and variables initialization
 */
 
-float			get_3d_y(int x, int y, int z, t_3d *d);
+float			get_3d_y(int x, int y, float z);
 float			get_3d_x(int x, int y);
 int				convert_3_to_2d(t_3d *d);
 void			init_variables(t_3d *d);
@@ -243,7 +242,7 @@ float			**matrix_rotation_z(float z);
 float			**matrix_scaling(t_vector v);
 float			**matrix_translation(t_xy offset);
 void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_point(float **m, t_vector v, t_index center);
+t_vector		apply_matrix_to_point(float **m, t_vector v, t_xy center);
 float			**factor_matrix(float **a, float **b);
 void			rotate(t_3d *d, char axis, char direction);
 
@@ -257,5 +256,7 @@ t_3d			*rotate_point(t_3d *d, t_xy i);
 ** functions handling memory
 */
 int				malloc_map(t_3d *d);
+void			free_all(t_3d *d);
+void			free_matrix(float **m);
 
 #endif

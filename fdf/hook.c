@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 02:31:17 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 19:08:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,16 @@
 
 void	init_variables(t_3d *d)
 {
+	d->max = (t_index) {.x = 0, .y = 0};
+	d->offs = (t_xy) {.x = 0, .y = 0};
+	d->center = (t_xy) {.x = 0, .y = 0};
+	d->dimension = (t_index) {.x = 0, .y = 0};
 	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1, .w = 1};
-	d->offs.x = 0.1 * (d->x + d->y);
-	d->offs.y = d->x * 2;
-	d->zoom = 6;
-	d->depth = 3125;
+	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
+	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
+	d->depth = 2;
 	d->img = NULL;
 	d->season = 0;
-	d->l.r = 0;
-	d->l.g = 0;
-	d->l.b = 0;
-	d->l.a = 0;
-	d->angle.x = 0;
-	d->angle.y = 0;
-	d->angle.z = 0;
 	d->display = 1;
 }
 
@@ -66,7 +62,7 @@ int			mouse_hook(int button, int x, int y, t_3d *d)
 	return (1);
 }
 
-int		user_input3(int k, t_3d *d)
+int		color_hook(int k, t_3d *d)
 {
 	if (k == 35)
 	{
@@ -121,29 +117,26 @@ int		user_input(int k, t_3d *d)
 	printf("ok%d\n", k);//
 	if (k == 53)
 	{
+		free_all(d);
 		mlx_destroy_window(d->mlx, d->w);
 		exit(0);
 		return (0);
 	}
 	else if (k == 49)
 		init_variables(d);
-	if (k == 69 || k == 78)
+	if ((k == 69 && d->scaling.x < 10) || (k == 78 && d->scaling.x > 0.1))
 	{
 		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.y *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.w = 1;
 	}
-	/*	else if (keycode == 69 && d->zoom < 300)
-		d->zoom *= 1.25;
-		else if (keycode == 78 && d->zoom > 1.25)
-		d->zoom *= 0.80;*/
 	else if (k == 12 && d->depth > 25)
 		d->depth *= 0.80;
 	else if (k == 14 && d->depth < 7600)
 		d->depth *= 1.25;
 	rotation_translation_hook(k, d);
-	user_input3(k, d);
+	color_hook(k, d);
 	fdf(d);
 	return (1);
 }

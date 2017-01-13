@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 16:23:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 02:11:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/13 19:08:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_matrix(float **m)
 {
-	t_xyz	i;
+	t_index	i;
 
 	i.y = -1;
 	while (++i.y < 4)
@@ -32,26 +32,24 @@ int			convert_3_to_2d(t_3d *d)
 {
 	t_index		i;
 
-	printf("%d", d->dimension.x);
-	printf("%d", d->dimension.y);
-	d->dimension.x = 1800;
-	d->dimension.y = 1200;
-	apply_matrix(d);
+
+	//apply_matrix(d);
 	i.y = 0;
-	while (i.y < d->y)
+	while (i.y < d->max.y)
 	{
 		i.x = 0;
-		while (i.x < d->x)
+		while (i.x < d->max.x)
 		{
-			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix,
-					d->m[i.y][i.x], d->dimension);
+			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix, d->m[i.y][i.x], d->center);
 			d->n[i.y][i.x].y = /*d->offs.y + d->zoom * */
-				get_3d_y(d->mm[i.y][i.x].x,
-						d->mm[i.y][i.x].y, d->mm[i.y][i.x].z, d);
+				get_3d_y(d->m[i.y][i.x].x,
+						d->m[i.y][i.x].y, d->m[i.y][i.x].z * d->depth);
 			d->n[i.y][i.x].x = /*d->offs.x + d->zoom * */
-				get_3d_x(d->mm[i.y][i.x].x, d->mm[i.y][i.x].y);
+				get_3d_x(d->m[i.y][i.x].x, d->m[i.y][i.x].y);
 			++i.x;
+			printf("(%f, %f)", d->n[i.y][i.x].x, d->n[i.y][i.x].y);
 		}
+		printf("\n");
 		++i.y;
 	}
 	return (1);
@@ -59,30 +57,27 @@ int			convert_3_to_2d(t_3d *d)
 
 void		apply_matrix(t_3d *d)
 {
-	d->matrix_tmp = NULL;
 	d->matrix = identity_matrix();
 	//print_matrix(d->matrix);
-	printf("matrix after scaling :\n");
-	d->matrix_tmp = factor_matrix(d->matrix, matrix_scaling(d->scaling));
-	print_matrix(matrix_scaling(d->scaling));
-	d->matrix = factor_matrix(d->matrix_tmp, matrix_rotation_z(d->angle.z));
+//	printf("matrix after scaling :\n");
+	d->matrix = factor_matrix(d->matrix, matrix_scaling(d->scaling));
+//	print_matrix(matrix_scaling(d->scaling));
+	d->matrix = factor_matrix(d->matrix, matrix_rotation_z(d->angle.z));
 	//print_matrix(d->matrix);
-	d->matrix_tmp = factor_matrix(d->matrix, matrix_rotation_y(d->angle.y));
+	d->matrix = factor_matrix(d->matrix, matrix_rotation_y(d->angle.y));
 	//print_matrix(d->matrix_tmp);
-	d->matrix = factor_matrix(d->matrix_tmp, matrix_rotation_x(d->angle.x));
+	d->matrix = factor_matrix(d->matrix, matrix_rotation_x(d->angle.x));
 	//print_matrix(d->matrix);
-	d->matrix_tmp = factor_matrix(d->matrix, matrix_translation(d->offs));
-	d->matrix = d->matrix_tmp;
-	printf("matrix print finished\n");
+//	d->matrix = factor_matrix(d->matrix, matrix_translation(d->offs));
+	//d->matrix = d->matrix_tmp;
+//	printf("matrix print finished\n");
+	printf("angle z : %f\n",d->angle.z);
 }
 
-t_vector	apply_matrix_to_point(float **m, t_vector v, t_index center)
+t_vector	apply_matrix_to_point(float **m, t_vector v, t_xy c)
 {
 	t_vector	n;
-	t_index		c;
 
-	c.x = center.x >> 1;
-	c.y = center.y >> 1;
 	v.x -= c.x;
 	v.y -= c.y;
 	n.x = v.x * m[0][0] + v.y * m[0][1] + v.z * m[0][2] + m[0][3] + c.x;
