@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 17:54:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:41:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,9 +236,7 @@ t_argb2			gradient(unsigned a, unsigned b, int pixel);
 */
 
 float			**identity_matrix(void);
-float			**matrix_rotation_x(float x);
-float			**matrix_rotation_y(float y);
-float			**matrix_rotation_z(float z);
+float			**matrix_rotation(float angle, char axis);
 float			**matrix_scaling(t_vector scaling);
 float			**matrix_translation(t_vector offset);
 void			apply_matrix(t_3d *d);

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:35:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 17:42:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:35:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,38 +59,31 @@ float	**matrix_translation(t_vector offset)
 	return (m);
 }
 
-float	**matrix_rotation_x(float x)
+float	**matrix_rotation(float x, char axis)
 {
 	float	**m;
 
 	m = identity_matrix();
-	m[1][1] = cos(x);
-	m[1][2] = -sin(x);
-	m[2][1] = sin(x);
-	m[2][2] = cos(x);
-	return (m);
-}
-
-float	**matrix_rotation_y(float y)
-{
-	float	**m;
-
-	m = identity_matrix();
-	m[0][0] = cos(y);
-	m[0][2] = sin(y);
-	m[2][0] = -sin(y);
-	m[2][2] = cos(y);
-	return (m);
-}
-
-float	**matrix_rotation_z(float z)
-{
-	float	**m;
-
-	m = identity_matrix();
-	m[0][0] = cos(z);
-	m[0][1] = -sin(z);
-	m[1][0] = sin(z);
-	m[1][1] = cos(z);
+	if (axis == 'x')
+	{
+		m[1][1] = cos(x);
+		m[1][2] = sin(x);
+		m[2][1] = -sin(x);
+		m[2][2] = cos(x);
+	}
+	else if (axis == 'y')
+	{
+		m[0][0] = cos(x);
+		m[0][2] = sin(x);
+		m[2][0] = -sin(x);
+		m[2][2] = cos(x);
+	}
+	else if (axis == 'z')
+	{
+		m[0][0] = cos(x);
+		m[0][1] = -sin(x);
+		m[1][0] = sin(x);
+		m[1][1] = cos(x);
+	}
 	return (m);
 }
