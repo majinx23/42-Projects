@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 18:56:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 16:41:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int		fdf(t_3d *d)
 //	apply_matrix(d);
 	convert_3_to_2d(d);
 	create_image(d);
-	printf("draw %lu\n ", d->offs.x);
+	printf("draw %.f\n ", d->offs.x);
 	draw(d);
 	printf("put image to window\n");
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 19:08:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 16:45:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 void	init_variables(t_3d *d)
 {
 	d->max = (t_index) {.x = 0, .y = 0};
-	d->offs = (t_xy) {.x = 0, .y = 0};
-	d->center = (t_xy) {.x = 0, .y = 0};
+	d->offs = (t_vector) {.x = 1, .y = 1, .z = 1, .w = 1};
+	d->center = (t_fxy) {.x = 0, .y = 0};
 	d->dimension = (t_index) {.x = 0, .y = 0};
 	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1, .w = 1};
 	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};

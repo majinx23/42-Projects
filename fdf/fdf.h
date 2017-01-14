@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 19:04:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 17:00:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,10 +163,11 @@ typedef struct	s_uabcd
 typedef struct	s_3d
 {
 	t_index		max;
-	t_xy		offs;
-	t_xy		center;
-	float		z;
 	float		depth;
+	t_vector	offs;
+	t_vector	scaling;
+	t_fxy		center;
+	float		z;
 	float		v;
 	t_vector	**m; //stores orginial input from file (z coords)
 	t_vector	**mm; //modified 3d coords
@@ -184,12 +185,10 @@ typedef struct	s_3d
 	int			endian;
 	t_xy		colors;
 	float		**matrix;
-	float		**matrix_tmp;
 	short		z_max;
 	short		z_min;
 	short		season;
 	t_argb		l;
-	t_vector	scaling;
 	t_vector	angle;
 	short		display;
 }				t_3d;
@@ -206,8 +205,8 @@ float			vector_len(int x, int y, int z);
 ** formula.c ~ formulas, coordinates calculation and variables initialization
 */
 
-float			get_3d_y(int x, int y, float z);
-float			get_3d_x(int x, int y);
+float			get_3d_y(t_vector a, float depth);
+float			get_3d_x(t_vector a);
 int				convert_3_to_2d(t_3d *d);
 void			init_variables(t_3d *d);
 short			width(t_3d *d);
@@ -239,10 +238,10 @@ float			**identity_matrix(void);
 float			**matrix_rotation_x(float x);
 float			**matrix_rotation_y(float y);
 float			**matrix_rotation_z(float z);
-float			**matrix_scaling(t_vector v);
-float			**matrix_translation(t_xy offset);
+float			**matrix_scaling(t_vector scaling);
+float			**matrix_translation(t_vector offset);
 void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_point(float **m, t_vector v, t_xy center);
+t_vector		apply_matrix_to_point(float **m, t_vector v, t_fxy center);
 float			**factor_matrix(float **a, float **b);
 void			rotate(t_3d *d, char axis, char direction);
 
