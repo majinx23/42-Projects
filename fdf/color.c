@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 16:00:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 18:45:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,28 @@ t_argb2				gradient(unsigned a, unsigned b, int pixel)
 
 static	unsigned	season(int ssaw, int level)
 {
-	unsigned season[4][4];
+	unsigned season[4][5];
 
-	season[0][0] = NICE_BLUE;
-	season[0][1] = LAWN_GREEN;
-	season[0][2] = BROWN;
-	season[0][3] = WHITE;
-	season[1][0] = CYAN;
-	season[1][1] = NICE_BLUE;
-	season[1][2] = RED;
-	season[1][3] = WHITE;
-	season[2][0] = GOLD;
-	season[2][1] = RED;
-	season[2][2] = GOLD;
-	season[2][3] = WHITE;
-	season[3][0] = CORAL;
-	season[3][1] = SKY_BLUE;
-	season[3][2] = NICE_BLUE;
-	season[3][3] = WHITE;
+	season[0][0] = MIDNIGHT_BLUE;
+	season[0][1] = NICE_BLUE;
+	season[0][2] = LAWN_GREEN;
+	season[0][3] = BROWN;
+	season[0][4] = WHITE;
+	season[1][0] = MIDNIGHT_BLUE;
+	season[1][1] = CYAN;
+	season[1][2] = NICE_BLUE;
+	season[1][3] = RED;
+	season[1][4] = WHITE;
+	season[2][0] = MIDNIGHT_BLUE;
+	season[2][1] = GOLD;
+	season[2][2] = RED;
+	season[2][3] = GOLD;
+	season[2][4] = WHITE;
+	season[3][0] = MIDNIGHT_BLUE;
+	season[3][1] = CORAL;
+	season[3][2] = SKY_BLUE;
+	season[3][3] = NICE_BLUE;
+	season[3][4] = WHITE;
 	return (season[ssaw][level]);
 }
 
@@ -82,14 +86,16 @@ void	color_map(t_3d *d)
 		i.x = 0;
 		while (i.x < d->max.x)
 		{
-			if (d->m[i.y][i.x].z - d->z_min < 0.25 * range)
+			if (d->m[i.y][i.x].z - d->z_min < 0.35 * range)
 				d->c[i.y][i.x] = season(d->season, 0);
-			else if (d->m[i.y][i.x].z - d->z_min < 0.65 * range)
+			else if (d->m[i.y][i.x].z - d->z_min < 0.55 * range)
 				d->c[i.y][i.x] = season(d->season, 1);
-			else if (d->m[i.y][i.x].z - d->z_min < 0.85 * range)
+			else if (d->m[i.y][i.x].z - d->z_min < 0.70 * range)
 				d->c[i.y][i.x] = season(d->season, 2);
-			else
+			else if (d->m[i.y][i.x].z - d->z_min < 0.85 * range)
 				d->c[i.y][i.x] = season(d->season, 3);
+			else
+				d->c[i.y][i.x] = season(d->season, 4);
 			++i.x;
 		}
 		++i.y;

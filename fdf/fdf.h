@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 17:00:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 17:54:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ typedef struct	s_3d
 	int			endian;
 	t_xy		colors;
 	float		**matrix;
+	float		**matrix_tmp;
 	short		z_max;
 	short		z_min;
 	short		season;

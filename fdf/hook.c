@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 16:45:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 18:19:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 
 void	init_variables(t_3d *d)
 {
-	d->max = (t_index) {.x = 0, .y = 0};
-	d->offs = (t_vector) {.x = 1, .y = 1, .z = 1, .w = 1};
-	d->center = (t_fxy) {.x = 0, .y = 0};
-	d->dimension = (t_index) {.x = 0, .y = 0};
+//	d->center.y = d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y / 2;
+//	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].y / 2;
+	d->offs.x = d->dimension.x / 2 - d->center.x;
+	d->offs.y = d->dimension.y / 2 - d->center.y;
+	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1, .w = 1};
 	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1, .w = 1};
 	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
-	d->depth = 2;
+	d->depth = 1;
 	d->img = NULL;
 	d->season = 0;
 	d->display = 1;
@@ -123,7 +124,10 @@ int		user_input(int k, t_3d *d)
 		return (0);
 	}
 	else if (k == 49)
+	{
 		init_variables(d);
+		fdf(d);
+	}
 	if ((k == 69 && d->scaling.x < 10) || (k == 78 && d->scaling.x > 0.1))
 	{
 		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
@@ -131,9 +135,9 @@ int		user_input(int k, t_3d *d)
 		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.w = 1;
 	}
-	else if (k == 12 && d->depth > 25)
+	else if (k == 12 && d->depth > 0.01)
 		d->depth *= 0.80;
-	else if (k == 14 && d->depth < 7600)
+	else if (k == 14 && d->depth < 5)
 		d->depth *= 1.25;
 	rotation_translation_hook(k, d);
 	color_hook(k, d);

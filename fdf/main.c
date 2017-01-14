@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 19:06:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 19:12:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ static	void	get_window_w_and_h(t_3d *d)
 {
 	d->dimension.y = 1400;
 	d->dimension.x = 2000;
-	d->center.y = d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y / 2;
-	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].y / 2;
+	d->center.y = d->m[d->max.y - 1][d->max.x - 1].y / 2;
+	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x / 2;
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs.x = d->dimension.x / 2 - d->center.x;
 }
@@ -120,10 +120,10 @@ static	void	get_window_w_and_h(t_3d *d)
 
 int				get_depth_and_colors(t_3d *d)
 {
-	t_index	i;
+	t_index		i;
+	
 	d->z_min = 0;
 	d->z_max = 0;
-
 	if (!(d->m = (t_vector **)malloc(sizeof(t_vector *) * d->max.y))
 			|| (!(d->c = (int **)malloc(sizeof(int *) * d->max.y))))
 		return (0);
@@ -143,9 +143,9 @@ int				get_depth_and_colors(t_3d *d)
 			d->m[i.y][i.x].z > d->z_max ? d->z_max = d->m[i.y][i.x].z : 0;
 			d->m[i.y][i.x].z < d->z_min ? d->z_min = d->m[i.y][i.x].z : 0;
 			d->c[i.y][i.x] = get_colors(d);
-			printf("%f, %f, %f", d->m[i.y][i.x].x, d->m[i.y][i.x].y, d->m[i.y][i.x].z);
+//			printf("%f, %f, %f", d->m[i.y][i.x].x, d->m[i.y][i.x].y, d->m[i.y][i.x].z);
 		}
-		printf("\n");
+//		printf("\n");
 	}
 //	printmap(d);
 	return (1);
@@ -171,7 +171,7 @@ int				main(int ac, char  **av)
 	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
 	if (!malloc_map(&d))
-				return (ft_error("Conversion to isometric 3d failed"));
+			return (ft_error("Conversion to isometric 3d failed"));
 	if (d.season != 4)
 		color_map(&d);
 	fdf(&d);
