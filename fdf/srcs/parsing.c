@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 19:11:48 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/11 16:05:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:59:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 /*
 ** checks that color is valid and stocks it into *d->c

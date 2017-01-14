@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:41:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:57:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 float		vector_len(int x, int y, int z)
 {

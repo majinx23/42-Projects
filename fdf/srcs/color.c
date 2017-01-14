@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 17:02:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 18:45:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:57:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 /*
 ** stores the needed gradiant color increase in c.y and starting color in c.x

@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 18:33:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/13 17:57:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:58:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 int		malloc_map(t_3d *d)
 {

@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 16:23:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:47:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:57:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 void	print_matrix(float **m)
 {

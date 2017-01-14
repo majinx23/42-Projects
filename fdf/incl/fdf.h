@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:41:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 23:51:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
-# include "libft/libft.h"
-# include "minilibx_macos/mlx.h"
+# include "../libft/libft.h"
+# include "../libmlx/mlx.h"
 # include "colors.h"
 # include "keycode_mac.h"
 

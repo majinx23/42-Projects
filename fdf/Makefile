@@ -6,25 +6,28 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/12 18:38:18 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/14 23:56:45 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+C = clang
+
 NAME = fdf
 
-CC = gcc
+FLAGS = -Wall -Wextra -Werror -O3
 
-CFLAGS = -Wall -Werror -Wextra
+LIBFT = libft
 
-LDFLAGS = -Llibft
+DIR_S = srcs
 
-LDLIBS = -lft
+DIR_O = objs
 
-CPPFLAGS = -I.
+DIR_MLX = libmlx
 
-MLX =-L ./minilibx_macos/ -framework OPENGL -framework AppKit -lmlx
+HEADERS = incl
 
 SRC_NAME = main.c \
+		   parsing.c \
 		   parsing.c \
 		   formula.c \
 		   draw.c \
@@ -34,30 +37,36 @@ SRC_NAME = main.c \
 		   matrix2.c \
 		   memory_manager.c
 
-OBJ_NAME = $(SRC_NAME:.c=.o)
+SRCS = $(addprefix $(DIR_S)/,$(SRC_NAME))
 
-HEAD = $(NAME).h
+OBJS = $(addprefix $(DIR_O)/,$(SRC_NAME:.c=.o))
 
-all: $(NAME)
+all: temp $(NAME)
 
-$(NAME): $(OBJ_NAME)
-	@make -C ./libft
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(MLX) $(LDLIBS) -I ./ $^ -o $@
+$(NAME): $(OBJS)
+#	@make -C $(LIBFT)
+#	@make -C $(DIR_MLX)
+	@$(CC) $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -framework OpenGL -framework AppKit -L $(DIR_MLX) -lmlx
 	@echo "\033[0;32m$(NAME)'s program created.\033[0m"
 
-$(OBJ)%.o: $(SRC)%.c
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+temp:
+	@mkdir -p objs
+
+$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADERS)/$(NAME).h
+	@$(CC) $(FLAGS) -I $(HEADERS) -c -o $@ $<
 
 clean:
-	@rm -f $(OBJ_NAME)
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
+#	@make clean -C $(LIBFT)
+#	@make clean -C $(DIR_MLX)
+	@rm -rf $(DIR_O)
 	@echo "\033[0;32m$(NAME)'s .o files deleted.\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C ./Libft fclean
+#	@make fclean -C $(LIBFT)
 	@echo "\033[0;32m$(NAME) Project fully cleaned.\033[0m"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all, temp, clean, fclean, re

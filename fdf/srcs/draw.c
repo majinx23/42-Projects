@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 16:41:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:57:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 /*
 ** creates a new image

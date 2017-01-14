@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 19:12:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:57:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 /*
 ** Check for map validity, store map in d->s and determine max y and max x.

@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 18:19:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:58:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 /*
  ** Variable initialization

@@ -6,11 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:35:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:35:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/14 22:57:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incl/fdf.h"
 
 float	**identity_matrix(void)
 {
