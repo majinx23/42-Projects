@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:57:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 22:15:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,5 @@ float		get_3d_y(t_vector a, float depth)
 float		get_3d_x(t_vector a)
 {
 	return (a.x + a.y);
-}
-
-double		spher_theta(t_3d *d)
-{
-	return (acos(ft_clamp(d->z, -1, 1)));
 }
 

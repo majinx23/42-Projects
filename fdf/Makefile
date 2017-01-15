@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/15 01:40:53 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/15 07:14:35 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ DIR_MLX = libmlx
 HEADERS = incl
 
 SRC_NAME = main.c \
-		   parsing.c \
 		   parsing.c \
 		   formula.c \
 		   draw.c \

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 03:40:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 22:14:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	init_variables(t_3d *d)
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1};
 	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1};
-	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
+	d->angle = (t_vector) {.x = 4.9, .y = 5.3, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
-	d->obj->img = NULL;
+	d->img = NULL;
 	d->season = 0;
 	d->display = 1;
 }

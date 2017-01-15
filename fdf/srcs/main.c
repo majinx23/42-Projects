@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 03:40:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 21:56:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ static	void	get_window_w_and_h(t_3d *d)
 	d->dimension.y = 1400;
 	d->dimension.x = 2000;
 	ft_putstr("a");
-	d->center.y = d->m[d->max.y - 1][d->max.x - 1].y / 2;
-	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x / 2;
+	d->center.y = (d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y) / 2;
+	d->center.x = (d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].x) / 2;
+	ft_putstr("a");
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs.x = d->dimension.x / 2 - d->center.x;
 }
@@ -169,11 +170,10 @@ int				main(int ac, char  **av)
 		return (ft_error("Malloc failed"));
 	get_window_w_and_h(&d);
 	d.mlx = mlx_init();
-	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, 
-					d.dimension.y, TITLE)))		
+	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
 	if (!malloc_map(&d))
-			return (ft_error("Conversion to isometric 3d failed"));
+		return (ft_error("Conversion to isometric 3d failed"));
 	if (d.season != 4)
 		color_map(&d);
 	fdf(&d);

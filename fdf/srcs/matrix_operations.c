@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 16:23:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 03:10:17 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 22:03:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int			convert_3_to_2d(t_3d *d)
 {
 	t_index		i;
 
+	ft_putstr("baba");
 	apply_matrix(d);
 	i.y = 0;
 	while (i.y < d->max.y)
@@ -64,22 +65,17 @@ void		apply_matrix(t_3d *d)
 	//	printf("matrix after scaling :\n");
 	//	print_matrix(matrix_scaling(d->scaling));
 	//	d->matrix_tmp = matrix_rotation_z(d->angle.z);
-//	d->matrix = factor_matrix(d->matrix, matrix_scaling(d->scaling));
-//	d->matrix = factor_matrix(matrix_rotation(d->angle.z, 'z'), d->matrix);
+	d->matrix = factor_matrix(d->matrix, matrix_scaling(d->scaling));
 	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.z, 'z'));
-//	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.y, 'y'));
-//	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.x, 'x'));
-	print_matrix(d->matrix);
+	ft_putstr("apply matrix\n");
+//	print_matrix(d->matrix);
+	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.y, 'y'));
+	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.x, 'x'));
 	//print_matrix(d->matrix_tmp);
-//	d->matrix = factor_matrix(d->matrix, matrix_magnitude(d->depth));
+	d->matrix = factor_matrix(d->matrix, matrix_magnitude(d->depth));
 	//	d->matrix[0][0] += d->offs.x;
 	//	d->matrix[1][1] += d->offs.y;
 	//print_matrix(d->matrix);
-	//	d->matrix = factor_matrix(d->matrix, matrix_translation(d->offs));
-	//d->matrix = d->matrix_tmp;
-	//	printf("matrix print finished\n");
-	//	d->matrix = factor_matrix(matrix_translation(d->offs), d->matrix);
-	//	printf("angle z : %f\n",d->angle.z);
 }
 
 t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
@@ -88,9 +84,10 @@ t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
 
 	v.x -= c.x;
 	v.y -= c.y;
+	v.z -= c.z;
 	n.x = v.x * m[0][0] + v.y * m[0][1] + v.z * m[0][2] + m[0][3] * v.w + c.x;
 	n.y = v.x * m[1][0] + v.y * m[1][1] + v.z * m[1][2] + m[1][3] * v.w + c.y;
-	n.z = v.x * m[2][0] + v.y * m[2][1] + v.z * m[2][2] + m[2][3] * v.w;
+	n.z = v.x * m[2][0] + v.y * m[2][1] + v.z * m[2][2] + m[2][3] * v.w + c.z;
 	n.w = v.x * m[3][0] + v.y * m[3][1] + v.z * m[3][2] + m[3][3] * v.w;
 	return (n);
 }
