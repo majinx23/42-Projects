@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 01:47:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 03:40:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 void	create_image(t_3d *d)
 {
 //	printf("width : %d   height : %d", d->dimension.x, d->dimension.y);
-	d->img ? mlx_destroy_image(d->mlx, d->img) : 0;
+	d->obj->img ? mlx_destroy_image(d->mlx, d->obj->img) : 0;
 	mlx_clear_window(d->mlx, d->w);
-	d->img = mlx_new_image(d->mlx, d->dimension.x, d->dimension.y);
-	d->data_address = mlx_get_data_addr(d->img, &(d->bpp),
-			&(d->line_size), &(d->endian));
+	d->obj->img = mlx_new_image(d->mlx, d->dimension.x, d->dimension.y);
+	d->obj->data_address = mlx_get_data_addr(d->obj->img, &(d->obj->bpp),
+	&(d->obj->line_size), &(d->obj->endian));
 }
+
 
 /*
 ** Puts exactly one pixel in the image
@@ -38,14 +39,14 @@ void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 	unsigned	color;
 
 	x = round(a.x) + d->offs.x;
-	y = round(a.y)+ d->offs.y;
+	y = round(a.y) + d->offs.y;
 	color = (ft_clamp((int)(round(c.r) + d->l.r - 1), 0, 0xff) << 16) +
 		(ft_clamp((int)(round(c.g) + d->l.g - 1), 0, 0xff) << 8) +
 		ft_clamp(round(c.b) + d->l.b - 1, 0, 0xff) +
 		(ft_clamp(((int)round(c.a) + d->l.a - 1), 0, 0xff) << 24);
 	if (x > 0 && y > 0 && x < d->dimension.x && y < d->dimension.y)
-		*(int *)&d->data_address[(x * d->bpp / 8) +
-			(y * d->line_size)] = color;
+		*(int *)&d->obj->data_address[(x * d->obj->bpp / 8) +
+			(y * d->obj->line_size)] = color;
 }
 
 /*
@@ -142,7 +143,7 @@ int		fdf(t_3d *d)
 //	printf("draw %.f\n ", d->offs.x);
 	draw(d);
 //	printf("put image to window\n");
-	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
+	mlx_put_image_to_window(d->mlx, d->w, d->obj->img, 0, 0);
 	mlx_string_put(d->mlx, d->w, 10, 10, 0x33ffaa, "Click to display commands");
 	mlx_hook(d->w, KEYPRESS, KEYPRESSMASK, user_input, d);
 	//mlx_key_hook(d->w,user_input, d);

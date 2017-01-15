@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 02:32:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 03:38:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,16 @@ typedef struct	s_uabcd
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
 */
+typedef struct	s_obj
+{
+
+
+	int			*img;
+	char		*data_address;
+	int			bpp;
+	int			line_size;
+	int			endian;
+}				t_obj;
 
 typedef struct	s_3d
 {
@@ -167,6 +177,8 @@ typedef struct	s_3d
 	t_vector	offs;
 	t_vector	scaling;
 	t_vector	center;
+	t_index		dimension;
+
 	float		z;
 	float		v;
 	t_vector	**m; //stores orginial input from file (z coords)
@@ -175,16 +187,10 @@ typedef struct	s_3d
 	int			**c;
 	void		*mlx;
 	void		*w;
-	int			*img;
-	t_index		dimension;
+	t_obj		*obj;
 	short		slope;
-	char		*data_address;
-	int			bpp;
-	int			line_size;
-	int			endian;
 	t_xy		colors;
 	float		**matrix;
-	float		**matrix_tmp;
 	short		z_max;
 	short		z_min;
 	short		season;

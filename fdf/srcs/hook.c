@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 01:22:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 03:40:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_variables(t_3d *d)
 	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
-	d->img = NULL;
+	d->obj->img = NULL;
 	d->season = 0;
 	d->display = 1;
 }
