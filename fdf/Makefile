@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/14 23:56:45 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/15 01:40:53 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ SRC_NAME = main.c \
 		   draw.c \
 		   color.c \
 		   hook.c \
-		   matrix.c \
-		   matrix2.c \
+		   matrix_operations.c \
+		   matrix_transformations.c \
 		   memory_manager.c
 
 SRCS = $(addprefix $(DIR_S)/,$(SRC_NAME))

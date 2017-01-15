@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 23:51:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 02:32:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 ** PI is equal to PI * 2^24 or << 24
 */
 
-# define PI 31.41927
+# define PI 3.141927
 
 /*
 ** macros used for still inputs
@@ -166,12 +166,11 @@ typedef struct	s_3d
 	float		depth;
 	t_vector	offs;
 	t_vector	scaling;
-	t_fxy		center;
+	t_vector	center;
 	float		z;
 	float		v;
 	t_vector	**m; //stores orginial input from file (z coords)
 	t_vector	**mm; //modified 3d coords
-	t_fxy		**n;
 	char		*s;
 	int			**c;
 	void		*mlx;
@@ -218,9 +217,9 @@ short			height(t_3d *d);
 */
 
 int				fdf(t_3d *d);
-void			put_pixel_in_img(t_3d *d, t_fxy a, t_argb color);
+void			put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
 void			draw(t_3d *d);
-void			lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c);
+void			lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
 void			create_image(t_3d *d);
 int				user_input(int keycode, t_3d *d);
 
@@ -239,8 +238,9 @@ float			**identity_matrix(void);
 float			**matrix_rotation(float angle, char axis);
 float			**matrix_scaling(t_vector scaling);
 float			**matrix_translation(t_vector offset);
+float			**matrix_magnitude(float depth);
 void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_point(float **m, t_vector v, t_fxy center);
+t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
 float			**factor_matrix(float **a, float **b);
 void			rotate(t_3d *d, char axis, char direction);
 

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:57:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 01:47:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 void	create_image(t_3d *d)
 {
-	printf("width : %d   height : %d", d->dimension.x, d->dimension.y);
+//	printf("width : %d   height : %d", d->dimension.x, d->dimension.y);
 	d->img ? mlx_destroy_image(d->mlx, d->img) : 0;
 	mlx_clear_window(d->mlx, d->w);
 	d->img = mlx_new_image(d->mlx, d->dimension.x, d->dimension.y);
@@ -31,7 +31,7 @@ void	create_image(t_3d *d)
 ** of d->data_address and then cast it as (int *) before dereferencing to
 ** save color value inside.
 */
-void	put_pixel_in_img(t_3d *d, t_fxy a, t_argb c)
+void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 {
 	int			x;
 	int			y;
@@ -78,7 +78,7 @@ void	put_pixel_in_img(t_3d *d, t_fxy a, t_argb c)
 /*
 ** draw lines between points (no bits)
 */
-void	lines_draw(t_3d *d, t_fxy a, t_fxy b, t_uixy c)
+void	lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
 {
 	t_fxy		dif;
 	t_fxy		i;
@@ -117,23 +117,19 @@ void	draw(t_3d *d)
 		i.x = 0;
 		while (i.x < d->max.x)
 		{
-		//	if (!(color.x = d->c[i.y][i.x]))
 			color.x = d->c[i.y][i.x];
 			if (i.x < d->max.x - 1)
 			{
-			//	if (!(color.y = d->c[i.y][i.x + 1]))
 				color.y = d->c[i.y][i.x + 1];
-				lines_draw(d, d->n[i.y][i.x], d->n[i.y][i.x + 1], color);
+				lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x + 1], color);
 			}
 			if (i.y < d->max.y - 1)
 			{
-			//	if (!(color.y = d->c[i.y + 1][i.x]))
 				color.y = d->c[i.y + 1][i.x];
-				lines_draw(d, d->n[i.y][i.x], d->n[i.y + 1][i.x], color);
+				lines_draw(d, d->mm[i.y][i.x], d->mm[i.y + 1][i.x], color);
 			}
 			++i.x;
 		}
-		printf("i.y ; %d\n", i.y);
 		++i.y;
 	}
 }
@@ -143,9 +139,9 @@ int		fdf(t_3d *d)
 //	apply_matrix(d);
 	convert_3_to_2d(d);
 	create_image(d);
-	printf("draw %.f\n ", d->offs.x);
+//	printf("draw %.f\n ", d->offs.x);
 	draw(d);
-	printf("put image to window\n");
+//	printf("put image to window\n");
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
 	mlx_string_put(d->mlx, d->w, 10, 10, 0x33ffaa, "Click to display commands");
 	mlx_hook(d->w, KEYPRESS, KEYPRESSMASK, user_input, d);

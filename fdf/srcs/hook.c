@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/14 22:58:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/15 01:22:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	init_variables(t_3d *d)
 //	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].y / 2;
 	d->offs.x = d->dimension.x / 2 - d->center.x;
 	d->offs.y = d->dimension.y / 2 - d->center.y;
-	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1, .w = 1};
-	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1, .w = 1};
+	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1};
+	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1};
 	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
