@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/17 16:11:52 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/17 16:32:28 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ INC = -I $(INC_PATH) -I $(LIBFT_PATH)/includes
 all: lib $(NAME)
 
 lib:
-	#@make -C $(LIBFT_PATH)
+	@make -C $(LIBFT_PATH)
 
 $(NAME) : $(OBJ)
 	@clang $(FLAGS) -o $(NAME) $(LIBFT) $(MINILIBX) $^
