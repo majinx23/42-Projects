@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/17 16:32:28 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/18 11:14:38 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ INC_PATH = incl
 LIBFT_PATH = libft
 
 #SRC = main.c \
+initialization.c \
 	  fractal_build.c \
 	  hook.c \
 	  key_hook.c \

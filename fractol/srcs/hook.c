@@ -6,66 +6,61 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:55:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 15:27:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 11:24:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
-static void	menu_background(t_3d *d)
-{
-	t_index		i;
-	t_index		max;
-	unsigned	menu_background_color;
 
-	menu_background_color = 0x20;
-	if (!d->menu)
-		max = (t_index) {.x = 250, .y = 50};
-	else
-		max = (t_index) {.x = 420, .y = 200};
-	i.y = 0;
-	while (i.y < max.y)
-	{
-		i.x = 0;
-		while (i.x < max.x)
-		{
-			mlx_pixel_put(d->mlx, d->win, i.x, i.y, menu_background_color);
-			++i.x;
-		}
-		++i.y;
-	}
-}
-
-void		menu(t_3d *d)
+static void		settings(t_3d *d)
 {
-	unsigned	menu_color;
 	short		x;
 
 	x = 15;
-	menu_color = TEAL;
-	menu_background(d);
-	if (!d->menu)
-		mlx_string_put(d->mlx, d->win, x, 15, menu_color,
-				"Display Menu : Press [H] Button");
-	else
+	mlx_string_put(d->mlx, d->win, x, 10, HELP_COLOR,
+			"Press 'H' to close help");
+	mlx_string_put(d->mlx, d->win, x, 35, HELP_COLOR,
+			"West, East, North, South : [<-] [->] [^] [v]");
+	mlx_string_put(d->mlx, d->win, x, 60, HELP_COLOR,
+			"Zoom : [Mouse wheel or right/left click]");
+	mlx_string_put(d->mlx, d->win, x, 85, HELP_COLOR,
+			"Change Fractal : [1, 2, ...]");
+	mlx_string_put(d->mlx, d->win, x, 110, HELP_COLOR,
+			"Change Color : [NUM PAD : 1, 2, ...]");
+	mlx_string_put(d->mlx, d->win, x, 135, HELP_COLOR,
+			"Increase/Decrease current iteration : [+] [-]");
+	mlx_string_put(d->mlx, d->win, x, 160, HELP_COLOR,
+			"Pause mouse motion : [SPACE]");
+	mlx_string_put(d->mlx, d->win, x, 195, HELP_COLOR,
+			"Exit : [ESCAPE]");
+}
+void	settings_background(t_3d *d)
+{
+	t_index		i;
+	unsigned	y_max;
+	unsigned	color;
+
+//	color = (d->fractal = BARNSLEY) ? 0x00000000 : BLACK;
+	color = 0xaa000000;
+	y_max = (d->menu) ? 250 : 45;
+	i.y = 0;
+	while (i.y < y_max)
 	{
-		mlx_string_put(d->mlx, d->win, x, 15, menu_color,
-				"Press 'h' to close help");
-		mlx_string_put(d->mlx, d->win, x, 40, menu_color,
-				"West, East, North, South : [<-] [->] [^] [v]");
-		mlx_string_put(d->mlx, d->win, x, 65, menu_color,
-				"Zoom : [Mouse wheel or right/left click]");
-		mlx_string_put(d->mlx, d->win, x, 90, menu_color,
-				"Change Fractal : [1, 2, ...]");
-		mlx_string_put(d->mlx, d->win, x, 115, menu_color,
-				"Change Color : [NUM PAD : 1, 2, ...]");
-		mlx_string_put(d->mlx, d->win, x, 140, menu_color,
-				"Increase/Decrease current iteration : [+] [-]");
-		mlx_string_put(d->mlx, d->win, x, 165, menu_color,
-				"Pause mouse motion : [SPACE]");
-		mlx_string_put(d->mlx, d->win, x, 165, menu_color,
-				"Exit : [ESCAPE]");
+		i.x = 0;
+		while (i.x < WIDTH)
+		{
+			mlx_pixel_put(d->mlx, d->win, i.x, i.y, color);
+			++i.x;
+		}
+		++i.y;
+//		printf("%f", i.y);
 	}
+	if (!d->menu)
+		mlx_string_put(d->mlx, d->win, 15, 10, HELP_COLOR,
+			"Display Menu : Press [H] Button");
+	if (d->menu)
+		settings(d);
 }
 
 

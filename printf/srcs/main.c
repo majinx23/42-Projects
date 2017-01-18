@@ -6,11 +6,46 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 04:03:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 10:13:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 09:15:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/*
+   Vous devez gérer les conversions suivantes : sSpdDioOuUxXcC
+   • Vous devez gérer le %%
+   • Vous devez gérer les flags #0-+ et espace
+   • Vous devez gérer la taille minimum du champ
+   • Vous devez gérer la précision
+   • Vous devez gérer les flags hh h l ll j z
+   Gestion de conversions plus délicates : eE, fF, gG, aA, n.
+   • Gestion de flags plus delicats : *, $, L, ’ .
+   • Gestion de flags non existants : %b pour afficher en binaire, %r pour afficher une
+   chaine avec des caractères non imprimables, %k pour afficher une date à un format
+   ISO quelconque, etc.
+   • Gestion de modifieurs pour gérer les couleurs, les fd ou des choses fun comme ça :)
+   printf("Le fichier {cyan}%s{eoc} contient : {red}%s{eoc}", filename, str) ;
+   */
 
-#include "../incl/fractol.h"
+
+
+
+/*
+ *Vous devez fournir un Makefile qui compilera une libftprintf.a. Cette lib sera linké
+ à notre main de test pour vous donner votre résultat.
+ */
+
+
+#include "../incl/ft_printf.h"
+
+int		ft_printf(va_start (va_list ap, last))
+{
+	void va_start(va_list ap, last);
+
+	type va_arg(va_list ap, type);
+
+	void va_copy(va_list dest, va_list src);
+
+	void va_end(va_list ap);
+}
 
 int		main(int ac, char **av)
 {

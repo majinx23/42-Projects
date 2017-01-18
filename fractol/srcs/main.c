@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 04:03:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 10:13:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 11:02:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		init_variables(t_3d *d)
 	d->color = 0;
 	d->menu = 0;
 	d->offset = (t_index) {.x = 0, .y = 0};
+	d->a = 0;
 	return (1);
 }
 
@@ -68,19 +69,19 @@ void	init_img(t_3d *d)
 	d->endian = endian;
 }
 
-void	put_pixel_to_img(t_3d *d, int x, int y, int color)
+void	put_pixel_in_img(t_3d *d, int x, int y, int color)
 {
 	unsigned	octets;
 	unsigned	a;
-	unsigned	i;
+	unsigned	j;
 
 	octets = d->bpp / 8;
 	a = x * octets + y * d->sizeline;
-	i = 0;
-	while (i < octets)
+	j = 0;
+	while (j < octets)
 	{
-		d->data[a + i] = color;
+		d->data[a + j] = color;
 		color >>= 8;
-		++i;
+		++j;
 	}
 }

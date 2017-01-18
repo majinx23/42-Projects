@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 15:20:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 11:21:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ static void	offset(int k, t_3d *d)
 	else if (k == KEY_LEFT)
 		d->offset.x += -offset;
 	if (k == KEY_PAD_ADD)
-	{
 		d->f.max += offset * d->iter_coef;
-		printf("baba");
-	}
 	else if (k == KEY_PAD_SUB)
 	{
 		d->f.max -= offset * d->iter_coef;
@@ -37,16 +34,38 @@ static void	offset(int k, t_3d *d)
 	}
 }
 
+
+void	ft_black_screen(t_3d *d)
+{
+	t_index	i;
+
+	i.y = 0;
+	while (i.y < HEIGHT)
+	{
+		i.x = 0;
+		while (i.x < WIDTH)
+		{
+			put_pixel_in_img(d, i.x, i.y, 0);
+			++i.x;
+		}
+		++i.y;
+	}
+	mlx_put_image_to_window(d->mlx, d->win, d->img, 0, 0);
+}
+
 static void	set_fractal(int k, t_3d *d)
 {
-	if (k == KEY_1)
-		init_fractal(d, "Mandelbrot");
+	if (k == KEY_4)
+	{
+		(!(d->a)) ? ft_black_screen(d) : ++d->a;
+		barnsley(d);
+	}
+	else if (k == KEY_1)
+		init_mandelbrot(d);
 	else if (k == KEY_2)
-		init_fractal(d, "Julia");
+		init_julia(d);
 	else if (k == KEY_3)
-		init_fractal(d, "Phoenix");
-	else if (k == KEY_4)
-		init_fractal(d, "Barnsey");
+		init_phoenix(d);
 }
 
 static void	set_color(int k, t_3d *d)
@@ -79,7 +98,7 @@ int			key_hook(int k, t_3d *d)
 		exit(0);
 	}
 	if (k == KEY_H)
-		d->menu = d->menu ? 1 : 0;
+		d->menu = d->menu ? 0 : 1;
 	else
 	{
 		offset(k, d);

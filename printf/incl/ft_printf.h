@@ -6,18 +6,17 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 16:05:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/17 16:37:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <math.h>
-# include <mlx.h>
 # include "../libft/libft.h"
 # include "keycode_mac.h"
 # include "colors.h"
+# include <stdarg.h>
 # include <stdio.h>//
 
 # define TITLE			"Fractol"

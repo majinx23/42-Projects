@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 16:05:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 11:12:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 # include "colors.h"
 # include <stdio.h>//
 
-# define TITLE			"Fractol"
-# define WIDTH			900
-# define HEIGHT			800
+# define TITLE				"Fractol"
+# define HEIGHT				800
+# define WIDTH				900
+# define HELP_COLOR			0xffffff
+
 
 enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
 
@@ -86,6 +88,7 @@ typedef struct			s_3d
 	int				color;
 	int				menu;
 	short			rng;
+	short			a;
 }						t_3d;
 
 /*     
@@ -95,7 +98,8 @@ typedef struct			s_3d
 int						usage();
 int						init_variables(t_3d *d);
 void					init_img(t_3d *d);
-void					put_pixel_to_img(t_3d *d, int x, int y, int color);
+void					put_pixel_in_img(t_3d *d, int x, int y, int color);
+void					settings_background(t_3d *d);
 
 
 /*
@@ -115,18 +119,19 @@ unsigned int			linear_interpolation(double hue);
 
 void					init_julia_set(t_3d *d);
 void					init_phoenix(t_3d *d);
+void					init_julia(t_3d *d);
+void					init_mandelbrot(t_3d *d);
 
+void					init_barnsley(t_3d *d);
 /*
 **  -0.506667 0.520000       0.403333  0.273333
 */
-void					init_julia(t_3d *d);
-void					init_mandelbrot(t_3d *d);
 
 void					mandelbrot(t_3d *d, t_cnb z, t_cnb c);
 void					julia(t_3d *d, t_cnb c);
 void					phoenix(t_3d *d, t_cnb z, t_cnb c);
 void					barnsley(t_3d *d);
-
+void					barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d);
 /*
 ** Hook to check for user input
 */
@@ -135,6 +140,5 @@ int						motion_hook(int x, int y, t_3d *d);
 int						key_hook(int keycode, t_3d *d);
 //void					apply_scaling(t_3d *d, int keycode);
 int						mouse_scaling_hook(int button, int x, int y, t_3d *d);
-void					menu(t_3d *d);
 
 #endif
