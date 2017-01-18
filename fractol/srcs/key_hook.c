@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 11:21:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 13:42:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	set_fractal(int k, t_3d *d)
 	if (k == KEY_4)
 	{
 		(!(d->a)) ? ft_black_screen(d) : ++d->a;
-		barnsley(d);
+		init_barnsley(d);
 	}
 	else if (k == KEY_1)
 		init_mandelbrot(d);
@@ -71,21 +71,21 @@ static void	set_fractal(int k, t_3d *d)
 static void	set_color(int k, t_3d *d)
 {
 	if (k == KEY_PAD_0)
-		d->color = 42;
-	else if (k == KEY_PAD_1)
 		d->color = 0;
-	else if (k == KEY_PAD_2)
+	else if (k == KEY_PAD_1)
 		d->color = 1;
-	else if (k == KEY_PAD_3)
+	else if (k == KEY_PAD_2)
 		d->color = 2;
-	else if (k == KEY_PAD_4)
+	else if (k == KEY_PAD_3)
 		d->color = 3;
-	else if (k == KEY_PAD_5)
+	else if (k == KEY_PAD_4)
 		d->color = 4;
-	else if (k == KEY_PAD_6)
+	else if (k == KEY_PAD_5)
 		d->color = 5;
-	else if (k == KEY_PAD_7)
+	else if (k == KEY_PAD_6)
 		d->color = 6;
+	else if (k == KEY_PAD_7)
+		d->color = 7;
 }
 
 int			key_hook(int k, t_3d *d)

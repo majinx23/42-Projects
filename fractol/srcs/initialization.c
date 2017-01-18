@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 11:43:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 13:12:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,13 @@ void	init_phoenix(t_3d *d)
 	d->zoom = 250;
 }
 
-void	barnsley(t_3d *d)
+void	init_barnsley(t_3d *d)
 {
-	unsigned	color;
-	t_cnb		c;
-	t_cnb		z;
-
 	d->fractal = BARNSLEY;
 	d->iter_coef = 500;
-	c = (t_cnb) {.real = 0, .imag = 0};
-	z = (t_cnb) {.real = 0, .imag = 0};
-	color = 0;
 	d->f.i = -1;
-	d->f.max = 100;
-
-	(d->fern <= 100) ? ++d->fern : 0;
-	if (d->fern == 100)
-		d->fern *= -2;
-	d->fern_motion = (d->fern < 0) ? 0 : LIME;
-	barnsley_fern_algo(&d->f, c, 0, d);
+//	d->f.max = 100;
+	d->c = (t_cnb) {.real = 0, .imag = 0};
+	d->fern_motion = LIME;
+//	barnsley_fern_algo(&d->f, d->c, 0, d);
 }

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:42:03 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 11:42:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 12:53:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,7 @@ void		barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d)
 			c = (t_cnb) {.real = 0.85f * c.real + 0.04f * c.imag,
 			.imag = -0.04f * c.real + 0.85f * c.imag + 1.6f};
 		d->c = (t_cnb) {.real = (c.real + 3) * 70, .imag = 800 - c.imag * 70};
-		mlx_pixel_put(d->mlx, d->win, d->c.real + 300, d->c.imag,
-				d->fern_motion);
+		put_pixel_in_img(d, d->c.real + 300, d->c.imag, d->fern_motion);
 	}
 }
 
