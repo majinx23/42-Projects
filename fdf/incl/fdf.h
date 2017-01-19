@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 14:47:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 17:14:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,6 @@ typedef struct	s_index
 	int			y;
 }				t_index;
 
-typedef struct	s_uabcd
-{
-	unsigned	a;
-	unsigned	b;
-	unsigned	c;
-	unsigned	d;
-}				t_uabcd;
 
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
@@ -134,6 +127,7 @@ typedef struct	s_3d
 
 	t_index		max;
 	float		depth;
+	t_vector	angle;
 	t_vector	offs;
 	t_vector	scaling;
 	t_vector	center;
@@ -149,7 +143,6 @@ typedef struct	s_3d
 	short		z_min;
 	short		season;
 	t_argb		l;
-	t_vector	angle;
 	short		help_display;
 }				t_3d;
 
@@ -194,7 +187,7 @@ t_argb2			gradient(unsigned a, unsigned b, int pixel);
 ** ft_matrix_transformations.c ~ matrix rotations
 */
 
-float			**identity_matrix(void);
+float			**identity_matrix(int n, short iden);
 float			**matrix_rotation(float angle, char axis);
 float			**matrix_scaling(t_vector scaling);
 float			**matrix_translation(t_vector offset);

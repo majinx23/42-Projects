@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:16:37 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 15:21:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 17:12:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,32 @@ int			convert_3_to_2d(t_3d *d)
 */
 void		recalculate_center(t_3d *d)
 {
-	d->center.y = (d->mm[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y) / 2;
-	d->center.x = (d->mm[d->max.y - 1][d->max.x - 1].x + d->m[0][0].x) / 2;
+	t_index		i;
+	t_vector	max;
+	t_vector	min;
+
+	max = (t_vector) {.x = 0, .y = 0, .z = 0};
+	min = (t_vector) {.x = 0, .y = 0, .z = 0};
+	i.y = 0;
+	while (i.y < d->max.y)
+	{
+		i.x = -1;
+		while (++i.x < d->max.x)
+		{
+			(d->m[i.y][i.x].x > max.x) ? max.x = d->m[i.y][i.x].x: 0;
+			(d->m[i.y][i.x].x < min.x) ? min.x = d->m[i.y][i.x].x: 0;
+			(d->m[i.y][i.x].y > max.y) ? max.y = d->m[i.y][i.x].y: 0;
+			(d->m[i.y][i.x].y < min.y) ? min.y = d->m[i.y][i.x].y: 0;
+			(d->m[i.y][i.x].z > max.z) ? max.z = d->m[i.y][i.x].z: 0;
+			(d->m[i.y][i.x].z < min.z) ? min.z = d->m[i.y][i.x].z: 0;
+		}
+		++i.y;
+	}
+	d->center.y = (HEIGHT - d->offs.y) / 2;//(max.y - min.y) / 2;
+	d->center.x = (WIDTH - d->offs.x) / 2;//(max.x - min.x) / 2;
+	d->center.y = (max.y - min.y) / 2;
+	d->center.x = (max.x - min.x) / 2;
+//	d->center.z = (max.z - min.z) / 2;
 	d->center.z = 0;
 }
 
@@ -71,13 +95,13 @@ void		apply_matrix(t_3d *d)
 	t_index		i;
 
 	free_matrix(d->matrix);
-	d->matrix = identity_matrix();
-//	d->matrix = factor_matrix(d->matrix, matrix_magnitude(d->depth));
+	d->matrix = identity_matrix(0, 1);
+//	d->matrix_tmp = factor_matrix(d->matrix, matrix_magnitude(d->depth));
 	d->matrix_tmp = matrix_scaling(d->scaling);
 	d->matrix = factor_matrix(d->matrix_tmp, d->matrix);
 	d->matrix_tmp = matrix_global_rotation(d->angle);
-	d->matrix = factor_matrix(d->matrix, d->matrix_tmp);
-	free_matrix(d->matrix_tmp);
+	d->matrix = factor_matrix(d->matrix_tmp,d -> matrix);
+//	free_matrix(d->matrix_tmp);
 	recalculate_center(d);
 	//print_matrix(d->matrix);
 	//	printf("matrix after scaling :\n");
@@ -96,8 +120,10 @@ void		apply_matrix(t_3d *d)
 	{
 		i.x = -1;
 		while (++i.x < d->max.x)
+		{
 			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix,
 					d->m[i.y][i.x], d->center);
+		}
 		++i.y;
 	}
 }
@@ -113,7 +139,7 @@ t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
 {
 	t_vector	n;
 	
-//	c.x = 0;
+//	c = (t_vector)  {.x = 0, .y = 0, .z = 0};
 	v.x -= c.x;
 	v.y -= c.y;
 	v.z -= c.z;
@@ -135,7 +161,7 @@ float		**factor_matrix(float **a, float **b)
 	t_index		i;
 	short		k;
 
-	m = identity_matrix();
+	m = identity_matrix(0, 1);
 	i.y = 0;
 	while (i.y < 4)
 	{
@@ -143,7 +169,7 @@ float		**factor_matrix(float **a, float **b)
 		while (i.x < 4)
 		{
 			k = 0;
-			while (k < 4)
+			while (k < 3)
 			{
 				m[i.y][i.x] += a[i.y][k] * b[k][i.x];
 				++k;
@@ -152,6 +178,7 @@ float		**factor_matrix(float **a, float **b)
 		}
 		++i.y;
 	}
+	free_matrix(a);
 	return (m);
 }
 
@@ -161,15 +188,13 @@ float		**sum_matrix(float **a, float **b)
 	t_index		i;
 	short		k;
 
-	m = identity_matrix();
+	m = identity_matrix(0, 0);
 	i.y = 0;
 	while (i.y < 4)
 	{
 		i.x = 0;
 		while (i.x < 4)
 		{
-			if (i.x == i.y)
-				m[i.y][i.x] -= 1;
 			k = 0;
 			while (k < 4)
 			{
@@ -183,26 +208,21 @@ float		**sum_matrix(float **a, float **b)
 	return (m);
 }
 
-float		**identity_matrix(void)
+float		**identity_matrix(int n, short iden)
 {
 	float	**m;
-	short	i;
-	short	j;
+	t_index	i;
 
 	if (!(m = (float**)malloc(sizeof(float*) * 4)))
 		return (0);
-	j = 0;
-	while (j < 4)
+	i.y = -1;
+	while (++i.y < 4)
 	{
-		if (!(m[j] = (float*)malloc(sizeof(float) * 4)))
+		if (!(m[i.y] = (float*)malloc(sizeof(float) * 4)))
 			return (0);
-		i = 0;
-		while (i < 4)
-		{
-			m[j][i] = (i == j) ? 1 : 0;
-			++i;
-		}
-		++j;
+		i.x = -1;
+		while (++i.x < 4)
+			m[i.y][i.x] = (i.x == i.y && iden) ? 1 : n;
 	}
 	return (m);
 }

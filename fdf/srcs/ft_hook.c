@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 15:23:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 17:00:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ void	init_variables(t_3d *d)
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1};
 	d->scaling = (t_vector){.x = 1, .y = 1, .z = 1};
-	d->angle = (t_vector) {.x = 4.9, .y = 5.3, .z = 0};
+	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0}; // 4.9  5.3 0
+	d->center = (t_vector) {.x = 0, .y = 0, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
 	d->img = NULL;
 	d->season = 0;
 //	d->matrix ? free(d->matrix) : 0;
-	d->matrix = identity_matrix();
+	d->matrix = identity_matrix(0, 1);
 }
 
 int		color_hook(int k, t_3d *d)

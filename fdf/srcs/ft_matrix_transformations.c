@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:22:47 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 15:21:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 17:14:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,24 @@ float	**matrix_magnitude(float depth)
 {
 	float	**m;
 
-	m = identity_matrix();
+	m = identity_matrix(0, 1);
+	m[2][0] = depth;
+	m[2][1] = depth;
 	m[2][2] = depth;
 	return (m);
 }
 
-float	**matrix_scaling(t_vector scaling)
+float	**matrix_scaling(t_vector scalingv)
 {
 	float	**m;
+//	float	scaling;
 
-	m = identity_matrix();
-	m[0][0] = scaling.x;
-	m[1][1] = scaling.y;
-	m[2][2] = scaling.z;
+//	scaling = scalingv.x;
+	m = identity_matrix(0, 1);
+//	m = identity_matrix(0, 1);
+	m[0][0] = scalingv.x;
+	m[1][1] = scalingv.y;
+	m[2][2] = scalingv.z;
 	return (m);
 }
 
@@ -98,7 +103,7 @@ float	**matrix_global_rotation(t_vector a)
 {
 	float	**m;
 
-	m = identity_matrix();
+	m = identity_matrix(0, 1);
 	m[0][0] = cos(a.y) * cos(a.z);
 	m[0][1] = cos(a.z) * sin(a.x) * sin(a.y) - cos(a.x) * sin(a.z);
 	m[0][2] = cos(a.x) * cos(a.z) * sin(a.y) + sin(a.x) * sin(a.z);
@@ -115,7 +120,7 @@ float	**matrix_rotation(float x, char axis)
 {
 	float	**m;
 
-	m = identity_matrix();
+	m = identity_matrix(0, 1);
 	if (axis == 'x')
 	{
 		m[1][1] = cos(x);

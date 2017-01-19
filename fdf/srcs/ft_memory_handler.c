@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:15 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 15:23:17 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 16:05:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	free_matrix(float **m)
 	while (++i < 4)
 		free(m[i]);
 	free(m);
+	(void)m;
 }
 
 void	free_all(t_3d *d)
