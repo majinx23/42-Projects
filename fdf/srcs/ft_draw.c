@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 17:26:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 18:31:42 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 	x = round(a.x) + d->offs.x;
 	y = round(a.y) + d->offs.y;
 
-	color = (ft_clamp((int)(round(c.r) + d->l.r - 1), 0, 0xff) << 16) +
-		(ft_clamp((int)(round(c.g) + d->l.g - 1), 0, 0xff) << 8) +
-		ft_clamp(round(c.b) + d->l.b - 1, 0, 0xff) +
-		(ft_clamp(((int)round(c.a) + d->l.a - 1), 0, 0xff) << 24);
+	color = (ft_clamp((int)round(c.r + d->l.r), 0, 0xff) << 16) +
+		(ft_clamp((int)round(c.g + d->l.g), 0, 0xff) << 8) +
+		ft_clamp(round(c.b + d->l.b), 0, 0xff) +
+		(ft_clamp((int)round(c.a + d->l.a), 0, 0xff) << 24);
 	if (x > 0 && y > 0 && x < d->dimension.x && y < d->dimension.y)
 		*(int *)&d->data_address[(x * d->bpp / 8) +
 			(y * d->line_size)] = color;
