@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:22:47 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 17:14:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 18:25:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ float	**matrix_scaling(t_vector scalingv)
 //	float	scaling;
 
 //	scaling = scalingv.x;
-	m = identity_matrix(0, 1);
+	m = identity_matrix(0, 0);
 //	m = identity_matrix(0, 1);
 	m[0][0] = scalingv.x;
 	m[1][1] = scalingv.y;

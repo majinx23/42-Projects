@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:16:37 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 17:12:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 18:25:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,17 @@ void		apply_matrix(t_3d *d)
 
 	free_matrix(d->matrix);
 	d->matrix = identity_matrix(0, 1);
+	ft_print_matrix(d->matrix);
 //	d->matrix_tmp = factor_matrix(d->matrix, matrix_magnitude(d->depth));
 	d->matrix_tmp = matrix_scaling(d->scaling);
-	d->matrix = factor_matrix(d->matrix_tmp, d->matrix);
+	ft_print_matrix(d->matrix_tmp);
+	d->matrix = factor_matrix(d->matrix, d->matrix_tmp);
+	ft_print_matrix(d->matrix);
+	free_matrix(d->matrix_tmp);
 	d->matrix_tmp = matrix_global_rotation(d->angle);
-	d->matrix = factor_matrix(d->matrix_tmp,d -> matrix);
+	d->matrix = factor_matrix(d->matrix, d->matrix_tmp);
+	ft_print_matrix(d->matrix);
+	free_matrix(d->matrix_tmp);
 //	free_matrix(d->matrix_tmp);
 	recalculate_center(d);
 	//print_matrix(d->matrix);
@@ -138,8 +144,9 @@ t_vector	carthesian(t_vector n)
 t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
 {
 	t_vector	n;
+//	t_vector	tmp;
 	
-//	c = (t_vector)  {.x = 0, .y = 0, .z = 0};
+//	c = (t_vector)  {.x = WIDTH / 2, .y = HEIGHT / 2, .z = 0};
 	v.x -= c.x;
 	v.y -= c.y;
 	v.z -= c.z;
@@ -147,6 +154,12 @@ t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
 	n.y = v.x * m[1][0] + v.y * m[1][1] + v.z * m[1][2] + m[1][3] * v.w  + c.y;
 	n.z = v.x * m[2][0] + v.y * m[2][1] + v.z * m[2][2] + m[2][3] * v.w  + c.z;
 	n.w = v.x * m[3][0] + v.y * m[3][1] + v.z * m[3][2] + m[3][3] * v.w;
+/*	tmp.x = n.x;
+	tmp.y = n.y;
+	tmp.z = n.z;
+	n.x = vector_len(tmp);
+	n.y = vector_len(tmp);
+	n.z = tmp.z;*/
 //	n = carthesian(n);
 	return (n);
 }
@@ -161,7 +174,7 @@ float		**factor_matrix(float **a, float **b)
 	t_index		i;
 	short		k;
 
-	m = identity_matrix(0, 1);
+	m = identity_matrix(0, 0);
 	i.y = 0;
 	while (i.y < 4)
 	{
@@ -178,7 +191,7 @@ float		**factor_matrix(float **a, float **b)
 		}
 		++i.y;
 	}
-	free_matrix(a);
+//	free_matrix(a);
 	return (m);
 }
 

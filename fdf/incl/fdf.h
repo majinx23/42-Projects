@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 17:14:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 18:25:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@
 # define SLIGHTLY_TRANSPARENT	0x77000000
 
 /*
-** using t_xy.x and t_xy.y instead of x and y for index.
+** a is alpha(transparency) r = red g = green b = blue
 */
 
 typedef struct	s_argb
@@ -66,6 +66,9 @@ typedef struct	s_argb
 	float		b;
 }				t_argb;
 
+/*
+** color gradient function
+*/
 typedef struct	s_argb2
 {
 	t_argb		x;
@@ -77,12 +80,6 @@ typedef struct	s_uixy
 	unsigned	x;
 	unsigned	y;
 }				t_uixy;
-
-typedef struct	s_xy
-{
-	long		x;
-	long		y;
-}				t_xy;
 
 typedef struct	s_fxy
 {
@@ -112,7 +109,6 @@ typedef struct	s_index
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
 */
-
 typedef struct	s_3d
 {
 	char		*s;
@@ -136,7 +132,7 @@ typedef struct	s_3d
 	t_vector	**m;
 	t_vector	**mm;
 	int			**c;
-	t_xy		colors;
+	t_uixy		colors;
 	float		**matrix;
 	float		**matrix_tmp;
 	short		z_max;
@@ -160,10 +156,12 @@ int				get_depth_and_colors(t_3d *d);
 float			get_3d_y(t_vector a);
 float			get_3d_x(t_vector a);
 float			vector_len(t_vector v);
-int				convert_3_to_2d(t_3d *d);
+
+/*
+**
+*/
+
 void			init_variables(t_3d *d);
-short			width(t_3d *d);
-short			height(t_3d *d);
 
 /*
 ** fdf.c & hook.c ~ tracing lines algorythmes and listening to user input
@@ -204,6 +202,7 @@ t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
 float			**factor_matrix(float **a, float **b);
 float			**sum_matrix(float **a, float **b);
 void			ft_print_matrix(float **m);
+
 /*
 ** memory_manager.c ~ functions handling memory
 */
