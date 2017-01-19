@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 18:31:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 21:30:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,9 +189,9 @@ float			**identity_matrix(int n, short iden);
 float			**matrix_rotation(float angle, char axis);
 float			**matrix_scaling(t_vector scaling);
 float			**matrix_translation(t_vector offset);
-float			**matrix_magnitude(float depth);
+void			matrix_magnitude(t_3d *d, float depth);
 void			rotate(t_3d *d, char axis, char direction);
-float			**matrix_global_rotation(t_vector angle);
+float			**ft_matrix_global_rotation(t_vector angle);
 
 /*
 ** ft_matrix_operations.c ~ vectors translation and rotation
@@ -199,7 +199,7 @@ float			**matrix_global_rotation(t_vector angle);
 
 void			apply_matrix(t_3d *d);
 t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
-float			**factor_matrix(float **a, float **b);
+float			**ft_factor_matrix_free(float **a, float **b, char free);
 float			**sum_matrix(float **a, float **b);
 void			ft_print_matrix(float **m);
 

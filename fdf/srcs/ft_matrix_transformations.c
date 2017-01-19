@@ -6,21 +6,17 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:22:47 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 18:25:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 21:29:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
 
-float	**matrix_magnitude(float depth)
+void	matrix_magnitude(t_3d *d, float depth)
 {
-	float	**m;
-
-	m = identity_matrix(0, 1);
-	m[2][0] = depth;
-	m[2][1] = depth;
-	m[2][2] = depth;
-	return (m);
+//	d->matrix[0][2] *= depth;
+	d->matrix[1][2] = depth * ((int)d->matrix[1][2] >> 3);
+//	d->matrix[2][2] *= depth;
 }
 
 float	**matrix_scaling(t_vector scalingv)
@@ -99,7 +95,7 @@ void	rotate(t_3d *d, char axis, char i)
 //	d->matrix = matrix_global_rotation(d->angle);
 }
 
-float	**matrix_global_rotation(t_vector a)
+float	**ft_matrix_global_rotation(t_vector a)
 {
 	float	**m;
 
@@ -113,6 +109,7 @@ float	**matrix_global_rotation(t_vector a)
 	m[2][0] = -sin(a.y);
 	m[2][1] = cos(a.y) * sin(a.x);
 	m[2][2] = cos(a.x) * cos(a.y);
+	printf("x %f.2,  y %f.2,   z%f.2", a.x , a.y, a.z);
 	return (m);
 }
 

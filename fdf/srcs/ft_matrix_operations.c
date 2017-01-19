@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:16:37 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 18:25:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 21:29:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,14 @@ void		apply_matrix(t_3d *d)
 
 	free_matrix(d->matrix);
 	d->matrix = identity_matrix(0, 1);
-	ft_print_matrix(d->matrix);
-//	d->matrix_tmp = factor_matrix(d->matrix, matrix_magnitude(d->depth));
 	d->matrix_tmp = matrix_scaling(d->scaling);
-	ft_print_matrix(d->matrix_tmp);
-	d->matrix = factor_matrix(d->matrix, d->matrix_tmp);
-	ft_print_matrix(d->matrix);
-	free_matrix(d->matrix_tmp);
-	d->matrix_tmp = matrix_global_rotation(d->angle);
-	d->matrix = factor_matrix(d->matrix, d->matrix_tmp);
-	ft_print_matrix(d->matrix);
-	free_matrix(d->matrix_tmp);
+	d->matrix = ft_factor_matrix_free(d->matrix, d->matrix_tmp, 'R');
+//	d->matrix = ft_factor_matrix_free(d->matrix, d->matrix_tmp, 'R');
+//	ft_print_matrix(d->matrix);
+	d->matrix_tmp = ft_matrix_global_rotation(d->angle);
+	d->matrix = ft_factor_matrix_free(d->matrix, d->matrix_tmp, 'R');
 //	free_matrix(d->matrix_tmp);
+	matrix_magnitude(d, d->depth);
 	recalculate_center(d);
 	//print_matrix(d->matrix);
 	//	printf("matrix after scaling :\n");
@@ -168,7 +164,7 @@ t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
 ** change k < 4 if using w vector later.
 */
 
-float		**factor_matrix(float **a, float **b)
+float		**ft_factor_matrix_free(float **a, float **b, char free)
 {
 	float		**m;
 	t_index		i;
@@ -191,7 +187,8 @@ float		**factor_matrix(float **a, float **b)
 		}
 		++i.y;
 	}
-//	free_matrix(a);
+	(free == 'L' || free == 'B') ? free_matrix(a) : 0;
+	(free == 'R' || free == 'B') ? free_matrix(b) : 0;
 	return (m);
 }
 

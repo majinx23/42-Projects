@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 18:05:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 21:30:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ void	init_variables(t_3d *d)
 	d->offs.x = d->dimension.x / 2 - d->center.x;
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1};
-	d->scaling = (t_vector){.x = 100, .y = 100, .z = 100};
-	d->angle = (t_vector) {.x = 0, .y = 0, .z = 0}; // 4.9  5.3 0
+	d->scaling = (t_vector){.x = 5, .y = 5, .z = 5};
+	d->angle = (t_vector) {.x = 0.883,  .y = 0.672, .z = 0.496};
 	d->center = (t_vector) {.x = 0, .y = 0, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
 	d->img = NULL;
 	d->season = 0;
-//	d->matrix ? free(d->matrix) : 0;
 	d->matrix = identity_matrix(0, 1);
 }
 
@@ -88,6 +87,7 @@ int		rotation_hook(int k, t_3d *d)
 
 int		scaling_hook(int k, t_3d *d)
 {
+		printf("pressing : %d\n", k);
 	if ((k == 69 && d->scaling.x < 400) || (k == 78 && d->scaling.x > 0.1))
 	{
 		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
@@ -95,10 +95,13 @@ int		scaling_hook(int k, t_3d *d)
 		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.w = 1;
 	}
-	if (k == 12 && d->depth > 0.01)
-		d->depth *= 0.80;
-	else if (k == 14 && d->depth < 5)
+	if (k == 12)// && //d->depth > 0.01)
+	{
 		d->depth *= 1.25;
+		printf("increasing d->depth to : %f.2", d->depth);
+	}
+	else if (k == 14)// && d->depth < 5)
+		d->depth *= 0.8;
 	return (1);
 }
 
@@ -122,9 +125,9 @@ int		user_input(int k, t_3d *d)
 	}
 	else if (k == KEY_H)
 		d->help_display = (d->help_display == 1) ? 0 : 1;
-	scaling_hook(k, d);
 	if ((k >= 18 && k <= 23) || k == 26 || k == 28)
 		rotation_hook(k, d);
+	scaling_hook(k, d);
 	translation_hook(k, d);
 	color_hook(k, d);
 	fdf(d);
