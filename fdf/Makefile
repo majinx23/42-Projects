@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/19 11:43:19 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/19 15:25:43 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,15 @@ DIR_MLX = libmlx
 HEADERS = incl
 
 SRC_NAME = main.c \
-		   parsing.c \
-		   formula.c \
+		   ft_parsing.c \
+		   ft_formula.c \
 		   ft_draw.c \
-		   color.c \
-		   hook.c \
+		   ft_color.c \
 		   ft_matrix_operations.c \
 		   ft_matrix_transformations.c \
-		   memory_manager.c \
-		   ft_settings.c
+		   ft_memory_handler.c \
+		   ft_settings.c \
+		   ft_hook.c \
 
 SRCS = $(addprefix $(DIR_S)/,$(SRC_NAME))
 
