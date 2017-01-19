@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 14:26:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 15:50:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define HELP_COLOR			0xffffff
 
 
-enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
+enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, KOCH};
 
 /*
 ** stands for complex number
@@ -55,6 +55,23 @@ typedef struct		s_i
 	int				max;
 
 }					t_i;
+
+typedef	struct		s_rgb2
+{
+	t_rgb			x;
+	t_rgb			y;
+}					t_rgb2;
+
+/*
+** colored vector
+*/
+typedef	struct		s_cv
+{
+	double		x;
+	double		y;
+	unsigned	color;
+}					t_cv;
+
 /*
 ** i is pixel nb and f is current iteration
 */
@@ -83,6 +100,9 @@ typedef struct			s_3d
 	short			fern;
 	unsigned		fern_motion;
 
+	short			koch_size;
+	short			koch_order;
+
 	int				julia_static;
 	t_cnb			julia;
 	int				color;
@@ -108,7 +128,7 @@ void					ft_blackscreen(t_3d *d);
 
 void					fractol(t_3d *d);
 void					get_fractal(t_3d *d);
-
+void					ft_draw_line(t_3d *d, t_cv a, t_cv b);
 /*
 ** fractals initialization
 */
@@ -119,6 +139,7 @@ void					init_phoenix(t_3d *d);
 void					init_julia(t_3d *d);
 void					init_mandelbrot(t_3d *d);
 void					init_barnsley(t_3d *d);
+void					init_koch(t_3d *d);
 
 /*
 ** Fractals algorytms
@@ -128,6 +149,7 @@ void					mandelbrot(t_3d *d, t_cnb z, t_cnb c);
 void					julia(t_3d *d, t_cnb c);
 void					phoenix(t_3d *d, t_cnb z, t_cnb c);
 void					barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d);
+void					koch_snowflake_algo(t_3d *d);
 
 /*
 ** color functions
@@ -135,6 +157,7 @@ void					barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d);
 
 unsigned				color_pixel(t_3d *d, int a);
 unsigned				ft_rainbow_gradient(double x);
+t_rgb2					ft_gradient(unsigned a, unsigned b, int pixel);
 
 /*
 ** Hook to check for user input

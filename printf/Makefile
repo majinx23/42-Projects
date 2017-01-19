@@ -6,14 +6,14 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/17 16:28:23 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/18 16:43:37 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_printf
 
 SRC_PATH = srcs
-OBJ_PATH = obj
+OBJ_PATH = input
 INC_PATH = incl
 LIBFT_PATH = libft
 

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 13:23:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 15:55:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	init_fractal(t_3d *d, char *name)
 }
 
 /*
-** Loop through every pixel
-*/
+ ** Loop through every pixel
+ */
 
 void		fractol(t_3d *d)
 {
@@ -41,6 +41,11 @@ void		fractol(t_3d *d)
 	{
 		init_barnsley(d);
 		barnsley_fern_algo(&d->f, d->c, 0, d);
+	}
+	else if (d->fractal == KOCH)
+	{
+		init_koch(d);
+		koch_snowflake_algo(d);
 	}
 	else
 	{
@@ -81,4 +86,45 @@ void		get_fractal(t_3d *d)
 	}
 	(d->f.i == d->f.max) ? put_pixel_in_img(d, d->i.x, d->i.y, color) :
 		put_pixel_in_img(d, d->i.x, d->i.y, color_pixel(d, d->f.i));
+}
+
+t_rgb2	ft_gradient(unsigned a, unsigned b, int pixel)
+{
+	t_rgb2	c;
+
+	c.x.b = a & 0xFF;
+	c.y.b = b & 0xFF;
+	c.y.b = (c.y.b - c.x.b) / pixel;
+	c.x.g = a >> 8 & 0xFF;
+	c.y.g = b >> 8 & 0xFF;
+	c.y.g = (c.y.g - c.x.g) / pixel;
+	c.x.r = a >> 16 & 0xFF;
+	c.y.r = b >> 16 & 0xFF;
+	c.y.r = (c.y.r - c.x.r) / pixel;
+	return (c);
+}
+
+void	ft_draw_line(t_3d *d, t_cv a, t_cv b)
+{
+	t_max	dif;
+	t_max	i;
+	int		pixel;
+	t_rgb2	grad;
+
+	dif.x = fabs(b.x - a.x);
+	dif.y = fabs(b.y - a.y);
+	pixel = (dif.x > dif.y) ? dif.x : dif.y;
+	!pixel ? pixel = 1 : 0;
+	i.x = dif.x / pixel * (a.x < b.x ? 1 : -1);
+	i.y = dif.y / pixel * (a.y < b.y ? 1 : -1);
+	grad = ft_gradient(a.color, b.color, pixel);
+	while (pixel--)
+	{
+		put_pixel_in_img(d, a.x, a.y, ft_rgb2hex(grad.x));
+		a.x += i.x;
+		a.y += i.y;
+		grad.x.r += grad.y.r;
+		grad.x.g += grad.y.g;
+		grad.x.b += grad.y.b;
+	}
 }

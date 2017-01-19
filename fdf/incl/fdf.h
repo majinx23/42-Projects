@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 22:18:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 10:16:42 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,33 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
-
-# define TITLE "FDF"
-
-/*
-** PI is equal to PI * 2^24 or << 24
-*/
-
-# define PI 3.141927
+# define TITLE					"FDF"
+# define HELP_COLOR				WHITE
+# define HEIGHT					1400
+# define WIDTH					2000
 
 /*
 ** macros used for still inputs
 */
 
-# define KEYPRESS 2
-# define KEYRELEASE 3
-# define KEYPRESSMASK (1L << 0)
-# define KEYRELEASEMASK (1L << 1)
+# define KEYPRESS				2
+# define KEYRELEASE				3
+# define KEYPRESSMASK			(1L << 0)
+# define KEYRELEASEMASK			(1L << 1)
 
 /*
 ** more awesome colors
 */
 
-# define PINK 0xcc00cc
-# define BLACK 0x000000
-# define MARINE_BLUE 0x000099
-# define PONEY_PINK 0xffccff
-# define CRIMSON_RED 0x990033
-# define NICE_BLUE 0x6666ff
-# define DARK_TEAL 0x33cccc
-# define GREY 0xd3d3d3
-# define BROWN 0x996633
+# define PINK					0xcc00cc
+# define BLACK					0x000000
+# define MARINE_BLUE			0x000099
+# define CRIMSON_RED			0x990033
+# define NICE_BLUE				0x6666ff
+# define DARK_TEAL				0x33cccc
+# define GREY					0xd3d3d3
+# define BROWN					0x996633
+# define SLIGHTLY_TRANSPARENT	0x77000000
 
 /*
 ** using t_xy.x and t_xy.y instead of x and y for index.
@@ -76,26 +72,6 @@ typedef struct	s_argb2
 	t_argb		y;
 }				t_argb2;
 
-typedef struct	s_hsl
-{
-	float		h;
-	float		s;
-	float		l;
-}				t_hsl;
-
-typedef struct	s_hsb
-{
-	t_hsl		a;
-	t_hsl		i;
-}				t_hsb;
-
-typedef struct	s_h
-{
-	float		max;
-	float		min;
-	float		d;
-}				t_h;
-
 typedef struct	s_uixy
 {
 	unsigned	x;
@@ -104,49 +80,33 @@ typedef struct	s_uixy
 
 typedef struct	s_xy
 {
-	long	x;
-	long	y;
+	long		x;
+	long		y;
 }				t_xy;
 
-typedef struct s_fxy
+typedef struct	s_fxy
 {
-	float	x;
-	float	y;
+	float		x;
+	float		y;
 }				t_fxy;
 
 typedef struct	s_vector
 {
-	float	x;
-	float	y;
-	float	z;
-	float	w;
+	float		x;
+	float		y;
+	float		z;
+	float		w;
 }				t_vector;
-
-typedef struct	s_fxyzw
-{
-	float	x;
-	float	y;
-	float	z;
-	float	w;
-}				t_fxyzw;
-
-typedef struct s_xyz
-{
-	int		x;
-	int		y;
-	int		z;
-}				t_xyz;
-
 
 /*
 ** points are stored using this structure in convert_2_to_3d
 */
+
 typedef struct	s_index
 {
-	short	x;
-	short	y;
+	int			x;
+	int			y;
 }				t_index;
-
 
 typedef struct	s_uabcd
 {
@@ -162,6 +122,8 @@ typedef struct	s_uabcd
 
 typedef struct	s_3d
 {
+	char		*s;
+
 	void		*mlx;
 	void		*w;
 	int			*img;
@@ -177,20 +139,18 @@ typedef struct	s_3d
 	t_vector	center;
 	t_index		dimension;
 
-	t_vector	**m; //stores orginial input from file (z coords)
-	t_vector	**mm; //modified 3d coords
+	t_vector	**m;
+	t_vector	**mm;
 	int			**c;
-	char		*s;
 	short		slope;
 	t_xy		colors;
 	float		**matrix;
-	float		**matrix_tmp;
 	short		z_max;
 	short		z_min;
 	short		season;
 	t_argb		l;
 	t_vector	angle;
-	short		display;
+	short		help_display;
 }				t_3d;
 
 /*
@@ -205,7 +165,7 @@ float			vector_len(int x, int y, int z);
 ** formula.c ~ formulas, coordinates calculation and variables initialization
 */
 
-float			get_3d_y(t_vector a, float depth);
+float			get_3d_y(t_vector a);
 float			get_3d_x(t_vector a);
 int				convert_3_to_2d(t_3d *d);
 void			init_variables(t_3d *d);
@@ -213,7 +173,7 @@ short			width(t_3d *d);
 short			height(t_3d *d);
 
 /*
-** fdf.c ~ tracing lines algorythmes and listening to user input
+** fdf.c & hook.c ~ tracing lines algorythmes and listening to user input
 */
 
 int				fdf(t_3d *d);
@@ -222,7 +182,7 @@ void			draw(t_3d *d);
 void			lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
 void			create_image(t_3d *d);
 int				user_input(int keycode, t_3d *d);
-
+void			ft_settings(t_3d *d);
 /*
 ** color.c ~ gradient colors functions
 */
@@ -231,7 +191,7 @@ void			color_map(t_3d *d);
 t_argb2			gradient(unsigned a, unsigned b, int pixel);
 
 /*
-** matrix rotations
+** ft_matrix_transformations.c ~ matrix rotations
 */
 
 float			**identity_matrix(void);
@@ -239,20 +199,21 @@ float			**matrix_rotation(float angle, char axis);
 float			**matrix_scaling(t_vector scaling);
 float			**matrix_translation(t_vector offset);
 float			**matrix_magnitude(float depth);
-void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
-float			**factor_matrix(float **a, float **b);
 void			rotate(t_3d *d, char axis, char direction);
 
 /*
-** matrix2.c ~ vectors translation and rotation
+** ft_matrix_operations.c ~ vectors translation and rotation
 */
 
-t_3d			*rotate_point(t_3d *d, t_xy i);
+void			apply_matrix(t_3d *d);
+t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
+float			**factor_matrix(float **a, float **b);
+float			**sum_matrix(float **a, float **b);
 
 /*
-** functions handling memory
+** memory_manager.c ~ functions handling memory
 */
+
 int				malloc_map(t_3d *d);
 void			free_all(t_3d *d);
 void			free_matrix(float **m);

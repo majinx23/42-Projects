@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 13:12:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 15:58:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,10 @@ void	init_barnsley(t_3d *d)
 	d->c = (t_cnb) {.real = 0, .imag = 0};
 	d->fern_motion = LIME;
 //	barnsley_fern_algo(&d->f, d->c, 0, d);
+}
+
+void	init_koch(t_3d *d)
+{
+	d->fractal = KOCH;
+	d->koch_order = 4;
 }

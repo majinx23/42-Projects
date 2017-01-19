@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 22:18:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 09:53:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 
 	x = round(a.x) + d->offs.x;
 	y = round(a.y) + d->offs.y;
+
 	color = (ft_clamp((int)(round(c.r) + d->l.r - 1), 0, 0xff) << 16) +
 		(ft_clamp((int)(round(c.g) + d->l.g - 1), 0, 0xff) << 8) +
 		ft_clamp(round(c.b) + d->l.b - 1, 0, 0xff) +
@@ -138,15 +139,14 @@ void	draw(t_3d *d)
 int		fdf(t_3d *d)
 {
 //	apply_matrix(d);
-	ft_putstr("c");
-	convert_3_to_2d(d);
-	ft_putstr("c");
+	apply_matrix(d);
 	create_image(d);
 //	printf("draw %.f\n ", d->offs.x);
 	draw(d);
 //	printf("put image to window\n");
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
-	mlx_string_put(d->mlx, d->w, 10, 10, 0x33ffaa, "Click to display commands");
+	if (d->help_display > 0)
+		ft_settings(d);
 	mlx_hook(d->w, KEYPRESS, KEYPRESSMASK, user_input, d);
 	//mlx_key_hook(d->w,user_input, d);
 	mlx_loop(d->mlx); // pixels' display is only at this point

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 13:42:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 15:58:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ void	ft_black_screen(t_3d *d)
 
 static void	set_fractal(int k, t_3d *d)
 {
-	if (k == KEY_4)
+	if (k == KEY_4 || k == KEY_5)
 	{
 		(!(d->a)) ? ft_black_screen(d) : ++d->a;
-		init_barnsley(d);
+		if (k == KEY_5)
+			init_koch(d);
+		else
+			init_barnsley(d);
 	}
 	else if (k == KEY_1)
 		init_mandelbrot(d);

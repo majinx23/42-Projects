@@ -6,12 +6,12 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/17 16:37:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 20:22:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include "../libft/libft.h"
 # include "keycode_mac.h"
@@ -19,121 +19,85 @@
 # include <stdarg.h>
 # include <stdio.h>//
 
-# define TITLE			"Fractol"
-# define WIDTH			900
-# define HEIGHT			800
+# define TITLE			"PRINTF"
 
-enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
+typedef struct	s_buffer
+{
+	char		*buffer;
+	size_t		size;
+	size_t		pos;
+	size_t		total;
+	int			fd;
+}				t_buffer;
 
+
+
+typedef struct	s_lmod
+{
+	int		hh;
+	int		h;
+	int		ll;
+	int		l;
+	int		j;
+	int		z;
+}				t_lmod;
+
+typedef struct	s_flags
+{
+	int		width;
+	int		sharp;
+	int		pad;
+	char	padchar;
+	int		precision;
+	int		zero;
+	int		minus;
+	int		plus_sign;
+	int		space;
+}				t_flags;
+
+typedef struct	s_args
+{
+	char		*s;
+	char		c;
+	wchar_t		*ws;
+	wchar_t		wc;
+	intmax_t	nb;
+	uintmax_t	u_nb;
+	void		*ptr;
+}				t_args;
 /*
-** stands for complex number
-*/
-typedef struct		s_cnb
+ ** s1 is the string given by the user amd i current position
+ ** s2 the string displayed
+ */
+typedef struct	s_input
 {
-	double			real;
-	double			imag;
-}					t_cnb;
+	const char	*s1;
+	int			i;
+	char		tmp;
+	char		s2;
 
-typedef struct		s_index
-{
-	double			x;
-	double			y;
-}					t_index;
-
-typedef struct		s_max
-{
-	double			x;
-	double			y;
-}						t_max;
-
-typedef struct		s_i
-{
-	int				i;
-	int				max;
-
-}					t_i;
+	va_list		args;
+	int			pc;
+	t_args		targs;
+	t_flags		flags;
+	t_lmod		lmod;
+}				t_input;
 /*
-** i is pixel nb and f is current iteration
-*/
+ ** main program
+ */
 
-typedef struct			s_3d
-{
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*data;
-	int				bpp;
-	int				sizeline;
-	int				endian;
-	enum e_fractal	fractal;
-	t_index			i;
-	t_i				f;
-	t_max			max;
-
-	double			zoom;
-	t_index			offset;
-	int				iter_coef;
-
-	t_cnb			c_point;
-	
-	t_cnb			c;
-	short			fern;
-	unsigned		fern_motion;
-
-	int				julia_static;
-	t_cnb			julia;
-	int				color;
-	int				menu;
-	short			rng;
-}						t_3d;
-
+int		ft_printf(const char *restrict format, ...);
+int		parsing_loop(const char **restrict format, va_list args);
+int		parsing(t_input *input, char **s);
+int		parse_param(t_input	input);
+int		parse_flags(t_input	input);
+int		parse_width(t_input	input);
+int		parse_precision(t_input	input);
+int		parse_length_modifier(t_input	input);
+int		parse_type_conversion(t_input	input);
 /*     
-** Parsing and variable t_3d initialization
-*/
+ ** Parsing functions
+ */
 
-int						usage();
-int						init_variables(t_3d *d);
-void					init_img(t_3d *d);
-void					put_pixel_to_img(t_3d *d, int x, int y, int color);
-
-
-/*
-** Fractol program
-*/
-
-void					init_fractal(t_3d *d, char *name);
-unsigned int			create_color(int r, int g, int b);
-void					fractol(t_3d *d);
-void					get_fractal(t_3d *d);
-unsigned				color_pixel(t_3d *d, t_cnb *z, int i);
-unsigned int			linear_interpolation(double hue);
-
-/*
-** fractol initialization
-*/
-
-void					init_julia_set(t_3d *d);
-void					init_phoenix(t_3d *d);
-
-/*
-**  -0.506667 0.520000       0.403333  0.273333
-*/
-void					init_julia(t_3d *d);
-void					init_mandelbrot(t_3d *d);
-
-void					mandelbrot(t_3d *d, t_cnb z, t_cnb c);
-void					julia(t_3d *d, t_cnb c);
-void					phoenix(t_3d *d, t_cnb z, t_cnb c);
-void					barnsley(t_3d *d);
-
-/*
-** Hook to check for user input
-*/
-
-int						motion_hook(int x, int y, t_3d *d);
-int						key_hook(int keycode, t_3d *d);
-//void					apply_scaling(t_3d *d, int keycode);
-int						mouse_scaling_hook(int button, int x, int y, t_3d *d);
-void					menu(t_3d *d);
 
 #endif

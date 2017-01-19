@@ -6,16 +6,16 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:42:03 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 12:53:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/18 15:58:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
 /*
-** Mathematician Adrien Douady's tribute to his peer Benoit Mandelbrot.
-** https://en.wikipedia.org/wiki/Mandelbrot_set
-*/
+ ** Mathematician Adrien Douady's tribute to his peer Benoit Mandelbrot.
+ ** https://en.wikipedia.org/wiki/Mandelbrot_set
+ */
 
 void			mandelbrot(t_3d *d, t_cnb z, t_cnb c)
 {
@@ -37,9 +37,9 @@ void			mandelbrot(t_3d *d, t_cnb z, t_cnb c)
 }
 
 /*
-** Gaston Maurice Julia's algorytm coined to create Julia fractals
-** https://en.wikipedia.org/wiki/Julia_set
-*/
+ ** Gaston Maurice Julia's algorytm coined to create Julia fractals
+ ** https://en.wikipedia.org/wiki/Julia_set
+ */
 void		julia(t_3d *d, t_cnb z)
 {
 	double	n;
@@ -62,8 +62,8 @@ void		julia(t_3d *d, t_cnb z)
 
 
 /*
-** Phoenix fractal algorytm
-*/
+ ** Phoenix fractal algorytm
+ */
 
 void		phoenix(t_3d *d, t_cnb z, t_cnb c)
 {
@@ -85,9 +85,9 @@ void		phoenix(t_3d *d, t_cnb z, t_cnb c)
 }
 
 /*
-** Michael Barnsley coined this algorytm that creates a fern fractal
-** https://en.wikipedia.org/wiki/Barnsley_fern
-*/
+ ** Michael Barnsley coined this algorytm that creates a fern fractal
+ ** https://en.wikipedia.org/wiki/Barnsley_fern
+ */
 
 void		barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d)
 {
@@ -111,9 +111,46 @@ void		barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d)
 		}
 		else
 			c = (t_cnb) {.real = 0.85f * c.real + 0.04f * c.imag,
-			.imag = -0.04f * c.real + 0.85f * c.imag + 1.6f};
+				.imag = -0.04f * c.real + 0.85f * c.imag + 1.6f};
 		d->c = (t_cnb) {.real = (c.real + 3) * 70, .imag = 800 - c.imag * 70};
 		put_pixel_in_img(d, d->c.real + 300, d->c.imag, d->fern_motion);
 	}
 }
 
+static void DrawFractalLine(t_3d *d, t_cv a, t_cv b, int depth)
+{
+	t_cv	tier_1;
+	t_cv	tier_2;
+	t_cv	pic;
+	int			c;
+
+	c = BLUE;
+	if (depth <= 0)
+		ft_draw_line(d, a, b);
+	else
+	{
+		tier_1 = (t_cv){(2.0 * a.x + b.x) / 3.0, (2.0 * a.y + b.y) / 3.0, c};
+		tier_2 = (t_cv){(a.x + 2.0 * b.x) / 3.0, (a.y + 2.0 * b.y) / 3.0, c};
+		pic = (t_cv){(a.x + b.x) / 2.0 - sqrt(3.0i) * (b.y - a.y) / 6.0, 
+			(a.y + b.y) / 2.0 + sqrt(3.0) * (b.x - a.x) / 6.0, c};
+		DrawFractalLine(d, a, tier_1, depth - 1);
+		DrawFractalLine(d, tier_1, pic, depth - 1);
+		DrawFractalLine(d, pic, tier_2, depth - 1);
+		DrawFractalLine(d, tier_2, b, depth - 1);
+	}
+}
+
+void		koch_snowflake_algo(t_3d *d)
+{
+	t_cv	a;
+	t_cv	b;
+	t_cv	c;
+
+	a = (t_cv) {WIDTH / 3, HEIGHT / 3, RED};
+	b = (t_cv) {2 * WIDTH / 3, HEIGHT / 3, WHITE};
+	c = (t_cv) {WIDTH / 2, 2 * HEIGHT / 3, BLUE};
+
+	DrawFractalLine(d, a, b, d->koch_order);
+	DrawFractalLine(d, a, c, d->koch_order);
+	DrawFractalLine(d, c, b, d->koch_order);
+}

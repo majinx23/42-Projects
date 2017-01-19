@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/15 22:14:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 09:53:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,6 @@ void	init_variables(t_3d *d)
 	d->depth = 1;
 	d->img = NULL;
 	d->season = 0;
-	d->display = 1;
-}
-
-/*
- ** Hook
- */
-
-int			mouse_hook(int button, int x, int y, t_3d *d)
-{
-	x = 0;
-	y = 0;
-
-	d->display = (button == 1 || button == 2) ? -(d->display) : d->display;
-	if (d->display > 1)
-		mlx_string_put(d->mlx, d->w, 10, 10, 0x33ffaa,
-				"Click to display commands");
-	else
-	{
-		mlx_string_put(d->mlx, d->w, 10, 16, 0x33ffaa, 
-				"Press 1 or 2 for z axis rotation, 3 or 4 for y,");
-		mlx_string_put(d->mlx, d->w, 10, 24, 0x33ffaa,
-				"5 or 6 for z and 7 or 8 to rotate all axis at once");
-		mlx_string_put(d->mlx, d->w, 10, 32, 0x33ffaa,
-				"Press 9 or 0 to lighten or darken map");
-		mlx_string_put(d->mlx, d->w, 10, 40, 0x33ffaa,
-				"Press , or . to decrease or increase transparency");
-	}
-	fdf(d);
-	return (1);
 }
 
 int		color_hook(int k, t_3d *d)
@@ -102,9 +73,9 @@ int		rotation_translation_hook(int k, t_3d *d)
 	if (k >= 123 && k <= 126)
 	{
 		if (k == 123 || k == 124)
-			d->offs.x += (k == 123) ? -20 : 20;
+			d->offs.x += (k == 123) ? 20 : -20;
 		else if (k == 125 || k == 126)
-			d->offs.y += (k == 125) ? 20 : -20;;
+			d->offs.y += (k == 125) ? -20 : 20;;
 	}
 	return (1);
 }
@@ -128,7 +99,7 @@ int		user_input(int k, t_3d *d)
 		init_variables(d);
 		fdf(d);
 	}
-	if ((k == 69 && d->scaling.x < 10) || (k == 78 && d->scaling.x > 0.1))
+	else if ((k == 69 && d->scaling.x < 400) || (k == 78 && d->scaling.x > 0.1))
 	{
 		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.y *= (k == 69) ? 1.25 : 0.8;
@@ -139,6 +110,8 @@ int		user_input(int k, t_3d *d)
 		d->depth *= 0.80;
 	else if (k == 14 && d->depth < 5)
 		d->depth *= 1.25;
+	else if (k == KEY_H)
+		d->help_display = (d->help_display == 1) ? 0 : 1;
 	rotation_translation_hook(k, d);
 	color_hook(k, d);
 	fdf(d);
