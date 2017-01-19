@@ -6,23 +6,21 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 09:53:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 10:21:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
 
 /*
- ** Variable initialization
- ** gamma ~ g, scaling ~ zoom, translation on x axis ~ offs.x
- ** z amplitude ~ depth, image and matrix set to NULL and identity_matrix
- ** map default colors ~ season {0, 3}, rotation around x axis ~ angle.x.
- */
+** Variable initialization
+** gamma ~ g, scaling ~ zoom, translation on x axis ~ offs.x
+** z amplitude ~ depth, image and matrix set to NULL and identity_matrix
+** map default colors ~ season {0, 3}, rotation around x axis ~ angle.x.
+*/
 
 void	init_variables(t_3d *d)
 {
-//	d->center.y = d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y / 2;
-//	d->center.x = d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].y / 2;
 	d->offs.x = d->dimension.x / 2 - d->center.x;
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1};
@@ -75,8 +73,24 @@ int		rotation_translation_hook(int k, t_3d *d)
 		if (k == 123 || k == 124)
 			d->offs.x += (k == 123) ? 20 : -20;
 		else if (k == 125 || k == 126)
-			d->offs.y += (k == 125) ? -20 : 20;;
+			d->offs.y += (k == 125) ? -20 : 20;
 	}
+	return (1);
+}
+
+int		scaling_hook(int k, t_3d *d)
+{
+	if ((k == 69 && d->scaling.x < 400) || (k == 78 && d->scaling.x > 0.1))
+	{
+		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
+		d->scaling.y *= (k == 69) ? 1.25 : 0.8;
+		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
+		d->scaling.w = 1;
+	}
+	if (k == 12 && d->depth > 0.01)
+		d->depth *= 0.80;
+	else if (k == 14 && d->depth < 5)
+		d->depth *= 1.25;
 	return (1);
 }
 
@@ -86,7 +100,6 @@ int		rotation_translation_hook(int k, t_3d *d)
 
 int		user_input(int k, t_3d *d)
 {
-	printf("ok%d\n", k);//
 	if (k == 53)
 	{
 		free_all(d);
@@ -99,19 +112,9 @@ int		user_input(int k, t_3d *d)
 		init_variables(d);
 		fdf(d);
 	}
-	else if ((k == 69 && d->scaling.x < 400) || (k == 78 && d->scaling.x > 0.1))
-	{
-		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
-		d->scaling.y *= (k == 69) ? 1.25 : 0.8;
-		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
-		d->scaling.w = 1;
-	}
-	else if (k == 12 && d->depth > 0.01)
-		d->depth *= 0.80;
-	else if (k == 14 && d->depth < 5)
-		d->depth *= 1.25;
 	else if (k == KEY_H)
 		d->help_display = (d->help_display == 1) ? 0 : 1;
+	scaling_hook(k, d);
 	rotation_translation_hook(k, d);
 	color_hook(k, d);
 	fdf(d);

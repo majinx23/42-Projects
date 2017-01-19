@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 14:17:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 09:53:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 10:26:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /*
 ** creates a new image
 */
+
 void	create_image(t_3d *d)
 {
-//	printf("width : %d   height : %d", d->dimension.x, d->dimension.y);
 	d->img ? mlx_destroy_image(d->mlx, d->img) : 0;
 	mlx_clear_window(d->mlx, d->w);
 	d->img = mlx_new_image(d->mlx, d->dimension.x, d->dimension.y);
@@ -25,13 +25,13 @@ void	create_image(t_3d *d)
 	&(d->line_size), &(d->endian));
 }
 
-
 /*
 ** Puts exactly one pixel in the image
 ** As d->c[y][x] is the color expressed as integer, we take the address
 ** of d->data_address and then cast it as (int *) before dereferencing to
 ** save color value inside.
 */
+
 void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 {
 	int			x;
@@ -80,6 +80,7 @@ void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 /*
 ** draw lines between points (no bits)
 */
+
 void	lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
 {
 	t_fxy		dif;
@@ -87,7 +88,6 @@ void	lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
 	int			pixel;
 	t_argb2		grad;
 
-	//printf("pixel coords: %f, %f\n", a.x, a.y);
 	dif.x = fabs(b.x - a.x);
 	dif.y = fabs(b.y - a.y);
 	pixel = (dif.x > dif.y) ? dif.x : dif.y;
@@ -97,7 +97,6 @@ void	lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
 	grad = gradient(c.x, c.y, pixel);
 	while (pixel--)
 	{
-		//printf("draw pixel: %f, %f\n", a.x, a.y);
 		put_pixel_in_img(d, a, grad.x);
 		a.x += i.x;
 		a.y += i.y;
@@ -107,6 +106,10 @@ void	lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
 		grad.x.a += grad.y.a;
 	}
 }
+
+/*
+** draws each points
+*/
 
 void	draw(t_3d *d)
 {
@@ -136,19 +139,19 @@ void	draw(t_3d *d)
 	}
 }
 
+/*
+** makes a 3d representation of the map and wait for user_input
+*/
+
 int		fdf(t_3d *d)
 {
-//	apply_matrix(d);
 	apply_matrix(d);
 	create_image(d);
-//	printf("draw %.f\n ", d->offs.x);
 	draw(d);
-//	printf("put image to window\n");
 	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
 	if (d->help_display > 0)
 		ft_settings(d);
 	mlx_hook(d->w, KEYPRESS, KEYPRESSMASK, user_input, d);
-	//mlx_key_hook(d->w,user_input, d);
-	mlx_loop(d->mlx); // pixels' display is only at this point
+	mlx_loop(d->mlx);
 	return (0);
 }
