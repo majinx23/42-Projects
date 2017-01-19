@@ -6,15 +6,15 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 20:41:21 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 09:11:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 14:05:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
 
-float		vector_len(int x, int y, int z)
+float		vector_len(t_vector	v)
 {
-	return (sqrt(x * x + y * y + z * z));
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
 float		get_3d_y(t_vector a)

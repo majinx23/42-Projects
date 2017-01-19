@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 10:16:42 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 14:47:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ typedef struct	s_3d
 	t_vector	**m;
 	t_vector	**mm;
 	int			**c;
-	short		slope;
 	t_xy		colors;
 	float		**matrix;
+	float		**matrix_tmp;
 	short		z_max;
 	short		z_min;
 	short		season;
@@ -159,7 +159,6 @@ typedef struct	s_3d
 
 short			check_validity(char *s);
 int				get_depth_and_colors(t_3d *d);
-float			vector_len(int x, int y, int z);
 
 /*
 ** formula.c ~ formulas, coordinates calculation and variables initialization
@@ -167,6 +166,7 @@ float			vector_len(int x, int y, int z);
 
 float			get_3d_y(t_vector a);
 float			get_3d_x(t_vector a);
+float			vector_len(t_vector v);
 int				convert_3_to_2d(t_3d *d);
 void			init_variables(t_3d *d);
 short			width(t_3d *d);
@@ -178,9 +178,9 @@ short			height(t_3d *d);
 
 int				fdf(t_3d *d);
 void			put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
-void			draw(t_3d *d);
+void			ft_draw(t_3d *d);
 void			lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
-void			create_image(t_3d *d);
+void			ft_create_image(t_3d *d);
 int				user_input(int keycode, t_3d *d);
 void			ft_settings(t_3d *d);
 /*
@@ -200,6 +200,7 @@ float			**matrix_scaling(t_vector scaling);
 float			**matrix_translation(t_vector offset);
 float			**matrix_magnitude(float depth);
 void			rotate(t_3d *d, char axis, char direction);
+float			**matrix_global_rotation(t_vector angle);
 
 /*
 ** ft_matrix_operations.c ~ vectors translation and rotation
@@ -209,7 +210,7 @@ void			apply_matrix(t_3d *d);
 t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
 float			**factor_matrix(float **a, float **b);
 float			**sum_matrix(float **a, float **b);
-
+void			ft_print_matrix(float **m);
 /*
 ** memory_manager.c ~ functions handling memory
 */

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:22:47 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 12:15:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 15:19:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ float	**matrix_scaling(t_vector scaling)
 	return (m);
 }
 
-float	**rotate(t_3d *d, char axis, char i)
-{
-	float	**m;
-	float	a;
-	//	int		reset;
 
+/*
+** a is to rotate all axis simultaneously
+*/
+void	rotate(t_3d *d, char axis, char i)
+{
+	float	a;
+//	d->matrix_tmp = identity_matrix();
+	//	int		reset;
+//	d->matrix = identity_matrix();
 	//	reset = 2 * PI;
 	a = (5.625 * M_PI) / 180;
 	/*	if ((axis == 'z' || axis == 'a') && i == '+')
@@ -45,12 +49,26 @@ float	**rotate(t_3d *d, char axis, char i)
 		else if (axis == 'z' || axis == 'a')
 		d->angle.z -= a;*/
 	if (axis == 'z' || axis == 'a')
+	{ 
+	//	d->matrix = factor_matrix(d->matrix, matrix_rotation(0, 'z'));
 		d->angle.z += (i == '+') ? a : -a;
+//		d->matrix_tmp = matrix_rotation(d->angle.z, 'z');
+	}
+//	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.z, 'z'));
 	if (axis == 'y' || axis == 'a')
+	{
+	//	d->matrix = factor_matrix(d->matrix, matrix_rotation(0, 'y'));
 		d->angle.y += (i == '+') ? a : -a;
+//		d->matrix_tmp = matrix_rotation(d->angle.y, 'y');
+	}
+//	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.y, 'y'));
 	if (axis == 'x' || axis == 'a')
+	{
+	//	d->matrix = factor_matrix(d->matrix, matrix_rotation(0, 'x'));
 		d->angle.x += (i == '+') ? a : -a;
-	m = 
+//		d->matrix_tmp = matrix_rotation(d->angle.x, 'x');
+	}
+//	d->matrix = factor_matrix(d->matrix, matrix_rotation(d->angle.x, 'x'));
 	//	printf("angle x%f\n", d->angle.x);
 	//	printf("angle y%f\n", d->angle.y);
 	//	printf("angle z%f\n", d->angle.z);
@@ -66,19 +84,44 @@ float	**rotate(t_3d *d, char axis, char i)
 		d->angle.y = 0;
 		if (d->angle.y > (reset - 0.02) || d->angle.y < 0.02)
 		d->angle.y = 0;*/
+//	ft_putstr("matrix z before :\n\n");
+//	ft_print_matrix(d->matrix);
+//	d->matrix = factor_matrix(d->matrix_tmp, d->matrix);
+//	ft_putstr("matrix z after :\n\n");
+//	ft_print_matrix(d->matrix);
+//	free(d->matrix_tmp);
+//	d->matrix = matrix_rotation(d->angle);
+//	d->matrix = matrix_global_rotation(d->angle);
+}
+
+float	**matrix_global_rotation(t_vector a)
+{
+	float	**m;
+
+	m = identity_matrix();
+	m[0][0] = cos(a.y) * cos(a.z);
+	m[0][1] = cos(a.z) * sin(a.x) * sin(a.y) - cos(a.x) * sin(a.z);
+	m[0][2] = cos(a.x) * cos(a.z) * sin(a.y) + sin(a.x) * sin(a.z);
+	m[1][0] = cos(a.y) * sin(a.z);
+	m[1][1] = cos(a.x) * cos(a.z) + sin(a.x) * sin(a.y) * sin(a.z);
+	m[1][2] = -cos(a.z) * sin(a.x) + cos(a.x) * sin(a.y) * sin(a.z);
+	m[2][0] = -sin(a.y);
+	m[2][1] = cos(a.y) * sin(a.x);
+	m[2][2] = cos(a.x) * cos(a.y);
+	return (m);
 }
 
 float	**matrix_rotation(float x, char axis)
 {
-	float**m;
+	float	**m;
 
 	m = identity_matrix();
 	if (axis == 'x')
 	{
-		m[2][1] = sin(x);
 		m[1][1] = cos(x);
 		m[1][2] = -sin(x);
 		m[2][2] = cos(x);
+		m[2][1] = sin(x);
 	}
 	else if (axis == 'y')
 	{
@@ -90,8 +133,8 @@ float	**matrix_rotation(float x, char axis)
 	else if (axis == 'z')
 	{
 		m[0][0] = cos(x);
-		m[0][1] = sin(x);
-		m[1][0] = -sin(x);
+		m[0][1] = -sin(x);
+		m[1][0] = sin(x);
 		m[1][1] = cos(x);
 	}
 	return (m);

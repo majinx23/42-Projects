@@ -6,9 +6,12 @@ FDF is a 42 Project to learn about 3d programming. The program takes a map as pa
 * Create a 3d representation of a map using vectors and matrix.
 * You can rotate, translate and zoom/dezoom.
 * Colors of the map altermate according to seasons and altitude.
-* Thanks to my dear friend <a href="http://www.github.com/Janwalsh91">Janwalsh91</a> for the miscellaneous tips and the awesome colors.
-* Also many thanks to these very informative sites: https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions and https://web.archive.org/web/20150225192611/http://www.arcsynthesis.org/gltut/index.html
 
+## Credits
+* Thanks to my dear friend <a href="http://www.github.com/Janwalsh91">Janwalsh91</a> for the miscellaneous tips and the awesome colors.
+* Also many thanks to these very informative sites: https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions
+* https://web.archive.org/web/20150225192611/http://www.arcsynthesis.org/gltut/index.html
+* http://inside.mines.edu/fs_home/gmurray/ArbitraryAxisRotation/
 ## Installation
 ```
 $> make

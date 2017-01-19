@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 18:33:32 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 10:31:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 15:00:13 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	free_all(t_3d *d)
 	while (i < d->max.y)
 	{
 		d->m[i] ? free(d->m[i]) : 0;
+		d->c[i] ? free (d->c[i]) : 0;
 		d->mm[i] ? free(d->mm[i]) : 0;
 		++i;
 	}
 	d->m ? free(d->m) : 0;
 	d->mm ? free(d->mm) : 0;
+	d->c ? free(d->c) : 0;
 }

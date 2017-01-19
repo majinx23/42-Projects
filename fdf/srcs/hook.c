@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/31 17:15:34 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 10:21:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 15:12:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	init_variables(t_3d *d)
 	d->depth = 1;
 	d->img = NULL;
 	d->season = 0;
+//	d->matrix ? free(d->matrix) : 0;
+	d->matrix = identity_matrix();
 }
 
 int		color_hook(int k, t_3d *d)
@@ -58,16 +60,8 @@ int		color_hook(int k, t_3d *d)
 	return (1);
 }
 
-int		rotation_translation_hook(int k, t_3d *d)
+int		translation_hook(int k, t_3d *d)
 {
-	if (k == 18 || k == 19)
-		k == 18 ? rotate(d, 'z', '+') : rotate(d, 'z', '-');
-	else if (k == 20 || k == 21)
-		k == 20 ? rotate(d, 'y', '+') : rotate(d, 'y', '-');
-	else if (k == 23 || k == 22)
-		k == 23 ? rotate(d, 'x', '+') : rotate(d, 'x', '-');
-	else if (k == 26 || k == 28)
-		k == 26 ? rotate(d, 'a', '+') : rotate(d, 'a', '-');
 	if (k >= 123 && k <= 126)
 	{
 		if (k == 123 || k == 124)
@@ -75,6 +69,19 @@ int		rotation_translation_hook(int k, t_3d *d)
 		else if (k == 125 || k == 126)
 			d->offs.y += (k == 125) ? -20 : 20;
 	}
+	return (1);
+}
+
+int		rotation_hook(int k, t_3d *d)
+{
+	if (k == 18 || k == 19)
+		(k == 18) ? rotate(d, 'z', '+') : rotate(d, 'z', '-');
+	else if (k == 20 || k == 21)
+		(k == 20) ? rotate(d, 'y', '+') : rotate(d, 'y', '-');
+	else if (k == 23 || k == 22)
+		(k == 23) ? rotate(d, 'x', '+') : rotate(d, 'x', '-');
+	else if (k == 26 || k == 28)
+		k == 26 ? rotate(d, 'a', '+') : rotate(d, 'a', '-');
 	return (1);
 }
 
@@ -115,7 +122,9 @@ int		user_input(int k, t_3d *d)
 	else if (k == KEY_H)
 		d->help_display = (d->help_display == 1) ? 0 : 1;
 	scaling_hook(k, d);
-	rotation_translation_hook(k, d);
+	if ((k >= 18 && k <= 23) || k == 26 || k == 28)
+		rotation_hook(k, d);
+	translation_hook(k, d);
 	color_hook(k, d);
 	fdf(d);
 	return (1);
