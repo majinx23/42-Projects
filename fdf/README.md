@@ -12,6 +12,7 @@ FDF is a 42 Project to learn about 3d programming. The program takes a map as pa
 * Also many thanks to these very informative sites: https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions
 * https://web.archive.org/web/20150225192611/http://www.arcsynthesis.org/gltut/index.html
 * http://inside.mines.edu/fs_home/gmurray/ArbitraryAxisRotation/
+
 ## Installation
 ```
 $> make
@@ -22,7 +23,8 @@ $> ./fdf map.fdf
 <img align="center" src="http://image.noelshack.com/fichiers/2017/02/1484084381-screen-shot-2017-01-10-at-10-37-48-pm.png" width ="100%" />
 
 ## Project Overview
-<img align="center" src="http://image.noelshack.com/fichiers/2017/02/1484078689-output-j4anyk-1.gif" width ="100%" />
+<img align="left" src="http://image.noelshack.com/fichiers/2017/03/1484867801-output-kangnw.gif" width ="100%" />
+<img align="rightr" src="http://image.noelshack.com/fichiers/2017/03/1484867801-output-kangnw.gif" width ="100%" />
 
 ## Contact & contribute
 To contact me and helping me to (fix bugs || improve) FDF, feel free to e-mail me at **angavrel at student dot 42 dot fr**

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:22:47 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 21:29:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/19 23:41:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	matrix_magnitude(t_3d *d, float depth)
 {
-//	d->matrix[0][2] *= depth;
-	d->matrix[1][2] = depth * ((int)d->matrix[1][2] >> 3);
+	d->matrix[0][2] = depth * ((int)d->matrix[0][2]);
+	d->matrix[1][2] = depth * ((int)d->matrix[1][2]);
 //	d->matrix[2][2] *= depth;
 }
 
@@ -36,6 +36,7 @@ float	**matrix_scaling(t_vector scalingv)
 
 /*
 ** a is to rotate all axis simultaneously
+** a float correspond to M_PI / 180 * 180 / 40
 */
 void	rotate(t_3d *d, char axis, char i)
 {
@@ -44,7 +45,7 @@ void	rotate(t_3d *d, char axis, char i)
 	//	int		reset;
 //	d->matrix = identity_matrix();
 	//	reset = 2 * PI;
-	a = (5.625 * M_PI) / 180;
+	a = 0.04908738521;
 	/*	if ((axis == 'z' || axis == 'a') && i == '+')
 		d->angle.z += a;
 		else if (axis == 'z' || axis == 'a')

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:45 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 17:14:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/20 00:18:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void				color_map(t_3d *d)
 		i.x = 0;
 		while (i.x < d->max.x)
 		{
-			if (d->m[i.y][i.x].z - d->z_min < 0.35 * range)
+			if (d->m[i.y][i.x].z < -50)
 				d->c[i.y][i.x] = season(d->season, 0);
-			else if (d->m[i.y][i.x].z - d->z_min < 0.55 * range)
+			else if (d->m[i.y][i.x].z < 0)
 				d->c[i.y][i.x] = season(d->season, 1);
-			else if (d->m[i.y][i.x].z - d->z_min < 0.70 * range)
+			else if (d->m[i.y][i.x].z < 0.45 * d->z_max)
 				d->c[i.y][i.x] = season(d->season, 2);
-			else if (d->m[i.y][i.x].z - d->z_min < 0.85 * range)
+			else if (d->m[i.y][i.x].z < 0.60 * d->z_max)
 				d->c[i.y][i.x] = season(d->season, 3);
 			else
 				d->c[i.y][i.x] = season(d->season, 4);
