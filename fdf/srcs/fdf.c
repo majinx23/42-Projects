@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 15:18:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 16:12:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
  ** the program patiently awaits other instructions from the user with mlx_hook
  */
 
-int		ft_fdf(t_3d *d)
+int		fdf(t_3d *d)
 {
-	ft_create_image(d);
-	ft_apply_matrix(d);
+	ft_create_image(&(d->img));
+	apply_matrix(d);
 	ft_draw(d);
-	mlx_put_image_to_window(d->img.mlx, d->img.w, d->img.img, 0, 0);
+	mlx_put_image_to_window(d->img.mlx, d->img.w, d->img.image, 0, 0);
 	if (d->help_display > 0)
 		ft_settings(d);
-	mlx_hook(d->img.w, KEYPRESS, KEYPRESSMASK, ft_user_hook, d);
+	mlx_hook(d->img.w, KEYPRESS, KEYPRESSMASK, user_hook, d);
 	mlx_loop(d->img.mlx);
 	return (0);
 }
@@ -41,7 +41,7 @@ int		ft_fdf(t_3d *d)
  ** season is the current season (Spring)
  */
 
-void	ft_init_variables(t_3d *d)
+void	init_variables(t_3d *d)
 {
 	t_vector	zoom;
 
@@ -72,7 +72,7 @@ void	ft_init_variables(t_3d *d)
 ** allowing the user to play with mountains amplitude without touching seas.
 */
 
-void	ft_apply_matrix(t_3d *d)
+void	apply_matrix(t_3d *d)
 {
 	t_index	i;
 
@@ -83,7 +83,7 @@ void	ft_apply_matrix(t_3d *d)
 	d->matrix = ft_matrix_z_scaling(d->matrix, 0.25);
 	d->matrix_tmp = ft_copy_matrix(d->matrix);
 	d->matrix = ft_matrix_z_scaling(d->matrix, d->depth);
-	ft_recalculate_center(d);
+	recalculate_center(d);
 	i.y = 0;
 	while (i.y < d->max.y)
 	{
@@ -107,7 +107,7 @@ void	ft_apply_matrix(t_3d *d)
  ** https://en.wikipedia.org/wiki/Degree_(angle)
  */
 
-void	ft_rotate(t_3d *d, char axis, char i)
+void	norm_rotation(t_3d *d, char axis, char i)
 {
 	float	a;
 
@@ -132,7 +132,7 @@ void	ft_rotate(t_3d *d, char axis, char i)
 		d->angle.z += 2 * PI;
 }
 
-void	ft_recalculate_center(t_3d *d)
+void	recalculate_center(t_3d *d)
 {
 	t_index		i;
 	t_vector	max;

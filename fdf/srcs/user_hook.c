@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 15:24:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 16:09:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ int		translation_hook(int k, t_3d *d)
 int		rotation_hook(int k, t_3d *d)
 {
 	if (k == 18 || k == 19)
-		(k == 18) ? ft_rotate(d, 'z', '+') : ft_rotate(d, 'z', '-');
+		(k == 18) ? norm_rotation(d, 'z', '+') : norm_rotation(d, 'z', '-');
 	else if (k == 20 || k == 21)
-		(k == 20) ? ft_rotate(d, 'y', '+') : ft_rotate(d, 'y', '-');
+		(k == 20) ? norm_rotation(d, 'y', '+') : norm_rotation(d, 'y', '-');
 	else if (k == 23 || k == 22)
-		(k == 23) ? ft_rotate(d, 'x', '+') : ft_rotate(d, 'x', '-');
+		(k == 23) ? norm_rotation(d, 'x', '+') : norm_rotation(d, 'x', '-');
 	else if (k == 26 || k == 28)
-		k == 26 ? ft_rotate(d, 'a', '+') : ft_rotate(d, 'a', '-');
+		k == 26 ? norm_rotation(d, 'a', '+') : norm_rotation(d, 'a', '-');
 	return (1);
 }
 
@@ -103,8 +103,8 @@ int		user_hook(int k, t_3d *d)
 	}
 	else if (k == 49)
 	{
-		ft_init_variables(d);
-		ft_fdf(d);
+		init_variables(d);
+		fdf(d);
 	}
 	else if (k == KEY_H)
 		d->help_display = (d->help_display == 1) ? 0 : 1;
@@ -113,6 +113,6 @@ int		user_hook(int k, t_3d *d)
 	scaling_hook(k, d);
 	translation_hook(k, d);
 	color_hook(k, d);
-	ft_fdf(d);
+	fdf(d);
 	return (1);
 }

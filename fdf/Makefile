@@ -15,15 +15,13 @@ LIBFTMATH_PATH = libftmath
 
 ### SOURCES ###
 SOURCES = main.c \
-		  ft_parsing.c \
-		  ft_formula.c \
+		  parsing_map.c \
+		  fdf.c \
 		  ft_draw.c \
-		  ft_color.c \
-		  ft_matrix_operations.c \
-		  ft_matrix_transformations.c \
-		  ft_memory_handler.c \
+		  color_map.c \
+		  memory_manager.c \
 		  ft_settings.c \
-		  ft_hook.c \
+		  user_hook.c \
 
 ### OBJECTS ###
 

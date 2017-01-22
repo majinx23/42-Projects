@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 15:24:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 16:12:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@
 
 /*
 ** a is alpha(transparency) r = red g = green b = blue
+** argb stores inside .x the color used to draw the pixel
+** and in y the required incrementation
 */
 
 typedef struct	s_argb
@@ -70,9 +72,6 @@ typedef struct	s_argb
 	float		b;
 }				t_argb;
 
-/*
-** color gradient function
-*/
 typedef struct	s_argb2
 {
 	t_argb		x;
@@ -101,11 +100,16 @@ typedef struct	s_index
 	int			y;
 }				t_index;
 
+
+/*
+** first project where I use mlx. w is the window or frame.
+*/
+
 typedef struct	s_image
 {	
 	void		*mlx;
 	void		*w;
-	int			*img;
+	int			*image;
 	char		*data_address;
 	int			bpp;
 	int			line_size;
@@ -115,7 +119,10 @@ typedef struct	s_image
 
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
+** vertical_view if the initial view of the map.
+** full description of variables below is written in init_variables.
 */
+
 typedef struct	s_3d
 {
 	t_image		img;
@@ -150,34 +157,26 @@ typedef struct	s_3d
 short			check_validity(char *s);
 int				get_depth_and_colors(t_3d *d);
 
-/*
-** formula.c ~ formulas, coordinates calculation and variables initialization
-*/
-
-float			get_3d_y(t_vector a);
-float			get_3d_x(t_vector a);
-float			vector_len(t_vector v);
 
 /*
-** initialization of variables
-*/
-
-void			init_variables(t_3d *d);
-
-/*
-** fdf.c & hook.c ~ tracing lines algorythmes and listening to user input
+** fdf.c ~ tracing lines algorytmes
 */
 
 int				fdf(t_3d *d);
+void			init_variables(t_3d *d);
+void			apply_matrix(t_3d *d);
+void			norm_rotation(t_3d *d, char axis, char direction);
+void			recalculate_center(t_3d *d);
+
+/*
+** ft_draw.c ~ mlx related functions
+*/
+
 void			ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
 void			ft_draw(t_3d *d);
-int				ft_is_inside_frame(t_vector pixel);
 void			ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
-void			ft_create_image(t_3d *d);
-int				user_hook(int keycode, t_3d *d);
-void			ft_rotate(t_3d *d, char axis, char direction);
-void			ft_recalculate_center(t_3d *d);
-void			ft_settings(t_3d *d);
+void			ft_create_image(t_image *img);
+
 /*
 ** color.c ~ gradient colors functions
 */
@@ -186,10 +185,15 @@ void			color_map(t_3d *d);
 t_argb2			gradient(unsigned a, unsigned b, int pixel);
 
 /*
-** ft_matrix_transformations.c ~ matrix rotations
+** user hook is the function used to dectect inputs from user.
+** settings is the menu
 */
 
-void			ft_apply_matrix(t_3d *d);
+int				translation_hoo(int keycode, t_3d *d);
+int				scaling_hook(int keycode, t_3d *d);
+int				color_hook(int keycode, t_3d *d);
+int				user_hook(int keycode, t_3d *d);
+void			ft_settings(t_3d *d);
 
 /*
 ** memory_manager.c ~ functions handling memory
