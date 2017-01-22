@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 01:32:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 15:15:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 # include "colors.h"
 # include "keycode_mac.h"
 
+# define DEB ft_putendl("hai"); getchar();//
 # define TITLE					"FDF"
+# define PI						3.14159265359
 # define HELP_COLOR				WHITE
 # define HEIGHT					1400
 # define WIDTH					2000
@@ -122,12 +124,12 @@ typedef struct	s_3d
 	char		*s;
 	t_index		max;
 	float		depth;
+	t_bool		vertical_view;
 	t_vector	angle;
 	t_vector	offs;
 	t_vector	scaling;
 	t_vector	center;
 	t_index		dimension;
-
 	t_vector	**m;
 	t_vector	**mm;
 	int			**c;
@@ -145,8 +147,8 @@ typedef struct	s_3d
 ** parsing.c ~ parsing functions
 */
 
-short			check_validity(char *s);
-int				get_depth_and_colors(t_3d *d);
+short			ft_check_validity(char *s);
+int				ft_get_depth_and_colors(t_3d *d);
 
 /*
 ** formula.c ~ formulas, coordinates calculation and variables initialization
@@ -160,32 +162,34 @@ float			vector_len(t_vector v);
 ** initialization of variables
 */
 
-void			init_variables(t_3d *d);
+void			ft_init_variables(t_3d *d);
 
 /*
 ** fdf.c & hook.c ~ tracing lines algorythmes and listening to user input
 */
 
-int				fdf(t_3d *d);
-void			put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
+int				ft_fdf(t_3d *d);
+void			ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
 void			ft_draw(t_3d *d);
-void			lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
+int				ft_is_inside_frame(t_vector pixel);
+void			ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
 void			ft_create_image(t_3d *d);
-int				user_input(int keycode, t_3d *d);
-void			rotate(t_3d *d, char axis, char direction);
+int				ft_user_hook(int keycode, t_3d *d);
+void			ft_rotate(t_3d *d, char axis, char direction);
+void			ft_recalculate_center(t_3d *d);
 void			ft_settings(t_3d *d);
 /*
 ** color.c ~ gradient colors functions
 */
 
-void			color_map(t_3d *d);
-t_argb2			gradient(unsigned a, unsigned b, int pixel);
+void			ft_color_map(t_3d *d);
+t_argb2			ft_gradient(unsigned a, unsigned b, int pixel);
 
 /*
 ** ft_matrix_transformations.c ~ matrix rotations
 */
 
-void			apply_matrix(t_3d *d);
+void			ft_apply_matrix(t_3d *d);
 
 /*
 ** memory_manager.c ~ functions handling memory

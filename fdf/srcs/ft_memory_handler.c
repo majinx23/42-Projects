@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:15 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 01:41:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 10:02:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,19 @@ int		malloc_map(t_3d *d)
 	return (1);
 }
 
-void	free_matrix(float **m)
-{
-	int		i;
-
-	i = -1;
-	while (++i < 4)
-		free(m[i]);
-	free(m);
-	(void)m;
-}
-
 void	free_all(t_3d *d)
 {
 	int		i;
 
 	i = 0;
-	d->matrix ? free_matrix(d->matrix) : 0;
 	while (i < d->max.y)
 	{
 		d->m[i] ? free(d->m[i]) : 0;
-		d->c[i] ? free (d->c[i]) : 0;
+		d->c[i] ? free(d->c[i]) : 0;
 		d->mm[i] ? free(d->mm[i]) : 0;
 		++i;
 	}
 	d->m ? free(d->m) : 0;
-	d->mm ? free(d->mm) : 0;
 	d->c ? free(d->c) : 0;
+	d->mm[i] ? free(d->mm[i]) : 0;
 }

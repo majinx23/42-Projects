@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 20:53:04 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 02:53:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 12:19:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,38 @@
 
 float	**ft_matrix_global_rotation(float **m, t_vector a)
 {
-	float	**tmp;
+	float		**tmp;
+	float		t;
 
-	tmp= ft_identity_matrix (0, 1);
-	tmp[0][0] = cos(a.y) * cos(a.z);
-	tmp[0][1] = cos(a.z) * sin(a.x) * sin(a.y) - cos(a.x) * sin(a.z);
-	tmp[0][2] = cos(a.x) * cos(a.z) * sin(a.y) + sin(a.x) * sin(a.z);
-	tmp[1][0] = cos(a.y) * sin(a.z);
-	tmp[1][1] = cos(a.x) * cos(a.z) + sin(a.x) * sin(a.y) * sin(a.z);
-	tmp[1][2] = -cos(a.z) * sin(a.x) + cos(a.x) * sin(a.y) * sin(a.z);
-	tmp[2][0] = -sin(a.y);
-	tmp[2][1] = cos(a.y) * sin(a.x);
-	tmp[2][2] = cos(a.x) * cos(a.y);
-	m = ft_factor_matrix_free(m, tmp, 'R');
+	t = 1000000;
+	tmp = ft_identity_matrix(0, 1);
+	tmp[0][0] = (((float)(int)(cos(a.y) * t)) / t)
+		* (((float)(int)(cos(a.z) * t)) / t);
+
+	tmp[0][1] = (((float)(int)(cos(a.z) * t)) / t)
+		* (((float)(int)(sin(a.x) * t)) / t)
+		* (((float)(int)(sin(a.y) * t)) / t) -
+	(((float)(int)(cos(a.x) * t)) / t)
+	* (((float)(int)(sin(a.z) * t)) / t);
+	tmp[0][2] = (((float)(int)(cos(a.x) * t)) / t)
+		* (((float)(int)(cos(a.z) * t)) / t)
+		* (((float)(int)(sin(a.y) * t)) / t) +
+	(((float)(int)(sin(a.x) * t)) / t)
+	* (((float)(int)(sin(a.z) * t)) / t);
+	tmp[1][0] = (((float)(int)(cos(a.y) * t)) / t)
+		* (((float)(int)(sin(a.z) * t)) / t);
+	tmp[1][1] = (((float)(int)(cos(a.x) * t)) / t)
+		* (((float)(int)(cos(a.z) * t)) / t) +
+		(((float)(int)(sin(a.x) * t)) / t) *
+	(((float)(int)(sin(a.y) * t)) / t)
+	* (((float)(int)(sin(a.z) * t)) / t);
+	tmp[1][2] = (((float)(int)(-cos(a.z) * t)) / t)
+		* (((float)(int)(sin(a.x) * t)) / t) + (((float)(int)(cos(a.x) * t)) / t) *
+	(((float)(int)(sin(a.y) * t)) / t)
+	* (((float)(int)(sin(a.z) * t)) / t);
+	tmp[2][0] = (((float)(int)(-sin(a.y) * t)) / t);
+	tmp[2][1] = (((float)(int)(cos(a.y) * t)) / t) * (((float)(int)(sin(a.x) * t)) / t);
+	tmp[2][2] = (((float)(int)(cos(a.x) * t)) / t) * (((float)(int)(cos(a.y) * t)) / t);
+	m = ft_factor_matrix_free(m, tmp, 'B');
 	return (m);
 }
