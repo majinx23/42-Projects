@@ -1,72 +1,82 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/19 23:07:43 by angavrel         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+### COMPILATION ###
+C      = gcc
+FLAGS  = -Wall -Wextra -Werror
 
-C = clang
+### EXECUTABLE ###
+NAME   = fdf
 
-NAME = fdf
+### INCLUDES ###
+LIBFT  = libft
+OBJ_PATH  = objs
+HEADER = incl
+SRC_PATH  = srcs
+MLX_PATH = libmlx
+LIBFTMATH_PATH = libftmath
 
-FLAGS = -Wall -Wextra -Werror -O3
+### SOURCES ###
+SOURCES = main.c \
+		  ft_parsing.c \
+		  ft_formula.c \
+		  ft_draw.c \
+		  ft_color.c \
+		  ft_matrix_operations.c \
+		  ft_matrix_transformations.c \
+		  ft_memory_handler.c \
+		  ft_settings.c \
+		  ft_hook.c \
 
-LIBFT = libft
+### OBJECTS ###
 
-DIR_S = srcs
+SRCS = $(addprefix $(SRC_PATH)/,$(SOURCES))
+OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.c=.o))
 
-DIR_O = objs
+### COLORS ###
+NOC         = \033[0m
+BOLD        = \033[1m
+UNDERLINE   = \033[4m
+BLACK       = \033[1;30m
+RED         = \033[1;31m
+GREEN       = \033[1;32m
+YELLOW      = \033[1;33m
+BLUE        = \033[1;34m
+VIOLET      = \033[1;35m
+CYAN        = \033[1;36m
+WHITE       = \033[1;37m
 
-DIR_MLX = libmlx
+### RULES ###
 
-HEADERS = incl
-
-SRC_NAME = main.c \
-		   ft_parsing.c \
-		   ft_formula.c \
-		   ft_draw.c \
-		   ft_color.c \
-		   ft_matrix_operations.c \
-		   ft_matrix_transformations.c \
-		   ft_memory_handler.c \
-		   ft_settings.c \
-		   ft_hook.c \
-
-SRCS = $(addprefix $(DIR_S)/,$(SRC_NAME))
-
-OBJS = $(addprefix $(DIR_O)/,$(SRC_NAME:.c=.o))
-
-all: temp $(NAME)
+all: tmp $(NAME)
 
 $(NAME): $(OBJS)
-#	@make -C $(LIBFT)
-#	@make -C $(DIR_MLX)
-	@$(CC) $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -framework OpenGL -framework AppKit -L $(DIR_MLX) -lmlx
-	@echo "\033[0;32m$(NAME)'s program created.\033[0m"
+	@echo "$(GREEN)Creating lib files$(CYAN)"
+	@make -C $(LIBFT)
+	@make -C $(LIBFTMATH_PATH)
+	@make -C $(MLX_PATH)
+	@$(CC) $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -framework OpenGL -framework AppKit -L $(MLX_PATH) -lmlx -L $(LIBFTMATH_PATH) -lftmath
+	@echo "$(GREEN)Project successfully compiled"
 
-temp:
+tmp:
 	@mkdir -p objs
 
-$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADERS)/$(NAME).h
-	@$(CC) $(FLAGS) -I $(HEADERS) -c -o $@ $<
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/$(NAME).h
+	@$(CC) $(FLAGS) -I $(HEADER) -c -o $@ $<
+	@echo "$(BLUE)Creating object file -> $(WHITE)$(notdir $@)... $(RED)[Done]$(NOC)"
 
 clean:
+	@echo "$(GREEN)Supressing libraries files$(CYAN)"
 	@rm -f $(OBJS)
-#	@make clean -C $(LIBFT)
-#	@make clean -C $(DIR_MLX)
-	@rm -rf $(DIR_O)
-	@echo "\033[0;32m$(NAME)'s .o files deleted.\033[0m"
+	@make clean -C $(LIBFT)
+	@make clean -C $(MLX_PATH)
+	@make clean -C $(LIBFTMATH_PATH)
+	@rm -rf $(OBJ_PATH)
 
 fclean: clean
 	@rm -f $(NAME)
-#	@make fclean -C $(LIBFT)
-	@echo "\033[0;32m$(NAME) Project fully cleaned.\033[0m"
+	@make fclean -C $(LIBFT)
+	@make clean -C $(MLX_PATH)
+	@make clean -C $(LIBFTMATH_PATH)
 
-re: fclean all
+re: fclean
+	@$(MAKE) all -j
 
-.PHONY: all, temp, clean, fclean, re
+.PHONY: temporary, re, clean

@@ -6,33 +6,11 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:22:47 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 23:41:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 02:58:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
-
-void	matrix_magnitude(t_3d *d, float depth)
-{
-	d->matrix[0][2] = depth * ((int)d->matrix[0][2]);
-	d->matrix[1][2] = depth * ((int)d->matrix[1][2]);
-//	d->matrix[2][2] *= depth;
-}
-
-float	**matrix_scaling(t_vector scalingv)
-{
-	float	**m;
-//	float	scaling;
-
-//	scaling = scalingv.x;
-	m = identity_matrix(0, 0);
-//	m = identity_matrix(0, 1);
-	m[0][0] = scalingv.x;
-	m[1][1] = scalingv.y;
-	m[2][2] = scalingv.z;
-	return (m);
-}
-
 
 /*
 ** a is to rotate all axis simultaneously
@@ -45,7 +23,7 @@ void	rotate(t_3d *d, char axis, char i)
 	//	int		reset;
 //	d->matrix = identity_matrix();
 	//	reset = 2 * PI;
-	a = 0.04908738521;
+	a = 7.5 * (M_PI / 180);
 	/*	if ((axis == 'z' || axis == 'a') && i == '+')
 		d->angle.z += a;
 		else if (axis == 'z' || axis == 'a')
@@ -94,51 +72,4 @@ void	rotate(t_3d *d, char axis, char i)
 //	free(d->matrix_tmp);
 //	d->matrix = matrix_rotation(d->angle);
 //	d->matrix = matrix_global_rotation(d->angle);
-}
-
-float	**ft_matrix_global_rotation(t_vector a)
-{
-	float	**m;
-
-	m = identity_matrix(0, 1);
-	m[0][0] = cos(a.y) * cos(a.z);
-	m[0][1] = cos(a.z) * sin(a.x) * sin(a.y) - cos(a.x) * sin(a.z);
-	m[0][2] = cos(a.x) * cos(a.z) * sin(a.y) + sin(a.x) * sin(a.z);
-	m[1][0] = cos(a.y) * sin(a.z);
-	m[1][1] = cos(a.x) * cos(a.z) + sin(a.x) * sin(a.y) * sin(a.z);
-	m[1][2] = -cos(a.z) * sin(a.x) + cos(a.x) * sin(a.y) * sin(a.z);
-	m[2][0] = -sin(a.y);
-	m[2][1] = cos(a.y) * sin(a.x);
-	m[2][2] = cos(a.x) * cos(a.y);
-	printf("x %f.2,  y %f.2,   z%f.2", a.x , a.y, a.z);
-	return (m);
-}
-
-float	**matrix_rotation(float x, char axis)
-{
-	float	**m;
-
-	m = identity_matrix(0, 1);
-	if (axis == 'x')
-	{
-		m[1][1] = cos(x);
-		m[1][2] = -sin(x);
-		m[2][2] = cos(x);
-		m[2][1] = sin(x);
-	}
-	else if (axis == 'y')
-	{
-		m[0][0] = cos(x);
-		m[0][2] = sin(x);
-		m[2][0] = -sin(x);
-		m[2][2] = cos(x);
-	}
-	else if (axis == 'z')
-	{
-		m[0][0] = cos(x);
-		m[0][1] = -sin(x);
-		m[1][0] = sin(x);
-		m[1][1] = cos(x);
-	}
-	return (m);
 }

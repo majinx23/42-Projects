@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 11:56:47 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/22 17:28:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 03:59:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,5 @@ int				get_next_line(int const fd, char **line)
 	p->content = ft_strdup(tmp + ret);
 	p = begin;
 	free(tmp);
-	(ret == 0) ? ft_lstdel(&p, ft_bzero) : 0;
 	return (ret ? 1 : 0);
 }

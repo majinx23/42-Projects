@@ -6,58 +6,12 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 08:16:37 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 23:12:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 03:45:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
 
-void	ft_print_matrix(float **m)//
-{
-	t_index	i;
-
-	i.y = -1;
-	while (++i.y < 4)
-	{
-		i.x = -1;
-		while (++i.x < 4)
-		{
-			if (!(m[i.y][i.x] - (int)m[i.y][i.x]))
-				printf("%.0f.0   ", m[i.y][i.x]);
-			else
-				printf("%.1f   ", m[i.y][i.x]);
-		}
-		printf("\n");
-	}
-}
-/*
-int			convert_3_to_2d(t_3d *d)
-{
-	t_index		i;
-
-	apply_matrix(d);
-	i.y = 0;
-	while (i.y < d->max.y)
-	{
-		i.x = 0;
-		while (i.x < d->max.x)
-		{
-			//printf("center x %.1f \n", d->center.x);
-			//printf("center y %.1f \n", d->center.y);
-			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix, d->m[i.y][i.x], d->center);
-	//		d->n[i.y][i.x].y = d->offs.y + d->zoom * 
-	//			get_3d_y(d->mm[i.y][i.x], d->depth);
-	//		d->n[i.y][i.x].x = d->offs.x + d->zoom * 
-	//			get_3d_x(d->mm[i.y][i.x]);
-			++i.x;
-			//printf("(%.1f, %.1f)", d->n[i.y][i.x].x, d->n[i.y][i.x].y);
-		}
-		//	printf("\n");
-		++i.y;
-	}
-	return (1);
-}
-*/
 void		recalculate_center(t_3d *d)
 {
 	t_index		i;
@@ -89,21 +43,24 @@ void		recalculate_center(t_3d *d)
 	d->center.z = 0;
 }
 
-
+/*
+** matrix_tmp store information about current sea level set with z scaling 0.2
+*/
 void		apply_matrix(t_3d *d)
 {
 	t_index		i;
 
-	free_matrix(d->matrix);
-	d->matrix = identity_matrix(0, 1);
-	d->matrix_tmp = matrix_scaling(d->scaling);
-	d->matrix = ft_factor_matrix_free(d->matrix, d->matrix_tmp, 'R');
+	if (d->matrix)
+		ft_free_matrix(d->matrix);
+	d->matrix = ft_identity_matrix(0, 1);
+	d->matrix = ft_matrix_scaling(d->matrix, d->scaling);
 //	d->matrix = ft_factor_matrix_free(d->matrix, d->matrix_tmp, 'R');
 //	ft_print_matrix(d->matrix);
-	d->matrix_tmp = ft_matrix_global_rotation(d->angle);
-	d->matrix = ft_factor_matrix_free(d->matrix, d->matrix_tmp, 'R');
+	d->matrix = ft_matrix_global_rotation(d->matrix, d->angle);
+	d->matrix = ft_matrix_z_scaling(d->matrix, 0.25);
 //	free_matrix(d->matrix_tmp);
-	matrix_magnitude(d, d->depth);
+	d->matrix_tmp = ft_copy_matrix(d->matrix);
+	d->matrix = ft_matrix_z_scaling(d->matrix, d->depth);
 	recalculate_center(d);
 	//print_matrix(d->matrix);
 	//	printf("matrix after scaling :\n");
@@ -123,8 +80,9 @@ void		apply_matrix(t_3d *d)
 		i.x = -1;
 		while (++i.x < d->max.x)
 		{
-			d->mm[i.y][i.x] = apply_matrix_to_point(d->matrix,
-					d->m[i.y][i.x], d->center);
+			d->mm[i.y][i.x] = (d->m[i.y][i.x].z > 0) ? 
+				ft_matrix_to_vector(d->matrix, d->m[i.y][i.x], d->center) :
+				ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][i.x], d->center);
 		}
 		++i.y;
 	}
@@ -136,103 +94,3 @@ t_vector	carthesian(t_vector n)
 	n.y = get_3d_y(n);
 	return (n);
 }*/
-
-t_vector	apply_matrix_to_point(float **m, t_vector v, t_vector c)
-{
-	t_vector	n;
-//	t_vector	tmp;
-	
-//	c = (t_vector)  {.x = WIDTH / 2, .y = HEIGHT / 2, .z = 0};
-	v.x -= c.x;
-	v.y -= c.y;
-	v.z -= c.z;
-	n.x = v.x * m[0][0] + v.y * m[0][1] + v.z * m[0][2] + m[0][3] * v.w  + c.x;
-	n.y = v.x * m[1][0] + v.y * m[1][1] + v.z * m[1][2] + m[1][3] * v.w  + c.y;
-	n.z = v.x * m[2][0] + v.y * m[2][1] + v.z * m[2][2] + m[2][3] * v.w  + c.z;
-	n.w = v.x * m[3][0] + v.y * m[3][1] + v.z * m[3][2] + m[3][3] * v.w;
-/*	tmp.x = n.x;
-	tmp.y = n.y;
-	tmp.z = n.z;
-	n.x = vector_len(tmp);
-	n.y = vector_len(tmp);
-	n.z = tmp.z;*/
-//	n = carthesian(n);
-	return (n);
-}
-
-/*
-** change k < 4 if using w vector later.
-*/
-
-float		**ft_factor_matrix_free(float **a, float **b, char free)
-{
-	float		**m;
-	t_index		i;
-	short		k;
-
-	m = identity_matrix(0, 0);
-	i.y = 0;
-	while (i.y < 4)
-	{
-		i.x = 0;
-		while (i.x < 4)
-		{
-			k = 0;
-			while (k < 3)
-			{
-				m[i.y][i.x] += a[i.y][k] * b[k][i.x];
-				++k;
-			}
-			++i.x;
-		}
-		++i.y;
-	}
-	(free == 'L' || free == 'B') ? free_matrix(a) : 0;
-	(free == 'R' || free == 'B') ? free_matrix(b) : 0;
-	return (m);
-}
-
-float		**sum_matrix(float **a, float **b)
-{
-	float		**m;
-	t_index		i;
-	short		k;
-
-	m = identity_matrix(0, 0);
-	i.y = 0;
-	while (i.y < 4)
-	{
-		i.x = 0;
-		while (i.x < 4)
-		{
-			k = 0;
-			while (k < 4)
-			{
-				m[i.y][i.x] += a[i.y][k] + b[k][i.x];
-				++k;
-			}
-			++i.x;
-		}
-		++i.y;
-	}
-	return (m);
-}
-
-float		**identity_matrix(int n, short iden)
-{
-	float	**m;
-	t_index	i;
-
-	if (!(m = (float**)malloc(sizeof(float*) * 4)))
-		return (0);
-	i.y = -1;
-	while (++i.y < 4)
-	{
-		if (!(m[i.y] = (float*)malloc(sizeof(float) * 4)))
-			return (0);
-		i.x = -1;
-		while (++i.x < 4)
-			m[i.y][i.x] = (i.x == i.y && iden) ? 1 : n;
-	}
-	return (m);
-}

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 18:31:42 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 03:14:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 
 void	ft_create_image(t_3d *d)
 {
-	d->img ? mlx_destroy_image(d->mlx, d->img) : 0;
-	mlx_clear_window(d->mlx, d->w);
-	d->img = mlx_new_image(d->mlx, d->dimension.x, d->dimension.y);
-	d->data_address = mlx_get_data_addr(d->img, &(d->bpp),
-	&(d->line_size), &(d->endian));
+	d->img.img ? mlx_destroy_image(d->img.mlx, d->img.img) : 0;
+	mlx_clear_window(d->img.mlx, d->img.w);
+	d->img.img = mlx_new_image(d->img.mlx, d->dimension.x, d->dimension.y);
+	d->img.data_address = mlx_get_data_addr(d->img.img, &(d->img.bpp),
+	&(d->img.line_size), &(d->img.endian));
 }
 
 /*
@@ -46,8 +46,8 @@ void	put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 		ft_clamp(round(c.b + d->l.b), 0, 0xff) +
 		(ft_clamp((int)round(c.a + d->l.a), 0, 0xff) << 24);
 	if (x > 0 && y > 0 && x < d->dimension.x && y < d->dimension.y)
-		*(int *)&d->data_address[(x * d->bpp / 8) +
-			(y * d->line_size)] = color;
+		*(int *)&d->img.data_address[(x * d->img.bpp / 8) +
+			(y * d->img.line_size)] = color;
 }
 
 /*
@@ -148,12 +148,12 @@ int		fdf(t_3d *d)
 	ft_create_image(d); //initializer matrix
 	apply_matrix(d); //calc new point corods from original coords
 	draw(d);
-	mlx_put_image_to_window(d->mlx, d->w, d->img, 0, 0);
+	mlx_put_image_to_window(d->img.mlx, d->img.w, d->img.img, 0, 0);
 	if (d->help_display > 0)
 		ft_settings(d);
-	mlx_hook(d->w, KEYPRESS, KEYPRESSMASK, user_input, d); 
+	mlx_hook(d->img.w, KEYPRESS, KEYPRESSMASK, user_input, d);
 	//depending on key, create 1 new matrix (rot, trans...) and apply the matrix to your d->matrix
 	//recalculate coords (apply matrix) and draw again.
-	mlx_loop(d->mlx);
+	mlx_loop(d->img.mlx);
 	return (0);
 }

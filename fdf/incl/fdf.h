@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 21:30:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 01:32:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 */
 
 # include <fcntl.h>
-# include <math.h>
 # include <stdio.h>
 # include "../libft/libft.h"
 # include "../libmlx/mlx.h"
+# include "../libftmath/libftmath.h"
 # include "colors.h"
 # include "keycode_mac.h"
 
@@ -30,6 +30,8 @@
 # define HELP_COLOR				WHITE
 # define HEIGHT					1400
 # define WIDTH					2000
+# define FRAME_WIDTH					200
+# define MAX_UNIT_SIZE			20
 
 /*
 ** macros used for still inputs
@@ -87,14 +89,6 @@ typedef struct	s_fxy
 	float		y;
 }				t_fxy;
 
-typedef struct	s_vector
-{
-	float		x;
-	float		y;
-	float		z;
-	float		w;
-}				t_vector;
-
 /*
 ** points are stored using this structure in convert_2_to_3d
 */
@@ -105,14 +99,8 @@ typedef struct	s_index
 	int			y;
 }				t_index;
 
-
-/*
-** *s is map parsed as a string and *c a save from each point's color.
-*/
-typedef struct	s_3d
-{
-	char		*s;
-
+typedef struct	s_image
+{	
 	void		*mlx;
 	void		*w;
 	int			*img;
@@ -120,7 +108,18 @@ typedef struct	s_3d
 	int			bpp;
 	int			line_size;
 	int			endian;
+}				t_image;
 
+
+/*
+** *s is map parsed as a string and *c a save from each point's color.
+*/
+typedef struct	s_3d
+{
+	t_image		img;
+	unsigned	unit_size;
+
+	char		*s;
 	t_index		max;
 	float		depth;
 	t_vector	angle;
@@ -158,7 +157,7 @@ float			get_3d_x(t_vector a);
 float			vector_len(t_vector v);
 
 /*
-**
+** initialization of variables
 */
 
 void			init_variables(t_3d *d);
@@ -173,6 +172,7 @@ void			ft_draw(t_3d *d);
 void			lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
 void			ft_create_image(t_3d *d);
 int				user_input(int keycode, t_3d *d);
+void			rotate(t_3d *d, char axis, char direction);
 void			ft_settings(t_3d *d);
 /*
 ** color.c ~ gradient colors functions
@@ -185,23 +185,7 @@ t_argb2			gradient(unsigned a, unsigned b, int pixel);
 ** ft_matrix_transformations.c ~ matrix rotations
 */
 
-float			**identity_matrix(int n, short iden);
-float			**matrix_rotation(float angle, char axis);
-float			**matrix_scaling(t_vector scaling);
-float			**matrix_translation(t_vector offset);
-void			matrix_magnitude(t_3d *d, float depth);
-void			rotate(t_3d *d, char axis, char direction);
-float			**ft_matrix_global_rotation(t_vector angle);
-
-/*
-** ft_matrix_operations.c ~ vectors translation and rotation
-*/
-
 void			apply_matrix(t_3d *d);
-t_vector		apply_matrix_to_point(float **m, t_vector v, t_vector center);
-float			**ft_factor_matrix_free(float **a, float **b, char free);
-float			**sum_matrix(float **a, float **b);
-void			ft_print_matrix(float **m);
 
 /*
 ** memory_manager.c ~ functions handling memory
@@ -209,6 +193,5 @@ void			ft_print_matrix(float **m);
 
 int				malloc_map(t_3d *d);
 void			free_all(t_3d *d);
-void			free_matrix(float **m);
 
 #endif

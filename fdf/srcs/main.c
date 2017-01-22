@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 12:37:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 03:11:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,12 @@ int				main(int ac, char  **av)
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 		return (ft_error("Could not open file"));
 	d.help_display = 2;
-	init_variables(&d);
 	if (!get_x_y(&d, av[1]) || !get_depth_and_colors(&d))
 		return (ft_error("Malloc failed"));
+	init_variables(&d);
 	get_window_w_and_h(&d);
-	d.mlx = mlx_init();
-	if (!(d.w = mlx_new_window(d.mlx, d.dimension.x, d.dimension.y, TITLE)))
+	d.img.mlx = mlx_init();
+	if (!(d.img.w = mlx_new_window(d.img.mlx, d.dimension.x, d.dimension.y, TITLE)))
 		return (ft_error("Window's creation failed"));
 	if (!malloc_map(&d))
 		return (ft_error("Conversion to isometric 3d failed"));

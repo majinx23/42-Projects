@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/19 23:38:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 03:55:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,23 @@
 
 void	init_variables(t_3d *d)
 {
+	t_vector	zoom;
+
 	d->offs.x = d->dimension.x / 2 - d->center.x;
 	d->offs.y = d->dimension.y / 2 - d->center.y;
 	d->offs = (t_vector) {.x = d->offs.x, .y = d->offs.y, .z = 1};
-	d->scaling = (t_vector){.x = 5, .y = 5, .z = 5};
 	d->angle = (t_vector) {.x = 0.926,  .y = -0.21, .z = 0.42};
 	d->center = (t_vector) {.x = 0, .y = 0, .z = 0};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
-	d->depth = 0.25;
-	d->img = NULL;
+	d->depth = 1;
+	d->img.img = NULL;
 	d->season = 0;
-	d->matrix = identity_matrix(0, 1);
+	d->matrix = ft_identity_matrix(0, 1);
+	zoom.x = WIDTH / d->max.y - 1;
+	zoom.y = HEIGHT / d->max.x - 1;
+	d->scaling.x = (zoom.x <= zoom.y) ? zoom.x : zoom.y;
+	d->scaling.y = d->scaling.x;
+	d->scaling.z = d->scaling.x;
 }
 
 int		color_hook(int k, t_3d *d)
@@ -95,11 +101,8 @@ int		scaling_hook(int k, t_3d *d)
 		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
 		d->scaling.w = 1;
 	}
-	if (k == 12 && d->depth < 15)// && //d->depth > 0.01)
-	{
+	if (k == 12 && d->depth < 12)// && //d->depth > 0.01)
 		d->depth *= 1.25;
-		printf("increasing d->depth to : %f.2", d->depth);
-	}
 	else if (k == 14  && d->depth > 0.001)
 		d->depth *= 0.8;
 	return (1);
@@ -114,7 +117,7 @@ int		user_input(int k, t_3d *d)
 	if (k == 53)
 	{
 		free_all(d);
-		mlx_destroy_window(d->mlx, d->w);
+		mlx_destroy_window(d->img.mlx, d->img.w);
 		exit(0);
 		return (0);
 	}
