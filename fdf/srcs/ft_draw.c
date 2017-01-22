@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 16:16:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 16:25:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	ft_draw(t_3d *d)
 ** the condition evalues that the starting pixel is inside the frame
 */
 
-
 void	ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
 {
 	t_fxy		dif;
@@ -109,7 +108,6 @@ void	ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 
 	x = round(a.x) + d->offs.x;
 	y = round(a.y) + d->offs.y;
-
 	shade = ((d->angle.x < 3 * PI / 2) && (d->angle.x > PI / 2)) ||
 			((d->angle.y < 3 * PI / 2) && (d->angle.y > PI / 2)) ? 1 : 0;
 	color = (ft_clamp((int)round(c.r + d->l.r), 0, 0xff) << (16 - shade)) +

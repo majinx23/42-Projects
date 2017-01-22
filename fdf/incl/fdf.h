@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 16:12:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 17:03:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,12 @@
 */
 
 # include <fcntl.h>
-# include <stdio.h>
 # include "../libft/libft.h"
 # include "../libmlx/mlx.h"
 # include "../libftmath/libftmath.h"
 # include "colors.h"
 # include "keycode_mac.h"
 
-# define DEB ft_putendl("hai"); getchar();//
 # define TITLE					"FDF"
 # define PI						3.14159265359
 # define HELP_COLOR				WHITE
@@ -56,7 +54,7 @@
 # define DARK_TEAL				0x33cccc
 # define GREY					0xd3d3d3
 # define BROWN					0x996633
-# define SLIGHTLY_TRANSPARENT	0x77000000
+# define TRANSPARENT			0x77000000
 
 /*
 ** a is alpha(transparency) r = red g = green b = blue
@@ -100,13 +98,12 @@ typedef struct	s_index
 	int			y;
 }				t_index;
 
-
 /*
 ** first project where I use mlx. w is the window or frame.
 */
 
 typedef struct	s_image
-{	
+{
 	void		*mlx;
 	void		*w;
 	int			*image;
@@ -115,7 +112,6 @@ typedef struct	s_image
 	int			line_size;
 	int			endian;
 }				t_image;
-
 
 /*
 ** *s is map parsed as a string and *c a save from each point's color.
@@ -154,9 +150,12 @@ typedef struct	s_3d
 ** parsing.c ~ parsing functions
 */
 
-short			check_validity(char *s);
+int				read_map(t_3d *d, char *s);
+short			parse_map(char *s);
+t_bool			parse_digit(char *s, unsigned *i);
+t_bool			parse_color(char *s, unsigned *i);
+int				malloc_map(t_3d *d);
 int				get_depth_and_colors(t_3d *d);
-
 
 /*
 ** fdf.c ~ tracing lines algorytmes
@@ -194,12 +193,6 @@ int				scaling_hook(int keycode, t_3d *d);
 int				color_hook(int keycode, t_3d *d);
 int				user_hook(int keycode, t_3d *d);
 void			ft_settings(t_3d *d);
-
-/*
-** memory_manager.c ~ functions handling memory
-*/
-
-int				malloc_map(t_3d *d);
 void			free_all(t_3d *d);
 
 #endif

@@ -19,7 +19,6 @@ SOURCES = main.c \
 		  fdf.c \
 		  ft_draw.c \
 		  color_map.c \
-		  memory_manager.c \
 		  ft_settings.c \
 		  user_hook.c \
 

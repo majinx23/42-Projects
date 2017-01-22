@@ -6,17 +6,17 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 16:12:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 17:23:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
 
 /*
- ** FDF creates a new image, apply matrix formulas and then draw the
- ** image, once the image is drawn it is put inside the frame and then
- ** the program patiently awaits other instructions from the user with mlx_hook
- */
+** FDF creates a new image, apply matrix formulas and then draw the
+** image, once the image is drawn it is put inside the frame and then
+** the program patiently awaits other instructions from the user with mlx_hook
+*/
 
 int		fdf(t_3d *d)
 {
@@ -32,14 +32,14 @@ int		fdf(t_3d *d)
 }
 
 /*
- ** variables initialization and also reset values
- ** offs.y is margin from highest point and offs.x margin from lowest point
- ** mind and maxd are the max x and max y array value of d->mm to be drawn
- ** zoom is to have a scale that fits the image
- ** angle is the way the map is oriented at the start
- ** center is the center of the image
- ** season is the current season (Spring)
- */
+** variables initialization and also reset values
+** offs.y is margin from highest point and offs.x margin from lowest point
+** mind and maxd are the max x and max y array value of d->mm to be drawn
+** zoom is to have a scale that fits the image
+** angle is the way the map is oriented at the start
+** center is the center of the image
+** season is the current season (Spring)
+*/
 
 void	init_variables(t_3d *d)
 {
@@ -52,9 +52,9 @@ void	init_variables(t_3d *d)
 	d->offs.y = HEIGHT / 2 - d->center.y;
 	d->offs.z = 1;
 	if (d->vertical_view)
-		d->angle = (t_vector) {.x = 0,  .y = 0, .z = 0};
+		d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
 	else
-		d->angle = (t_vector) {.x = 0.926,  .y = -0.21, .z = 0.42};
+		d->angle = (t_vector) {.x = 0.926, .y = -0.21, .z = 0.42};
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
 	d->season = 0;
@@ -101,11 +101,11 @@ void	apply_matrix(t_3d *d)
 }
 
 /*
- ** axis is the axis to be rotated, a being all axis simultaneously
- ** angles are converted from degrees to radians and then normalized 
- ** with while loops as 2 * PI corresponds to a whole rotation.
- ** https://en.wikipedia.org/wiki/Degree_(angle)
- */
+** axis is the axis to be rotated, a being all axis simultaneously
+** angles are converted from degrees to radians and then normalized
+** with while loops as 2 * PI corresponds to a whole rotation.
+** https://en.wikipedia.org/wiki/Degree_(angle)
+*/
 
 void	norm_rotation(t_3d *d, char axis, char i)
 {
@@ -146,12 +146,12 @@ void	recalculate_center(t_3d *d)
 		i.x = -1;
 		while (++i.x < d->max.x)
 		{
-			(d->m[i.y][i.x].x > max.x) ? max.x = d->m[i.y][i.x].x: 0;
-			(d->m[i.y][i.x].x < min.x) ? min.x = d->m[i.y][i.x].x: 0;
-			(d->m[i.y][i.x].y > max.y) ? max.y = d->m[i.y][i.x].y: 0;
-			(d->m[i.y][i.x].y < min.y) ? min.y = d->m[i.y][i.x].y: 0;
-			(d->m[i.y][i.x].z > max.z) ? max.z = d->m[i.y][i.x].z: 0;
-			(d->m[i.y][i.x].z < min.z) ? min.z = d->m[i.y][i.x].z: 0;
+			(d->m[i.y][i.x].x > max.x) ? max.x = d->m[i.y][i.x].x : 0;
+			(d->m[i.y][i.x].x < min.x) ? min.x = d->m[i.y][i.x].x : 0;
+			(d->m[i.y][i.x].y > max.y) ? max.y = d->m[i.y][i.x].y : 0;
+			(d->m[i.y][i.x].y < min.y) ? min.y = d->m[i.y][i.x].y : 0;
+			(d->m[i.y][i.x].z > max.z) ? max.z = d->m[i.y][i.x].z : 0;
+			(d->m[i.y][i.x].z < min.z) ? min.z = d->m[i.y][i.x].z : 0;
 		}
 		++i.y;
 	}
