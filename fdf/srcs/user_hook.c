@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 17:23:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 22:26:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,18 @@
 
 int		color_hook(int k, t_3d *d)
 {
-	if (k == 35)
-	{
-		d->season = (d->season < 3) ? d->season + 1 : 0;
-		color_map(d);
-	}
-	else if (k == 47)
+	if (k == KEY_PAD_0)
+		d->season = 0;
+	else if (k == KEY_PAD_1)
+		d->season = 1;
+	else if (k == KEY_PAD_2)
+		d->season = 2;
+	else if (k == KEY_PAD_3)
+		d->season = 3;
+	else if (k == KEY_PAD_4)
+		d->season = 4;
+	d->season < 4 ? color_map(d) : original_color(d);
+	if (k == 47)
 		d->l.a = ft_clamp((int)d->l.a + 4, 0, 0xff);
 	else if (k == 43)
 		d->l.a = ft_clamp((int)d->l.a - 4, 0, 0xff);
@@ -42,7 +48,6 @@ int		color_hook(int k, t_3d *d)
 		d->l.g = ft_clamp((int)d->l.g - 4, -0xff, 0x33);
 		d->l.b = ft_clamp((int)d->l.b - 4, -0xff, 0x33);
 	}
-	fdf(d);
 	return (1);
 }
 
@@ -54,7 +59,6 @@ int		translation_hook(int k, t_3d *d)
 			d->offs.x += (k == 123) ? 20 : -20;
 		else if (k == 125 || k == 126)
 			d->offs.y += (k == 125) ? -20 : 20;
-		fdf(d);
 	}
 	return (1);
 }
@@ -69,27 +73,31 @@ int		rotation_hook(int k, t_3d *d)
 		(k == 22) ? norm_rotation(d, 'x', '+') : norm_rotation(d, 'x', '-');
 	else if (k == 26 || k == 28)
 		k == 26 ? norm_rotation(d, 'a', '+') : norm_rotation(d, 'a', '-');
-	fdf(d);
 	return (1);
 }
 
 int		scaling_hook(int k, t_3d *d)
 {
-	if ((k == 69 && d->scaling.x > 0.1) || (k == 78 && d->scaling.x < 10))
+	if (k == 69 && d->scaling.x > 0.05)
 	{
-		d->scaling.x *= (k == 69) ? 1.25 : 0.8;
-		d->scaling.y *= (k == 69) ? 1.25 : 0.8;
-		d->scaling.z *= (k == 69) ? 1.25 : 0.8;
-		d->scaling.w = 1;
-		fdf(d);
+		d->scaling.x *= 1.25;
+		d->scaling.y *= 1.25;
+		d->scaling.z *= 1.25;
+		d->scaling.w *= 1.25;
+	}
+	else if (k == 78 && d->scaling.x < 200)
+	{
+		d->scaling.x *= 0.9;
+		d->scaling.y *= 0.9;
+		d->scaling.z *= 0.9;
+		d->scaling.w *= 0.9;
 	}
 	else if (k == 12 || k == 14)
 	{
-		if (k == 12 && d->depth < 12)
-			d->depth *= 1.25;
-		else if (k == 14 && d->depth > 0.05)
-			d->depth *= 0.8;
-		fdf(d);
+		if (k == 14 && d->depth < 12)
+			d->depth *= 1.10;
+		else if (d->depth > 0.05)
+			d->depth *= 0.9;
 	}
 	return (1);
 }
@@ -101,8 +109,6 @@ int		scaling_hook(int k, t_3d *d)
 
 int		user_hook(int k, t_3d *d)
 {
-	translation_hook(k, d);
-	scaling_hook(k, d);
 	if (k == 53)
 	{
 		mlx_destroy_window(d->img.mlx, d->img.w);
@@ -111,14 +117,20 @@ int		user_hook(int k, t_3d *d)
 	}
 	else if (k == 49)
 	{
+		mlx_clear_window(d->img.mlx, d->img.w);
 		init_variables(d);
 		fdf(d);
 	}
-	else if (k == KEY_H)
-		d->help_display = (d->help_display == 1) ? 0 : 1;
-	if ((k >= 18 && k <= 23) || k == 26 || k == 28)
+	else
+	{
+		if (k == KEY_H)
+			d->help_display = (d->help_display == 1) ? 0 : 1;
 		rotation_hook(k, d);
-	if (k == 29 || k == 25 || k == 43 || k == 47 || k == 35)
 		color_hook(k, d);
+		translation_hook(k, d);
+		scaling_hook(k, d);
+		mlx_clear_window(d->img.mlx, d->img.w);
+		fdf(d);
+	}
 	return (1);
 }

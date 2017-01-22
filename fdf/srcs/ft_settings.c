@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:49 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 17:13:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 20:15:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void		ft_help_display(t_image *img, unsigned c)
 			"West, East, North, South : [<-] [->] [^] [v]");
 	mlx_string_put(img->mlx, img->w, x, 65, c, "Zoom In / Out : [+] / [-]");
 	mlx_string_put(img->mlx, img->w, x, 90, c, "Change Map : [1, 2, ...]");
-	mlx_string_put(img->mlx, img->w, x, 115, c, "Change Color : [P]");
+	mlx_string_put(img->mlx, img->w, x, 115, c,
+			"Change Color : NUMPAD [0]Spring [1]Summer... [4] Original");
 	mlx_string_put(img->mlx, img->w, x, 140, c,
 			"Increase / Decrease Altitude : [Q] / [E]");
 	mlx_string_put(img->mlx, img->w, x, 165, c,

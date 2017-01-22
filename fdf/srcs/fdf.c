@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 17:23:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 22:39:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ void	init_variables(t_3d *d)
 	if (d->vertical_view)
 		d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
 	else
-		d->angle = (t_vector) {.x = 0.926, .y = -0.21, .z = 0.42};
+		d->angle = (t_vector) {.x = 0.926, .y = 6.07, .z = 0.62};
+	d->vertical_view = 0;
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
-	d->season = 0;
+	d->season = (d->map_had_color == True) ? 4 : 0;
 	zoom.x = WIDTH / d->max.y - 1;
 	zoom.y = HEIGHT / d->max.x - 1;
 	d->scaling.x = (zoom.x <= zoom.y) ? zoom.x : zoom.y;

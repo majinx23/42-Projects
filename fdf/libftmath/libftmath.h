@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 22:59:57 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 03:34:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 18:08:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ typedef struct	s_vector
 
 int				ft_clamp(int n, int min, int max);
 void			ft_putnbr_base(int n, int b);
-int				ft_htoi(char *s);
+long			ft_htoi(char *s);
 void			ft_puthex(int n);
+int				ft_isdigit(int c);
 
 /*
 ** Matrix

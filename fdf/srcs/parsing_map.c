@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:22:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 17:04:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 22:44:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,16 @@ int			malloc_map(t_3d *d)
 
 	if (!(d->mm = (t_vector **)malloc(sizeof(t_vector *) * d->max.y))
 			|| (!(d->m = (t_vector **)malloc(sizeof(t_vector *) * d->max.y)))
-			|| (!(d->c = (int **)malloc(sizeof(int *) * d->max.y))))
+			|| (!(d->c = (long **)malloc(sizeof(long *) * d->max.y)))
+			|| (!(d->cm = (long **)malloc(sizeof(long *) * d->max.y))))
 		return (0);
 	i.y = 0;
 	while (i.y < d->max.y)
 	{
 		if (!(d->mm[i.y] = (t_vector *)malloc(sizeof(t_vector) * d->max.x))
 			|| (!(d->m[i.y] = (t_vector *)malloc(sizeof(t_vector) * d->max.x)))
-			|| (!(d->c[i.y] = (int *)malloc(sizeof(int) * d->max.x))))
+			|| (!(d->c[i.y] = (long *)malloc(sizeof(long) * d->max.x)))
+			|| (!(d->cm[i.y] = (long *)malloc(sizeof(long) * d->max.x))))
 			return (0);
 		++i.y;
 	}

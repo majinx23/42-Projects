@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 17:03:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 22:03:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ typedef struct	s_argb2
 	t_argb		y;
 }				t_argb2;
 
-typedef struct	s_uixy
+typedef struct	s_hexcolor
 {
-	unsigned	x;
-	unsigned	y;
-}				t_uixy;
+	long		x;
+	long		y;
+}				t_hexcolor;
 
 typedef struct	s_fxy
 {
@@ -122,8 +122,6 @@ typedef struct	s_image
 typedef struct	s_3d
 {
 	t_image		img;
-	unsigned	unit_size;
-
 	char		*s;
 	t_index		max;
 	float		depth;
@@ -135,8 +133,9 @@ typedef struct	s_3d
 	t_index		dimension;
 	t_vector	**m;
 	t_vector	**mm;
-	int			**c;
-	t_uixy		colors;
+	long		**c;
+	long		**cm;
+	t_hexcolor	colors;
 	float		**matrix;
 	float		**matrix_tmp;
 	short		z_max;
@@ -144,6 +143,7 @@ typedef struct	s_3d
 	short		season;
 	t_argb		l;
 	short		help_display;
+	t_bool		map_had_color;
 }				t_3d;
 
 /*
@@ -156,6 +156,7 @@ t_bool			parse_digit(char *s, unsigned *i);
 t_bool			parse_color(char *s, unsigned *i);
 int				malloc_map(t_3d *d);
 int				get_depth_and_colors(t_3d *d);
+long			get_colors(t_3d *d);
 
 /*
 ** fdf.c ~ tracing lines algorytmes
@@ -173,7 +174,7 @@ void			recalculate_center(t_3d *d);
 
 void			ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
 void			ft_draw(t_3d *d);
-void			ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c);
+void			ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_hexcolor c);
 void			ft_create_image(t_image *img);
 
 /*
@@ -181,6 +182,7 @@ void			ft_create_image(t_image *img);
 */
 
 void			color_map(t_3d *d);
+void			original_color(t_3d *d);
 t_argb2			gradient(unsigned a, unsigned b, int pixel);
 
 /*

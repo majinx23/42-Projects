@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 18:26:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 19:44:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char				*ft_strrev(char *s);
 void				ft_bubblesort_array(char **tab, size_t n);
 int					ft_clamp(int n, int min, int max);
 void				ft_memswap(void *a, void *b);
-char				*ft_strndup(const char *s, size_t n);
+char				*ft_strndup(char *s, size_t n);
 char				*ft_strdupfree(const char *s1);
 char				*ft_strnjoinfree(const char *s1, const char *s2,
 				size_t len, char c);
@@ -108,7 +108,7 @@ char				*ft_strnjoin(const char *s1, const char *s2, size_t len);
 void				putnbr_base(int n, int b);
 int					ft_error(char *s);
 int					get_next_line(int const fd, char **line);
-int					ft_htoi(char *s);
+long				ft_htoi(char *s);
 void				ft_puthex(int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 16:25:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/22 22:52:03 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 void	ft_create_image(t_image *img)
 {
 	img->image ? mlx_destroy_image(img->mlx, img->image) : 0;
+	img->w ? mlx_clear_window(img->mlx, img->w) : 0;
 	img->image = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->data_address = mlx_get_data_addr(img->image, &(img->bpp),
 			&(img->line_size), &(img->endian));
@@ -30,16 +31,16 @@ void	ft_create_image(t_image *img)
 
 void	ft_draw(t_3d *d)
 {
-	t_index	i;
-	t_uixy	color;
+	t_index		i;
+	t_hexcolor	color;
 
 	i.y = 0;
-	while (i.y < d->max.y - 1)
+	while (i.y < d->max.y)
 	{
 		i.x = -1;
-		while (++i.x < d->max.x - 1)
+		while (++i.x < d->max.x)
 		{
-			color.x = d->c[i.y][i.x];
+			color.x = d->cm[i.y][i.x];
 			if (i.x < d->max.x - 1)
 			{
 				color.y = d->c[i.y][i.x + 1];
@@ -47,7 +48,7 @@ void	ft_draw(t_3d *d)
 			}
 			if (i.y < d->max.y - 1)
 			{
-				color.y = d->c[i.y + 1][i.x];
+				color.y = d->cm[i.y + 1][i.x];
 				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y + 1][i.x], color);
 			}
 		}
@@ -61,7 +62,7 @@ void	ft_draw(t_3d *d)
 ** the condition evalues that the starting pixel is inside the frame
 */
 
-void	ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_uixy c)
+void	ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_hexcolor c)
 {
 	t_fxy		dif;
 	t_fxy		i;
@@ -114,7 +115,7 @@ void	ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
 		((ft_clamp((int)round(c.g + d->l.g), 0, 0xff) << (8 - shade))) +
 		(ft_clamp(round(c.b + d->l.b), 0, 0xff) >> shade) +
 		(ft_clamp((int)round(c.a + d->l.a), 0, 0xff) << 24);
-	if (x >= 0 && y >= 0 && x <= WIDTH && y <= HEIGHT)
+	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
 		*(int *)&d->img.data_address[(x * d->img.bpp / 8) +
 			(y * d->img.line_size)] = color;
 }

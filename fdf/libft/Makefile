@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by angavrel          #+#    #+#              #
-#    Updated: 2016/12/29 18:23:52 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/22 18:07:28 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,8 +96,6 @@ SRC = ft_atoi.c \
 	  ft_putnbr_base.c \
 	  ft_error.c \
 	  get_next_line.c \
-	  ft_htoi.c \
-	  ft_puthex.c
 
 all: $(NAME)
 
