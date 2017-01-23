@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 16:51:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 19:17:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ void		ft_draw(t_3d *d)
 	t_index		i;
 	t_hexcolor	color;
 
-	i.y = 0;
-	while (i.y < d->max.y)
+	i.y = d->min_pix.y;
+	while (i.y < d->max_pix.y)
 	{
-		i.x = -1;
-		while (++i.x < d->max.x)
+		i.x = d->min_pix.x - 1;
+		while (++i.x < d->max_pix.x)
 		{
 			color.x = d->cm[i.y][i.x];
-			if (i.x < d->max.x - 1)
+			if (i.x < d->max_pix.x - 1)
 			{
 				color.y = d->cm[i.y][i.x + 1];
 				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x + 1], color);
 			}
-			if (i.y < d->max.y - 1)
+			if (i.y < d->max_pix.y - 1)
 			{
 				color.y = d->cm[i.y + 1][i.x];
 				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y + 1][i.x], color);
@@ -66,11 +66,11 @@ void		ft_draw_rev(t_3d *d)
 	t_index		i;
 	t_hexcolor	color;
 
-	i.y = d->max.y;
-	while (i.y--)
+	i.y = d->max_pix.y;
+	while (i.y-- > d->min.y)
 	{
-		i.x = d->max.x;
-		while (i.x--)
+		i.x = d->max_pix.x;
+		while (i.x-- > d->min.x)
 		{
 			color.x = d->cm[i.y][i.x];
 			if (i.x > 1)
@@ -85,7 +85,7 @@ void		ft_draw_rev(t_3d *d)
 			}
 		}
 	}
-	ft_lines_draw(d, d->mm[0][0], d->mm[0][0], color);
+	ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x], color);
 }
 
 /*

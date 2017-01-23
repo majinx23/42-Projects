@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 16:44:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 17:07:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ typedef struct	s_3d
 	t_image		img;
 	char		*s;
 	t_index		max;
+	t_index		max_pix;
+	t_index		min_pix;
 	float		depth;
 	t_bool		vertical_view;
 	t_vector	angle;

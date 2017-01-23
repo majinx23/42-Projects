@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 16:48:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 19:16:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	init_variables(t_3d *d)
 	t_vector	zoom;
 
 	d->center.y = (d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y) / 2;
-	d->center.y = (d->m[d->max.y - 1][d->max.x - 1].y + d->m[0][0].y) / 2;
 	d->center.x = (d->m[d->max.y - 1][d->max.x - 1].x + d->m[0][0].x) / 2;
 	d->offs.x = WIDTH / 2 - d->center.x;
 	d->offs.y = HEIGHT / 2 - d->center.y;
@@ -65,7 +64,58 @@ void	init_variables(t_3d *d)
 	d->scaling.x = (zoom.x <= zoom.y) ? zoom.x : zoom.y;
 	d->scaling.y = d->scaling.x;
 	d->scaling.z = -d->scaling.x;
+	d->max_pix = (t_index) {.x = d->max.x, .y = d->max.y};
+	d->min_pix = (t_index) {.x = 0, .y = 0};
 }
+
+/*
+** calculate the point that need to be drawn only.
+*/
+
+void	calculate_points_inside_frame(t_3d *d)
+{
+	t_index		i;
+	t_vector	a;
+	double	radius;
+	t_vector	c;
+	t_index		c_i;
+
+	i.y = 0;
+	radius = 0;
+	while (++i.y < d->max.y && !radius)
+	{
+		i.x = -1;
+		while (++i.x < d->max.x)
+		{
+			a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][i.x], d->center);
+			if (a.y < 0 || a.x < 0)
+				break;
+			d->min_pix.y = i;
+			while (a.x < WIDTH)
+				a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][++i.x], d->center);
+			while (a.y < HEIGHT)	
+				a = ft_matrix_to_vector(d->matrix_tmp, d->m[++i.y][i.x], d->center);
+			d->max_pix = i;
+			radius = sqrt(pow(a.x - d->min_pix.x, 2) + pow(a.y - d->min_pix.y, 2)) / 2.0f;
+			c_i.x = a.x - d->min_pix.x;
+			c_i.y = a.y - d->min_pix.y;
+			c = ft_matrix_to_vector(d->matrix_tmp, d->m[c_i.y][c_i.x], d->center);
+			break;
+		}
+	}
+	i.y = 0;
+	while (++i.y < d->max.y)
+	{
+		i.x = -1;
+		while (++i.x < d->max.x)
+		{
+			a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][i.x], d->center);
+			if (a.y < 0 || a.x < 0)
+				break;
+
+}
+
+
 
 /*
 ** here matrix transformations are applied after the final rendering matrix
@@ -79,6 +129,7 @@ void	apply_matrix(t_3d *d)
 	t_index	i;
 
 	d->matrix_tmp = ft_identity_matrix(0, d->scaling.x);
+	calculate_points_inside_frame(d);
 	d->matrix = ft_identity_matrix(0, 1);
 	d->matrix = ft_factor_matrix_free(d->matrix_tmp,
 			ft_matrix_global_rotation(d->matrix, d->angle), 'B');
@@ -86,11 +137,11 @@ void	apply_matrix(t_3d *d)
 	d->matrix_tmp = ft_copy_matrix(d->matrix);
 	d->matrix = ft_matrix_z_scaling(d->matrix, d->depth);
 	recalculate_center(d);
-	i.y = 0;
-	while (i.y < d->max.y)
+	i.y = d->min_pix.y;
+	while (++i.y < d->max_pix.y)
 	{
-		i.x = -1;
-		while (++i.x < d->max.x)
+		i.x = d->min_pix.x -1;
+		while (++i.x < d->max_pix.x)
 		{
 			d->mm[i.y][i.x] = (d->m[i.y][i.x].z > 0) ?
 				ft_matrix_to_vector(d->matrix, d->m[i.y][i.x], d->center) :
