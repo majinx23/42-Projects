@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsing.c                                       :+:      :+:    :+:   */
+/*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:22:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 22:44:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 13:31:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 int			read_map(t_3d *d, char *s)
 {
-	char	*line;
-	int		fd;
+	char		*line;
+	int			fd;
 
 	fd = open(s, O_RDONLY);
 	d->max.x = -1;
@@ -82,7 +82,7 @@ t_bool		parse_color(char *s, unsigned *i)
 
 	n = 0;
 	while (s[*i + n] && (ft_isdigit(s[*i + n]) || (s[*i + n] >= 'A' &&
-		s[*i + n] <= 'F') || (s[*i + n] >= 'a' && s[*i + n] <= 'f')))
+				s[*i + n] <= 'F') || (s[*i + n] >= 'a' && s[*i + n] <= 'f')))
 		++n;
 	if (n > 8)
 		return (False);

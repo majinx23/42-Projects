@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fdf.c                                           :+:      :+:    :+:   */
+/*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 22:39:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 16:48:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 int		fdf(t_3d *d)
 {
 	ft_create_image(&(d->img));
+	d->shade = (((d->angle.x < 3 * PI / 2) && (d->angle.x > PI / 2)) ||
+	((d->angle.y < 3 * PI / 2) && (d->angle.y > PI / 2))) ? 1 : 0;
 	apply_matrix(d);
-	ft_draw(d);
+	((d->mm[0][0].y > d->mm[d->max.y - 1][d->max.x - 1].y) && (d->mm[0][0].x > d->mm[d->max.y - 1][d->max.x - 1].x)) ? ft_draw_rev(d) : ft_draw(d);
 	mlx_put_image_to_window(d->img.mlx, d->img.w, d->img.image, 0, 0);
 	if (d->help_display > 0)
 		ft_settings(d);
@@ -51,16 +53,15 @@ void	init_variables(t_3d *d)
 	d->offs.x = WIDTH / 2 - d->center.x;
 	d->offs.y = HEIGHT / 2 - d->center.y;
 	d->offs.z = 1;
-	if (d->vertical_view)
+	if (d->vertical_view == True)
 		d->angle = (t_vector) {.x = 0, .y = 0, .z = 0};
 	else
 		d->angle = (t_vector) {.x = 0.926, .y = 6.07, .z = 0.62};
-	d->vertical_view = 0;
 	d->l = (t_argb) {.a = 0, .r = 0, .g = 0, .b = 0};
 	d->depth = 1;
 	d->season = (d->map_had_color == True) ? 4 : 0;
-	zoom.x = WIDTH / d->max.y - 1;
-	zoom.y = HEIGHT / d->max.x - 1;
+	zoom.x = (WIDTH / d->max.y - 1) * 1.1;
+	zoom.y = (HEIGHT / d->max.x - 1) * 1.1;
 	d->scaling.x = (zoom.x <= zoom.y) ? zoom.x : zoom.y;
 	d->scaling.y = d->scaling.x;
 	d->scaling.z = -d->scaling.x;
@@ -160,4 +161,3 @@ void	recalculate_center(t_3d *d)
 	d->center.x = (max.x - min.x) / 2;
 	d->center.z = 0;
 }
-

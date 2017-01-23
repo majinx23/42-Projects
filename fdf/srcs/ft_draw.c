@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_draw.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 22:52:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 16:51:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** creates a new image
 */
 
-void	ft_create_image(t_image *img)
+void		ft_create_image(t_image *img)
 {
 	img->image ? mlx_destroy_image(img->mlx, img->image) : 0;
 	img->w ? mlx_clear_window(img->mlx, img->w) : 0;
@@ -29,7 +29,7 @@ void	ft_create_image(t_image *img)
 ** draw each lines starting from (y, x) to (y + 1, x) and (y, x + 1)
 */
 
-void	ft_draw(t_3d *d)
+void		ft_draw(t_3d *d)
 {
 	t_index		i;
 	t_hexcolor	color;
@@ -43,7 +43,7 @@ void	ft_draw(t_3d *d)
 			color.x = d->cm[i.y][i.x];
 			if (i.x < d->max.x - 1)
 			{
-				color.y = d->c[i.y][i.x + 1];
+				color.y = d->cm[i.y][i.x + 1];
 				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x + 1], color);
 			}
 			if (i.y < d->max.y - 1)
@@ -58,11 +58,42 @@ void	ft_draw(t_3d *d)
 }
 
 /*
+** takes into account pixel priority
+*/
+
+void		ft_draw_rev(t_3d *d)
+{
+	t_index		i;
+	t_hexcolor	color;
+
+	i.y = d->max.y;
+	while (i.y--)
+	{
+		i.x = d->max.x;
+		while (i.x--)
+		{
+			color.x = d->cm[i.y][i.x];
+			if (i.x > 1)
+			{
+				color.y = d->cm[i.y][i.x - 1];
+				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x - 1], color);
+			}
+			if (i.y > 1)
+			{
+				color.y = d->cm[i.y - 1][i.x];
+				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y - 1][i.x], color);
+			}
+		}
+	}
+	ft_lines_draw(d, d->mm[0][0], d->mm[0][0], color);
+}
+
+/*
 ** draw lines between points using Gressenham algorytm
 ** the condition evalues that the starting pixel is inside the frame
 */
 
-void	ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_hexcolor c)
+void		ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_hexcolor c)
 {
 	t_fxy		dif;
 	t_fxy		i;
@@ -93,29 +124,39 @@ void	ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_hexcolor c)
 
 /*
 ** Puts exactly one pixel in the image
-** As d->c[y][x] is the color expressed as integer, we take the address
+** As d->cm[y][x] is the color expressed as integer, we take the address
 ** of d->data_address and then cast it as (int *) before dereferencing to
 ** save color value inside.
+*/
+
+void		ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
+{
+	int			x;
+	int			y;
+	long		color;
+
+	x = round(a.x) + d->offs.x;
+	y = round(a.y) + d->offs.y;
+	color = custom_color(d, c, d->shade);
+	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
+		*(int *)&d->img.data_address[(x * d->img.bpp / 8) +
+			(y * d->img.line_size)] = color;
+}
+
+/*
 ** the d->l is used for night/day and transparency effects.
 ** a shade binary filter is applied by shifting right each color by 1 bit.
 */
 
-void	ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb c)
+unsigned	custom_color(t_3d *d, t_argb color, int shade)
 {
-	int			x;
-	int			y;
-	unsigned	color;
-	unsigned	shade;
-
-	x = round(a.x) + d->offs.x;
-	y = round(a.y) + d->offs.y;
-	shade = ((d->angle.x < 3 * PI / 2) && (d->angle.x > PI / 2)) ||
-			((d->angle.y < 3 * PI / 2) && (d->angle.y > PI / 2)) ? 1 : 0;
-	color = (ft_clamp((int)round(c.r + d->l.r), 0, 0xff) << (16 - shade)) +
-		((ft_clamp((int)round(c.g + d->l.g), 0, 0xff) << (8 - shade))) +
-		(ft_clamp(round(c.b + d->l.b), 0, 0xff) >> shade) +
-		(ft_clamp((int)round(c.a + d->l.a), 0, 0xff) << 24);
-	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
-		*(int *)&d->img.data_address[(x * d->img.bpp / 8) +
-			(y * d->img.line_size)] = color;
+	color.a = ft_clamp((int)round(color.a + d->l.a), 0, 0xff);
+	color.r = ft_clamp((int)round(color.r + d->l.r), 0, 0xff);
+	color.g = ft_clamp((int)round(color.g + d->l.g), 0, 0xff);
+	color.b = ft_clamp((int)round(color.b + d->l.b), 0, 0xff);
+	color.a = (int)color.a >> shade;
+	color.r = (int)color.r >> shade;
+	color.g = (int)color.g >> shade;
+	color.b = (int)color.b >> shade;
+	return (ft_argb2hex(color));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_settings.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:49 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 20:15:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 13:42:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ static void		ft_help_display(t_image *img, unsigned c)
 	mlx_string_put(img->mlx, img->w, x, 165, c,
 			"Rotate around Z, Y, X, all axis : [1,2],[3,4],[5,6],[7,8]");
 	mlx_string_put(img->mlx, img->w, x, 190, c,
-			"Increase / Decrease brightness : [,] / [.]");
+			"Increase / Decrease brightness : [9] / [0]");
 	mlx_string_put(img->mlx, img->w, x, 215, c,
-			"SPACE : Reset map to initial position");
+			"Increase / Decrease transparency : [,] / [.]");
 	mlx_string_put(img->mlx, img->w, x, 240, c,
+			"SPACE : Reset map to initial position");
+	mlx_string_put(img->mlx, img->w, x, 275, c,
 			"Exit : [ESCAPE]");
 }
 
@@ -44,7 +46,7 @@ void			ft_settings(t_3d *d)
 	t_index		max;
 	int			border;
 
-	max.y = (d->help_display >> 1) ? 50 : 280;
+	max.y = (d->help_display >> 1) ? 50 : 305;
 	max.x = (d->help_display >> 1) ? 360 : 700;
 	i.y = -1;
 	border = 4;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hook.c                                          :+:      :+:    :+:   */
+/*   user_hook.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 22:26:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 15:43:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,10 @@ int		color_hook(int k, t_3d *d)
 		d->season = 1;
 	else if (k == KEY_PAD_2)
 		d->season = 2;
-	else if (k == KEY_PAD_3)
-		d->season = 3;
-	else if (k == KEY_PAD_4)
-		d->season = 4;
+	else if (k == KEY_PAD_3 || k == KEY_PAD_4)
+		d->season = (k == KEY_PAD_3) ? 3 : 4;
 	d->season < 4 ? color_map(d) : original_color(d);
-	if (k == 47)
-		d->l.a = ft_clamp((int)d->l.a + 4, 0, 0xff);
-	else if (k == 43)
-		d->l.a = ft_clamp((int)d->l.a - 4, 0, 0xff);
-	else if (k == 25)
+	if (k == 25)
 	{
 		d->l.r = ft_clamp((int)d->l.r + 4, -0xff, 0x33);
 		d->l.g = ft_clamp((int)d->l.g + 4, -0xff, 0x33);
@@ -48,6 +42,9 @@ int		color_hook(int k, t_3d *d)
 		d->l.g = ft_clamp((int)d->l.g - 4, -0xff, 0x33);
 		d->l.b = ft_clamp((int)d->l.b - 4, -0xff, 0x33);
 	}
+	else if (k == 47 || k == 43)
+		d->l.a = (k == 47) ? ft_clamp((int)d->l.a + 4, 0, 0xff) :
+		ft_clamp((int)d->l.a - 4, 0, 0xff);
 	return (1);
 }
 
@@ -78,14 +75,14 @@ int		rotation_hook(int k, t_3d *d)
 
 int		scaling_hook(int k, t_3d *d)
 {
-	if (k == 69 && d->scaling.x > 0.05)
+	if (k == 69 && d->scaling.x < 200)
 	{
 		d->scaling.x *= 1.25;
 		d->scaling.y *= 1.25;
 		d->scaling.z *= 1.25;
 		d->scaling.w *= 1.25;
 	}
-	else if (k == 78 && d->scaling.x < 200)
+	else if (k == 78 && d->scaling.x > 0.05)
 	{
 		d->scaling.x *= 0.9;
 		d->scaling.y *= 0.9;
@@ -110,13 +107,13 @@ int		scaling_hook(int k, t_3d *d)
 int		user_hook(int k, t_3d *d)
 {
 	if (k == 53)
-	{
 		mlx_destroy_window(d->img.mlx, d->img.w);
+	if (k == 53)
 		exit(0);
-		return (0);
-	}
-	else if (k == 49)
+	else if (k == 49 || k == KEY_P)
 	{
+		if (k == KEY_P)
+			d->vertical_view = (d->vertical_view == False) ? True : False;
 		mlx_clear_window(d->img.mlx, d->img.w);
 		init_variables(d);
 		fdf(d);

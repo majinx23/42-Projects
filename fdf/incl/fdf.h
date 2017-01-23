@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 22:03:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 16:44:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ typedef struct	s_3d
 	t_argb		l;
 	short		help_display;
 	t_bool		map_had_color;
+	int			shade;
 }				t_3d;
 
 /*
@@ -174,6 +175,7 @@ void			recalculate_center(t_3d *d);
 
 void			ft_put_pixel_in_img(t_3d *d, t_vector a, t_argb color);
 void			ft_draw(t_3d *d);
+void			ft_draw_rev(t_3d *d);
 void			ft_lines_draw(t_3d *d, t_vector a, t_vector b, t_hexcolor c);
 void			ft_create_image(t_image *img);
 
@@ -184,6 +186,9 @@ void			ft_create_image(t_image *img);
 void			color_map(t_3d *d);
 void			original_color(t_3d *d);
 t_argb2			gradient(unsigned a, unsigned b, int pixel);
+t_argb			ft_hex2argb(long hex);
+long			ft_argb2hex(t_argb rgb);
+unsigned		custom_color(t_3d *d, t_argb color, int shade);
 
 /*
 ** user hook is the function used to dectect inputs from user.

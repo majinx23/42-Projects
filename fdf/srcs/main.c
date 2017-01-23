@@ -3,33 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 22:45:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/23 15:46:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fdf.h"
 
 /*
- ** storing color in d->c
- ** maybe think to add ishex(char) in the future
- ** we put def_color.x equal to 1 to indicate that we will use color provided
- ** by the map instead of our own colors.
- */
+** storing color in d->c
+** we put def_color.x equal to 1 to indicate that we will use color provided
+** by the map instead of our own colors. no color is slightly grey
+*/
 
-int		ft_ishex(char c)
+int			ft_ishex(char c)
 {
 	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')
 			|| (c >= 'A' && c <= 'F'));
 }
 
-
-long	get_colors(t_3d *d)
+long		get_colors(t_3d *d)
 {
 	size_t	n;
-	long	c;;
+	int		c;
 
 	n = 0;
 	if (*d->s == '-')
@@ -37,37 +35,33 @@ long	get_colors(t_3d *d)
 	while (ft_isdigit(*d->s))
 		++d->s;
 	if (*(d->s) == ' ')
-		return (0xffffff);
-	d->s = d->s + 2;
-	while (*(d->s + n) && (ft_isdigit(*(d->s + n))
-				|| (*(d->s + n) >= 'A' && *(d->s + n) <= 'F')
-				|| (*(d->s + n) >= 'a' && *(d->s + n) <= 'f')))
+		return (0xaaaaaa);
+	d->s = d->s + 3;
+	while (*(d->s + n) && (ft_ishex(*(d->s + n))))
 		++n;
 	if (!n || !(c = ft_htoi(ft_strndup(d->s, n))))
 	{
 		d->s += n;
-		return (0xffffff);
+		return (0xaaaaaa);
 	}
-	d->map_had_color = True;
 	d->s += n;
+	d->map_had_color = True;
 	return (c);
 }
 
 /*
- ** Store ground elevation in d->m[y][x].z and colors into d->c
- */
+** Store ground elevation in d->m[y][x].z and colors into d->c
+*/
 
 int			get_depth_and_colors(t_3d *d)
 {
-	t_index		i;
+	t_index	i;
 
-	d->scaling.x = 0;//
 	d->z_min = 0;
 	d->z_max = 0;
 	i.y = -1;
-	while (++i.y < d->max.y)
+	while (++i.y < d->max.y && (i.x = -1) != 0)
 	{
-		i.x = -1;
 		while (++i.x < d->max.x)
 		{
 			while (*d->s && *d->s == ' ')
@@ -84,12 +78,12 @@ int			get_depth_and_colors(t_3d *d)
 }
 
 /*
- ** used to free everything when user push escape.
- */
+** used to free everything when user push escape.
+*/
 
 void		free_all(t_3d *d)
 {
-	int			i;
+	int		i;
 
 	i = 0;
 	while (i < d->max.y)
@@ -107,8 +101,8 @@ void		free_all(t_3d *d)
 }
 
 /*
- ** Main function parsing before caling fdf
- */
+** Main function parsing before caling fdf
+*/
 
 int			main(int ac, char **av)
 {
@@ -130,9 +124,9 @@ int			main(int ac, char **av)
 	d.img.mlx = mlx_init();
 	if (!(d.img.w = mlx_new_window(d.img.mlx, WIDTH, HEIGHT, TITLE)))
 		return (ft_error("Window's creation failed"));
-	color_map(&d);
+	(d.map_had_color == True) ? original_color(&d) : color_map(&d);
 	d.help_display = 2;
-	d.vertical_view = 0;
+	d.vertical_view = False;
 	fdf(&d);
 	return (0);
 }
