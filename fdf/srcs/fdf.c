@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 19:16:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/24 01:06:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,44 @@ void	init_variables(t_3d *d)
 ** calculate the point that need to be drawn only.
 */
 
-void	calculate_points_inside_frame(t_3d *d)
+float	hypothenus(t_vector a, t_vector b)
+{
+	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2)));
+}
+
+static void	calculate_max_point(t_3d *d, t_vector min)
 {
 	t_index		i;
 	t_vector	a;
-	double	radius;
-	t_vector	c;
-	t_index		c_i;
+	int			max_found;
 
-	i.y = 0;
+	max_found = 0;
+	i.y = -1;
+	while (++i.y < d->max.y && !max_found)
+	{
+		i.x = -1;
+		while (++i.x < d->max.x)
+		{
+			a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][i.x], d->center);
+			if (a.y < min.y|| a.x < min.x)
+				break;
+			d->max_pix.x = i.x + d->min_pix.x; // c.x is now max
+			d->max_pix.y = i.y + d->min_pix.y; // c.y is now max
+			d->min_pix = i;
+			max_found = 1;
+			break;
+		}
+	}
+}
+
+static void	calculate_min_point(t_3d *d)
+{
+	t_index		i;
+	t_vector	a;
+	double		radius;
+	t_vector	c;
+
+	i.y = -1;
 	radius = 0;
 	while (++i.y < d->max.y && !radius)
 	{
@@ -90,31 +119,16 @@ void	calculate_points_inside_frame(t_3d *d)
 			a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][i.x], d->center);
 			if (a.y < 0 || a.x < 0)
 				break;
-			d->min_pix.y = i;
-			while (a.x < WIDTH)
-				a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][++i.x], d->center);
-			while (a.y < HEIGHT)	
-				a = ft_matrix_to_vector(d->matrix_tmp, d->m[++i.y][i.x], d->center);
-			d->max_pix = i;
-			radius = sqrt(pow(a.x - d->min_pix.x, 2) + pow(a.y - d->min_pix.y, 2)) / 2.0f;
-			c_i.x = a.x - d->min_pix.x;
-			c_i.y = a.y - d->min_pix.y;
-			c = ft_matrix_to_vector(d->matrix_tmp, d->m[c_i.y][c_i.x], d->center);
+			d->min_pix = i;
+			c = ft_matrix_to_vector(d->matrix_tmp, d->m[HEIGHT / 2][WIDTH / 2], d->center);  
+			radius = hypothenus(a,c);
+			c.x = radius - c.x;
+			c.y = radius - c.y;
 			break;
 		}
 	}
-	i.y = 0;
-	while (++i.y < d->max.y)
-	{
-		i.x = -1;
-		while (++i.x < d->max.x)
-		{
-			a = ft_matrix_to_vector(d->matrix_tmp, d->m[i.y][i.x], d->center);
-			if (a.y < 0 || a.x < 0)
-				break;
-
+	calculate_max_point(d, c);
 }
-
 
 
 /*
@@ -129,7 +143,7 @@ void	apply_matrix(t_3d *d)
 	t_index	i;
 
 	d->matrix_tmp = ft_identity_matrix(0, d->scaling.x);
-	calculate_points_inside_frame(d);
+	calculate_min_point(d);
 	d->matrix = ft_identity_matrix(0, 1);
 	d->matrix = ft_factor_matrix_free(d->matrix_tmp,
 			ft_matrix_global_rotation(d->matrix, d->angle), 'B');

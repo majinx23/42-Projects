@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 19:17:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/24 01:03:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void		ft_draw_rev(t_3d *d)
 	t_hexcolor	color;
 
 	i.y = d->max_pix.y;
-	while (i.y-- > d->min.y)
+	while (i.y-- > d->min_pix.y)
 	{
 		i.x = d->max_pix.x;
-		while (i.x-- > d->min.x)
+		while (i.x-- > d->min_pix.x)
 		{
 			color.x = d->cm[i.y][i.x];
 			if (i.x > 1)
