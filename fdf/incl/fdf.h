@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 07:14:02 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 17:07:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/24 18:42:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../libftmath/libftmath.h"
 # include "colors.h"
 # include "keycode_mac.h"
+# include <stdio.h>
 
 # define TITLE					"FDF"
 # define PI						3.14159265359
@@ -117,6 +118,8 @@ typedef struct	s_image
 ** *s is map parsed as a string and *c a save from each point's color.
 ** vertical_view if the initial view of the map.
 ** full description of variables below is written in init_variables.
+** min and max_pixel are index of points to be drawn.
+** min and max_vector are their coordinates.
 */
 
 typedef struct	s_3d
@@ -124,11 +127,14 @@ typedef struct	s_3d
 	t_image		img;
 	char		*s;
 	t_index		max;
-	t_index		max_pix;
-	t_index		min_pix;
+	t_index		max_pixel;
+	t_index		min_pixel;
+	t_vector	max_vector;
+	t_vector	min_vector;
 	float		depth;
 	t_bool		vertical_view;
 	t_vector	angle;
+	t_vector	offset;
 	t_vector	offs;
 	t_vector	scaling;
 	t_vector	center;

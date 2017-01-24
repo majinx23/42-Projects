@@ -47,9 +47,9 @@ all: tmp $(NAME)
 
 $(NAME): $(OBJS)
 	@echo "$(GREEN)Creating lib files$(CYAN)"
-	@make -C $(LIBFT)
-	@make -C $(LIBFTMATH_PATH)
-	@make -C $(MLX_PATH)
+#	@make -C $(LIBFT)
+#	@make -C $(LIBFTMATH_PATH)
+#	@make -C $(MLX_PATH)
 	@$(CC) $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -framework OpenGL -framework AppKit -L $(MLX_PATH) -lmlx -L $(LIBFTMATH_PATH) -lftmath
 	@echo "$(GREEN)Project successfully compiled"
 
@@ -70,9 +70,9 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT)
-	@make clean -C $(MLX_PATH)
-	@make clean -C $(LIBFTMATH_PATH)
+#	@make fclean -C $(LIBFT)
+#	@make clean -C $(MLX_PATH)
+#	@make clean -C $(LIBFTMATH_PATH)
 
 re: fclean
 	@$(MAKE) all -j
