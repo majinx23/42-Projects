@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/25 01:46:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 13:57:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,31 +123,29 @@ static void	calculate_frame_min_point(t_3d *d)
 {
 	t_index		i;
 	t_vector	a;
-	t_bool		min_coords_found;
 
-	min_coords_found = False;
-	i.y = -1;
-	while (min_coords_found == False && ++i.y < d->max.y)
+	i.y = 0;
+	while (i.y < d->max.y)
 	{
-		i.x = -1;
-		while (++i.x < d->max.x)
-		{
-			a = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
-	//		printf("a.y coords : (%f, %f)\n", a.y, d->min_vector.y);
-			if (a.y >= d->min_vector.y)
-			{
-			//	printf("a coords : (%f, %f)\n", a.y, a.x);
-				break;
-			}
-			if (a.x >= d->min_vector.x)
-			{
-				min_coords_found = True;
-				d->min_pixel = i;
-				break;
-			}
-		}
+		a = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][d->min_pixel.x], d);
+		if (a.y >= d->min_vector.y)
+			break;
+		++i.y;
 	}
+	i.x = 0;
+	while (i.x < d->max.x)
+	{
+		a = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
+		if (a.x >= d->min_vector.x)
+			break;
+		++i.x;
+	}
+	d->min_pixel = i;
 }
+
+
+
+
 
 static void	calculate_max_point(t_3d *d)
 {
@@ -160,26 +158,26 @@ static void	calculate_max_point(t_3d *d)
 	{
 		d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][d->min_pixel.x], d);
 //		printf("current point  : (%f, %f)\n", d->max_vector.y, d->max_vector.x);
-		if (d->max_vector.y > HEIGHT)
+		if (d->max_vector.y >= HEIGHT || d->max_vector.y < 0)
 			break;
 		++i.y;
 	//		printf("max point y : %d, max point x : %d\n", i.y, i.x);
 
 	}
-	printf("max point y : %d\n", i.y);
+//	printf("max point y : %d\n", i.y);
 	i.x = d->min_pixel.x;
-	while (i.x < d->max.x - 1)
+	while (i.x < d->max.x)
 	{
 //		printf("calculating x index : %d\n", i.x);
 		d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
-		if (d->max_vector.x > WIDTH)
+		if (d->max_vector.x >= WIDTH || d->max_vector.x < 0)
 			break;
 		++i.x;
 	}
 	d->max_pixel.y = i.y;
 	d->max_pixel.x = i.x;
 	printf("ending coord : (%f, %f)\n", d->max_vector.y, d->max_vector.x);
-	printf("min point / max : (%d, %d) (%d, %d)\n", d->min_pixel.y, d->min_pixel.x, d->max_pixel.y, d->max_pixel.x);	
+	printf("min point / max : (%dy, %dx) (%dy, %dx)\n", d->min_pixel.y, d->min_pixel.x, d->max_pixel.y, d->max_pixel.x);	
 	printf("max point y : %d, max point x : %d\n", i.y, i.x);
 	d->max_vector.x /= 2;
 	d->max_vector.y /= 2;
@@ -195,34 +193,23 @@ static void	calculate_max_point(t_3d *d)
 static void	calculate_min_point(t_3d *d)
 {
 	t_index		i;
-	t_bool		not_yet_found;
-
-	not_yet_found = False;
 	i.y = 0;
-	while (not_yet_found == False && i.y < d->max.y) 
+
+	while (i.y < d->max.y - 1)
 	{
-		i.x = 0;
-		while (i.x < d->max.x)
-		{
-			d->min_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
-			if (d->min_vector.y < 0)
-			{
-				++i.y;
-//				printf("offset : (%f.1,%f.1)\n", d->offset.y, d->offset.x);
-	//			printf("point (%d, %d): (%f, %f)\n", i.y, i.x, d->min_vector.y, d->min_vector.x);
-				break;
-			}
-			else if (d->min_vector.x >= 0)
-			{
-	//			printf("offset : (%f.1,%f.1)\n", d->offset.y, d->offset.x);
-	//			printf("point (%d, %d): (%f, %f)\n", i.y, i.x, d->min_vector.y, d->min_vector.x);
-				not_yet_found = True;
-				break;	
-			}
-			++i.x;		
-		}
+		d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][d->min_pixel.x], d);
+		if (d->max_vector.y >= 0)
+			break;
+		++i.y;
 	}
-//	ft_putnbr(i.y);
+	i.x = 0;
+	while (i.x < d->max.x)
+	{
+		d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
+		if (d->max_vector.x >= 0)
+			break;
+		++i.x;
+	}
 //	printf("starting coord : (%f, %f)\n", d->min_vector.y, d->min_vector.x);
 	d->min_pixel = i;				
 }
@@ -235,8 +222,8 @@ static void	calculate_points_inside_frame(t_3d *d)
 	d->max_pixel = (t_index) {.x = 0, .y = 0};
 	d->max_vector = (t_vector) {.x = 0, .y = 0, .z = 0};
 	calculate_max_point(d);
-	calculate_frame_min_point(d);
-	calculate_frame_max_point(d);
+//	calculate_frame_min_point(d);
+//	calculate_frame_max_point(d);
 //	recalculate_center(d);
 	
 	d->center.y = (d->min_vector.y + d->max_vector.y) / 2;
