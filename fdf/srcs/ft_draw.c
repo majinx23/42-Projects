@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/24 20:17:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 01:52:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void		ft_draw(t_3d *d)
 	t_index		i;
 	t_hexcolor	color;
 
-printf("b\n");
 	i.y = d->min_pixel.y;
 	while (i.y < d->max_pixel.y)
 	{
@@ -59,6 +58,23 @@ printf("b\n");
 	ft_lines_draw(d, d->mm[i.y - 1][i.x - 1], d->mm[i.y - 1][i.x - 1], color);
 }
 
+
+static void	 ft_put_final_pixel_in_img(t_3d *d, t_vector a, long hexcolor)
+{
+	int			x;
+	int			y;
+	long		color;
+	t_argb		c;
+
+	c = ft_hex2argb(hexcolor);
+	x = round(a.x) + d->center.x;
+	y = round(a.y) + d->center.y;
+	color = custom_color(d, c, d->shade);
+	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
+		*(int *)&d->img.data_address[(x * d->img.bpp / 8) +
+			(y * d->img.line_size)] = color;
+}
+
 /*
 ** takes into account pixel priority
 */
@@ -69,25 +85,29 @@ void		ft_draw_rev(t_3d *d)
 	t_hexcolor	color;
 
 	i.y = d->max_pixel.y;
-	while (i.y-- > d->min_pixel.y)
+	ft_putstr("drawrev");//
+	while (i.y > d->min_pixel.y)
 	{
 		i.x = d->max_pixel.x;
-		while (i.x-- > d->min_pixel.x)
+		ft_putnbr(i.y);//
+		while (i.x > d->min_pixel.x)
 		{
 			color.x = d->cm[i.y][i.x];
 			if (i.x > 1)
 			{
-				color.y = d->cm[i.y][i.x - 1];
-				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x - 1], color);
+				color.y = d->cm[i.y - 1][i.x - 1];
+				ft_lines_draw(d, d->mm[i.y - 1][i.x - 1], d->mm[i.y - 1][i.x - 2], color);
 			}
 			if (i.y > 1)
 			{
-				color.y = d->cm[i.y - 1][i.x];
-				ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y - 1][i.x], color);
+				color.y = d->cm[i.y - 2][i.x - 1];
+				ft_lines_draw(d, d->mm[i.y - 1][i.x - 1], d->mm[i.y - 2][i.x - 1], color);
 			}
+			--i.x;
 		}
+		--i.y;
 	}
-	ft_lines_draw(d, d->mm[i.y][i.x], d->mm[i.y][i.x], color);
+	ft_put_final_pixel_in_img(d, d->mm[i.y][i.x], color.x);
 }
 
 /*

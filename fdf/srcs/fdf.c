@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 14:44:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/24 20:21:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 01:46:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int		fdf(t_3d *d)
 	d->shade = (((d->angle.x < 3 * PI / 2) && (d->angle.x > PI / 2)) ||
 	((d->angle.y < 3 * PI / 2) && (d->angle.y > PI / 2))) ? 1 : 0;
 	apply_matrix(d);
-	((d->mm[0][0].y > d->mm[d->max.y - 1][d->max.x - 1].y) && (d->mm[0][0].x > d->mm[d->max.y - 1][d->max.x - 1].x)) ? ft_draw_rev(d) : ft_draw(d);
+	if (d->min_pixel.y < d->max_pixel.y && d->min_pixel.x < d->max_pixel.x)
+		((d->mm[0][0].y > d->mm[d->max.y - 1][d->max.x - 1].y) && (d->mm[0][0].x > d->mm[d->max.y - 1][d->max.x - 1].x)) ? ft_draw_rev(d) : ft_draw(d);
 	mlx_put_image_to_window(d->img.mlx, d->img.w, d->img.image, 0, 0);
 	if (d->help_display > 0)
 		ft_settings(d);
@@ -61,8 +62,6 @@ void	init_variables(t_3d *d)
 //	d->scaling.x = (zoom.x <= zoom.y) ? zoom.x : zoom.y;
 //	d->scaling.y = d->scaling.x;
 //	d->scaling.z = d->scaling.x;
-	d->max_pixel = (t_index) {.x = 0, .y = 0};
-	d->min_pixel = (t_index) {.x = 0, .y = 0};
 }
 
 /*
@@ -79,8 +78,8 @@ t_vector	ft_matrix_to_vector2(float **m, t_vector v, t_3d *d)
 {
 	t_vector	n;
 
-	n.x = v.x * m[0][0] + v.y * m[0][1] + v.z * m[0][2] + m[0][3] * v.w + d->offset.x + d->center.x;
-	n.y = v.x * m[1][0] + v.y * m[1][1] + v.z * m[1][2] + m[1][3] * v.w + d->offset.y + d->center.y;
+	n.x = v.x * m[0][0] + v.y * m[0][1] + v.z * m[0][2] + m[0][3] * v.w + d->offset.x; //+ d->center.x;
+	n.y = v.x * m[1][0] + v.y * m[1][1] + v.z * m[1][2] + m[1][3] * v.w + d->offset.y; //+ d->center.y;
 	n.z = v.x * m[2][0] + v.y * m[2][1] + v.z * m[2][2] + m[2][3] * v.w;
 	n.w = v.x * m[3][0] + v.y * m[3][1] + v.z * m[3][2] + m[3][3] * v.w;
 	return (n);
@@ -101,9 +100,9 @@ static void	calculate_frame_max_point(t_3d *d)
 		while (++i.x < d->max.x)
 		{
 			a = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
-			if (a.y >= d->max_vector.y)
+			if (a.y >= d->max_vector.y || a.y > HEIGHT)
 				break;
-			if (a.x >= d->max_vector.x)
+			if (a.x >= d->max_vector.x || a.x > WIDTH)
 			{
 				max_coords_found = True;
 				d->max_pixel.x = i.x - 1;
@@ -112,12 +111,12 @@ static void	calculate_frame_max_point(t_3d *d)
 			}
 		}
 	}
-	printf("\n\n");
+/*	printf("\n\n");
 	printf("starting coord : (%f, %f)\n", d->min_vector.y, d->min_vector.x);
 	printf("index min point : (%d, %d)\n", d->min_pixel.y, d->min_pixel.x);	
 	printf("ending coord : (%f, %f)\n", d->max_vector.y, d->max_vector.x);
 	printf("index max point : (%d, %d)\n", i.y, i.x);
-	printf("\n\n");
+	printf("\n\n");*/
 }
 
 static void	calculate_frame_min_point(t_3d *d)
@@ -135,12 +134,12 @@ static void	calculate_frame_min_point(t_3d *d)
 		{
 			a = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
 	//		printf("a.y coords : (%f, %f)\n", a.y, d->min_vector.y);
-			if (a.y <= d->min_vector.y)
+			if (a.y >= d->min_vector.y)
 			{
 			//	printf("a coords : (%f, %f)\n", a.y, a.x);
 				break;
 			}
-			if (a.x <= d->min_vector.x)
+			if (a.x >= d->min_vector.x)
 			{
 				min_coords_found = True;
 				d->min_pixel = i;
@@ -155,84 +154,96 @@ static void	calculate_max_point(t_3d *d)
 	t_index		i;
 	double		radius;
 
-	i.y = d->min_pixel.y -1;
 	radius = 0;
-	while (!radius && ++i.y < d->max.y)
+	i.y = d->min_pixel.y;
+	while (i.y < d->max.y - 1)
 	{
-		i.x = d->min_pixel.x -1;
-		while (++i.x < d->max.x)
-		{
-			d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
-			if (d->max_vector.x > WIDTH)
-				break;
-			if (d->max_vector.y > HEIGHT)
-			{
-				radius = 1;
-				break;
-			}//
-		}
+		d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][d->min_pixel.x], d);
+//		printf("current point  : (%f, %f)\n", d->max_vector.y, d->max_vector.x);
+		if (d->max_vector.y > HEIGHT)
+			break;
+		++i.y;
+	//		printf("max point y : %d, max point x : %d\n", i.y, i.x);
+
 	}
-	d->max_pixel = i;
-//	printf("ending coord : (%f, %f)\n", d->max_vector.y, d->max_vector.x);
-//	printf("max point y : %d, max point x : %d\n", i.y, i.x);
+	printf("max point y : %d\n", i.y);
+	i.x = d->min_pixel.x;
+	while (i.x < d->max.x - 1)
+	{
+//		printf("calculating x index : %d\n", i.x);
+		d->max_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
+		if (d->max_vector.x > WIDTH)
+			break;
+		++i.x;
+	}
+	d->max_pixel.y = i.y;
+	d->max_pixel.x = i.x;
+	printf("ending coord : (%f, %f)\n", d->max_vector.y, d->max_vector.x);
+	printf("min point / max : (%d, %d) (%d, %d)\n", d->min_pixel.y, d->min_pixel.x, d->max_pixel.y, d->max_pixel.x);	
+	printf("max point y : %d, max point x : %d\n", i.y, i.x);
 	d->max_vector.x /= 2;
 	d->max_vector.y /= 2;
 	radius = hypothenus(d->min_vector,d->max_vector);
 	d->min_vector.x = d->max_vector.x - radius;
 	d->min_vector.y = d->max_vector.y - radius;
-	printf("real starting coord : (%f, %f)\n", d->min_vector.y, d->min_vector.x);
 	d->max_vector.x += radius;
 	d->max_vector.y += radius;
-	printf("real ending coords y : %f, x : %f\n", d->max_vector.y, d->max_vector.x);
+	//	printf("real starting coord : (%f, %f)\n", d->min_vector.y, d->min_vector.x);
+//	printf("real ending coords y : %f, x : %f\n", d->max_vector.y, d->max_vector.x);
 }
 
 static void	calculate_min_point(t_3d *d)
 {
 	t_index		i;
-	double		radius;
 	t_bool		not_yet_found;
 
 	not_yet_found = False;
-	i.y = -1;
-	radius = 0;
-	while (++i.y < d->max.y && not_yet_found == False)
+	i.y = 0;
+	while (not_yet_found == False && i.y < d->max.y) 
 	{
-		i.x = -1;
-		while (++i.x < d->max.x)
+		i.x = 0;
+		while (i.x < d->max.x)
 		{
 			d->min_vector = ft_matrix_to_vector2(d->matrix_tmp, d->m[i.y][i.x], d);
 			if (d->min_vector.y < 0)
-				break;
-			if (d->min_vector.x < 0)
-				;
-			else
 			{
-//				printf("starting coord : (%f, %f)\n", d->min_vector.y, d->min_vector.x);
-				printf("min point y : %d\n", i.y);
-				printf("min point x : %d\n", i.x);
-				d->min_pixel = i;				
-				not_yet_found = True;
+				++i.y;
+//				printf("offset : (%f.1,%f.1)\n", d->offset.y, d->offset.x);
+	//			printf("point (%d, %d): (%f, %f)\n", i.y, i.x, d->min_vector.y, d->min_vector.x);
 				break;
 			}
+			else if (d->min_vector.x >= 0)
+			{
+	//			printf("offset : (%f.1,%f.1)\n", d->offset.y, d->offset.x);
+	//			printf("point (%d, %d): (%f, %f)\n", i.y, i.x, d->min_vector.y, d->min_vector.x);
+				not_yet_found = True;
+				break;	
+			}
+			++i.x;		
 		}
 	}
+//	ft_putnbr(i.y);
+//	printf("starting coord : (%f, %f)\n", d->min_vector.y, d->min_vector.x);
+	d->min_pixel = i;				
 }
 
 static void	calculate_points_inside_frame(t_3d *d)
 {
+	d->min_pixel = (t_index) {.x = 0, .y = 0};
 	d->min_vector = (t_vector) {.x = 0, .y = 0, .z = 0};
 	calculate_min_point(d);
+	d->max_pixel = (t_index) {.x = 0, .y = 0};
 	d->max_vector = (t_vector) {.x = 0, .y = 0, .z = 0};
 	calculate_max_point(d);
 	calculate_frame_min_point(d);
 	calculate_frame_max_point(d);
-	//	recalculate_center(d);
+//	recalculate_center(d);
 	
 	d->center.y = (d->min_vector.y + d->max_vector.y) / 2;
 	d->center.x = (d->min_vector.x + d->max_vector.x) / 2;
 
-	printf("d->center coord : (%f, %f)\n", d->center.y, d->center.x);
-	printf("d->center y, x : (%d, %d)\n", (d->max_pixel.y - d->min_pixel.y + 1) / 2, (d->max_pixel.x - d->min_pixel.x + 1) / 2);
+//	printf("d->center coord : (%f, %f)\n", d->center.y, d->center.x);
+//	printf("d->center y, x : (%d, %d)\n", (d->max_pixel.y - d->min_pixel.y + 1) / 2, (d->max_pixel.x - d->min_pixel.x + 1) / 2);
 	d->offs.x = - d->center.x;
 	d->offs.y = - d->center.y;
 	
@@ -253,14 +264,12 @@ void	apply_matrix(t_3d *d)
 	d->matrix_tmp = ft_identity_matrix(0, d->scaling.x);
 	calculate_points_inside_frame(d); // calcul of center and max min index to be drawn
 
-	printf("a\n");
 	d->matrix = ft_identity_matrix(0, 1);
 	d->matrix = ft_factor_matrix_free(d->matrix_tmp,
 			ft_matrix_global_rotation(d->matrix, d->angle), 'B');
 	d->matrix = ft_matrix_z_scaling(d->matrix, 0.25);
 	d->matrix_tmp = ft_copy_matrix(d->matrix);
 	d->matrix = ft_matrix_z_scaling(d->matrix, d->depth);
-	printf("a\n");
 	i.y = d->min_pixel.y;
 	while (i.y < d->max_pixel.y)
 	{
@@ -276,9 +285,9 @@ void	apply_matrix(t_3d *d)
 //		printf("calculating coord : (%d, %d)\n", i.y, i.x);
 		++i.y;
 	}
-	printf("a\n");
 	ft_free_matrix(d->matrix);
 	ft_free_matrix(d->matrix_tmp);
+	ft_putendl("\n");
 }
 
 /*
