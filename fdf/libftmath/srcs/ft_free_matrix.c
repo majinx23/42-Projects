@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 20:42:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 12:22:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 16:39:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_free_matrix(float **m)
 	i = 0;
 	while (i < 4)
 	{
-			free(m[i]);
-			++i;
+		free(m[i]);
+		++i;
 	}
 	free(m);
 	m = NULL;

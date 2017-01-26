@@ -10,7 +10,6 @@ LIBFT  = libft
 OBJ_PATH  = objs
 HEADER = incl
 SRC_PATH  = srcs
-MLX_PATH = libmlx
 LIBFTMATH_PATH = libftmath
 
 ### SOURCES ###
@@ -47,10 +46,9 @@ all: tmp $(NAME)
 
 $(NAME): $(OBJS)
 	@echo "$(GREEN)Creating lib files$(CYAN)"
-#	@make -C $(LIBFT)
-#	@make -C $(LIBFTMATH_PATH)
-#	@make -C $(MLX_PATH)
-	@$(CC) $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -framework OpenGL -framework AppKit -L $(MLX_PATH) -lmlx -L $(LIBFTMATH_PATH) -lftmath
+	@make -C $(LIBFT)
+	@make -C $(LIBFTMATH_PATH)
+	@$(CC) $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -framework OpenGL -framework AppKit -lmlx -L $(LIBFTMATH_PATH) -lftmath
 	@echo "$(GREEN)Project successfully compiled"
 
 tmp:
@@ -62,19 +60,18 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/$(NAME).h
 
 clean:
 	@echo "$(GREEN)Supressing libraries files$(CYAN)"
-	@rm -f $(OBJS)
 	@make clean -C $(LIBFT)
-	@make clean -C $(MLX_PATH)
 	@make clean -C $(LIBFTMATH_PATH)
 	@rm -rf $(OBJ_PATH)
 
-fclean: clean
+fclean:
+	@echo "$(GREEN)Supressing libraries files$(CYAN)"
+	@rm -rf $(OBJ_PATH)
 	@rm -f $(NAME)
-#	@make fclean -C $(LIBFT)
-#	@make clean -C $(MLX_PATH)
-#	@make clean -C $(LIBFTMATH_PATH)
+	@make fclean -C $(LIBFT)
+	@make fclean -C $(LIBFTMATH_PATH)
 
 re: fclean
 	@$(MAKE) all -j
 
-.PHONY: temporary, re, clean
+.PHONY: temporary, re, fclean, clean

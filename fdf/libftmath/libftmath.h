@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 22:59:57 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 18:08:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 16:43:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <math.h>
 # include <stdlib.h>
+
+# define I int
+# define F float
 
 typedef struct	s_i
 {
@@ -45,7 +48,6 @@ int				ft_isdigit(int c);
 ** Matrix
 */
 
-void			ft_print_matrix(float **m);
 float			**ft_identity_matrix(int fill, int fill_diagonal);
 float			**ft_matrix_rotation(float x, char axis);
 float			**ft_matrix_global_rotation(float **m, t_vector angle);

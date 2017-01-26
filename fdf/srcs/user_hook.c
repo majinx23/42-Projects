@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:23:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/24 18:43:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 16:59:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int		translation_hook(int k, t_3d *d)
 	if (k >= 123 && k <= 126)
 	{
 		if (k == 123 || k == 124)
-			d->offset.x += (k == 123) ? 20 : -20;
+			d->offs.x += (k == 123) ? 20 : -20;
 		else if (k == 125 || k == 126)
-			d->offset.y += (k == 125) ? -20 : 20;
+			d->offs.y += (k == 125) ? -20 : 20;
 	}
 	return (1);
 }
@@ -75,7 +75,7 @@ int		rotation_hook(int k, t_3d *d)
 
 int		scaling_hook(int k, t_3d *d)
 {
-	if (k == 69 && d->scaling.x < 200)
+	if (k == 69)
 	{
 		d->scaling.x *= 1.25;
 		d->scaling.y *= 1.25;

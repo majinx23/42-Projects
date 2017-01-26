@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/20 22:25:39 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/22 18:08:46 by angavrel         ###   ########.fr        #
+#    Updated: 2017/01/25 16:29:22 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ SRCS = ft_factor_matrix_free.c \
 	   ft_matrix_z_scaling.c \
 	   ft_identity_matrix.c \
 	   ft_matrix_scaling.c \
-	   ft_print_matrix.c \
 	   ft_copy_matrix.c \
 	   ft_htoi.c \
 	   ft_puthex.c \

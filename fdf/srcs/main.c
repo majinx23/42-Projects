@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/25 07:12:01 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 15:46:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 17:12:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ long		get_colors(t_3d *d)
 		++d->s;
 	while (ft_isdigit(*d->s))
 		++d->s;
-	if (*(d->s) == ' ')
+	if (!*d->s || *(d->s) == ' ')
 		return (0xaaaaaa);
 	d->s = d->s + 3;
 	while (*(d->s + n) && (ft_ishex(*(d->s + n))))
@@ -60,8 +60,9 @@ int			get_depth_and_colors(t_3d *d)
 	d->z_min = 0;
 	d->z_max = 0;
 	i.y = -1;
-	while (++i.y < d->max.y && (i.x = -1) != 0)
+	while (++i.y < d->max.y)
 	{
+		i.x = -1;
 		while (++i.x < d->max.x)
 		{
 			while (*d->s && *d->s == ' ')

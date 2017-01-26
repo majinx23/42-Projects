@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 15:22:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/23 13:31:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/25 17:07:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,23 @@ int			read_map(t_3d *d, char *s)
 {
 	char		*line;
 	int			fd;
+	t_bool		is_first_line;
 
 	fd = open(s, O_RDONLY);
-	d->max.x = -1;
+	is_first_line = True;
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (d->max.x == -1)
+		if (is_first_line == True)
 		{
 			d->s = ft_strdup(line);
 			d->max.x = parse_map(line);
 		}
 		else if (d->max.x != parse_map(line))
 			return (ft_error("Invalid file"));
-		d->s = (d->max.x != -1) ? ft_strjoinfree(d->s, " ", 'L') : d->s;
-		d->s = (d->max.x != -1) ? ft_strjoinfree(d->s, line, 'B') : d->s;
+		if (is_first_line == False)
+			d->s = ft_strjoinfree(ft_strjoinfree(d->s, " ", 'L'), line, 'B');
 		++d->max.y;
+		is_first_line = False;
 	}
 	close(fd);
 	free(line);
@@ -44,7 +46,7 @@ int			read_map(t_3d *d, char *s)
 }
 
 /*
-** checks that the map is a valid one with above functions' help
+** checks that the map is a valid one
 */
 
 short		parse_map(char *s)
