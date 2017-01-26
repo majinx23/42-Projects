@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 04:03:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 14:45:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 16:49:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
+
+/*
+** main program: Initialize fractals, draw chosen fractal and awaits user input
+*/
 
 int		main(int ac, char **av)
 {
@@ -22,29 +26,36 @@ int		main(int ac, char **av)
 		return (0);
 	init_fractal(&d, av[1]);
 	fractol(&d);
-	mlx_mouse_hook(d.win, mouse_scaling_hook, &d);
-	mlx_hook(d.win, 2, 4, key_hook, &d);
-	mlx_hook(d.win, 6, 1 << 8, motion_hook, &d);
-	mlx_loop(d.mlx);
+	mlx_mouse_hook(d.img.win, mouse_scaling_hook, &d);
+	mlx_hook(d.img.win, 2, 4, key_hook, &d);
+	mlx_hook(d.img.win, 6, 1 << 8, motion_hook, &d);
+	mlx_loop(d.img.mlx);
 	return (0);
 }
 
-int	usage(void)
+/*
+** Print Usage
+*/
+
+int		usage(void)
 {
 	ft_error("Usage: ./fractol <fractal>");
-	ft_error("[Mandelbrot] [Julia] [Phoenix]");
+	ft_error("[Mandelbrot] [Julia] [Phoenix] [Barnsley]");
 	return (0);
 }
+
+/*
+** initialize variables
+*/
 
 int		init_variables(t_3d *d)
 {
-
-	if (!(d->mlx = mlx_init()))
+	if (!(d->img.mlx = mlx_init()))
 		ft_error("Mlx initialization failed");
-	if (!(d->win = mlx_new_window(d->mlx, WIDTH, HEIGHT, TITLE)))
+	if (!(d->img.win = mlx_new_window(d->img.mlx, WIDTH, HEIGHT, TITLE)))
 		ft_error("Window creation failed");
 	init_img(d);
-	if (!d->img)
+	if (!d->img.image)
 		ft_error("Image creation failed");
 	d->zoom = 200;
 	d->color = 0;
@@ -54,6 +65,10 @@ int		init_variables(t_3d *d)
 	return (1);
 }
 
+/*
+** Initialize image
+*/
+
 void	init_img(t_3d *d)
 {
 	char	*data;
@@ -61,27 +76,21 @@ void	init_img(t_3d *d)
 	int		sizeline;
 	int		endian;
 
-	d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT);
-	data = mlx_get_data_addr(d->img, &bpp, &sizeline, &endian);
-	d->data = data;
-	d->bpp = bpp;
-	d->sizeline = sizeline;
-	d->endian = endian;
+	d->img.image = mlx_new_image(d->img.mlx, WIDTH, HEIGHT);
+	data = mlx_get_data_addr(d->img.image, &bpp, &sizeline, &endian);
+	d->img.data = data;
+	d->img.bpp = bpp;
+	d->img.sizeline = sizeline;
+	d->img.endian = endian;
 }
+
+/*
+** Put pixel inside the image
+*/
 
 void	put_pixel_in_img(t_3d *d, int x, int y, int color)
 {
-	unsigned	octets;
-	unsigned	a;
-	unsigned	j;
-
-	octets = d->bpp / 8;
-	a = x * octets + y * d->sizeline;
-	j = 0;
-	while (j < octets)
-	{
-		d->data[a + j] = color;
-		color >>= 8;
-		++j;
-	}
+	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
+		*(int *)&d->img.data[(x * d->img.bpp / 8) +
+			(y * d->img.sizeline)] = color;
 }

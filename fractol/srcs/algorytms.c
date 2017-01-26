@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   algorytms.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:42:03 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 15:58:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 17:03:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
 /*
- ** Mathematician Adrien Douady's tribute to his peer Benoit Mandelbrot.
- ** https://en.wikipedia.org/wiki/Mandelbrot_set
- */
+** Mathematician Adrien Douady's tribute to his peer Benoit Mandelbrot.
+** https://en.wikipedia.org/wiki/Mandelbrot_set
+*/
 
-void			mandelbrot(t_3d *d, t_cnb z, t_cnb c)
+void		mandelbrot(t_3d *d, t_cnb z, t_cnb c)
 {
 	double	n;
 	double	t;
-
 
 	n = z.real * z.real + z.imag * z.imag;
 	t = 0;
@@ -37,9 +36,10 @@ void			mandelbrot(t_3d *d, t_cnb z, t_cnb c)
 }
 
 /*
- ** Gaston Maurice Julia's algorytm coined to create Julia fractals
- ** https://en.wikipedia.org/wiki/Julia_set
- */
+** Gaston Maurice Julia's algorytm coined to create Julia fractals
+** https://en.wikipedia.org/wiki/Julia_set
+*/
+
 void		julia(t_3d *d, t_cnb z)
 {
 	double	n;
@@ -50,7 +50,7 @@ void		julia(t_3d *d, t_cnb z)
 	n = z.real * z.real + z.imag * z.imag;
 	t = 0;
 	d->f.i = 0;
-	while (++d->f.i < d->f.max && n < 4)
+	while (d->f.i < d->f.max && n < 4)
 	{
 		t = z.real;
 		z.real = t * t - z.imag * z.imag + d->julia.real;
@@ -60,10 +60,9 @@ void		julia(t_3d *d, t_cnb z)
 	}
 }
 
-
 /*
- ** Phoenix fractal algorytm
- */
+** Phoenix fractal algorytm
+*/
 
 void		phoenix(t_3d *d, t_cnb z, t_cnb c)
 {
@@ -85,24 +84,24 @@ void		phoenix(t_3d *d, t_cnb z, t_cnb c)
 }
 
 /*
- ** Michael Barnsley coined this algorytm that creates a fern fractal
- ** https://en.wikipedia.org/wiki/Barnsley_fern
- */
+** Michael Barnsley coined this algorytm that creates a fern fractal
+** https://en.wikipedia.org/wiki/Barnsley_fern
+*/
 
 void		barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d)
 {
 	while (++i->i < i->max)
 	{
-		rng = ((float)rand())/RAND_MAX;
+		rng = ((float)rand()) / RAND_MAX;
 		if (rng <= 0.01f)
 		{
-			c.real= 0;
+			c.real = 0;
 			c.imag = 0.16f * c.imag;
 		}
-		else if (rng <= 0.06f){
-
-			c.real = -0.15f *c.real + 0.28f * c.imag;
-			c.imag = 0.26f *c.real + 0.24f * c.imag+ 0.44f;
+		else if (rng <= 0.06f)
+		{
+			c.real = -0.15f * c.real + 0.28f * c.imag;
+			c.imag = 0.26f * c.real + 0.24f * c.imag + 0.44f;
 		}
 		else if (rng <= 0.14f)
 		{
@@ -115,42 +114,4 @@ void		barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d)
 		d->c = (t_cnb) {.real = (c.real + 3) * 70, .imag = 800 - c.imag * 70};
 		put_pixel_in_img(d, d->c.real + 300, d->c.imag, d->fern_motion);
 	}
-}
-
-static void DrawFractalLine(t_3d *d, t_cv a, t_cv b, int depth)
-{
-	t_cv	tier_1;
-	t_cv	tier_2;
-	t_cv	pic;
-	int			c;
-
-	c = BLUE;
-	if (depth <= 0)
-		ft_draw_line(d, a, b);
-	else
-	{
-		tier_1 = (t_cv){(2.0 * a.x + b.x) / 3.0, (2.0 * a.y + b.y) / 3.0, c};
-		tier_2 = (t_cv){(a.x + 2.0 * b.x) / 3.0, (a.y + 2.0 * b.y) / 3.0, c};
-		pic = (t_cv){(a.x + b.x) / 2.0 - sqrt(3.0i) * (b.y - a.y) / 6.0, 
-			(a.y + b.y) / 2.0 + sqrt(3.0) * (b.x - a.x) / 6.0, c};
-		DrawFractalLine(d, a, tier_1, depth - 1);
-		DrawFractalLine(d, tier_1, pic, depth - 1);
-		DrawFractalLine(d, pic, tier_2, depth - 1);
-		DrawFractalLine(d, tier_2, b, depth - 1);
-	}
-}
-
-void		koch_snowflake_algo(t_3d *d)
-{
-	t_cv	a;
-	t_cv	b;
-	t_cv	c;
-
-	a = (t_cv) {WIDTH / 3, HEIGHT / 3, RED};
-	b = (t_cv) {2 * WIDTH / 3, HEIGHT / 3, WHITE};
-	c = (t_cv) {WIDTH / 2, 2 * HEIGHT / 3, BLUE};
-
-	DrawFractalLine(d, a, b, d->koch_order);
-	DrawFractalLine(d, a, c, d->koch_order);
-	DrawFractalLine(d, c, b, d->koch_order);
 }

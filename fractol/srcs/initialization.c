@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 15:58:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 16:53:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 ** Mandelbrot is a specific case of Julia, same for Phoenix.
 */
+
 void	init_julia_set(t_3d *d)
 {
 	d->max = (t_max) {.x = -1.5, .y = -1.5};
@@ -32,7 +33,7 @@ void	init_julia_set(t_3d *d)
 void	init_julia(t_3d *d)
 {
 	init_julia_set(d);
-	d->fractal =JULIA;
+	d->fractal = JULIA;
 	d->max.y = -1.2;
 	if (!d->rng)
 		d->julia = (t_cnb) {.real = -0.506667, .imag = 0.520000 };
@@ -71,14 +72,6 @@ void	init_barnsley(t_3d *d)
 	d->fractal = BARNSLEY;
 	d->iter_coef = 500;
 	d->f.i = -1;
-//	d->f.max = 100;
 	d->c = (t_cnb) {.real = 0, .imag = 0};
 	d->fern_motion = LIME;
-//	barnsley_fern_algo(&d->f, d->c, 0, d);
-}
-
-void	init_koch(t_3d *d)
-{
-	d->fractal = KOCH;
-	d->koch_order = 4;
 }

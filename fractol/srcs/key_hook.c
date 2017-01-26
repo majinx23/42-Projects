@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 15:58:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 16:29:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
+
+/*
+** Image translation function
+*/
 
 static void	offset(int k, t_3d *d)
 {
@@ -34,8 +38,11 @@ static void	offset(int k, t_3d *d)
 	}
 }
 
+/*
+** Clear image function
+*/
 
-void	ft_black_screen(t_3d *d)
+void		ft_black_screen(t_3d *d)
 {
 	t_index	i;
 
@@ -50,8 +57,12 @@ void	ft_black_screen(t_3d *d)
 		}
 		++i.y;
 	}
-	mlx_put_image_to_window(d->mlx, d->win, d->img, 0, 0);
+	mlx_put_image_to_window(d->img.mlx, d->img.win, d->img.image, 0, 0);
 }
+
+/*
+** Change fractal function
+*/
 
 static void	set_fractal(int k, t_3d *d)
 {
@@ -70,6 +81,10 @@ static void	set_fractal(int k, t_3d *d)
 	else if (k == KEY_3)
 		init_phoenix(d);
 }
+
+/*
+** Color function
+*/
 
 static void	set_color(int k, t_3d *d)
 {
@@ -91,13 +106,17 @@ static void	set_color(int k, t_3d *d)
 		d->color = 7;
 }
 
+/*
+** key hook
+*/
+
 int			key_hook(int k, t_3d *d)
 {
 	if (k == KEY_SPACE)
 		d->julia_static = (!d->julia_static) ? 1 : 0;
 	if (k == KEY_ESCAPE)
 	{
-		mlx_destroy_image(d->mlx, d->img);
+		mlx_destroy_image(d->img.mlx, d->img.image);
 		exit(0);
 	}
 	if (k == KEY_H)
@@ -109,7 +128,7 @@ int			key_hook(int k, t_3d *d)
 		set_color(k, d);
 		d->rng = random() % 6;
 	}
-	mlx_destroy_image(d->mlx, d->img);
+	mlx_destroy_image(d->img.mlx, d->img.image);
 	init_img(d);
 	fractol(d);
 	return (k);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 15:50:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 16:12:51 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,29 @@ typedef	struct		s_cv
 	unsigned	color;
 }					t_cv;
 
+
+
+typedef struct	s_image
+{
+	void		*mlx;
+	void		*win;
+	int			*image;
+	char		*data;
+	int			bpp;
+	int			sizeline;
+	int			endian;
+}				t_image;
+
+
 /*
 ** i is pixel nb and f is current iteration
 */
 
+
 typedef struct			s_3d
 {
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*data;
-	int				bpp;
-	int				sizeline;
-	int				endian;
+	t_image			img;
+
 	enum e_fractal	fractal;
 	t_index			i;
 	t_i				f;

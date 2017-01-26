@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   fractal_build.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/18 15:55:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 16:50:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
 /*
- ** Initialize fractals
- */
+** Initialize fractals
+*/
 
-void	init_fractal(t_3d *d, char *name)
+void		init_fractal(t_3d *d, char *name)
 {
 	if (!ft_strcmp(name, "Mandelbrot"))
 		init_mandelbrot(d);
@@ -31,12 +31,11 @@ void	init_fractal(t_3d *d, char *name)
 }
 
 /*
- ** Loop through every pixel
- */
+** Main program
+*/
 
 void		fractol(t_3d *d)
 {
-
 	if (d->fractal == BARNSLEY)
 	{
 		init_barnsley(d);
@@ -52,24 +51,25 @@ void		fractol(t_3d *d)
 		d->i.y = 0;
 		while (d->i.y < HEIGHT)
 		{
-			d->i.x = 0;
-			while (d->i.x < WIDTH)
-			{
+			d->i.x = -1;
+			while (++d->i.x < WIDTH)
 				get_fractal(d);
-				++d->i.x;
-			}
 			++d->i.y;
 		}
 	}
-	mlx_put_image_to_window(d->mlx, d->win, d->img, 0, 0);
+	mlx_put_image_to_window(d->img.mlx, d->img.win, d->img.image, 0, 0);
 	settings_background(d);
 }
 
+/*
+** depending on chosen fractal will display it to the screen
+*/
+
 void		get_fractal(t_3d *d)
 {
-	t_cnb	z;
-	t_cnb	c;
-	unsigned		color;
+	t_cnb		z;
+	t_cnb		c;
+	unsigned	color;
 
 	c.real = (d->i.x + d->offset.x) / (double)d->zoom + d->max.x;
 	c.imag = (d->i.y + d->offset.y) / (double)d->zoom + d->max.y;
@@ -88,7 +88,11 @@ void		get_fractal(t_3d *d)
 		put_pixel_in_img(d, d->i.x, d->i.y, color_pixel(d, d->f.i));
 }
 
-t_rgb2	ft_gradient(unsigned a, unsigned b, int pixel)
+/*
+** trace a gradient line using starting color a and ending color b
+*/
+
+t_rgb2		ft_gradient(unsigned a, unsigned b, int pixel)
 {
 	t_rgb2	c;
 
@@ -104,7 +108,11 @@ t_rgb2	ft_gradient(unsigned a, unsigned b, int pixel)
 	return (c);
 }
 
-void	ft_draw_line(t_3d *d, t_cv a, t_cv b)
+/*
+** function useful for Koch algorytm
+*/
+
+void		ft_draw_line(t_3d *d, t_cv a, t_cv b)
 {
 	t_max	dif;
 	t_max	i;
