@@ -6,13 +6,13 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:55:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 16:51:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 18:14:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
-static void	settings(t_3d *d, unsigned color)
+static void		settings(t_3d *d, unsigned color)
 {
 	short		x;
 
@@ -71,8 +71,8 @@ int			motion_hook(int x, int y, t_3d *d)
 		d->julia = (t_cnb) {.real = (x + d->offset.x) /
 			(double)d->zoom + d->max.x, (y + d->offset.y) /
 				(double)d->zoom + d->max.y};
-	printf("%f\n", d->julia.real);//
-	printf("%f\n", d->julia.imag);//
+//	printf("%f\n", d->julia.real);//
+//	printf("%f\n", d->julia.imag);//
 	fractol(d);
 	return (1);
 }
@@ -83,21 +83,35 @@ int			motion_hook(int x, int y, t_3d *d)
 
 int			mouse_scaling_hook(int k, int x, int y, t_3d *d)
 {
+	/*
 	if (k == 5 || k == 2)
 	{
 		d->zoom *= 0.8;
-		d->offset.y -= (y + 300 - HEIGHT / 2) * (d->zoom / WIDTH);
-		d->offset.x -= (x + 300 - WIDTH / 2) * (d->zoom / HEIGHT);
+		d->offset.y = (y - d->offset.y - HEIGHT / 2) * (d->zoom / HEIGHT);
+		d->offset.x = (x - d->offset.x - WIDTH / 2) * (d->zoom / WIDTH);
 		if (d->f.max >= 4)
 			d->f.max -= 4;
 	}
 	if (k == 4 || k == 1)
 	{
-		d->zoom *= 1.2;
-		d->offset.y += (y + 250 - HEIGHT / 2) * d->zoom / WIDTH;
-		d->offset.x += (x + 250 - WIDTH / 2) * d->zoom / HEIGHT;
+		d->zoom *= 1.25;
+		d->offset.y -= (y - HEIGHT / 2) * (d->zoom / HEIGHT);
+		d->offset.x -= (x - WIDTH / 2) * (d->zoom / WIDTH);
 		d->f.max += 4;
+		printf("offset : (%f, %f)\n", d->offset.x, d->offset.y);
+	}*/
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	{
+		if (k == 4 || k == 1)
+		{ //H800 W900
+			
+			d->zoom *= 1.25;
+			d->offset.x = round(x - ((WIDTH / 2 + d->offset.x)) * 0.8);
+			d->offset.y = round(y - ((HEIGHT / 2 + d->offset.y)) * 0.8);
+			printf("on clique en [%d, %d]\n, offset : (%f, %f)\n", x, y, d->offset.x, d->offset.y);
+		}
 	}
 	fractol(d);
+	
 	return (1);
 }

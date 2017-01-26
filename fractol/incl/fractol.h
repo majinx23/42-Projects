@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 16:12:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 17:21:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,19 @@ typedef struct	s_image
 typedef struct			s_3d
 {
 	t_image			img;
-
 	enum e_fractal	fractal;
 	t_index			i;
 	t_i				f;
 	t_max			max;
-
 	double			zoom;
 	t_index			offset;
 	int				iter_coef;
-
 	t_cnb			c_point;
-	
 	t_cnb			c;
 	short			fern;
 	unsigned		fern_motion;
-
 	short			koch_size;
 	short			koch_order;
-
 	int				julia_static;
 	t_cnb			julia;
 	int				color;

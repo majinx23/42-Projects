@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 17:04:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/01/26 17:09:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ unsigned		color_pixel(t_3d *d, int a)
 void			init_koch(t_3d *d)
 {
 	d->fractal = KOCH;
-	d->koch_order = 4;
+	d->koch_order = 14;
 }
 
 static void		draw_fractal_line(t_3d *d, t_cv a, t_cv b, int depth)
