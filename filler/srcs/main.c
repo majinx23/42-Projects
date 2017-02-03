@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:11:08 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/29 00:16:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/03 16:17:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,69 +25,92 @@ t_filler	*init_filler(void)
 	return (filler);
 }
 
-int	get_player_position(char *s)
-{
-	if (s[1] == '}')  // flags
-		return (0);
-	return (1);
-}
-
-
-void	print_board(char **board, int max)
+/*void	print_board(char **board, int max)
 {
 	int i;
 
 	i = -1;
 	while (++i < max)
 		ft_putendl(board[i]);
+}*/
+
+
+void		solver(t_filler *filler)
+{
+	(void)filler;
 }
+
+/*
+**	filler_loop
+*/
+
+void		filler_loop(t_filler *filler, int do_free)
+{
+	int		i;
+	char	*line;
+
+	i = -1;
+	get_next_line(0, &line);// skipping 012345...
+	while (++i < filler->max.y)
+	{
+		(do_free) ? free(filler->board[i]) : 0;
+		get_next_line(0, &filler->board[i]);
+	}
+	i = -1;
+	while (++i < filler->max.y)
+	{
+		(do_free) ? free(filler->board[i]) : 0;
+		get_next_line(0, &filler->board[i]);
+	}
+	solver(filler);
+	get_next_line(0, &line);// skipping plateau..
+	if (line[0] != '=')
+		filler_loop(filler, 1);
+	return ;
+}
+
 
 /*
 ** the fd of GNL is set to 0 as it is where VM sends information.
 ** compile program and then do one player match
 */
 
-void	filler(t_filler *filler)
+void		parsing(t_filler *filler)
 {
 	char		*line;
-	int			line_index;
-	int			i;
 
-	line_index = 0;
-	i = 0;
-	printf("%s", "gagaga");
-	while (get_next_line(0, &line) == 1)
+	printf("START PARSING\n");
+	SKIP_LINE;
+	get_next_line(0, &line);
+	filler->player = line[10] - '0';
+	filler->letter = (filler->player == 1) ? 'o' : 'x';
+	if (P == 1)
 	{
-		if (line_index == 5 || line_index == 7)
-		{
-			if (!(filler->player = get_player_position(line)))
-				ft_error("Wrong play name");
-		}
-		else if (line_index == 9)
-		{
-			if (!(get_board_dimension(filler, line)))
-				ft_error("Wrong map dimensions");
-		}
-		else if (line_index > 10 && i < filler->max.y)
-		{
-			line += 3;
-			filler->board[i] = ft_strndup(line, filler->max.x); // should remove \n
-		}
-		else if (line_index > (10 + filler->max.y))
-			;//get_piece(filler, line); // check piece dimension
-		++line_index;
-		printf("%s", line);
+		SKIP_LINE;
+		SKIP_LINE;
 	}
-	print_board(filler->board, filler->max.y);
-	return (0);
+	get_next_line(0, &line);
+	if (!(get_board_dimension(filler, line)))
+		ft_error("Wrong map dimensions");
+	printf("ahah\n");
+	printf("%i %c %d %d %d %d\n", P, L, filler->max.y, filler->max.x, filler->piece_dim.y, filler->piece_dim.x);
+
+	filler_loop(filler, 0);
+//	print_board(filler->board, filler->max.y);
+	return ;
 }
 
+/*
+** launcher and variables initialization
+** ./filler_vm -f maps/map00 -p1 players/hcao.filler -p2 ./angavrel.filler
+*/
 
 int			main(void)
 {
-	t_filler	filler;
+	t_filler	*filler;
 
 	filler = init_filler();
-	filler(&filler);
+//	ft_putendl_fd("angavrel.filler", 0);
+	parsing(filler);
 	return (0);
 }

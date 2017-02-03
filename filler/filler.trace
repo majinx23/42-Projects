@@ -1,1 +1,7 @@
-seed = 1451
+seed = 9528
+X: error on input
+./angavrel.filler: Segfault at 0
+O: error on input
+players/hcao.filler won
+Score:
+11AGAINST0

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/28 23:57:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/03 15:41:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <stdio.h> //printf to be removed before final push
 # include "libft.h"
+
+# define SKIP_LINE	get_next_line(0, &line)
+# define P			filler->player
+# define L			filler->letter
 
 typedef struct	s_index
 {
@@ -30,16 +34,31 @@ typedef struct	s_index
 
 typedef struct	s_filler
 {
-	char	**board;
-	char	**piece;
-	t_index	max;
-	int		player;
+	char		**board;
+	t_index		max;
+	
+	char		**piece;
+	t_index		piece_dim;
+
+	int			player;
+	char		letter;
 }				t_filler;
 
-int		get_board_dimension(t_filler *filler, char *s);
-int		et_player_position(char *s);
+/*
+** parsing functions
+*/
 
-char	**new_board(int y, int x);
-char	**new_piece(int y, int x);
+void			parsing(t_filler *filler);
+t_filler		*init_filler(void);
+int				ft_tab_len(char **tab);
+int				get_board_dimension(t_filler *filler, char *s);
+int				get_piece(t_filler *filler, char *s);
+
+/*
+** solving algos
+*/
+
+void			filler_loop(t_filler *filler, int do_free);
+void			solver(t_filler *filler);		
 
 #endif
