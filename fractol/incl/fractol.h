@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 17:21:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 19:03:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ typedef struct	s_image
 
 /*
 ** i is pixel nb and f is current iteration
+**	f.max is the maximum number to iterate
+** offset is the offset
+** julia_static is to activate the motion hook for Julia set
 */
 
 

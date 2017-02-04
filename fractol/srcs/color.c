@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 17:09:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 18:48:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,45 +56,22 @@ unsigned		color_pixel(t_3d *d, int a)
 	return (ft_rgb2hex(rgb));
 }
 
-void			init_koch(t_3d *d)
+/*
+** trace a gradient line using starting color a and ending color b
+*/
+
+t_rgb2		ft_gradient(unsigned a, unsigned b, int pixel)
 {
-	d->fractal = KOCH;
-	d->koch_order = 14;
-}
+	t_rgb2	c;
 
-static void		draw_fractal_line(t_3d *d, t_cv a, t_cv b, int depth)
-{
-	t_cv		tier_1;
-	t_cv		tier_2;
-	t_cv		pic;
-	int			c;
-
-	c = BLUE;
-	if (depth <= 0)
-		ft_draw_line(d, a, b);
-	else
-	{
-		tier_1 = (t_cv) {(2.0 * a.x + b.x) / 3.0, (2.0 * a.y + b.y) / 3.0, c};
-		tier_2 = (t_cv) {(a.x + 2.0 * b.x) / 3.0, (a.y + 2.0 * b.y) / 3.0, c};
-		pic = (t_cv) {(a.x + b.x) / 2.0 - sqrt(3.0) * (b.y - a.y) / 6.0,
-			(a.y + b.y) / 2.0 + sqrt(3.0) * (b.x - a.x) / 6.0, c};
-		draw_fractal_line(d, a, tier_1, depth - 1);
-		draw_fractal_line(d, tier_1, pic, depth - 1);
-		draw_fractal_line(d, pic, tier_2, depth - 1);
-		draw_fractal_line(d, tier_2, b, depth - 1);
-	}
-}
-
-void			koch_snowflake_algo(t_3d *d)
-{
-	t_cv	a;
-	t_cv	b;
-	t_cv	c;
-
-	a = (t_cv) {WIDTH / 3, HEIGHT / 3, RED};
-	b = (t_cv) {2 * WIDTH / 3, HEIGHT / 3, WHITE};
-	c = (t_cv) {WIDTH / 2, 2 * HEIGHT / 3, BLUE};
-	draw_fractal_line(d, a, b, d->koch_order);
-	draw_fractal_line(d, a, c, d->koch_order);
-	draw_fractal_line(d, c, b, d->koch_order);
+	c.x.b = a & 0xFF;
+	c.y.b = b & 0xFF;
+	c.y.b = (c.y.b - c.x.b) / pixel;
+	c.x.g = a >> 8 & 0xFF;
+	c.y.g = b >> 8 & 0xFF;
+	c.y.g = (c.y.g - c.x.g) / pixel;
+	c.x.r = a >> 16 & 0xFF;
+	c.y.r = b >> 16 & 0xFF;
+	c.y.r = (c.y.r - c.x.r) / pixel;
+	return (c);
 }

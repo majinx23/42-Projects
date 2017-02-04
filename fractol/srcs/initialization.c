@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 16:53:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 20:51:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	init_julia_set(t_3d *d)
 }
 
 /*
-** d->rng is a random value that will produce different Julia
-** each time the user refresh Julia initialization
+** d->rng is a random value that will produce different remarkable Julias
+** each time the user chooses Julia it refreshes Julia initialization
 */
 
 void	init_julia(t_3d *d)
@@ -55,7 +55,7 @@ void	init_mandelbrot(t_3d *d)
 	d->fractal = MANDELBROT;
 	d->max = (t_max) {.x = -2.1, .y = -1.4};
 	d->zoom = 280;
-	d->f.max = 60;
+	d->f.max = 80;
 }
 
 void	init_phoenix(t_3d *d)
@@ -75,3 +75,10 @@ void	init_barnsley(t_3d *d)
 	d->c = (t_cnb) {.real = 0, .imag = 0};
 	d->fern_motion = LIME;
 }
+
+void	init_koch(t_3d *d)
+{
+	d->fractal = KOCH;
+	d->koch_order = 14;
+}
+

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/18 11:14:38 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/04 20:19:18 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,14 @@ OBJ_PATH = obj
 INC_PATH = incl
 LIBFT_PATH = libft
 
-#SRC = main.c \
-initialization.c \
-	  fractal_build.c \
-	  hook.c \
-	  key_hook.c \
-
-SRC := $(shell ls -1 srcs)
+SRC = main.c \
+	initialization.c \
+	fractal_build.c \
+	algorytms.c \
+	draw.c \
+	hook.c \
+	key_hook.c \
+	color.c \
 
 LIBFT = -L $(LIBFT_PATH) -lft -lm
 
@@ -41,13 +42,13 @@ lib:
 	@make -C $(LIBFT_PATH)
 
 $(NAME) : $(OBJ)
-	@clang $(FLAGS) -o $(NAME) $(LIBFT) $(MINILIBX) $^
+	@clang -g $(FLAGS) -o $(NAME) $(LIBFT) $(MINILIBX) $^
 	@echo "\n\033[36;1m"$@ "program created\033[0m"
 	@printf '\033[32;1m~~~~~~~~~~~~~~~~~~~~~~~~\n\033[0m'
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	@clang $(FLAGS) $(INC) -o $@ -c $<
+	@clang -g $(FLAGS) $(INC) -o $@ -c $<
 	@printf '\033[32;1m~~~~~~\033[0m'
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 04:03:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 16:49:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 18:40:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,19 @@ int		init_variables(t_3d *d)
 }
 
 /*
-** Initialize image
+** Initialize fractals
 */
 
-void	init_img(t_3d *d)
+void		init_fractal(t_3d *d, char *name)
 {
-	char	*data;
-	int		bpp;
-	int		sizeline;
-	int		endian;
-
-	d->img.image = mlx_new_image(d->img.mlx, WIDTH, HEIGHT);
-	data = mlx_get_data_addr(d->img.image, &bpp, &sizeline, &endian);
-	d->img.data = data;
-	d->img.bpp = bpp;
-	d->img.sizeline = sizeline;
-	d->img.endian = endian;
-}
-
-/*
-** Put pixel inside the image
-*/
-
-void	put_pixel_in_img(t_3d *d, int x, int y, int color)
-{
-	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
-		*(int *)&d->img.data[(x * d->img.bpp / 8) +
-			(y * d->img.sizeline)] = color;
+	if (!ft_strcmp(name, "Mandelbrot"))
+		init_mandelbrot(d);
+	else if (!ft_strcmp(name, "Phoenix"))
+		init_phoenix(d);
+	else if (!ft_strcmp(name, "Julia"))
+		init_julia(d);
+	else if (!ft_strcmp(name, "Barnsey"))
+		init_barnsley(d);
+	else
+		usage();
 }
