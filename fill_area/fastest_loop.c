@@ -6,7 +6,7 @@
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:08:19 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 02:50:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 02:53:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 */
 
 #include <stdlib.h>
-#include <stdio.h>
 
 void	divide_80(long color, long h, long w)
 {
@@ -48,7 +47,6 @@ void	divide_80(long color, long h, long w)
 			x += 80;
 		}
 	}
-	free(tab);
 }
 
 int		main(void)

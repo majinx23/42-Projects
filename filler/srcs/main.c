@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:11:08 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/03 16:17:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/03 20:19:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 t_filler	*init_filler(void)
 {
-	t_filler *filler;
+	t_filler *f;
 
-	if (!(filler = (t_filler*)malloc(sizeof(t_filler))))
+	if (!(f = (t_filler*)malloc(sizeof(t_filler))))
 		return (NULL);
-	filler->player = 0;
-	filler->max = (t_index) {.x = 0, .y = 0};
-	filler->board = NULL;
-	filler->piece= NULL;
-	return (filler);
+	f->max = (t_index) {.x = 0, .y = 0};
+    f->last_p = (t_index) {.y = 7, .x = 2};
+	f->board = NULL;
+	f->piece= NULL;
+	return (f);
 }
 
 /*void	print_board(char **board, int max)
@@ -35,70 +35,92 @@ t_filler	*init_filler(void)
 }*/
 
 
-void		solver(t_filler *filler)
-{
-	(void)filler;
-}
 
 /*
 **	filler_loop
 */
 
-void		filler_loop(t_filler *filler, int do_free)
+void        filler_loop(t_filler *filler)
 {
-	int		i;
-	char	*line;
+    int        i;
+    char    *line;
+    char    trash[5];
 
-	i = -1;
-	get_next_line(0, &line);// skipping 012345...
-	while (++i < filler->max.y)
-	{
-		(do_free) ? free(filler->board[i]) : 0;
-		get_next_line(0, &filler->board[i]);
-	}
-	i = -1;
-	while (++i < filler->max.y)
-	{
-		(do_free) ? free(filler->board[i]) : 0;
-		get_next_line(0, &filler->board[i]);
-	}
-	solver(filler);
-	get_next_line(0, &line);// skipping plateau..
-	if (line[0] != '=')
-		filler_loop(filler, 1);
-	return ;
+    get_next_line(0, &line);// skipping 012345...
+    i = -1;
+    filler->max.y = 15;
+    while (++i < filler->max.y)
+    {
+        read(0, &trash, 4);
+        read(0, filler->board[i], filler->max.x);
+        read(0, &trash, 1);
+    }
+    
+    get_next_line(0, &line);//Piece 5 6
+    if (!get_piece(filler, line))
+        ft_error("Wrong piece dimensions");
+    i = -1;
+    filler->piece_dim.y = 15;
+    while (++i < filler->piece_dim.y)
+    {
+        read(0, filler->piece[i], filler->piece_dim.x);
+        read(0, &trash, 1);
+    }
+    solver(filler);
+//    SKIP_LINE;// skipping plateau..
+//    if (line[0] != '=')
+//        filler_loop(filler);
+    return ;
 }
 
+/*
+
+$$$ exec p2 : [players/superjeannot.filler]
+Plateau 15 17:
+    01234567890123456
+000 .................
+001 .................
+002 .................
+003 .................
+004 .................
+005 .................
+006 .................
+007 .................
+008 ..O..............
+009 .................
+010 .................
+011 .................
+012 ..............X..
+013 .................
+014 .................
+Piece 2 2:
+**
+.*
+Player with O: error on input
+
+*/
 
 /*
 ** the fd of GNL is set to 0 as it is where VM sends information.
 ** compile program and then do one player match
 */
 
-void		parsing(t_filler *filler)
+void        parsing(t_filler *f)
 {
-	char		*line;
+    char        *line;
 
-	printf("START PARSING\n");
-	SKIP_LINE;
-	get_next_line(0, &line);
-	filler->player = line[10] - '0';
-	filler->letter = (filler->player == 1) ? 'o' : 'x';
-	if (P == 1)
-	{
-		SKIP_LINE;
-		SKIP_LINE;
-	}
-	get_next_line(0, &line);
-	if (!(get_board_dimension(filler, line)))
-		ft_error("Wrong map dimensions");
-	printf("ahah\n");
-	printf("%i %c %d %d %d %d\n", P, L, filler->max.y, filler->max.x, filler->piece_dim.y, filler->piece_dim.x);
 
-	filler_loop(filler, 0);
-//	print_board(filler->board, filler->max.y);
-	return ;
+    SKIP_LINE;//launched ...
+    get_next_line(0, &line);//$$$ exec p[1-2]
+    f->player = (line[10] - '1') ? 'x' : 'o';
+    f->cpu = (f->player == 'x') ? 'o' : 'x';
+    get_next_line(0, &line);//Plateau 14 17:
+    if (!get_board_dimension(f, line))
+        ft_error("Wrong board dimensions");
+    filler_loop(f);
+    return ;
 }
+
 
 /*
 ** launcher and variables initialization
@@ -107,10 +129,16 @@ void		parsing(t_filler *filler)
 
 int			main(void)
 {
-	t_filler	*filler;
+	t_filler	*f;
+	FILE *fp;
 
-	filler = init_filler();
+   fp = fopen("test.txt", "w+");
+   fprintf(fp, "This is testing for fprintf...\n");
+   fputs("This is testing for fputs...\n", fp);
+   fclose(fp);
+
+	f = init_filler();
 //	ft_putendl_fd("angavrel.filler", 0);
-	parsing(filler);
+	parsing(f);
 	return (0);
 }
