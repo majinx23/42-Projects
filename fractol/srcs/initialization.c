@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 20:51:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 22:15:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,13 @@ void	init_barnsley(t_3d *d)
 	d->f.i = -1;
 	d->c = (t_cnb) {.real = 0, .imag = 0};
 	d->fern_motion = LIME;
+	barnsley_fern_algo(&d->f, d->c, 0, d);
 }
 
 void	init_koch(t_3d *d)
 {
 	d->fractal = KOCH;
 	d->koch_order = 14;
+	koch_snowflake_algo(d);
 }
 

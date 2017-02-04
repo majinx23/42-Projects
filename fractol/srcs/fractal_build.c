@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 20:26:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 22:15:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,9 @@
 void		fractol(t_3d *d)
 {
 	if (d->fractal == BARNSLEY)
-	{
 		init_barnsley(d);
-		barnsley_fern_algo(&d->f, d->c, 0, d);
-	}
 	else if (d->fractal == KOCH)
-	{
 		init_koch(d);
-		koch_snowflake_algo(d);
-	}
 	else
 	{
 		d->i.y = 0;

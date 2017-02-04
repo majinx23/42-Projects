@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:55:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 20:54:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 20:59:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			mouse_scaling_hook(int k, int x, int y, t_3d *d)
 		{
 			d->offset.x = (round((WIDTH >> 1) + d->offset.x - x) * scaling);
 			d->offset.y = (round((HEIGHT >> 1) + d->offset.y - y) * scaling);
-			d->i.y = 2000;
+			d->i.y = y;
 			d->i.x = x;
 		}
 		d->zoom *= scaling;

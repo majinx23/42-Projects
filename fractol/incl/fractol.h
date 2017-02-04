@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 19:03:02 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 22:13:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,13 @@ typedef	struct		s_rgb2
 /*
 ** colored vector
 */
+
 typedef	struct		s_cv
 {
 	double		x;
 	double		y;
 	unsigned	color;
 }					t_cv;
-
-
 
 typedef struct	s_image
 {
@@ -85,14 +84,12 @@ typedef struct	s_image
 	int			endian;
 }				t_image;
 
-
 /*
 ** i is pixel nb and f is current iteration
 **	f.max is the maximum number to iterate
 ** offset is the offset
 ** julia_static is to activate the motion hook for Julia set
 */
-
 
 typedef struct			s_3d
 {
