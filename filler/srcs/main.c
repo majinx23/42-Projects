@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:11:08 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/03 20:19:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 14:51:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void        filler_loop(t_filler *filler)
 //    SKIP_LINE;// skipping plateau..
 //    if (line[0] != '=')
 //        filler_loop(filler);
+   
     return ;
 }
 
@@ -115,8 +116,10 @@ void        parsing(t_filler *f)
     f->player = (line[10] - '1') ? 'x' : 'o';
     f->cpu = (f->player == 'x') ? 'o' : 'x';
     get_next_line(0, &line);//Plateau 14 17:
+        
     if (!get_board_dimension(f, line))
         ft_error("Wrong board dimensions");
+         ft_putstr("8 2\n");
     filler_loop(f);
     return ;
 }
@@ -130,12 +133,15 @@ void        parsing(t_filler *f)
 int			main(void)
 {
 	t_filler	*f;
+
+
+     /*
 	FILE *fp;
 
    fp = fopen("test.txt", "w+");
    fprintf(fp, "This is testing for fprintf...\n");
    fputs("This is testing for fputs...\n", fp);
-   fclose(fp);
+   fclose(fp);*/
 
 	f = init_filler();
 //	ft_putendl_fd("angavrel.filler", 0);

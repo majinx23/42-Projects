@@ -1,7 +1,2 @@
-seed = 952
-O: error on input
-./angavrel.filler: Segfault at 0
-X: error on input
-players/superjeannot.filler won
-Score:
-0AGAINST7
+seed = 6378
+O: timedout
