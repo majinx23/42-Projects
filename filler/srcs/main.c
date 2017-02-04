@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:11:08 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 14:51:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 16:45:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ void        filler_loop(t_filler *filler)
         read(0, &trash, 1);
     }
     solver(filler);
-//    SKIP_LINE;// skipping plateau..
-//    if (line[0] != '=')
-//        filler_loop(filler);
-   
+    SKIP_LINE;// skipping plateau..
+ //   if (1)
+    //filler_loop(filler);  
     return ;
 }
 
@@ -119,7 +118,7 @@ void        parsing(t_filler *f)
         
     if (!get_board_dimension(f, line))
         ft_error("Wrong board dimensions");
-         ft_putstr("8 2\n");
+       
     filler_loop(f);
     return ;
 }

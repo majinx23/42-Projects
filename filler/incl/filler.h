@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/03 20:21:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 16:21:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			filler_loop(t_filler *filler);
 */
 
 void			solver(t_filler *filler);
-void			return_piece(t_filler *f);
-int				put_piece(t_filler *filler);	
+int				put_piece(t_filler *filler);
+void			return_piece(int a, int b);
 
 #endif
