@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 22:13:17 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 23:57:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@
 # include "colors.h"
 # include <stdio.h>//
 
-# define TITLE				"Fractol"
-# define HEIGHT				800
-# define WIDTH				900
-# define HELP_COLOR			0xffffff
+# define TITLE		"Fractol"
+# define HEIGHT		800
+# define WIDTH		900
+# define HELP_COLOR	0xffffff
 
 
-enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, KOCH};
+enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
 
 /*
 ** stands for complex number
 */
+
 typedef struct		s_cnb
 {
 	double			real;
@@ -131,7 +132,7 @@ void					ft_blackscreen(t_3d *d);
 */
 
 void					fractol(t_3d *d);
-void					get_fractal(t_3d *d);
+void					draw_fractal(t_3d *d);
 void					ft_draw_line(t_3d *d, t_cv a, t_cv b);
 /*
 ** fractals initialization
@@ -143,7 +144,6 @@ void					init_phoenix(t_3d *d);
 void					init_julia(t_3d *d);
 void					init_mandelbrot(t_3d *d);
 void					init_barnsley(t_3d *d);
-void					init_koch(t_3d *d);
 
 /*
 ** Fractals algorytms

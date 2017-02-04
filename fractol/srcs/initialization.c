@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 22:15:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/05 00:30:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 void	init_julia_set(t_3d *d)
 {
 	d->max = (t_max) {.x = -1.5, .y = -1.5};
-	d->offset = (t_index) {.x = 0, .y = 0};
 	d->zoom = sqrt(WIDTH) * 10;
 	d->f.max = sqrt(WIDTH) * 10;
 	d->iter_coef = 1;
@@ -76,11 +75,3 @@ void	init_barnsley(t_3d *d)
 	d->fern_motion = LIME;
 	barnsley_fern_algo(&d->f, d->c, 0, d);
 }
-
-void	init_koch(t_3d *d)
-{
-	d->fractal = KOCH;
-	d->koch_order = 14;
-	koch_snowflake_algo(d);
-}
-

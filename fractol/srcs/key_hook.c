@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/26 16:29:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/05 00:20:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static void	offset(int k, t_3d *d)
 	else if (k == KEY_LEFT)
 		d->offset.x += -offset;
 	if (k == KEY_PAD_ADD)
-		d->f.max += offset * d->iter_coef;
+		d->f.max += 10;
 	else if (k == KEY_PAD_SUB)
 	{
-		d->f.max -= offset * d->iter_coef;
+		d->f.max -= 10;
 		d->f.max < 0 ? d->f.max = 0 : 0;
 	}
 }
@@ -69,9 +69,7 @@ static void	set_fractal(int k, t_3d *d)
 	if (k == KEY_4 || k == KEY_5)
 	{
 		(!(d->a)) ? ft_black_screen(d) : ++d->a;
-		if (k == KEY_5)
-			init_koch(d);
-		else
+		if (k == KEY_4)
 			init_barnsley(d);
 	}
 	else if (k == KEY_1)

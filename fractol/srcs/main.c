@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 04:03:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 18:40:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/05 00:32:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		main(int ac, char **av)
 	if (ac != 2 && !usage())
 		return (0);
 	else if (!(init_variables(&d)))
-		return (0);
+		ft_error("Failed to initialize variables");
 	init_fractal(&d, av[1]);
 	fractol(&d);
 	mlx_mouse_hook(d.img.win, mouse_scaling_hook, &d);
