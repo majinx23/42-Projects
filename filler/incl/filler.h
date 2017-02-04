@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 16:21:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/04 17:11:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,22 @@ typedef struct	s_filler
 	t_corners	corners;
 }				t_filler;
 
+t_filler		*init_filler(void);
+
 /*
 ** parsing functions
 */
 
 void			parsing(t_filler *filler);
-t_filler		*init_filler(void);
-int				ft_tab_len(char **tab);
 int				get_board_dimension(t_filler *filler, char *s);
+int				filler_atoi(char *s);
 int				get_piece(t_filler *filler, char *s);
-void			filler_loop(t_filler *filler);
 
 /*
 ** solving algos
 */
 
+void			filler_loop(t_filler *filler);
 void			solver(t_filler *filler);
 int				put_piece(t_filler *filler);
 void			return_piece(int a, int b);
