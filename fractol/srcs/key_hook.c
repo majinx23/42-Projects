@@ -6,17 +6,19 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/05 00:20:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/06 21:20:00 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
 /*
-** Image translation function
+** padding function
+** Also handle max iteration at smooth increase/decrease with
+**  and d->max += sqrt(d->max + 1);
 */
 
-static void	offset(int k, t_3d *d)
+static void	set_padding_imax(int k, t_3d *d)
 {
 	short	offset;
 
@@ -30,12 +32,9 @@ static void	offset(int k, t_3d *d)
 	else if (k == KEY_LEFT)
 		d->offset.x += -offset;
 	if (k == KEY_PAD_ADD)
-		d->f.max += 10;
-	else if (k == KEY_PAD_SUB)
-	{
-		d->f.max -= 10;
-		d->f.max < 0 ? d->f.max = 0 : 0;
-	}
+		d->max += (int)sqrt(d->max + 1);
+	else if (k == KEY_PAD_SUB && d->max > 0)
+		d->max -= (int)sqrt(d->max + 1);
 }
 
 /*
@@ -66,18 +65,26 @@ void		ft_black_screen(t_3d *d)
 
 static void	set_fractal(int k, t_3d *d)
 {
-	if (k == KEY_4 || k == KEY_5)
+	if (k == KEY_1 || k == KEY_2 || k == KEY_3 || k == KEY_4)
 	{
-		(!(d->a)) ? ft_black_screen(d) : ++d->a;
 		if (k == KEY_4)
-			init_barnsley(d);
+		{
+			(!(d->a)) ? ft_black_screen(d) : ++d->a;
+			d->max = 5000;
+			d->fractal = BARNSLEY;
+		}
+		else
+		{
+			d->rng = random() % 6;
+			if (k == KEY_1)
+				d->fractal = MANDELBROT;
+			else if (k == KEY_2)
+				d->fractal = JULIA;
+			else if (k == KEY_3)
+				d->fractal = PHOENIX;
+			init_julia_set(d);
+		}
 	}
-	else if (k == KEY_1)
-		init_mandelbrot(d);
-	else if (k == KEY_2)
-		init_julia(d);
-	else if (k == KEY_3)
-		init_phoenix(d);
 }
 
 /*
@@ -106,6 +113,7 @@ static void	set_color(int k, t_3d *d)
 
 /*
 ** key hook
+** space is to activate / unactive motion hook
 */
 
 int			key_hook(int k, t_3d *d)
@@ -121,10 +129,9 @@ int			key_hook(int k, t_3d *d)
 		d->menu = d->menu ? 0 : 1;
 	else
 	{
-		offset(k, d);
+		set_padding_imax(k, d);
 		set_fractal(k, d);
 		set_color(k, d);
-		d->rng = random() % 6;
 	}
 	mlx_destroy_image(d->img.mlx, d->img.image);
 	init_img(d);

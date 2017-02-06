@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 18:48:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/06 17:14:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ unsigned		color_pixel(t_3d *d, int a)
 	double	i;
 	t_rgb	rgb;
 
-	i = (double)a / d->f.max;
+	i = (double)a / d->max;
 	h = (t_hsb) {.h = i * 360, .s = 1, .b = 1};
 	if (d->color <= 2)
 	{

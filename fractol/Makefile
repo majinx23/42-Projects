@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/04 20:19:18 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/06 16:45:32 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,12 @@ INC_PATH = incl
 LIBFT_PATH = libft
 
 SRC = main.c \
-	initialization.c \
-	fractal_build.c \
-	algorytms.c \
-	draw.c \
-	hook.c \
-	key_hook.c \
-	color.c \
+	  fractol.c \
+	  algorytms.c \
+	  algorytms2.c \
+	  hook.c \
+	  key_hook.c \
+	  color.c \
 
 LIBFT = -L $(LIBFT_PATH) -lft -lm
 

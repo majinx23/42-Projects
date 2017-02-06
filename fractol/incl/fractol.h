@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 23:57:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/06 21:22:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # define HEIGHT		800
 # define WIDTH		900
 # define HELP_COLOR	0xffffff
-
+# define D 			(double)
+# define MIN_J		-3.20
+# define MAX_J		3.20
 
 enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
 
@@ -38,24 +40,29 @@ typedef struct		s_cnb
 	double			imag;
 }					t_cnb;
 
-typedef struct		s_index
-{
-	double			x;
-	double			y;
-}					t_index;
-
-typedef struct		s_max
-{
-	double			x;
-	double			y;
-}						t_max;
+/*
+** structure used for offset
+*/
 
 typedef struct		s_i
 {
-	int				i;
-	int				max;
-
+	double			x;
+	double			y;
 }					t_i;
+
+/*
+** structure used iterating put_pixel in img
+*/
+
+typedef struct		s_index
+{
+	int				x;
+	int				y;
+}					t_index;
+
+/*
+** structure to hold two colors
+*/
 
 typedef	struct		s_rgb2
 {
@@ -64,7 +71,7 @@ typedef	struct		s_rgb2
 }					t_rgb2;
 
 /*
-** colored vector
+** colored 2d vector
 */
 
 typedef	struct		s_cv
@@ -73,6 +80,10 @@ typedef	struct		s_cv
 	double		y;
 	unsigned	color;
 }					t_cv;
+
+/*
+** structure to hold data about image
+*/
 
 typedef struct	s_image
 {
@@ -86,10 +97,14 @@ typedef struct	s_image
 }				t_image;
 
 /*
+** img is data relative to the image
+** e_fractal is the name of the current fractal
 ** i is pixel nb and f is current iteration
-**	f.max is the maximum number to iterate
-** offset is the offset
+** max is the maximum number to iterate
+** offset is the padding
+** zoom is the scaling
 ** julia_static is to activate the motion hook for Julia set
+** fern are variables relative to Barnsley's algo
 */
 
 typedef struct			s_3d
@@ -97,17 +112,15 @@ typedef struct			s_3d
 	t_image			img;
 	enum e_fractal	fractal;
 	t_index			i;
-	t_i				f;
-	t_max			max;
+	int				max;
+
+	t_i				min;
 	double			zoom;
-	t_index			offset;
+	t_i				offset;
 	int				iter_coef;
 	t_cnb			c_point;
 	t_cnb			c;
-	short			fern;
-	unsigned		fern_motion;
-	short			koch_size;
-	short			koch_order;
+	int				fern_i;
 	int				julia_static;
 	t_cnb			julia;
 	int				color;
@@ -120,7 +133,7 @@ typedef struct			s_3d
 ** Parsing and variable t_3d initialization
 */
 
-int						usage();
+int						init_fractal(t_3d *d, char *name);
 int						init_variables(t_3d *d);
 void					init_img(t_3d *d);
 void					put_pixel_in_img(t_3d *d, int x, int y, int color);
@@ -134,26 +147,18 @@ void					ft_blackscreen(t_3d *d);
 void					fractol(t_3d *d);
 void					draw_fractal(t_3d *d);
 void					ft_draw_line(t_3d *d, t_cv a, t_cv b);
-/*
-** fractals initialization
-*/
-
-void					init_fractal(t_3d *d, char *name);
-void					init_julia_set(t_3d *d);
-void					init_phoenix(t_3d *d);
-void					init_julia(t_3d *d);
-void					init_mandelbrot(t_3d *d);
-void					init_barnsley(t_3d *d);
 
 /*
 ** Fractals algorytms
 */
 
-void					mandelbrot(t_3d *d, t_cnb z, t_cnb c);
-void					julia(t_3d *d, t_cnb c);
-void					phoenix(t_3d *d, t_cnb z, t_cnb c);
-void					barnsley_fern_algo(t_i *i, t_cnb c, float rng, t_3d *d);
-void					koch_snowflake_algo(t_3d *d);
+void					init_julia_set(t_3d *d);
+void					mandelbrot(t_3d *d, t_cnb z, t_cnb c, int *i);
+void					remarkable_julias(t_3d *d);
+void					julia(t_3d *d, t_cnb c, int *i);
+void					phoenix(t_3d *d, t_cnb z, t_cnb c, int *i);
+void					fern_fractal(t_3d *d);
+void					barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i);
 
 /*
 ** color functions

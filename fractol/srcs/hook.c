@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:55:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/05 00:39:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/06 21:27:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static void		settings(t_3d *d, unsigned color)
 void		settings_background(t_3d *d)
 {
 	t_index		i;
-	unsigned	y_max;
+	int			y_max;
 	unsigned	color;
 
-	y_max = (d->menu) ? 230 : 45;
+	y_max = (d->menu == 1) ? 230 : 45;
 	i.y = 0;
 	color = 0xaa000000;
 	while (i.y < y_max)
@@ -69,9 +69,12 @@ int			motion_hook(int x, int y, t_3d *d)
 {
 	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT && !d->julia_static)
 	{
+//		d->julia.real = (x + d->offset.x) / (double)d->zoom + d->min.x, 
+//		d->julia.imag = (y + d->offset.y) / (double)d->zoom + d->min.y;
+
 		d->julia = (t_cnb) {.real = (x + d->offset.x) /
-			(double)d->zoom + d->max.x, (y + d->offset.y) /
-				(double)d->zoom + d->max.y};
+			(double)d->zoom + d->min.x, (y + d->offset.y) /
+				(double)d->zoom + d->min.y};
 		fractol(d);
 	}
 	return (1);
