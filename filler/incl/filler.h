@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 17:11:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 19:34:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # include <stdio.h> //printf to be removed before final push
 # include "libft.h"
 
-# define SKIP_LINE	get_next_line(0, &line)
-# define P			f->player
-# define C			f->cpu
-# define LAST 		f->last_p
-# define CURRENT	f->piece_dim
+# define SKIP_LINE		get_next_line(0, &line)
+# define P				f->player
+# define C				f->cpu
+# define LAST 			f->last_p
+# define CURRENT		f->piece_dim
+# define EXIT_MSG(s)	ft_putstr("\033[31m]"), ft_putendl(s), exit(-1)
 
 typedef struct	s_index
 {
@@ -65,7 +66,7 @@ t_filler		*init_filler(void);
 
 void			parsing(t_filler *filler);
 int				get_board_dimension(t_filler *filler, char *s);
-int				filler_atoi(char *s);
+void			filler_atoi(t_index *i, char *s);
 int				get_piece(t_filler *filler, char *s);
 
 /*

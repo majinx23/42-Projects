@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/06 16:45:32 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/07 22:30:31 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,13 +41,13 @@ lib:
 	@make -C $(LIBFT_PATH)
 
 $(NAME) : $(OBJ)
-	@clang -g $(FLAGS) -o $(NAME) $(LIBFT) $(MINILIBX) $^
+	@clang $(FLAGS) -o $(NAME) $(LIBFT) $(MINILIBX) $^
 	@echo "\n\033[36;1m"$@ "program created\033[0m"
 	@printf '\033[32;1m~~~~~~~~~~~~~~~~~~~~~~~~\n\033[0m'
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	@clang -g $(FLAGS) $(INC) -o $@ -c $<
+	@clang $(FLAGS) $(INC) -o $@ -c $<
 	@printf '\033[32;1m~~~~~~\033[0m'
 
 clean:

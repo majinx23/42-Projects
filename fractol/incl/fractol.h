@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/06 21:22:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 22:35:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@
 
 # define TITLE		"Fractol"
 # define HEIGHT		800
-# define WIDTH		900
+# define WIDTH		1200
 # define HELP_COLOR	0xffffff
-# define D 			(double)
-# define MIN_J		-3.20
-# define MAX_J		3.20
 
 enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
 

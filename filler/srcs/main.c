@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:11:08 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 17:14:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 19:20:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_filler	*init_filler(void)
 
 	if (!(f = (t_filler*)malloc(sizeof(t_filler))))
 		return (NULL);
-	f->max = (t_index) {.x = 0, .y = 0};
     f->last_p = (t_index) {.y = 7, .x = 2};
 	f->board = NULL;
 	f->piece= NULL;
@@ -52,47 +51,6 @@ t_filler	*init_filler(void)
 		ft_putendl(board[i]);
 }*/
 
-/*
-**	filler_loop
-*/
-
-void        filler_loop(t_filler *f)
-{
-    int        i;
-    char    *line;
-    char    trash[5];
-
-   
-    return_piece(f->max.y, f->max.x);
-    get_next_line(0, &line);// skipping 012345...
- //   return_piece(8, 2);
- 
-    i = -1;
-    while (++i < f->max.y)
-    {
-        read(0, &trash, 4);
-        read(0, f->board[i], f->max.x);
-        read(0, &trash, 1);
-    }
-   
-    get_next_line(0, &line);//Piece 5 6
-    if (!get_piece(f, line))
-        ft_error("Wrong piece dimensions");
-    i = -1;
-   
-    f->piece_dim.y = 15;
-    while (++i < f->piece_dim.y)
-    {
-        read(0, f->piece[i], f->piece_dim.x);
-        read(0, &trash, 1);
-    }
-   
-    solver(f);
-    SKIP_LINE;// skipping plateau..
-   // if (1)
-    //    filler_loop(filler);  
-
-}
 
 /*
 

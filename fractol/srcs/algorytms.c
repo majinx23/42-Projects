@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:42:03 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/06 20:02:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 22:39:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 /*
 ** Mandelbrot is a specific case of Julia, same for Phoenix.
-** d->min is the base offset
+** d->min is the base offset while d->max is the maximum to iterate to.
 */
 
 void	init_julia_set(t_3d *d)
 {
 	if (d->fractal == JULIA)
 	{
-		d->min = (t_i) {.x = -1.5, .y = -1.2};
+	//	d->min = (t_i) {.x = 0, .y = 0};
 		d->zoom = 300;
 		d->max = 300;
 		remarkable_julias(d);
 	}
 	else if (d->fractal == MANDELBROT)
 	{
-		d->min = (t_i) {.x = -2.1, .y = -1.4};
+	//	d->min = (t_i) {.x = 0, .y = 0};
 		d->max = 80;
 		d->zoom = 280;
 	}
 	else if (d->fractal == PHOENIX)
 	{
-		d->min = (t_i) {.x = -1.3, .y = -1.8};
+	//	d->min = (t_i) {.x = -1.3, .y = -1.8};
 		d->max = 80;
 		d->zoom = 250;
 	}

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/04 17:14:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 20:27:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ void        parsing(t_filler *f)
 {
     char        *line;
 
-    SKIP_LINE;//launched ...
+ //   SKIP_LINE;//launched ...
     get_next_line(0, &line);//$$$ exec p[1-2]
     f->player = (line[10] - '1') ? 'x' : 'o';
     f->cpu = (f->player == 'x') ? 'o' : 'x';
-    get_next_line(0, &line);//Plateau 14 17:      
-    if (!get_board_dimension(f, line))
-        ft_error("Wrong board dimensions");
+    get_next_line(0, &line);//Plateau 14 17:  
+	      
+    get_board_dimension(f, line);
+	
     filler_loop(f);
-    return ;
 }
 
 /*
@@ -40,49 +40,49 @@ int		get_board_dimension(t_filler *f, char *s)
 {
 	int 	i;
 
-	f->max.y = filler_atoi(s);
-	f->max.x = filler_atoi(s);
-	if (f->max.y > 0 && f->max.x > 0)
-	{
-		if (!(f->board = (char **)malloc(sizeof(char *) * (f->max.y + 1))))
-			return (0);
-		i = -1;
-		while (++i < f->max.y)
-			if (!(f->board[i] = (char *)malloc(f->max.x + 1)))
-				return (0);
-	}
+	filler_atoi(&f->max, s + 8);
+	if (!(f->board = (char **)malloc(sizeof(char *) * (f->max.y + 1))))
+		EXIT_MSG("Failed to malloc board dimensions");
+	i = -1;
+	while (++i < f->max.y)
+		if (!(f->board[i] = (char *)malloc(f->max.x + 1)))
+			EXIT_MSG("Failed to malloc board dimensions");
 	return (1);
 }
 
-int		filler_atoi(char *s)
-{
-	int		sign;
-	int		r;
-
-	r = 0;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	sign = (*s == '-') ? -1 : 1;
-	(*s == '-' || *s == '+') ? s++ : s;
-	while (*s >= '0' && *s <= '9')
-	{
-		r = r * 10 + *s++ - '0';
-	}
-	return (sign * r);
-}
-
-int		get_piece(t_filler *filler, char *s)
+int		get_piece(t_filler *f, char *s)
 {
 	int i;
 
-    filler->piece_dim.y = filler_atoi(s);
-	filler->piece_dim.x = filler_atoi(s);
-	if (filler->piece_dim.y > 0 && filler->piece_dim.x > 0)
-	{	
-		filler->piece = (char **)malloc(sizeof(char *) * (filler->piece_dim.y + 1));
-		i = -1;
-		while (++i < filler->piece_dim.y)
-			filler->piece[i] = (char *)ft_memalloc(filler->piece_dim.x + 1);
-	}
+	filler_atoi(&f->piece_dim, s + 6);
+	if (!(f->piece = (char **)malloc(sizeof(char *) * (f->piece_dim.y + 1))))
+		EXIT_MSG("Failed to malloc piece");
+	i = -1;
+	while (++i < f->piece_dim.y)
+		if (!(f->piece[i] = (char *)ft_memalloc(f->piece_dim.x + 1)))
+			EXIT_MSG("Failed to malloc piece");
 	return (1);
+}
+
+/*
+** reset y and x value then
+** getting y, skipping the space, getting x.
+*/
+
+void	filler_atoi(t_index *i, char *s)
+{
+	int		r;
+
+	r = 0;
+	while (*s >= '0' && *s <= '9')
+		r = r * 10 + *s++ - '0';
+	i->y = r;
+	
+	++s;
+	r = 0;
+	while (*s >= '0' && *s <= '9')
+		r = r * 10 + *s++ - '0';
+	i->x = r;
+	if (i->x <= 0 || i->y <= 0)
+		EXIT_MSG("Wrong dimensions");	
 }
