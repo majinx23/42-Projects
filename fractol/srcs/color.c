@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 22:19:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/06 17:14:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 02:23:00 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,4 @@ unsigned		color_pixel(t_3d *d, int a)
 	else
 		rgb = achromatic_color(rgb);
 	return (ft_rgb2hex(rgb));
-}
-
-/*
-** trace a gradient line using starting color a and ending color b
-*/
-
-t_rgb2		ft_gradient(unsigned a, unsigned b, int pixel)
-{
-	t_rgb2	c;
-
-	c.x.b = a & 0xFF;
-	c.y.b = b & 0xFF;
-	c.y.b = (c.y.b - c.x.b) / pixel;
-	c.x.g = a >> 8 & 0xFF;
-	c.y.g = b >> 8 & 0xFF;
-	c.y.g = (c.y.g - c.x.g) / pixel;
-	c.x.r = a >> 16 & 0xFF;
-	c.y.r = b >> 16 & 0xFF;
-	c.y.r = (c.y.r - c.x.r) / pixel;
-	return (c);
 }

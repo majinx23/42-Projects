@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algorytms2.c                                        :+:      :+:    :+:   */
+/*   algorytms2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/06 16:26:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 02:23:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,22 @@ void	barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i)
 }
 
 /*
-**  fractal algorytm
+** Mathematician Adrien Douady's tribute to his peer Benoit Mandelbrot.
+** https://en.wikipedia.org/wiki/Mandelbrot_set
 */
 
-void		flame_191(t_3d *d)
+void	buddha(t_3d *d, t_cnb z, t_cnb c, int *i)
 {
-	int		i;
-	t_cnb	c;
-	double	r;
-	double	theta;
-//	double	phi;
+	double	n;
+	double	t;
 
-	
-	r = sqrt(pow(d->i.x, 2) + pow(d->i.y, 2));
-	!d->i.y ? d->i.y = 1 : 0;
-	theta = atan(d->i.x / d->i.y);
-//	phi = arctan(d->y / d->x);
-	i = -1;
-	while (++i < d->max)
+	n = z.real * z.real + z.imag * z.imag;
+	t = 0;
+	while (++(*i) < d->max && n < 4)
 	{
-		c.real = (theta / PI) * (sin(PI * r));
-		c.imag = (theta / PI) * (cos(PI * r));
+		t = z.real;
+		z.real = z.real * z.real - z.imag * z.imag + c.imag;
+		z.imag = 2 * z.imag * t + c.real;
+		n = z.real * z.real + z.imag * z.imag;
 	}
-	put_pixel_in_img(d, c.real, c.imag, MIDNIGHT_BLUE);
 }

@@ -6,13 +6,13 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:55:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 22:25:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 02:24:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/fractol.h"
 
-static void		settings(t_3d *d, unsigned color)
+static void	settings(t_3d *d, unsigned color)
 {
 	short		x;
 
@@ -69,12 +69,8 @@ int			motion_hook(int x, int y, t_3d *d)
 {
 	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT && !d->julia_static)
 	{
-//		d->julia.real = (x + d->offset.x) / (double)d->zoom + d->min.x, 
-//		d->julia.imag = (y + d->offset.y) / (double)d->zoom + d->min.y;
-
-		d->julia = (t_cnb) {.real = (x + d->offset.x) /
-			(double)d->zoom + d->min.x, (y + d->offset.y) /
-				(double)d->zoom + d->min.y};
+		d->julia.real = (x + d->offset.x) / (double)d->zoom + d->min.x;
+		d->julia.imag = (y + d->offset.y) / (double)d->zoom + d->min.y;
 		fractol(d);
 	}
 	return (1);
@@ -89,14 +85,18 @@ int			mouse_scaling_hook(int k, int x, int y, t_3d *d)
 	float	scaling;
 
 	scaling = 0;
-	if ((k == 1 || k == 2 || k == 4 || k == 5) && (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT))
+	if ((k == 1 || k == 2 || k == 4 || k == 5) &&
+	(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT))
 	{
 		if (k == 4 || k == 1)
 			scaling = 1.25;
 		else if (k == 5 || k == 2)
 			scaling = 0.8;
-		d->offset.x = round(x - ((WIDTH >> 1) - d->offset.x) * scaling);
-		d->offset.y = round(y - ((HEIGHT >> 1) - d->offset.y) * scaling);
+		if (k == 1 || k == 2)
+		{
+			d->offset.x = round(d->offset.x + ((WIDTH >> 1) - x) * scaling);
+			d->offset.y = round(d->offset.y + ((HEIGHT >> 1) - y) * scaling);
+		}
 		d->zoom *= scaling;
 		fractol(d);
 	}

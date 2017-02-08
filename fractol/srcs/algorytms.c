@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:42:03 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 22:39:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 02:28:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,26 @@ void	init_julia_set(t_3d *d)
 {
 	if (d->fractal == JULIA)
 	{
-	//	d->min = (t_i) {.x = 0, .y = 0};
 		d->zoom = 300;
 		d->max = 300;
 		remarkable_julias(d);
 	}
 	else if (d->fractal == MANDELBROT)
 	{
-	//	d->min = (t_i) {.x = 0, .y = 0};
 		d->max = 80;
 		d->zoom = 280;
 	}
+	else if (d->fractal == BUDDHA)
+	{
+		d->max = 100;
+		d->zoom = 100;
+		d->color = 2;
+	}
 	else if (d->fractal == PHOENIX)
 	{
-	//	d->min = (t_i) {.x = -1.3, .y = -1.8};
 		d->max = 80;
 		d->zoom = 250;
 	}
-	d->offset = (t_i) {.x = 0, .y = 0};
 }
 
 /*
@@ -46,7 +48,7 @@ void	init_julia_set(t_3d *d)
 ** https://en.wikipedia.org/wiki/Mandelbrot_set
 */
 
-void		mandelbrot(t_3d *d, t_cnb z, t_cnb c, int *i)
+void	mandelbrot(t_3d *d, t_cnb z, t_cnb c, int *i)
 {
 	double	n;
 	double	t;
@@ -67,7 +69,7 @@ void		mandelbrot(t_3d *d, t_cnb z, t_cnb c, int *i)
 ** each time the user chooses Julia it refreshes Julia initialization
 */
 
-void		remarkable_julias(t_3d *d)
+void	remarkable_julias(t_3d *d)
 {
 	if (!d->rng)
 		d->julia = (t_cnb) {.real = -0.506667, .imag = 0.520000 };
@@ -88,7 +90,7 @@ void		remarkable_julias(t_3d *d)
 ** https://en.wikipedia.org/wiki/Julia_set
 */
 
-void		julia(t_3d *d, t_cnb z, int *i)
+void	julia(t_3d *d, t_cnb z, int *i)
 {
 	double	t;
 	t_cnb	c;
@@ -107,7 +109,7 @@ void		julia(t_3d *d, t_cnb z, int *i)
 ** Phoenix fractal algorytm
 */
 
-void		phoenix(t_3d *d, t_cnb z, t_cnb c, int *i)
+void	phoenix(t_3d *d, t_cnb z, t_cnb c, int *i)
 {
 	double	n;
 	t_cnb	t;

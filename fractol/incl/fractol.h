@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 23:53:42 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 02:30:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,13 @@
 # include "../libft/libft.h"
 # include "keycode_mac.h"
 # include "colors.h"
-# include <stdio.h>//
 
 # define TITLE		"Fractol"
 # define HEIGHT		800
 # define WIDTH		1200
 # define HELP_COLOR	0xffffff
-# define PI			3.1415926536
 
-enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, FLAME};
+enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, FLAME, BUDDHA};
 
 /*
 ** stands for complex number
@@ -59,40 +57,30 @@ typedef struct		s_index
 }					t_index;
 
 /*
-** structure to hold two colors
-*/
-
-typedef	struct		s_rgb2
-{
-	t_rgb			x;
-	t_rgb			y;
-}					t_rgb2;
-
-/*
 ** colored 2d vector
 */
 
 typedef	struct		s_cv
 {
-	double		x;
-	double		y;
-	unsigned	color;
+	double			x;
+	double			y;
+	unsigned		color;
 }					t_cv;
 
 /*
 ** structure to hold data about image
 */
 
-typedef struct	s_image
+typedef struct		s_image
 {
-	void		*mlx;
-	void		*win;
-	int			*image;
-	char		*data;
-	int			bpp;
-	int			sizeline;
-	int			endian;
-}				t_image;
+	void			*mlx;
+	void			*win;
+	int				*image;
+	char			*data;
+	int				bpp;
+	int				sizeline;
+	int				endian;
+}					t_image;
 
 /*
 ** img is data relative to the image
@@ -105,7 +93,7 @@ typedef struct	s_image
 ** fern are variables relative to Barnsley's algo
 */
 
-typedef struct			s_3d
+typedef struct		s_3d
 {
 	t_image			img;
 	enum e_fractal	fractal;
@@ -125,54 +113,53 @@ typedef struct			s_3d
 	int				menu;
 	short			rng;
 	short			a;
-}						t_3d;
+}					t_3d;
 
-/*     
+/*
 ** Parsing and variable t_3d initialization
 */
 
-int						init_fractal(t_3d *d, char *name);
-int						init_variables(t_3d *d);
-void					init_img(t_3d *d);
-void					put_pixel_in_img(t_3d *d, int x, int y, int color);
-void					settings_background(t_3d *d);
-void					ft_blackscreen(t_3d *d);
+int					init_fractal(t_3d *d, char *name);
+int					init_variables(t_3d *d);
+void				init_img(t_3d *d);
+void				put_pixel_in_img(t_3d *d, int x, int y, int color);
+void				settings_background(t_3d *d);
+void				ft_blackscreen(t_3d *d);
 
 /*
 ** Fractol program
 */
 
-void					fractol(t_3d *d);
-void					draw_fractal(t_3d *d);
-void					ft_draw_line(t_3d *d, t_cv a, t_cv b);
+void				fractol(t_3d *d);
+void				draw_fractal(t_3d *d);
+void				ft_draw_line(t_3d *d, t_cv a, t_cv b);
 
 /*
 ** Fractals algorytms
 */
 
-void					init_julia_set(t_3d *d);
-void					mandelbrot(t_3d *d, t_cnb z, t_cnb c, int *i);
-void					remarkable_julias(t_3d *d);
-void					julia(t_3d *d, t_cnb c, int *i);
-void					phoenix(t_3d *d, t_cnb z, t_cnb c, int *i);
-void					fern_fractal(t_3d *d);
-void					barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i);
-void					flame_191(t_3d *d);
+void				init_julia_set(t_3d *d);
+void				mandelbrot(t_3d *d, t_cnb z, t_cnb c, int *i);
+void				remarkable_julias(t_3d *d);
+void				julia(t_3d *d, t_cnb c, int *i);
+void				phoenix(t_3d *d, t_cnb z, t_cnb c, int *i);
+void				fern_fractal(t_3d *d);
+void				barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i);
+void				buddha(t_3d *d, t_cnb z, t_cnb c, int *i);
 
 /*
 ** color functions
 */
 
-unsigned				color_pixel(t_3d *d, int a);
-unsigned				ft_rainbow_gradient(double x);
-t_rgb2					ft_gradient(unsigned a, unsigned b, int pixel);
+unsigned			color_pixel(t_3d *d, int a);
+unsigned			ft_rainbow_gradient(double x);
 
 /*
 ** Hook to check for user input
 */
 
-int						motion_hook(int x, int y, t_3d *d);
-int						key_hook(int keycode, t_3d *d);
-int						mouse_scaling_hook(int button, int x, int y, t_3d *d);
+int					motion_hook(int x, int y, t_3d *d);
+int					key_hook(int keycode, t_3d *d);
+int					mouse_scaling_hook(int button, int x, int y, t_3d *d);
 
 #endif

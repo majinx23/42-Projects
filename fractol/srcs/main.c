@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 04:03:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 23:44:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 02:24:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int		main(int ac, char **av)
 
 	if (ac != 2 || !init_fractal(&d, av[1]))
 	{
-		ft_putendl("Usage: ./fractol Mandelbrot");
-		ft_putendl("[Mandelbrot] [Julia] [Phoenix] [Barnsley] [Flame]");
+		ft_putendl("\033[32mUsage: ./fractol Fractal, i.e: ./fractol Barnsley");
+		ft_putendl("[Mandelbrot] [Julia] [Phoenix] [Barnsley] [Buddha]");
 		exit(-1);
 	}
 	else if (!(init_variables(&d)))
@@ -74,8 +74,9 @@ int		init_fractal(t_3d *d, char *name)
 		d->fractal = BARNSLEY;
 	else if (!ft_strcmp(name, "Flame"))
 		d->fractal = FLAME;
+	else if (!ft_strcmp(name, "Buddha"))
+		d->fractal = BUDDHA;
 	else
 		return (0);
 	return (1);
 }
-
