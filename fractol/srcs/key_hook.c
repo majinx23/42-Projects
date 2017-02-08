@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/06 21:20:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 23:43:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		ft_black_screen(t_3d *d)
 
 static void	set_fractal(int k, t_3d *d)
 {
-	if (k == KEY_1 || k == KEY_2 || k == KEY_3 || k == KEY_4)
+	if (k == KEY_1 || k == KEY_2 || k == KEY_3 || k == KEY_4 || k == KEY_5)
 	{
 		if (k == KEY_4)
 		{
@@ -73,6 +73,8 @@ static void	set_fractal(int k, t_3d *d)
 			d->max = 5000;
 			d->fractal = BARNSLEY;
 		}
+		else if (k == KEY_5)
+			d->fractal = FLAME;
 		else
 		{
 			d->rng = random() % 6;

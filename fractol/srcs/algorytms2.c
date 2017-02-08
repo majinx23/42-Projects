@@ -59,3 +59,29 @@ void	barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i)
 		put_pixel_in_img(d, d->c.real + 300, d->c.imag - 50, LIME);
 	}
 }
+
+/*
+**  fractal algorytm
+*/
+
+void		flame_191(t_3d *d)
+{
+	int		i;
+	t_cnb	c;
+	double	r;
+	double	theta;
+//	double	phi;
+
+	
+	r = sqrt(pow(d->i.x, 2) + pow(d->i.y, 2));
+	!d->i.y ? d->i.y = 1 : 0;
+	theta = atan(d->i.x / d->i.y);
+//	phi = arctan(d->y / d->x);
+	i = -1;
+	while (++i < d->max)
+	{
+		c.real = (theta / PI) * (sin(PI * r));
+		c.imag = (theta / PI) * (cos(PI * r));
+	}
+	put_pixel_in_img(d, c.real, c.imag, MIDNIGHT_BLUE);
+}

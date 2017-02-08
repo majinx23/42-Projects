@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 22:35:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/07 23:53:42 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # define HEIGHT		800
 # define WIDTH		1200
 # define HELP_COLOR	0xffffff
+# define PI			3.1415926536
 
-enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY};
+enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, FLAME};
 
 /*
 ** stands for complex number
@@ -156,6 +157,7 @@ void					julia(t_3d *d, t_cnb c, int *i);
 void					phoenix(t_3d *d, t_cnb z, t_cnb c, int *i);
 void					fern_fractal(t_3d *d);
 void					barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i);
+void					flame_191(t_3d *d);
 
 /*
 ** color functions
