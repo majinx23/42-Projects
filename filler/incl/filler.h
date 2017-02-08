@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/08 18:49:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 19:50:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void			filler_loop(t_filler *filler);
 void			solver(t_filler *filler);
 int				put_piece(t_filler *filler);
 void			return_piece(int a, int b);
+void			shortest_distance(t_filler *f)
 
 #endif
