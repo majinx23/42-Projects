@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 19:34:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 18:49:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 
 # define SKIP_LINE		get_next_line(0, &line)
 # define P				f->player
-# define C				f->cpu
+# define CPU			f->cpu
 # define LAST 			f->last_p
-# define CURRENT		f->piece_dim
-# define EXIT_MSG(s)	ft_putstr("\033[31m]"), ft_putendl(s), exit(-1)
+# define EXIT_MSG(s)	ft_putstr("\033[31m"), ft_putendl(s), exit(-1)
+# define C				f->cpu_closest_piece
+# define J				f->player_closest_piece
 
 typedef struct	s_index
 {
@@ -52,19 +53,23 @@ typedef struct	s_filler
 	t_index		piece_dim;
 	t_index		last_p;
 	
+	t_index		cpu_closest_piece;
+	t_index		player_closest_piece;
+	int			distance;
+	
 	char		cpu;
 	char		player;
 
 	t_corners	corners;
 }				t_filler;
 
-t_filler		*init_filler(void);
+
 
 /*
-** parsing functions
+** initialization and parsing functions
 */
 
-void			parsing(t_filler *filler);
+t_filler		*init_filler(void);
 int				get_board_dimension(t_filler *filler, char *s);
 void			filler_atoi(t_index *i, char *s);
 int				get_piece(t_filler *filler, char *s);

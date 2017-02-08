@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 20:27:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 19:34:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,78 @@
 ** compile program and then do one player match
 */
 
-void        parsing(t_filler *f)
+int			main(void)
 {
+	t_filler	*f;
     char        *line;
 
- //   SKIP_LINE;//launched ...
+	f = init_filler();
     get_next_line(0, &line);//$$$ exec p[1-2]
-    f->player = (line[10] - '1') ? 'x' : 'o';
-    f->cpu = (f->player == 'x') ? 'o' : 'x';
-    get_next_line(0, &line);//Plateau 14 17:  
-	      
+    f->player = (line[10] - '1') ? 'X' : 'O';
+    f->cpu = (f->player == 'X') ? 'O' : 'X';
+    get_next_line(0, &line);//Plateau 14 17:       
     get_board_dimension(f, line);
-	
     filler_loop(f);
+	return (0);
+}
+
+/*
+** variables initialization
+*/
+
+t_filler	*init_filler(void)
+{
+	t_filler *f;
+
+	if (!(f = (t_filler*)malloc(sizeof(t_filler))))
+		return (NULL);
+    LAST = (t_index) {.y = 8, .x = 2};
+	f->cpu_closest_piece = (t_index) {.y = 0, .x = 0};
+	f->board = NULL;
+	f->piece= NULL;
+	f->distance = 2147483647;
+	return (f);
+}
+
+void        filler_loop(t_filler *f)
+{
+    int        i;
+    char    *line;
+
+    SKIP_LINE;                        //skipping 012345...
+    i = -1;
+    while (++i < f->max.y)            //on lit et passe le tableau
+    {
+        get_next_line(0, &f->board[i]);
+        ft_putstr_fd("\033[32m", 2);
+        ft_putendl_fd(f->board[i], 2);
+        ft_putstr_fd("\033[37m", 2);
+    }
+    free(line);
+
+    get_next_line(0, &line);        //Piece 5 6
+    get_piece(f, line);
+    i = -1;
+    while (++i < f->piece_dim.y)    //on lit et passe la piece
+    {
+        get_next_line(0, &f->piece[i]);
+   //     ft_putstr_fd("\033[33m", 2);
+     //   ft_putendl_fd(f->piece[i], 2);
+       // ft_putstr_fd("\033[37m", 2);
+    }
+	
+    free(line);
+    solver(f);
+    SKIP_LINE;                        // skipping plateau..
+	
+	if (i != -1)
+    	filler_loop(f);
+	else
+	{
+		i = -1;
+	    while (++i < f->piece_dim.y)    //on lit et passe la piece
+    		free(f->piece[i]);
+	}
 }
 
 /*
@@ -45,7 +104,7 @@ int		get_board_dimension(t_filler *f, char *s)
 		EXIT_MSG("Failed to malloc board dimensions");
 	i = -1;
 	while (++i < f->max.y)
-		if (!(f->board[i] = (char *)malloc(f->max.x + 1)))
+		if (!(f->board[i] = (char *)malloc(3 + f->max.x + 1)))
 			EXIT_MSG("Failed to malloc board dimensions");
 	return (1);
 }

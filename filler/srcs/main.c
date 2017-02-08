@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:11:08 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/07 19:20:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/08 18:17:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,7 @@
 ** ./filler_vm -f maps/map00 -p1 players/hcao.filler -p2 ./angavrel.filler
 */
 
-int			main(void)
-{
-	t_filler	*f;
 
-	f = init_filler();
-	parsing(f);
-	return (0);
-}
-
-/*
-** variables initialization
-*/
-
-t_filler	*init_filler(void)
-{
-	t_filler *f;
-
-	if (!(f = (t_filler*)malloc(sizeof(t_filler))))
-		return (NULL);
-    f->last_p = (t_index) {.y = 7, .x = 2};
-	f->board = NULL;
-	f->piece= NULL;
-	return (f);
-}
 
 /*void	print_board(char **board, int max)
 {
