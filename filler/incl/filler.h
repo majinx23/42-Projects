@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/08 19:50:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/09 05:25:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 # include "libft.h"
 
 # define SKIP_LINE		get_next_line(0, &line)
-# define P				f->player
+# define PLY			f->player
 # define CPU			f->cpu
 # define LAST 			f->last_p
 # define EXIT_MSG(s)	ft_putstr("\033[31m"), ft_putendl(s), exit(-1)
 # define C				f->cpu_closest_piece
 # define J				f->player_closest_piece
+# define INT(c)			(int)((c - 46) / 21)
+# define INT2(c)		(int)((46 - c) >> 2)
 
 typedef struct	s_index
 {
@@ -44,21 +46,30 @@ typedef struct	s_corners
 	t_index		se;
 }				t_corners;
 
+/*
+** board is the board stocked as char* while b is the board as int *
+*/
+
 typedef struct	s_filler
 {
+	int			cpu;
+	int			player;
+
 	char		**board;
+	int			**b;
 	t_index		max;
 	
 	char		**piece;
+	int			**p;
 	t_index		piece_dim;
-	t_index		last_p;
 	
 	t_index		cpu_closest_piece;
 	t_index		player_closest_piece;
 	int			distance;
-	
-	char		cpu;
-	char		player;
+
+	t_index		padding;
+	t_index		last_p;
+
 
 	t_corners	corners;
 }				t_filler;
@@ -73,6 +84,8 @@ t_filler		*init_filler(void);
 int				get_board_dimension(t_filler *filler, char *s);
 void			filler_atoi(t_index *i, char *s);
 int				get_piece(t_filler *filler, char *s);
+void			board_char2int(t_filler *f);
+void			piece_char2int(t_filler *f);
 
 /*
 ** solving algos
@@ -82,6 +95,8 @@ void			filler_loop(t_filler *filler);
 void			solver(t_filler *filler);
 int				put_piece(t_filler *filler);
 void			return_piece(int a, int b);
-void			shortest_distance(t_filler *f)
+void			shortest_distance(t_filler *f);
+int				try_put_piece_around_J(t_filler *f);
+int				try_put_piece(t_filler *f);
 
 #endif

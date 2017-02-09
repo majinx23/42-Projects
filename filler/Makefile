@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/03 20:20:20 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/09 00:09:23 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,7 @@ SRCS_PATH = srcs/
 OBJ_PATH  = obj/
 LIBFT_PATH = libft/
 
-SRCS_NAME = main.c \
-			parse.c \
+SRCS_NAME =	parse.c \
 			solve.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
