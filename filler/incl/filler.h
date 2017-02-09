@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/09 05:25:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/09 21:30:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ typedef struct	s_filler
 
 	t_index		padding;
 	t_index		last_p;
+	int			found;
 
 
 	t_corners	corners;
+	int			turn;
 }				t_filler;
 
 

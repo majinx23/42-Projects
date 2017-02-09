@@ -6,32 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/09 22:10:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/09 22:20:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/filler.h"
-/*
-int			put_piece(t_filler *f)
-{
-	t_index	i;
-
-	i.y = LAST.y;
-	while (i.y < f->max.y)
-	{
-		i.x = LAST.x;
-		while (i.x < f->max.x)
-		{
-			
-			++i.x;
-		}
-		++i.y;
-	}
-	return (1);
-}
-
-*/
-
 
 /*
 make re
@@ -59,7 +38,6 @@ Piece 2 2:
 *.
 
 */
-
 
 /*
 ** if number of connections is equal to 2 then piece is invalid in this area.
@@ -108,7 +86,9 @@ int		try_put_piece_around_J(t_filler *f)
 		{
 			if (try_put_piece(f) == 1)
 			{
-				LAST = J;
+				LAST.y = J.y - f->padding.y;
+				LAST.x = J.x - f->padding.x;
+				f->found = 1;
 				return (1);
 			}
 			++f->padding.x;
@@ -129,7 +109,7 @@ void		player_closest(t_filler *f)
 	t_index	i;
 
 	i.y = -1;
-	while (++i.y < f->max.y)
+	while (++i.y < f->max.y && !f->found)
 	{
 		i.x = -1;
 		while (++i.x < f->max.x)
@@ -142,7 +122,8 @@ void		player_closest(t_filler *f)
 					f->distance = tmp;
 					J = i;
 					f->padding = (t_index) {.y = 0, .x = 0};
-					try_put_piece_around_J(f);
+					if (try_put_piece_around_J(f) == 1)
+						break;
 				}
 			}
 		}
@@ -156,6 +137,7 @@ void		player_closest(t_filler *f)
 void		shortest_distance(t_filler *f)
 {
 	t_index	i;
+	f->found = 0;
 
 	i.y = -1;
 	while (++i.y < f->max.y)
