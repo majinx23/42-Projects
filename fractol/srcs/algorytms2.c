@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:02:54 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/08 02:23:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/10 23:00:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,21 @@ void	barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i)
 	}
 }
 
-/*
-** Mathematician Adrien Douady's tribute to his peer Benoit Mandelbrot.
-** https://en.wikipedia.org/wiki/Mandelbrot_set
-*/
 
-void	buddha(t_3d *d, t_cnb z, t_cnb c, int *i)
+void	mandel_flower(t_3d *d, t_cnb z, t_cnb c, int *i)
 {
 	double	n;
 	double	t;
 
-	n = z.real * z.real + z.imag * z.imag;
+	n = pow(z.real, 6) + pow(z.imag, 6);
 	t = 0;
 	while (++(*i) < d->max && n < 4)
 	{
 		t = z.real;
-		z.real = z.real * z.real - z.imag * z.imag + c.imag;
-		z.imag = 2 * z.imag * t + c.real;
-		n = z.real * z.real + z.imag * z.imag;
+		z.real = pow(z.real, 6) - (15 * pow(z.real, 4) * pow(z.imag, 2))
+		+ (15 * pow(z.real, 2) * pow(z.imag, 4)) - pow(z.imag, 6) + c.imag;
+		z.imag = (6 * pow(t, 5) * z.imag - 20 * pow(t, 3) * pow(z.imag, 3)
+		+ 6 * t * pow(z.imag, 5)) + c.real;
+		n = pow(z.real, 6) + pow(z.imag, 6);
 	}
 }

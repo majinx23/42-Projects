@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:42:03 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/08 02:28:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/10 23:03:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	init_julia_set(t_3d *d)
 		d->max = 80;
 		d->zoom = 280;
 	}
-	else if (d->fractal == BUDDHA)
+	else if (d->fractal == FLOWERBROT)
 	{
 		d->max = 100;
-		d->zoom = 100;
+		d->zoom = 300;
 		d->color = 2;
 	}
 	else if (d->fractal == PHOENIX)
@@ -93,9 +93,9 @@ void	remarkable_julias(t_3d *d)
 void	julia(t_3d *d, t_cnb z, int *i)
 {
 	double	t;
-	t_cnb	c;
+//	t_cnb	c;
 
-	c = (t_cnb) {.real = -0.175, .imag = 0.177};
+//	c = (t_cnb) {.real = -0.175, .imag = 0.177};
 	t = 0;
 	while (++(*i) < d->max && z.real * z.real + z.imag * z.imag < 4)
 	{

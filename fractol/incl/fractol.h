@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 23:58:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/08 02:30:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/10 23:02:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define WIDTH		1200
 # define HELP_COLOR	0xffffff
 
-enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, FLAME, BUDDHA};
+enum	e_fractal{MANDELBROT, JULIA, PHOENIX, BARNSLEY, FLAME, FLOWERBROT};
 
 /*
 ** stands for complex number
@@ -145,7 +145,7 @@ void				julia(t_3d *d, t_cnb c, int *i);
 void				phoenix(t_3d *d, t_cnb z, t_cnb c, int *i);
 void				fern_fractal(t_3d *d);
 void				barnsley_fern_algo(t_3d *d, t_cnb c, float rng, int i);
-void				buddha(t_3d *d, t_cnb z, t_cnb c, int *i);
+void				mandel_flower(t_3d *d, t_cnb z, t_cnb c, int *i);
 
 /*
 ** color functions

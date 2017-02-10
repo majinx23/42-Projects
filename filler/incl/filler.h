@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/09 21:30:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/10 21:48:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct	s_corners
 	t_index		se;
 }				t_corners;
 
+
+
+
 /*
 ** board is the board stocked as char* while b is the board as int *
 */
@@ -55,12 +58,10 @@ typedef struct	s_filler
 	int			cpu;
 	int			player;
 
-	char		**board;
-	int			**b;
+	char		**b;
 	t_index		max;
 	
-	char		**piece;
-	int			**p;
+	char		**p;
 	t_index		piece_dim;
 	
 	t_index		cpu_closest_piece;
@@ -75,7 +76,6 @@ typedef struct	s_filler
 	t_corners	corners;
 	int			turn;
 }				t_filler;
-
 
 
 /*
@@ -98,6 +98,7 @@ void			solver(t_filler *filler);
 int				put_piece(t_filler *filler);
 void			return_piece(int a, int b);
 void			shortest_distance(t_filler *f);
+int				player_closest(t_filler *f);
 int				try_put_piece_around_J(t_filler *f);
 int				try_put_piece(t_filler *f);
 

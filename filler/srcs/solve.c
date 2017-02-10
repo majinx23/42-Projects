@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/09 22:20:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/10 21:58:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,42 +41,87 @@ Piece 2 2:
 
 /*
 ** if number of connections is equal to 2 then piece is invalid in this area.
-** it should be connected to only one.
+** it should be connected to only one. kezo rap
 */
 
-int		try_put_piece(t_filler *f)
+
+int		piece_valid_position(t_filler *f)
 {
 	int		connect;
 	t_index	i;
 
+	ft_putstr_fd("Piece [", 2);
+	ft_putnbr_fd(f->piece_dim.y, 2);
+	ft_putstr_fd("] [", 2);
+	ft_putnbr_fd(f->piece_dim.x, 2);
+	ft_putstr_fd("]\n", 2);
+	ft_putstr_fd("\033[37m", 2);
 	connect = 0;
+	f->score = 0;
 	i.y = -1;
 	while (++i.y < f->piece_dim.y)
 	{
 		i.x = -1;
 		while (++i.x < f->piece_dim.x)
 		{
-			if ((f->b[i.y + J.y - f->padding.y][i.x + J.x - f->padding.x]
-			+ f->p[i.y][i.x]) == 3)
-				return (-1);
-			else if (f->b[i.y + J.y - f->padding.y][i.x + J.x - f->padding.x] == 1
-			&& f->p[i.y][i.x] == 1)
+			if f->p[i.y][i.x] == 1)
 			{
-				++connect;
-				if (connect >> 2)
-					return (-1);
+				cell = f->b[i.y + J.y - f->padding.y][i.x + J.x - f->padding.x];
+				if (cell == 2)
+					return (0);
+				else if (cell == 1)
+				{
+					++connect;
+					if (connect >= 2)
+						return (0);
+				}
+				else // score will take the area value instead of 
+					f->score += cell;
 			}
 		}
 	}
-	return ((!connect) ? -1 : 1);
+	return (connect * f->score); // connect is either equal to 0 or 1.
 }
 
 /*
 ** now that closest point has been localised, we try to put the piece around.
 */
 
+int		put_piece_on_J(t_filler *f)
+{
+	int		max_score;
+
+	score = 0;
+	f->padding.y = 0;
+	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) &&
+	(f->padding.y < f->piece_dim.y))
+	{
+		f->padding.x = 0;
+		while ((J.x + f->piece_dim.x - f->padding.x < f->max.x) &&
+		(f->padding.x < f->piece_dim.x))
+		{
+			
+			if (piece_valid_position(f) > max_score)
+			{
+				max_score = f->score;
+				LAST.y = J.y - f->padding.y;
+				LAST.x = J.x - f->padding.x;
+				f->found = 1;
+				return (1);
+			}
+			++f->padding.x;
+		}
+		++f->padding.y;
+	}
+	return (-1);
+}
+
+
+
+/*
 int		try_put_piece_around_J(t_filler *f)
 {
+	f->padding.y = 0;
 	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) &&
 	(f->padding.y < f->piece_dim.y))
 	{
@@ -97,19 +142,20 @@ int		try_put_piece_around_J(t_filler *f)
 	}
 	return (-1);
 }
+*/
 
 /*
 ** localize player pieces and calculate distance to check if it is shorter.
 ** if the distance is shorter then it tries to put the piece.
 */
 
-void		player_closest(t_filler *f)
+int			player_closest(t_filler *f)
 {
 	int		tmp;
 	t_index	i;
 
 	i.y = -1;
-	while (++i.y < f->max.y && !f->found)
+	while (++i.y < f->max.y)
 	{
 		i.x = -1;
 		while (++i.x < f->max.x)
@@ -117,21 +163,21 @@ void		player_closest(t_filler *f)
 			if (f->b[i.y][i.x] == PLY)
 			{
 				tmp = (C.x - i.x) * (C.x - i.x) + (C.y - i.y) * (C.y - i.y);	
-				if (tmp < f->distance)
+				if (tmp <= f->distance)
 				{
 					f->distance = tmp;
 					J = i;
-					f->padding = (t_index) {.y = 0, .x = 0};
-					if (try_put_piece_around_J(f) == 1)
-						break;
+					put_piece_on_J(f);
 				}
 			}
 		}
 	}
+	return (1);
 }
 
 /*
 ** localize CPU pieces.
+** note perso : faire une fonction affine pour voir si ce point proche permet de bloquer
 */
 
 void		shortest_distance(t_filler *f)
@@ -158,8 +204,16 @@ void		shortest_distance(t_filler *f)
 
 void		solver(t_filler *f)
 {
+	ft_putstr_fd("\033[32m", 2);
+	ft_putstr_fd("~~~ Turn ", 2);
+	ft_putnbr_fd(f->turn, 2);
+	ft_putstr_fd(" ~~~\n", 2);
+	ft_putstr_fd("\033[37m", 2);
+
 	shortest_distance(f);
+
 	return_piece(LAST.y, LAST.x);
+	++f->turn;
 }
 
 /*

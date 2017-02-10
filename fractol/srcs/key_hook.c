@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/08 01:50:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/10 23:00:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ static void	set_fractal(int k, t_3d *d)
 	{
 		if (k == KEY_5)
 		{
+			d->fractal = BARNSLEY;
 			(!(d->a)) ? ft_black_screen(d) : ++d->a;
 			d->max = 5000;
-			d->fractal = BARNSLEY;
 		}
-		else if (k == KEY_6)
-			d->fractal = FLAME;
 		else
 		{
 			d->rng = random() % 6;
@@ -85,7 +83,7 @@ static void	set_fractal(int k, t_3d *d)
 			else if (k == KEY_3)
 				d->fractal = PHOENIX;
 			else if (k == KEY_4)
-				d->fractal = BUDDHA;
+				d->fractal = FLOWERBROT;
 			init_julia_set(d);
 		}
 	}
