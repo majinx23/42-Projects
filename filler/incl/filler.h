@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/10 21:48:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/11 00:11:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct	s_filler
 	t_index		last_p;
 	int			found;
 
-
+	int			score;
 	t_corners	corners;
 	int			turn;
 }				t_filler;

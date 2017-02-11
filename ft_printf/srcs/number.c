@@ -3,52 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   number.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/28 20:03:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/11 00:55:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int			number(va_list ap, t_flags *flags)
-{ //flags supportes : "-"                         + 0-   largeur precision hljz
-	int len;
-	int max_length;
-	char *number;
-	int nb_spaces;
+void	itoa_core(uintmax_t tmp, int base, char *str, t_flags *flags)
+{
+	int size;
 
-
-	number = itoa_printf(ap, flags);//penser a enlever l'eventuel -
-	len = ft_strlen(number);
-	flags->printed += len;
-
-	max_length = ((len < flags->precision) ? flags->precision : len);
-
-	nb_spaces = ((max_length < flags->min_length) ? flags->min_length - max_length: 0);
-
-	adjust_length(nb_spaces, !flags->a_minus);
-	while (flags->printed < flags->precision){
-		ft_putchar('0');
-		flags->printed++;
+	size = flags->printed;
+	str[size] = '\0';
+	while (--size >= 0)
+	{
+		str[size] = (tmp % base) + ((tmp % base >= 10) ? 87 - UPPER : '0');
+		tmp /= base;
 	}
-	ft_putstr(number);
-	adjust_length(nb_spaces, flags->a_minus);
-
-	return (flags->printed);
 }
 
-char	*itoa_printf(va_list ap, t_flags *flags)
+char	*itoa_printf(intmax_t d, t_flags *flags)
 {
-	int d;
-	//precision
-	//+
-	// 
-	//hljz
+	uintmax_t	tmp;
+	char		*str;
+	int			len;
 
-	(void)flags;
+	len = 0;
+	tmp = (d < 0) ? -d : d;
+	while (tmp && tmp /= 10)
+		++len;
+	(flags->a_zero) ? flags->precision = flags->min_length : 0;
+	if ((d < 0 || flags->a_plus || flags->a_space) && flags->a_zero)
+		flags->precision--;
+	flags->printed = bigest(len, flags->precision);
+	if (d < 0 || flags->a_plus || flags->a_space)
+		flags->printed++;
+	str = (char*)malloc(sizeof(char) * (flags->printed + 1));
+	tmp = (d < 0) ? -d : d;
+	itoa_core(tmp, 10, str, flags);
+	(flags->a_plus) ? str[0] = '+' : 0;
+	(flags->a_space) ? str[0] = ' ' : 0;
+	(d < 0) ? str[0] = '-' : 0;
+	return (str);
+}
 
-	d = va_arg(ap, int);
-	return (ft_itoa(d));
+int		number(va_list ap, t_flags *flags)
+{
+	int			nb_spaces;
+	char		*number;
+	intmax_t	d;
+
+	if (flags->l_long == 1)
+		d = ((intmax_t)va_arg(ap, long));
+	else if (flags->l_long == 2)
+		d = ((intmax_t)va_arg(ap, long long));
+	else if (flags->l_short == 1)
+		d = (intmax_t)((short)va_arg(ap, int));
+	else if (flags->l_short == 2)
+		d = (intmax_t)((char)va_arg(ap, int));
+	else if (flags->l_intmax)
+		d = (va_arg(ap, intmax_t));
+	else if (flags->l_sizet)
+		d = ((intmax_t)va_arg(ap, ssize_t));
+	else
+		d = ((intmax_t)va_arg(ap, int));
+	number = itoa_printf(d, flags);
+	nb_spaces = flags->min_length - smallest(flags->printed, flags->min_length);
+	adjust_length(nb_spaces, !flags->a_minus, ' ');
+	ft_putstr(number);
+	adjust_length(nb_spaces, flags->a_minus, ' ');
+	return (bigest(flags->printed, flags->min_length));
 }

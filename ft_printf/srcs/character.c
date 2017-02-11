@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/28 19:20:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/11 01:03:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,52 @@
 ** 00010000 -- 001FFFFF: 	11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 */
 
-void	character(va_list ap, t_flags *flags)
+int			ft_putwchar(unsigned wchar)
 {
-	unsigned c;
-	int len;
+	int nb_bytes;
 
-	c = va_arg(ap, unsigned);
-	adjust_length(flags->min_length - 1, !flags->a_minus);
-	len = ft_putwchar(c);
-	adjust_length(flags->min_length - 1, flags->a_minus);
-	return ;
+	nb_bytes = wcharlen(wchar);
+	if (nb_bytes == 1)
+		ft_putchar(wchar);
+	else if (nb_bytes == 2)
+	{
+		ft_putchar(((wchar & (0x1f << 6)) >> 6) + 0xC0);
+		ft_putchar(((wchar & 0x3f)) + 0x80);
+	}
+	else if (nb_bytes == 3)
+	{
+		ft_putchar(((wchar & (0xf << 12)) >> 12) + 0xE0);
+		ft_putchar(((wchar & (0x3f << 6)) >> 6) + 0x80);
+		ft_putchar(((wchar & 0x3f)) + 0x80);
+	}
+	else
+	{
+		ft_putchar(((wchar & (0x7 << 18)) >> 18) + 0xF0);
+		ft_putchar(((wchar & (0x3f << 12)) >> 12) + 0x80);
+		ft_putchar(((wchar & (0x3f << 6)) >> 6) + 0x80);
+		ft_putchar(((wchar & 0x3f)) + 0x80);
+	}
+	return (nb_bytes);
 }
 
+int			character(va_list ap, t_flags *flags)
+{
+	unsigned	c;
+	int			charlen;
 
+	c = va_arg(ap, unsigned);
+	charlen = wcharlen(c);
+	adjust_length(flags->min_length - charlen, !flags->a_minus, ' ');
+	ft_putwchar(c);
+	adjust_length(flags->min_length - charlen, flags->a_minus, ' ');
+	return (bigest(flags->min_length, charlen));
+}
+
+int			percent_char(t_flags *flags)
+{
+	adjust_length(flags->min_length - 1, !flags->a_minus,
+			((flags->a_zero) ? '0' : ' '));
+	ft_putwchar('%');
+	adjust_length(flags->min_length - 1, flags->a_minus, ' ');
+	return (bigest(flags->min_length, 1));
+}

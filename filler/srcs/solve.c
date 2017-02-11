@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/10 21:58:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/11 00:17:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		piece_valid_position(t_filler *f)
 {
 	int		connect;
 	t_index	i;
+	int		cell;
 
 	ft_putstr_fd("Piece [", 2);
 	ft_putnbr_fd(f->piece_dim.y, 2);
@@ -64,7 +65,7 @@ int		piece_valid_position(t_filler *f)
 		i.x = -1;
 		while (++i.x < f->piece_dim.x)
 		{
-			if f->p[i.y][i.x] == 1)
+			if (f->p[i.y][i.x] == 1)
 			{
 				cell = f->b[i.y + J.y - f->padding.y][i.x + J.x - f->padding.x];
 				if (cell == 2)
@@ -80,7 +81,8 @@ int		piece_valid_position(t_filler *f)
 			}
 		}
 	}
-	return (connect * f->score); // connect is either equal to 0 or 1.
+	return (!connect ? 0 : 1);
+//	return (connect * f->score); // connect is either equal to 0 or 1.
 }
 
 /*
@@ -91,7 +93,7 @@ int		put_piece_on_J(t_filler *f)
 {
 	int		max_score;
 
-	score = 0;
+	max_score = 0;
 	f->padding.y = 0;
 	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) &&
 	(f->padding.y < f->piece_dim.y))
