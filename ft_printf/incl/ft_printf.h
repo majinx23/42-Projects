@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 11:59:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:15:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void			itoa_base_fill(uintmax_t tmp, int base, char *str, t_printf *p);
 int				string(va_list ap, t_printf *p);
 int				wide_string(va_list ap, t_printf *p);
 int				character(va_list ap, t_printf *p);
-int				ft_putwchar(unsigned wchar);
 int				p_putchar(char c);
 
 int				print_pointer_address(va_list ap, t_printf *p);

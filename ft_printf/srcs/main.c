@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 11:51:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:14:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		main(int ac, char **av)
 
 	setlocale(LC_ALL, "");
 	(void)ac;
-/*
+
 	printf("--16 en hexa--\n");
 	i = ft_printf("Mon printf  : %x\n", 16);
 	j = printf("Vrai printf : %x\n", 16);
@@ -94,12 +94,12 @@ int		main(int ac, char **av)
 	i = ft_printf("Mon printf  : %15d\n", 2147483647);
 	j = printf("Vrai printf : %15d\n", 2147483647);
 	printf("Moi %d Le vrai : %d\n", i, j);
-
-	printf("\n-- invalid identifier --\n");                A REVOIR
+/*
+	printf("\n-- invalid identifier --\n");           //     A REVOIR
 	j = printf("Vrai printf : %010y\n");
 	i = ft_printf("Mon printf  : %010y\n");
 	printf("Moi %d Le vrai : %d\n", i, j);
-
+*/
 	printf("\n-- %%n --\n");
 	j = printf("Vrai printf : %5n\n", &i2);
 	printf("%d\n", i2);
@@ -119,7 +119,7 @@ int		main(int ac, char **av)
 	j = printf("Vrai printf : %0.5d\n", n);
 	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("\n-- int with 0 and width --\n");
+	printf("\n-- int with 0 and width --\n");          // REVOIR
 	n = 13;
 	i = ft_printf("Mon printf  : %05d\n", n);
 	j = printf("Vrai printf : %05d\n", n);
@@ -148,13 +148,13 @@ int		main(int ac, char **av)
 	i = ft_printf("Mon printf  : %s\n", str);
 	j = printf("Vrai printf : %s\n", str);
 	printf("Moi %d Le vrai : %d\n", i, j);
-
+/*
 	printf("\n-- character --\n");                     //   REVOIR
 	c = 'z';
 	i = ft_printf("Mon printf  : %c\n", c);
 	j = printf("Vrai printf : %c\n", c);
 	printf("Moi %d Le vrai : %d\n", i, j);
-
+*/
 	printf("\n-- string unicode --\n");
 	i = ft_printf("Mon printf  : %S\n", L"élodie");
 	j = printf("Vrai printf : %S\n", L"élodie");
@@ -164,7 +164,7 @@ int		main(int ac, char **av)
 	i = ft_printf("%");
 	j = printf("%");
 	printf("Moi %d Le vrai : %d\n", i, j);
-*/
+
 	printf("\n-- %%+n --\n");                          //  REVOIR
 	i = ft_printf("%+10.0d\n", 0);
 	j = printf("%+10.0d\n", 0);
@@ -181,7 +181,7 @@ int		main(int ac, char **av)
 	j = printf("{%f}\n{%F}\n", 1444565444646.6465424242242, 1444565444646.6465424242242);
 	printf("Moi %d Le vrai : %d\n", i, j);
 /*
-	printf("\n-- %%S 414 --\n");                        REVOIR
+	printf("\n-- %%S 414 --\n");                  //      REVOIR infinite loop
 	i = ft_printf("%lc\n", 414);
 	j = printf("%lc\n", 414);
 	printf("Moi %d Le vrai : %d\n", i, j);

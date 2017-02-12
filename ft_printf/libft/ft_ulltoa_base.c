@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:26:30 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 12:01:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:11:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_ulltoa_base(unsigned long long n, int b, int lowup)
 	unsigned long long	tmp;
 	int					length;
 
-	lowUP = (lowUP) ? 'A' - 10 : 'a' - 10;
+	lowup = (lowup) ? 'A' - 10 : 'a' - 10;
 	length = 1;
 	tmp = n;
 	while (tmp /= b)
