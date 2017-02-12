@@ -6,9 +6,13 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 11:30:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 11:51:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** Credit : Many thanks to R. Monnier for the test file.
+*/
 
 #include "../incl/ft_printf.h"
 
@@ -132,7 +136,7 @@ int		main(int ac, char **av)
 	i = ft_printf("Mon printf  : %ld et %Ld\n", 10, 11, 12);
 	j = printf("Vrai printf : %ld et %Ld\n", 10, 11, 12);
 	printf("Moi %d Le vrai : %d\n", i, j);
-*/
+
 	printf("\n-- test --\n");
 	n = 13;
 	i = ft_printf("");
@@ -140,46 +144,44 @@ int		main(int ac, char **av)
 	printf("Moi %d Le vrai : %d\n", i, j);
 
 	printf("\n-- string --\n");
-	str = "Réobin";
+	str = "Félin";
 	i = ft_printf("Mon printf  : %s\n", str);
 	j = printf("Vrai printf : %s\n", str);
 	printf("Moi %d Le vrai : %d\n", i, j);
-/*
-	printf("\n-- character --\n");
+
+	printf("\n-- character --\n");                     //   REVOIR
 	c = 'z';
 	i = ft_printf("Mon printf  : %c\n", c);
 	j = printf("Vrai printf : %c\n", c);
 	printf("Moi %d Le vrai : %d\n", i, j);
 
 	printf("\n-- string unicode --\n");
-	str = "Robin";
 	i = ft_printf("Mon printf  : %S\n", L"élodie");
 	j = printf("Vrai printf : %S\n", L"élodie");
 	printf("Moi %d Le vrai : %d\n", i, j);
 
 	printf("\n-- %% tout seul --\n");
-	str = "Robin";
 	i = ft_printf("%");
 	j = printf("%");
 	printf("Moi %d Le vrai : %d\n", i, j);
-
-	printf("\n-- %%+n --\n");
+*/
+	printf("\n-- %%+n --\n");                          //  REVOIR
 	i = ft_printf("%+10.0d\n", 0);
 	j = printf("%+10.0d\n", 0);
 	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("\n-- %%f --\n");
+	printf("\n-- %%f --\n");                            // REVOIR
 	i = ft_printf("{%f}{%F}\n", 1.42, 1.42);
 	j = printf("{%f}{%F}\n", 1.42, 1.42);
 	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("\n-- %%Lf --\n");
+	printf("\n-- %%Lf --\n");                       //  REVOIR
 	long double ld = 46.646;
 	i = ft_printf("{%f}\n{%F}\n", 1444565444646.6465424242242, 1444565444646.6465424242242);
 	j = printf("{%f}\n{%F}\n", 1444565444646.6465424242242, 1444565444646.6465424242242);
 	printf("Moi %d Le vrai : %d\n", i, j);
-
-	printf("\n-- %%S 414 --\n");
+/*
+	printf("\n-- %%S 414 --\n");                        REVOIR
 	i = ft_printf("%lc\n", 414);
 	j = printf("%lc\n", 414);
 	printf("Moi %d Le vrai : %d\n", i, j);
