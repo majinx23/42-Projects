@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/12 09:17:01 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/12 10:23:19 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,18 +29,20 @@ SRCS_NAME = ft_printf.c \
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(SRCS_NAME:.c=.o))
 
-$(NAME): $(OBJ)
-	make -C $(LIBFT_PATH)
-	gcc $(FLAGS) $(OBJ) $(INC) -L $(LIBFT_PATH) -lft -o $(NAME)
-
 all: $(NAME)
+
+$(NAME): $(OBJ)
+	make -C libft/
+	cp libft/libft.a ./$(NAME)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 $(OBJ_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir -p obj
-	gcc -c $(FLAGS) $< $(INC) -o $@
+	gcc -c $(FLAGS) $(INC) $< -o $@
 
 clean:
-	make -C $(LIBFT_PATH) fclean
+	make -C libft/ fclean
 	/bin/rm -rf $(OBJ)
 
 fclean: clean

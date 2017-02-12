@@ -6,11 +6,15 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 09:35:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 10:57:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+/*
+** ft_putnb but for printf (returns len and adds padding)
+*/
 
 int		p_putnb(va_list ap, t_printf *p)
 {
@@ -30,15 +34,21 @@ int		p_putnb(va_list ap, t_printf *p)
 		n = ((intmax_t)va_arg(ap, ssize_t));
 	else
 		n = ((intmax_t)va_arg(ap, int));
-	if (p->flags.zero)
-		p->precision = p->min_length;
+	(p->flags.zero) ? p->precision = p->min_length : 0;
 	s = itoa_printf(n, p);
 	sp_padding = p->min_length - MIN(p->printed, p->min_length);
 	!p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
 	ft_putstr(s);
+	free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
 	return (MAX(p->printed, p->min_length));
 }
+
+/*
+** put number base will returns len and add the padding
+** a base number is considered as unsigned by printf
+** printf only handle binary, octal and hex.
+*/
 
 int		p_putnb_base(int base, va_list ap, t_printf *p)
 {
@@ -55,10 +65,6 @@ int		p_putnb_base(int base, va_list ap, t_printf *p)
 	else if (p->lm.intmax)
 		n = (va_arg(ap, uintmax_t));
 	else if (p->lm.sizet)
-		n = ((intmax_t)va_arg(ap, ssize_t));
-	else if (p->lm.intmax)
-		n = (va_arg(ap, uintmax_t));
-	else if (p->lm.sizet)
 		n = ((uintmax_t)va_arg(ap, size_t));
 	else
 		n = (uintmax_t)va_arg(ap, unsigned int);
@@ -66,9 +72,14 @@ int		p_putnb_base(int base, va_list ap, t_printf *p)
 	sp_padding = p->min_length - MIN(p->printed, p->min_length);
 	!p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
 	ft_putstr(s);
+	free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
 	return (MAX(p->printed, p->min_length));
 }
+
+/*
+** transforms int n into char *s
+*/
 
 char	*itoa_printf(intmax_t n, t_printf *p)
 {
@@ -78,8 +89,11 @@ char	*itoa_printf(intmax_t n, t_printf *p)
 
 	len = 0;
 	tmp = (n < 0) ? -n : n;
-	while (tmp && (tmp /= 10))
+	while (tmp)
+	{
+		tmp /= 10;
 		++len;
+	}
 	if ((n < 0 || p->flags.plus || p->flags.sp) && p->flags.zero)
 		--p->precision;
 	p->printed = MAX(len, p->precision);
@@ -88,36 +102,42 @@ char	*itoa_printf(intmax_t n, t_printf *p)
 	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))
 		return (NULL);
 	tmp = (n < 0) ? -n : n;
-	itoa_core(n, 10, s, p);
+	itoa_base_fill(n, 10, s, p);
 	(p->flags.plus) ? s[0] = '+' : 0;
 	(n < 0) ? s[0] = '-' : 0;
 	(p->flags.sp) ? s[0] = ' ' : 0;
 	return (s);
 }
 
+/*
+** same as above for any base
+*/
+
 char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 {
 	uintmax_t	tmp;
 	char		*s;
 	int			len;
-	int			extend;
+	int			ext;
 
 	len = 0;
 	tmp = n;
-	while (tmp && (tmp /= b))
+	while (tmp)
+	{
+		tmp /= b;
 		++len;
+	}
 	(p->flags.zero) ? p->precision = p->min_length : 0;
-	extend = (len >= p->precision) ? 0 : 1;
-	(p->flags.sharp && b == 8 && !extend) ? --p->precision : 0;
+	ext = (len >= p->precision) ? 0 : 1;
+	(p->flags.sharp && b == 8 && !ext) ? --p->precision : 0;
 	(p->flags.sharp && b == 16 && n) ? p->precision -= 2 : 0;
 	p->printed = MAX(p->precision, len);
-	(p->flags.sharp && b == 8 && !extend) ? p->printed += 1 : 0;
+	(p->flags.sharp && b == 8 && !ext) ? p->printed += 1 : 0;
 	(p->flags.sharp && b == 16 && n) ? p->printed += 2 : 0;
 	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))
 		return (NULL);
-	itoa_core(n, b, s, p);
-	(p->flags.sharp && b == 8 && !extend) ? s[0] = '0' : 0;
-	(p->flags.sharp && b == 16 && n) ? s[0] = '0' : 0;
+	itoa_base_fill(n, b, s, p);
+	(p->flags.sharp && ((b == 8 && !ext) || (b == 16 && n))) ? s[0] = '0' : 0;
 	(p->flags.sharp && b == 16 && n) ? s[1] = 'x' - p->cs.upcase * 32 : 0;
 	return (s);
 }
@@ -126,7 +146,7 @@ char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 ** variable letter only works for base 16 in printf
 */
 
-void	itoa_core(uintmax_t tmp, int b, char *s, t_printf *p)
+void	itoa_base_fill(uintmax_t tmp, int b, char *s, t_printf *p)
 {
 	int		letter;
 	int		len;
@@ -136,7 +156,7 @@ void	itoa_core(uintmax_t tmp, int b, char *s, t_printf *p)
 	s[len] = '\0';
 	while (len--)
 	{
-		s[len] = tmp % 10 + ((tmp % b < 10) ? '0' : letter);
-		tmp /= 10;
+		s[len] = tmp % b + ((tmp % b < 10) ? '0' : letter);
+		tmp /= b;
 	}
 }

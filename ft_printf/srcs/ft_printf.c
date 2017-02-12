@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 09:41:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 11:27:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** if there is a % we will parse user input, else we will display it.
 */
 
-int			ft_printf(char *format, ...)
+int		ft_printf(char *format, ...)
 {
 	va_list		ap;
 	t_printf	p;
@@ -33,6 +33,8 @@ int			ft_printf(char *format, ...)
 		if (*format == '%')
 		{
 			format = parse_optionals(++format, &p);
+			if (*format == '%')
+				p.len += percent_char(&p);
 			format = conversion_specifier(format, ap, &p);
 		}
 		else
@@ -61,30 +63,29 @@ int			ft_printf(char *format, ...)
 ** if the character is uppercase then p->cs.uppercase will be set to 1.
 */
 
-char		*conversion_specifier(char *format, va_list ap, t_printf *p)
+char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 {
 	p->cs.upcase = 0;
 	p->printed = 0;
-	(*format == '%') ? p->len += percent_char(p) : 0;
 	(*format == 'd' || *format == 'D' || *format == 'i') ?
 		p->len += p_putnb(ap, p) : 0;
 	(*format == 'b' || *format == 'B') ? p->len += p_putnb_base(2, ap, p) : 0;
 	(*format == 'o' || *format == 'O') ? p->len += p_putnb_base(8, ap, p) : 0;
 	(*format == 'u' || *format == 'U') ? p->len += p_putnb_base(10, ap, p) : 0;
-	(*format == 'x' || *format == 'X') ? p->len += p_putnb_base(16, ap, p) : 0;
 	(*format == 'X') ? p->cs.upcase = 1 : 0;
+	(*format == 'x' || *format == 'X') ? p->len += p_putnb_base(16, ap, p) : 0;
 	if (*format == 'C' || *format == 'D' || *format == 'S' || *format == 'U')
 		p->lm.llong = 1;
-	(*format == 'c' || *format == 'C') ? p->len  += character(ap, p) : 0;
+	(*format == 'c' || *format == 'C') ? p->len += character(ap, p) : 0;
 	if (*format == 's' || *format == 'S')
 		p->len += p->lm.llong ? wide_string(ap, p) : string(ap, p);
-	(*format == 'p') ? p->len  += print_pointer_address(ap, p) : 0;
-	(*format == 'n') ? print_len(ap, p->len ) : 0;	
-	(*format == 'm') ? p->len  += ft_printf_putstr(strerror(errno)) : 0;
+	(*format == 'p') ? p->len += print_pointer_address(ap, p) : 0;
+	(*format == 'n') ? print_len(ap, p->len) : 0;
+	(*format == 'm') ? p->len += ft_printf_putstr(strerror(errno)) : 0;
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nm", *format))
-		EXIT_MSG("\033[31mWrong \033[33m'", *format, "' \033[31mSpecifier !");
+		ft_putnchar(p->min_length - MIN(1, p->min_length), ((p->flags.zero) ? '0' : ' '));
 	return (format);
 }
 

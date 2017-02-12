@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flags.c                                            :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 09:09:02 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 11:30:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	*precision(char *format, t_printf *p)
 
 char	*length_modifier(char *format, t_length_modifier *lm)
 {
-	while (ft_strchr("hljz", *format))
+	while (ft_strchr("hljzL", *format))
 	{
 		if (*format == 'h')
 		{
@@ -141,6 +141,8 @@ char	*length_modifier(char *format, t_length_modifier *lm)
 			if (*(format + 1) == 'l' && (lm->llong = 2))
 				++format;
 		}
+		if (*format == 'L')
+			lm->llong = 2;
 		if (*format == 'j')
 			lm->intmax = 1;
 		if (*format == 'z')

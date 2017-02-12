@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 09:58:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 11:15:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
 # define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
-# define EXIT_MSG(a,c,b)	ft_putstr(a), ft_putchar(c), ft_putendl(b), exit(p->len)
 # define COLOR(s,n)			ft_putstr(s), (format += n)
 
 # include "../libft/libft.h"
@@ -89,7 +88,7 @@ int				p_putnb(va_list ap, t_printf *p);
 int				p_putnb_base(int base, va_list ap, t_printf *p);
 char			*itoa_printf(intmax_t d, t_printf *p);
 char			*itoa_base_printf(uintmax_t d, int b, t_printf *p);
-void			itoa_core(uintmax_t tmp, int base, char *str, t_printf *p);
+void			itoa_base_fill(uintmax_t tmp, int base, char *str, t_printf *p);
 
 int				string(va_list ap, t_printf *p);
 int				wide_string(va_list ap, t_printf *p);

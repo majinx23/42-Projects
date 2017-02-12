@@ -6,71 +6,182 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 01:27:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 11:30:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ft_printf.h"
 
-int		main(void)
+# include <stdio.h>
+# include <locale.h>
+
+int		main(int ac, char **av)
 {
-	int					chiffre;
-	int					nombre;
-	unsigned long long	a;
-	long long			c;
-	int					b;
-	long double			f;
-	int					accuracy;
+	int		n;
+	int		m;
+	int		i;
+	int		j;
+	unsigned char	k;
+	int		i1;
+	int		i2;
+	char	*str;
+	char	c;
 
 	setlocale(LC_ALL, "");
-	nombre = 12345;
-	chiffre = 9;
-	ft_printf("Hello ! my name is%5.4s and I'm %d%% cool %ls %p\n", "Neilyroth", 100, L"|-\u4E2A-|", &chiffre);
-	   printf("Hello ! my name is%5.4s and I'm %d%% cool %ls %p\n", "Neilyroth", 100, L"|-\u4E2A-|", &chiffre);
-	ft_printf("%c|%c|%lc\n", 'H', 'i', L'\u4E2A');
-	   printf("%c|%c|%lc\n", 'H', 'i', L'\u4E2A');
-	a = 57;
-	b = 16;
-	b = 10;
-	c = 5;
-	f = -6456454556.596985658;
-	printf("\n\n");
-	printf("printf(%%llu, -0x2); %llu_pf", a);
-	printf("   %s", ft_ulltoa_base((unsigned long long)a, b, 0));
+	(void)ac;
+/*
+	printf("--16 en hexa--\n");
+	i = ft_printf("Mon printf  : %x\n", 16);
+	j = printf("Vrai printf : %x\n", 16);
+	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("\n\n");
-	printf("printf(%%lu , -0x2);  %lu_pf", (unsigned long)a);
-	printf("   %s", ft_ulltoa_base((unsigned long)a, b, 0));
 
-	printf("\n\n");
-	printf("printf(%%x  , 0xffffffff);  %x_pf", 0xffffffff);
-	printf("   %s", ft_ulltoa_base(0xffffffff, 16, 0));
-	printf("\n\n");
+	printf("\n--et -16 en hexa--\n");
+	n = -16;
+	i = ft_printf("Mon printf  : %x\n", n);
+	j = printf("Vrai printf : %x\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("printf(%%lld, -2);  %lld_pf", c);
-	printf("   %s", ft_lltoa_base((long long)c));
-	printf("\n\n");
+	printf("\n--13 et 16 en hexa--\n");
+	n = 16;
+	m = 13;
+	i = ft_printf("Mon printf  : %x et %x\n", m, n);
+	j = printf("Vrai printf : %x et %x\n", m, n);
+	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("printf(%%d  , 0xffffffff);  %d_pf", (int)c);
-	printf("   %s", ft_lltoa_base((int)c));
-	printf("\n\n");
+	printf("\n--13 et 15 en hexa--\n");
+	n = 15;
+	m = 13;
+	i = ft_printf("Mon printf  : %x et %X\n", m, n);
+	j = printf("Vrai printf : %x et %X\n", m, n);
+	printf("Moi %d Le vrai : %d\n", i, j);
 
-	accuracy = 0;
-	if (!accuracy)
-		accuracy = 6;
-	printf("printf(%%f  , 14.647);  %.6f", (double)f);
-	printf("   %s", ft_ldtoa((double)f, accuracy));
-	printf("\n\n");
+	printf("\n--intmax en hex--\n");
+	n = 2147483647;
+	i = ft_printf("Mon printf  : %x\n", n);
+	j = printf("Vrai printf : %x\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
 
-	printf("printf(%%lf  , 14.647);  %.6Lf", f);
-	printf("   %s", ft_ldtoa(f, accuracy));
-	printf("\n\n");
-	return (0);
-}
 
-void	msg_die(char *message)
-{
-	ft_putstr("\033[31m");
-	ft_putendl(message);
-	exit(1);
+	printf("\n--intmax avec %%hlhx en hex--\n");
+	n = 2147483647;
+	i = ft_printf("Mon printf  : %hlhx\n", n);
+	j = printf("Vrai printf : %hlhx\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n--unsigned char 128 en hex--\n");
+	k = 128;
+	i = ft_printf("Mon printf  : %hhx\n", k);
+	j = printf("Vrai printf : %hhx\n", k);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n--%%--\n");
+	i = ft_printf("Mon printf  : %%\n");
+	j = printf("Vrai printf : %%\n");
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n--pointeur--\n");
+	i = ft_printf("Mon printf  : %p\n", &k);
+	j = printf("Vrai printf : %p\n", &k);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %%l15d --\n");
+	n = 2147483647;
+	i = ft_printf("Mon printf  : %15d\n", 2147483647);
+	j = printf("Vrai printf : %15d\n", 2147483647);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- invalid identifier --\n");                A REVOIR
+	j = printf("Vrai printf : %010y\n");
+	i = ft_printf("Mon printf  : %010y\n");
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %%n --\n");
+	j = printf("Vrai printf : %5n\n", &i2);
+	printf("%d\n", i2);
+	i = ft_printf("Mon printf  : %5n\n", &i1);
+	printf("%d\n", i1);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- int with + and precision --\n");
+	n = 13;
+	i = ft_printf("Mon printf  : %+.5d\n", n);
+	j = printf("Vrai printf : %+.5d\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- int with 0 and precision --\n");
+	n = 13;
+	i = ft_printf("Mon printf  : %0.5d\n", n);
+	j = printf("Vrai printf : %0.5d\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- int with 0 and width --\n");
+	n = 13;
+	i = ft_printf("Mon printf  : %05d\n", n);
+	j = printf("Vrai printf : %05d\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- X with # --\n");
+	n = 13;
+	i = ft_printf("Mon printf  : %#X\n", n);
+	j = printf("Vrai printf : %#X\n", n);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- ld puis Ld avec int int int --\n");
+	n = 13;
+	i = ft_printf("Mon printf  : %ld et %Ld\n", 10, 11, 12);
+	j = printf("Vrai printf : %ld et %Ld\n", 10, 11, 12);
+	printf("Moi %d Le vrai : %d\n", i, j);
+*/
+	printf("\n-- test --\n");
+	n = 13;
+	i = ft_printf("");
+	j = printf("");
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- string --\n");
+	str = "Réobin";
+	i = ft_printf("Mon printf  : %s\n", str);
+	j = printf("Vrai printf : %s\n", str);
+	printf("Moi %d Le vrai : %d\n", i, j);
+/*
+	printf("\n-- character --\n");
+	c = 'z';
+	i = ft_printf("Mon printf  : %c\n", c);
+	j = printf("Vrai printf : %c\n", c);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- string unicode --\n");
+	str = "Robin";
+	i = ft_printf("Mon printf  : %S\n", L"élodie");
+	j = printf("Vrai printf : %S\n", L"élodie");
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %% tout seul --\n");
+	str = "Robin";
+	i = ft_printf("%");
+	j = printf("%");
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %%+n --\n");
+	i = ft_printf("%+10.0d\n", 0);
+	j = printf("%+10.0d\n", 0);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %%f --\n");
+	i = ft_printf("{%f}{%F}\n", 1.42, 1.42);
+	j = printf("{%f}{%F}\n", 1.42, 1.42);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %%Lf --\n");
+	long double ld = 46.646;
+	i = ft_printf("{%f}\n{%F}\n", 1444565444646.6465424242242, 1444565444646.6465424242242);
+	j = printf("{%f}\n{%F}\n", 1444565444646.6465424242242, 1444565444646.6465424242242);
+	printf("Moi %d Le vrai : %d\n", i, j);
+
+	printf("\n-- %%S 414 --\n");
+	i = ft_printf("%lc\n", 414);
+	j = printf("%lc\n", 414);
+	printf("Moi %d Le vrai : %d\n", i, j);
+	*/
 }

@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/28 19:31:11 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/12 10:05:59 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,7 @@ SRC = ft_atoi.c \
 	  ft_itoa_base.c \
 	  ft_pow.c \
 	  ft_wcharlen.c \
+	  ft_wstrlen.c \
 	  ft_putwstr.c \
 	  ft_wstrjoin.c \
 	  ft_wstrsub.c \
