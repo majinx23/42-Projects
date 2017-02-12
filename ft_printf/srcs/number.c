@@ -6,74 +6,137 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/11 00:55:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 09:35:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	itoa_core(uintmax_t tmp, int base, char *str, t_flags *flags)
+int		p_putnb(va_list ap, t_printf *p)
 {
-	int size;
+	char		*s;
+	intmax_t	n;
+	int			sp_padding;
 
-	size = flags->printed;
-	str[size] = '\0';
-	while (--size >= 0)
-	{
-		str[size] = (tmp % base) + ((tmp % base >= 10) ? 87 - UPPER : '0');
-		tmp /= base;
-	}
+	if (p->lm.llong)
+		n = (p->lm.llong >> 1) ? ((intmax_t)va_arg(ap, long long)) :
+			((intmax_t)va_arg(ap, long));
+	else if (p->lm.sshort)
+		n = (p->lm.sshort >> 1) ? (intmax_t)((char)va_arg(ap, int)) :
+			(intmax_t)((short)va_arg(ap, int));
+	else if (p->lm.intmax)
+		n = (va_arg(ap, intmax_t));
+	else if (p->lm.sizet)
+		n = ((intmax_t)va_arg(ap, ssize_t));
+	else
+		n = ((intmax_t)va_arg(ap, int));
+	if (p->flags.zero)
+		p->precision = p->min_length;
+	s = itoa_printf(n, p);
+	sp_padding = p->min_length - MIN(p->printed, p->min_length);
+	!p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
+	ft_putstr(s);
+	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
+	return (MAX(p->printed, p->min_length));
 }
 
-char	*itoa_printf(intmax_t d, t_flags *flags)
+int		p_putnb_base(int base, va_list ap, t_printf *p)
 {
-	uintmax_t	tmp;
-	char		*str;
+	char		*s;
+	uintmax_t	n;
+	int			sp_padding;
+
+	if (p->lm.llong)
+		n = (p->lm.llong >> 1) ? ((intmax_t)va_arg(ap, unsigned long long)) :
+			((intmax_t)va_arg(ap, unsigned long));
+	else if (p->lm.sshort)
+		n = (p->lm.sshort >> 1) ? (uintmax_t)((unsigned char)va_arg(ap, int)) :
+			(uintmax_t)((unsigned short)va_arg(ap, int));
+	else if (p->lm.intmax)
+		n = (va_arg(ap, uintmax_t));
+	else if (p->lm.sizet)
+		n = ((intmax_t)va_arg(ap, ssize_t));
+	else if (p->lm.intmax)
+		n = (va_arg(ap, uintmax_t));
+	else if (p->lm.sizet)
+		n = ((uintmax_t)va_arg(ap, size_t));
+	else
+		n = (uintmax_t)va_arg(ap, unsigned int);
+	s = itoa_base_printf(n, base, p);
+	sp_padding = p->min_length - MIN(p->printed, p->min_length);
+	!p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
+	ft_putstr(s);
+	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
+	return (MAX(p->printed, p->min_length));
+}
+
+char	*itoa_printf(intmax_t n, t_printf *p)
+{
+	char		*s;
 	int			len;
+	uintmax_t	tmp;
 
 	len = 0;
-	tmp = (d < 0) ? -d : d;
-	while (tmp && tmp /= 10)
+	tmp = (n < 0) ? -n : n;
+	while (tmp && (tmp /= 10))
 		++len;
-	(flags->a_zero) ? flags->precision = flags->min_length : 0;
-	if ((d < 0 || flags->a_plus || flags->a_space) && flags->a_zero)
-		flags->precision--;
-	flags->printed = bigest(len, flags->precision);
-	if (d < 0 || flags->a_plus || flags->a_space)
-		flags->printed++;
-	str = (char*)malloc(sizeof(char) * (flags->printed + 1));
-	tmp = (d < 0) ? -d : d;
-	itoa_core(tmp, 10, str, flags);
-	(flags->a_plus) ? str[0] = '+' : 0;
-	(flags->a_space) ? str[0] = ' ' : 0;
-	(d < 0) ? str[0] = '-' : 0;
-	return (str);
+	if ((n < 0 || p->flags.plus || p->flags.sp) && p->flags.zero)
+		--p->precision;
+	p->printed = MAX(len, p->precision);
+	if (n < 0 || p->flags.plus || p->flags.sp)
+		++p->printed;
+	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))
+		return (NULL);
+	tmp = (n < 0) ? -n : n;
+	itoa_core(n, 10, s, p);
+	(p->flags.plus) ? s[0] = '+' : 0;
+	(n < 0) ? s[0] = '-' : 0;
+	(p->flags.sp) ? s[0] = ' ' : 0;
+	return (s);
 }
 
-int		number(va_list ap, t_flags *flags)
+char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 {
-	int			nb_spaces;
-	char		*number;
-	intmax_t	d;
+	uintmax_t	tmp;
+	char		*s;
+	int			len;
+	int			extend;
 
-	if (flags->l_long == 1)
-		d = ((intmax_t)va_arg(ap, long));
-	else if (flags->l_long == 2)
-		d = ((intmax_t)va_arg(ap, long long));
-	else if (flags->l_short == 1)
-		d = (intmax_t)((short)va_arg(ap, int));
-	else if (flags->l_short == 2)
-		d = (intmax_t)((char)va_arg(ap, int));
-	else if (flags->l_intmax)
-		d = (va_arg(ap, intmax_t));
-	else if (flags->l_sizet)
-		d = ((intmax_t)va_arg(ap, ssize_t));
-	else
-		d = ((intmax_t)va_arg(ap, int));
-	number = itoa_printf(d, flags);
-	nb_spaces = flags->min_length - smallest(flags->printed, flags->min_length);
-	adjust_length(nb_spaces, !flags->a_minus, ' ');
-	ft_putstr(number);
-	adjust_length(nb_spaces, flags->a_minus, ' ');
-	return (bigest(flags->printed, flags->min_length));
+	len = 0;
+	tmp = n;
+	while (tmp && (tmp /= b))
+		++len;
+	(p->flags.zero) ? p->precision = p->min_length : 0;
+	extend = (len >= p->precision) ? 0 : 1;
+	(p->flags.sharp && b == 8 && !extend) ? --p->precision : 0;
+	(p->flags.sharp && b == 16 && n) ? p->precision -= 2 : 0;
+	p->printed = MAX(p->precision, len);
+	(p->flags.sharp && b == 8 && !extend) ? p->printed += 1 : 0;
+	(p->flags.sharp && b == 16 && n) ? p->printed += 2 : 0;
+	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))
+		return (NULL);
+	itoa_core(n, b, s, p);
+	(p->flags.sharp && b == 8 && !extend) ? s[0] = '0' : 0;
+	(p->flags.sharp && b == 16 && n) ? s[0] = '0' : 0;
+	(p->flags.sharp && b == 16 && n) ? s[1] = 'x' - p->cs.upcase * 32 : 0;
+	return (s);
+}
+
+/*
+** variable letter only works for base 16 in printf
+*/
+
+void	itoa_core(uintmax_t tmp, int b, char *s, t_printf *p)
+{
+	int		letter;
+	int		len;
+
+	len = p->printed;
+	letter = 'a' - 10 - (p->cs.upcase * 32);
+	s[len] = '\0';
+	while (len--)
+	{
+		s[len] = tmp % 10 + ((tmp % b < 10) ? '0' : letter);
+		tmp /= 10;
+	}
 }

@@ -6,11 +6,11 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/28 18:41:48 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/12 09:17:01 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf
+NAME = libftprintf.a
 
 FLAGS = -Wall -Werror -Wextra
 INC = -I ./incl/
@@ -20,15 +20,11 @@ SRCS_PATH = srcs/
 OBJ_PATH  = obj/
 LIBFT_PATH = libft/
 
-SRCS_NAME = main.c \
-			ft_printf.c \
-			flags.c \
-			utils.c \
-			string.c \
+SRCS_NAME = ft_printf.c \
+			parsing.c \
 			number.c \
-			pointer.c \
-			character.c \
-			nbr_base.c
+			string.c \
+			character.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(SRCS_NAME:.c=.o))

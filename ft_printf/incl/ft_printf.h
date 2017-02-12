@@ -6,80 +6,102 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/11 01:01:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 09:58:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# define LONG			flags->l_long
-# define TOTAL 			flags->total
-# define UPPER			(32 * flags->uppercase)
-# define COLOR(s,n)		ft_putstr(s), (format += n)
-# define MAX(a, b)		b & ((a - b) >> 31) | a & (~(a - b) >> 31);
-# define MIN(a, b)		a & ((a - b) >> 31) | b & (~(a - b) >> 31);
-# define MSG_DIE(a,c,b)	ft_putstr(a), ft_putchar(c), ft_putendl(b), exit(TOTAL)
+# define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
+# define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
+# define EXIT_MSG(a,c,b)	ft_putstr(a), ft_putchar(c), ft_putendl(b), exit(p->len)
+# define COLOR(s,n)			ft_putstr(s), (format += n)
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include <stdarg.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <locale.h>
 # include <errno.h>
-# include <string.h>
+
+/*
+** refer to parsing.c for description of variables in below structures
+*/
 
 typedef struct	s_flags
 {
-	int total;
-	int printed;
-
-	int prefix;
-	int a_zero;
-	int a_minus;
-	int a_plus;
-	int a_space;
-
-	int min_length;
-	int precision;
-
-	int l_long;
-	int l_short;
-	int l_intmax;
-	int l_sizet;
-
-	int uppercase;
-	int apply_precision;
+	int sharp;
+	int zero;
+	int min;
+	int plus;
+	int sp;
 }				t_flags;
 
+typedef	struct	s_length_modifier
+{
+	int sshort;
+	int llong;
+	int intmax;
+	int sizet;
+}				t_length_modifier;
+
+typedef struct	s_conversion_specifier
+{
+	int upcase;
+}				t_conversion_specifier;
+
+typedef struct	s_printf
+{
+	int						len;
+	t_flags					flags;
+	int						min_length;
+	int						precision;
+	int						apply_precision;
+	t_length_modifier		lm;
+	t_conversion_specifier	cs;
+	int						printed;
+}				t_printf;
+
+/*
+** main program
+*/
+
 int				ft_printf(char *format, ...);
-char			*percent(char *format, va_list ap, t_flags *flags);
-void			new_flags(t_flags *flags);
+int				ft_printf_putchar(char c);
 
-char			*search_flags(char *format, t_flags *flags);
-char			*attributes(char *format, t_flags *flags);
-char			*field_width(char *format, t_flags *flags);
-char			*precision(char *format, t_flags *flags);
-char			*length_modifier(char *format, t_flags *flags);
+/*
+** parsing optional parameters
+*/
 
-void			adjust_length(int nb_spaces, int on, char c);
-int				bigest(int a, int b);
-int				smallest(int a, int b);
-char			*color(char *format, t_flags *flags);
-void			stock_total(va_list ap, int total);
+char			*parse_optionals(char *format, t_printf *p);
+char			*parse_flags(char *format, t_flags *flags);
+char			*field_width(char *format, t_printf *p);
+char			*precision(char *format, t_printf *p);
+char			*length_modifier(char *format, t_length_modifier *lm);
 
-int				nbr_base(int base, va_list ap, t_flags *flags);
-int				adress(va_list ap, t_flags *flags);
-char			*itoa_base_printf(uintmax_t d, int b, t_flags *flags);
+/*
+** parsing conversion specifier
+*/
 
-int				number(va_list ap, t_flags *flags);
-void			itoa_core(uintmax_t tmp, int base, char *str, t_flags *flags);
-char			*itoa_printf(intmax_t d, t_flags *flags);
+char			*conversion_specifier(char *format, va_list ap, t_printf *p);
+int				percent_char(t_printf *p);
 
-int				string(va_list ap, t_flags *flags);
-int				m_error(void);
+int				p_putnb(va_list ap, t_printf *p);
+int				p_putnb_base(int base, va_list ap, t_printf *p);
+char			*itoa_printf(intmax_t d, t_printf *p);
+char			*itoa_base_printf(uintmax_t d, int b, t_printf *p);
+void			itoa_core(uintmax_t tmp, int base, char *str, t_printf *p);
 
-int				character(va_list ap, t_flags *flags);
-int				percent_char(t_flags *flags);
+int				string(va_list ap, t_printf *p);
+int				wide_string(va_list ap, t_printf *p);
+int				character(va_list ap, t_printf *p);
 int				ft_putwchar(unsigned wchar);
+int				p_putchar(char c);
+
+int				print_pointer_address(va_list ap, t_printf *p);
+void			print_len(va_list ap, int len);
+int				ft_printf_putstr(char *s);
+
+void			ft_putnchar(int len, char c);
+char			*color(char *format, t_printf *p);
+
 #endif

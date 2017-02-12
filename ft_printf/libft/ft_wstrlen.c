@@ -3,21 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wstrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 23:58:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/21 00:13:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 09:27:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ft_printf.h"
 
-size_t		ft_wstrlen(wchar_t *s)
+/*
+** returns the len of a string containing widechars
+*/
+
+size_t		ft_wstrlen(unsigned *s)
 {
 	size_t	len;
 
 	len = 0;
-	while (*s)
-		len += ft_wcharlen(*s++);
+	while (*s != L'\0')
+	{
+		len += ft_wcharlen(*s);
+		++s;
+	}
 	return (len);
 }

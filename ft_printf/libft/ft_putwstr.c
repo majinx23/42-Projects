@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putwstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 04:32:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/22 04:53:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 09:49:51 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		ft_putwstr(wchar_t *s)
 {
 	int		len;
 
-	len = ft_wstrlen(s);
+	len = ft_wstrlen((unsigned *)s);
 	(!len) ? write(1, "(null)", 6) : write(1, s, len);
 	return ((!len) ? 6 : len);
 }

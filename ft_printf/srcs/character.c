@@ -6,11 +6,54 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/11 01:03:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 10:00:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../incl/ft_printf.h"
+
+/*
+** handles %%
+*/
+
+int		percent_char(t_printf *p)
+{
+	if (!p->flags.min)
+		ft_putnchar(p->min_length - 1, (p->flags.zero) ? '0' : ' ');
+	ft_putwchar('%');
+	if (p->flags.min)
+		ft_putnchar(p->min_length - 1, ' ');
+	return (MAX(p->min_length, 1));
+}
+
+/*
+** returns a single character len and display it
+*/
+
+int		character(va_list ap, t_printf *p)
+{
+	unsigned	c;
+	int			len;
+
+	c = va_arg(ap, unsigned);
+	len = ft_wcharlen(c);
+	if (!p->flags.min)
+		ft_putnchar(p->min_length - len, ' ');
+	ft_putwchar(c);
+	if (p->flags.min)
+		ft_putnchar(p->min_length - len, ' ');
+	return (MAX(p->min_length, len));
+}
+
+/*
+** write a single regular character and returns 1
+*/
+
+int		p_putchar(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
 
 /*
 ** 00000000 -- 0000007F: 	0xxxxxxx
@@ -19,52 +62,30 @@
 ** 00010000 -- 001FFFFF: 	11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 */
 
-int			ft_putwchar(unsigned wchar)
+int		ft_putwchar(unsigned wc)
 {
 	int nb_bytes;
 
-	nb_bytes = wcharlen(wchar);
+	nb_bytes = ft_wcharlen(wc);
 	if (nb_bytes == 1)
-		ft_putchar(wchar);
+		ft_putchar(wc);
 	else if (nb_bytes == 2)
 	{
-		ft_putchar(((wchar & (0x1f << 6)) >> 6) + 0xC0);
-		ft_putchar(((wchar & 0x3f)) + 0x80);
+		ft_putchar(((wc & (0x1f << 6)) >> 6) + 0xC0);
+		ft_putchar(((wc & 0x3f)) + 0x80);
 	}
 	else if (nb_bytes == 3)
 	{
-		ft_putchar(((wchar & (0xf << 12)) >> 12) + 0xE0);
-		ft_putchar(((wchar & (0x3f << 6)) >> 6) + 0x80);
-		ft_putchar(((wchar & 0x3f)) + 0x80);
+		ft_putchar(((wc & (0xf << 12)) >> 12) + 0xE0);
+		ft_putchar(((wc & (0x3f << 6)) >> 6) + 0x80);
+		ft_putchar(((wc & 0x3f)) + 0x80);
 	}
 	else
 	{
-		ft_putchar(((wchar & (0x7 << 18)) >> 18) + 0xF0);
-		ft_putchar(((wchar & (0x3f << 12)) >> 12) + 0x80);
-		ft_putchar(((wchar & (0x3f << 6)) >> 6) + 0x80);
-		ft_putchar(((wchar & 0x3f)) + 0x80);
+		ft_putchar(((wc & (0x7 << 18)) >> 18) + 0xF0);
+		ft_putchar(((wc & (0x3f << 12)) >> 12) + 0x80);
+		ft_putchar(((wc & (0x3f << 6)) >> 6) + 0x80);
+		ft_putchar(((wc & 0x3f)) + 0x80);
 	}
 	return (nb_bytes);
-}
-
-int			character(va_list ap, t_flags *flags)
-{
-	unsigned	c;
-	int			charlen;
-
-	c = va_arg(ap, unsigned);
-	charlen = wcharlen(c);
-	adjust_length(flags->min_length - charlen, !flags->a_minus, ' ');
-	ft_putwchar(c);
-	adjust_length(flags->min_length - charlen, flags->a_minus, ' ');
-	return (bigest(flags->min_length, charlen));
-}
-
-int			percent_char(t_flags *flags)
-{
-	adjust_length(flags->min_length - 1, !flags->a_minus,
-			((flags->a_zero) ? '0' : ' '));
-	ft_putwchar('%');
-	adjust_length(flags->min_length - 1, flags->a_minus, ' ');
-	return (bigest(flags->min_length, 1));
 }

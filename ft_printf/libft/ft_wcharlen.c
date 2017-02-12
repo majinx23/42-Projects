@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/21 00:03:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/11 00:08:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 09:48:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 ** returns the number of bytes used by wchar
 */
 
-size_t	ft_wcharlen(unsigned c)
+size_t	ft_wcharlen(unsigned wc)
 {
-	if (c < 0x80)
+	if (wc < 0x80)
 		return (1);
-	else if (c < 0x800)
+	else if (wc < 0x800)
 		return (2);
-	else if (c < 0x10000)
+	else if (wc < 0x10000)
 		return (3);
 	return (4);
 }

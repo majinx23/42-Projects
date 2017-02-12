@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/28 20:01:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 01:27:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int		main(void)
 	setlocale(LC_ALL, "");
 	nombre = 12345;
 	chiffre = 9;
-	//ft_putstr("\033[36m");
-	//ft_printf("%{red}red %{yellow}yellow %{green}green %{cyan}cyan %{blue}blue %{purple}purple %{pink}pink %{eoc}End of color.\n");
 	ft_printf("Hello ! my name is%5.4s and I'm %d%% cool %ls %p\n", "Neilyroth", 100, L"|-\u4E2A-|", &chiffre);
 	   printf("Hello ! my name is%5.4s and I'm %d%% cool %ls %p\n", "Neilyroth", 100, L"|-\u4E2A-|", &chiffre);
 	ft_printf("%c|%c|%lc\n", 'H', 'i', L'\u4E2A');
