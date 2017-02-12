@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_htoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:05:59 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/29 17:07:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:08:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int		ft_htoi(char *s)
 	while (*s)
 	{
 		n *= 16;
-		if			 (*s >= 'A' && *s <= 'F')
+		if (*s >= 'A' && *s <= 'F')
 			n += *s - 'A' + 10;
 		else
-			n += ft_isdigit(*s) ? *s -'0' : *s - 'a' + 10;
+			n += ft_isdigit(*s) ? *s - '0' : *s - 'a' + 10;
 		++s;
 	}
 	return (n);

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 09:27:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:01:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 
 typedef enum		e_bool
 {
-					True,
-					False
+	True, False
 }					t_bool;
 
 typedef struct		s_list
@@ -156,10 +155,8 @@ wchar_t				*ft_wstrdup(wchar_t const *s1);
 wchar_t				*ft_wstrsub(wchar_t *s, unsigned start, unsigned len);
 int					ft_isascii(int c);
 char				*ft_lltoa_base(long long n);
-char				*ft_ulltoa_base(unsigned long long n, int b, int lowUP);
+char				*ft_ulltoa_base(unsigned long long n, int b, int lowup);
 long				ft_round(double n, int precision);
 char				*ft_ldtoa(double n, int precision);
-
-
 
 #endif

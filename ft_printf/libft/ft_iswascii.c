@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_iswascii.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/21 00:13:45 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/27 19:46:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:05:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_iswascii(int wc)
+int		ft_iswascii(int wc)
 {
 	return (!(wc & ~0x7F));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_identical_nodes.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:53:14 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/04 17:53:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/12 12:02:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	free_and_point_to_next(t_list *c, t_list *d)
 	d ? free(d) : 0;
 	c = t;
 	d = u;
-
 }
 
 void		ft_remove_identical_nodes(t_list **a, t_list **b)
