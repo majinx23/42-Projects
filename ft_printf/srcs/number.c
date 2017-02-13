@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 08:39:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 10:52:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*itoa_printf(intmax_t n, t_printf *p)
 	uintmax_t	tmp;
 
 	len = 0;
-	tmp = (n < 0) ? -n : n;
+	tmp = ABS(n);
 	while (tmp)
 	{
 		tmp /= 10;
@@ -101,8 +101,8 @@ char	*itoa_printf(intmax_t n, t_printf *p)
 		++p->printed;
 	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))
 		return (NULL);
-	tmp = (n < 0) ? -n : n;
-	itoa_base_fill(n, 10, s, p);
+	tmp = ABS(n);
+	itoa_base_fill(tmp, 10, s, p);
 	(p->flags.plus) ? s[0] = '+' : 0;
 	(n < 0) ? s[0] = '-' : 0;
 	(p->flags.sp) ? s[0] = ' ' : 0;

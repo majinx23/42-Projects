@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 06:33:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 11:23:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,19 @@ int		ft_printf(char *format, ...)
 	{
 		if (*format == '%')
 		{
-			p.printed = 0;
-			if (!format[1])
+			if (!(format[1]))
 				break;
+			p.printed = 0;
 			format = parse_optionals(++format, &p);
+			
 			if (*format == '%')
 				p.len += percent_char(&p);
 			format = conversion_specifier(format, ap, &p);
+//			ft_putstr(format);
 		//	ft_putchar(*format);
 		}
 		
-		else
+		else	
 			p.len += p_putchar(*format);
 		++format;
 	}
@@ -87,12 +89,15 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nm", *format))
-		ft_putnchar(p->min_length, ((p->flags.zero) ?
-			'0' : ' '));
+	{
+		p->len += p_putchar(*format);
+//		ft_putnchar(MAX(1, p->min_length - 1), ((p->flags.zero) ? '0' : ' '));
+
+	}
 			//ft_putnchar(p->min_length - MIN(1, p->min_length), ((p->flags.zero) ?
 			//'0' : ' '));
 	return (format);
-}
+}	
 
 /*
 ** small function that displays printf current value
@@ -115,6 +120,7 @@ void	ft_putnchar(int len, char c)
 	while (len--)
 		ft_putchar(c);
 }
+
 
 /*
 ** bonus function that handles colors

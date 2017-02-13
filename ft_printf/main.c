@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 08:50:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 11:50:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,12 +245,44 @@ printf("\nprintf(\"%%010x\", 542)\n");
 	printf(" -> %d for my PF\n", i);
 	j = printf("%2x", 542);
 	printf(" -> %d for LIBC PF\n", j);
-*/
 
+		
 	printf("\nprintf(\"%%c\", 'c')\n");
 	i = ft_printf("%c", 'c');
 	printf(" -> %d for my PF\n", i);
 	j = printf("%c", 'c');
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%%s}\", 0)\n");
+j = printf("{%s}", 0);
+	printf(" -> %d for LIBC PF\n", j);
+	i = ft_printf("{%s}", 0);
+	printf(" -> %d for my PF\n", i);
+
+	printf("\nprintf(\"{%%s}\", \"abc\")\n");
+j = printf("%s", "abc");
+	printf(" -> %d for LIBC PF\n", j);
+	i = ft_printf("%s", "abc");
+	printf(" -> %d for my PF\n", i);
+
+	printf("\nprintf(\"%%d\", -42)\n");
+	i = ft_printf("%d", -42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%d", -42);
+	printf(" -> %d for LIBC PF\n", j);
+
+
+
+	printf("\nprintf(\"%% Zoooo\")\n");
+	i = ft_printf("% Zoooo");
+	printf(" -> %d for my PF\n", i);
+	j = printf("% Zoooo");
+	printf(" -> %d for LIBC PF\n", j);
+*/
+printf("\nprintf(\"%%S\", L\"我是一只猫。)\n");
+	i = ft_printf("%S", L"我是一只猫。");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%S", L"我是一只猫。");
 	printf(" -> %d for LIBC PF\n", j);
 
 /*
