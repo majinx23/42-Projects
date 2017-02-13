@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 11:59:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 12:09:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		wide_string(va_list ap, t_printf *p)
 	int			sp_padding;
 
 	if ((s = va_arg(ap, unsigned*)) && !s)
-		return (ft_printf_putstr((char *)s));
+		return (ft_printf_putwstr((wchar_t *)s));
 	wlen = (int)(ft_wstrlen(s));
 	if (!p->apply_precision)
 		p->precision = wlen;
@@ -86,21 +86,8 @@ int		ft_printf_putstr(char *s)
 	return (!s ? 6 : (int)ft_strlen(s));
 }
 
-int		print_pointer_address(va_list ap, t_printf *p)
+int		ft_printf_putwstr(wchar_t *s)
 {
-	int				sp_padding;
-	char			*s;
-	void			*pointer;
-
-	p->flags.sharp = 0;
-	pointer = va_arg(ap, void *);
-	s = itoa_base_printf((uintmax_t)pointer, 16, p);
-	sp_padding = p->min_length - MIN(p->printed + 2, p->min_length);
-	if (!p->flags.min)
-		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
-	ft_putstr("0x");
-	ft_putstr(s);
-	if (p->flags.min)
-		ft_putnchar(sp_padding, ' ');
-	return (MAX(p->printed + 2, p->min_length));
+	(!s) ? ft_putstr("(null)") : ft_putwstr(s);
+	return (!s ? 6 : (int)ft_wstrlen((unsigned *)s));
 }

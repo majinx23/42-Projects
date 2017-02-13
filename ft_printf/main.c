@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 11:50:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 12:10:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,12 +278,20 @@ j = printf("%s", "abc");
 	printf(" -> %d for my PF\n", i);
 	j = printf("% Zoooo");
 	printf(" -> %d for LIBC PF\n", j);
-*/
+
 printf("\nprintf(\"%%S\", L\"我是一只猫。)\n");
 	i = ft_printf("%S", L"我是一只猫。");
 	printf(" -> %d for my PF\n", i);
 	j = printf("%S", L"我是一只猫。");
 	printf(" -> %d for LIBC PF\n", j);
+*/
+
+printf("\nprintf(\"{%%S}\", NULL)\n");
+	i = ft_printf("{%S}", NULL);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%S}", NULL);
+	printf(" -> %d for LIBC PF\n", j);
+
 
 /*
 	printf("\nprintf(\"%%\", )\n");

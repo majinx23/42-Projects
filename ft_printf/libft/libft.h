@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 12:01:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 12:07:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ long				ft_pow(long n, int pow);
 int					ft_putwchar(unsigned wchar);
 size_t				ft_wstrlen(unsigned *s);
 size_t				ft_wcharlen(unsigned c);
-int					ft_wputstr(wchar_t *s);
+int					ft_putwstr(wchar_t *s);
 wchar_t				*ft_wstrjoin(wchar_t *s1, wchar_t *s2);
 wchar_t				*ft_wstrdup(wchar_t const *s1);
 wchar_t				*ft_wstrsub(wchar_t *s, unsigned start, unsigned len);

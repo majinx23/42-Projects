@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 09:45:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 12:03:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,23 @@ int		p_putchar(char c)
 {
 	write(1, &c, 1);
 	return (1);
+}
+
+int		print_pointer_address(va_list ap, t_printf *p)
+{
+	int				sp_padding;
+	char			*s;
+	void			*pointer;
+
+	p->flags.sharp = 0;
+	pointer = va_arg(ap, void *);
+	s = itoa_base_printf((uintmax_t)pointer, 16, p);
+	sp_padding = p->min_length - MIN(p->printed + 2, p->min_length);
+	if (!p->flags.min)
+		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
+	ft_putstr("0x");
+	ft_putstr(s);
+	if (p->flags.min)
+		ft_putnchar(sp_padding, ' ');
+	return (MAX(p->printed + 2, p->min_length));
 }

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 10:50:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 12:05:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char			*length_modifier(char *format, t_length_modifier *lm);
 
 char			*conversion_specifier(char *format, va_list ap, t_printf *p);
 int				percent_char(t_printf *p);
+void			ft_putnchar(int len, char c);
 
 int				p_putnb(va_list ap, t_printf *p);
 int				p_putnb_base(int base, va_list ap, t_printf *p);
@@ -104,12 +105,11 @@ int				string(va_list ap, t_printf *p);
 int				wide_string(va_list ap, t_printf *p);
 int				character(va_list ap, t_printf *p);
 int				p_putchar(char c);
+int				ft_printf_putstr(char *s);
+int				ft_printf_putwstr(wchar_t *s);
 
 int				print_pointer_address(va_list ap, t_printf *p);
 void			print_len(va_list ap, int len);
-int				ft_printf_putstr(char *s);
-
-void			ft_putnchar(int len, char c);
 char			*color(char *format, t_printf *p);
 
 #endif
