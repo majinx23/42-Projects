@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 12:15:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 06:41:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,21 @@
 
 # define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
 # define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
-# define COLOR(s,n)			ft_putstr(s), (format += n)
+# define COLOR(s,n)			ft_putstr(s), (format += n)					
+# define PF_RED				"\033[31m"
+# define PF_GREEN			"\033[32m"
+# define PF_YELLOW			"\033[33m"
+# define PF_BLUE			"\033[34m"
+# define PF_PURPLE			"\033[35m"
+# define PF_CYAN			"\033[36m"
+# define PF_EOC				"\033[36m"
 
 # include "../libft/libft.h"
 # include <stdarg.h>
 # include <locale.h>
 # include <errno.h>
+# include <stdio.h>//
+# include <limits.h> //
 
 /*
 ** refer to parsing.c for description of variables in below structures

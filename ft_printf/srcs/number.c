@@ -6,11 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 10:57:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 08:39:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../incl/ft_printf.h"
 
 /*
 ** ft_putnb but for printf (returns len and adds padding)
@@ -37,7 +37,7 @@ int		p_putnb(va_list ap, t_printf *p)
 	(p->flags.zero) ? p->precision = p->min_length : 0;
 	s = itoa_printf(n, p);
 	sp_padding = p->min_length - MIN(p->printed, p->min_length);
-	!p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
+	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
 	ft_putstr(s);
 	free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
@@ -69,8 +69,8 @@ int		p_putnb_base(int base, va_list ap, t_printf *p)
 	else
 		n = (uintmax_t)va_arg(ap, unsigned int);
 	s = itoa_base_printf(n, base, p);
-	sp_padding = p->min_length - MIN(p->printed, p->min_length);
-	!p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
+	sp_padding = MAX(0, (p->min_length - p->printed));
+	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
 	ft_putstr(s);
 	free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;

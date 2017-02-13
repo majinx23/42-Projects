@@ -6,11 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 11:30:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 08:29:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../incl/ft_printf.h"
 
 /*
 ** 						~ PARSING OPTONAL INPUTS ~
@@ -40,17 +40,18 @@ char	*parse_optionals(char *format, t_printf *p)
 **
 ** flags interract between them, if there is a minus then it
 ** cancels the zero flag. if there is a + it cancels the sp flag.
+** sharp is to add the prefix 0x for hexa for example
 */
 
 char	*parse_flags(char *format, t_flags *flags)
 {
 	while (ft_strchr("#0+- ", *format))
 	{
-		flags->sharp = (*format == '#') ? 1 : 0;
-		flags->zero = (*format == '0') ? 1 : 0;
-		flags->plus = (*format == '+') ? 1 : 0;
-		flags->min = (*format == '-') ? 1 : 0;
-		flags->sp = (*format == ' ') ? 1 : 0;
+		(*format == '#') ? flags->sharp = 1 : 0;
+		(*format == '0') ? flags->zero = 1 : 0;
+		(*format == '+') ? flags->plus = 1 : 0;
+		(*format == '-') ? flags->min = 1 : 0;
+		(*format == ' ') ? flags->sp = 1 : 0;
 		++format;
 	}
 	if (flags->min)
@@ -74,15 +75,20 @@ char	*parse_flags(char *format, t_flags *flags)
 ** nonexistent or small field width cause truncation of a field; if the result
 ** of a conversion is wider than the field width, the field is expanded to
 ** contain the conversion result.
+**
+** 2nd if : if there is a conv. specifier after the field width for a base it
+** will reset the min_length to 0 EXCEPT if it was a padding with 0s ...
 */
 
 char	*field_width(char *format, t_printf *p)
 {
 	if (ft_strchr("123456789", *format))
 	{
-		p->min_length = ft_atoi(format);
-		while (ft_strchr("123456789", *format))
+		p->min_length = MAX(1, ft_atoi(format));
+		while (ft_strchr("0123456789", *format))
 			++format;
+	//	if (!p->flags.min && !p->flags.zero && (ft_strchr("xXoO", *format)))
+	//		p->min_length = 0;		
 	}
 	return (format);
 }
@@ -110,7 +116,7 @@ char	*precision(char *format, t_printf *p)
 	if (ft_strchr(".", *format))
 	{
 		value = ft_atoi(++format);
-		p->precision = (value > 0) ? value : 0;
+		p->precision = MAX(value, 0);
 		while (ft_strchr("0123456789", *format))
 			++format;
 		p->apply_precision = 1;

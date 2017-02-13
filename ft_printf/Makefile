@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/12 10:23:19 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/13 06:35:33 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(OBJ_PATH)%.o: $(SRCS_PATH)%.c
 	gcc -c $(FLAGS) $(INC) $< -o $@
 
 clean:
-	make -C libft/ fclean
+	make -C libft/ clean
 	/bin/rm -rf $(OBJ)
 
 fclean: clean

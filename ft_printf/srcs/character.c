@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 12:04:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 09:45:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 int		percent_char(t_printf *p)
 {
+
 	if (!p->flags.min)
 		ft_putnchar(p->min_length, (p->flags.zero) ? '0' : ' ');
 	ft_putwchar('%');
@@ -39,10 +40,10 @@ int		character(va_list ap, t_printf *p)
 	c = va_arg(ap, unsigned);
 	len = ft_wcharlen(c);
 	if (!p->flags.min)
-		ft_putnchar(p->min_length - len, ' ');
+		ft_putnchar(p->min_length - MIN(len, p->min_length), ' ');
 	ft_putwchar(c);
 	if (p->flags.min)
-		ft_putnchar(p->min_length - len, ' ');
+		ft_putnchar(p->min_length - MIN(len, p->min_length), ' ');
 	return (MAX(p->min_length, len));
 }
 

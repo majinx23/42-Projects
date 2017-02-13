@@ -6,13 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 11:58:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 06:33:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-#include "ft_printf.h"
+#include "../incl/ft_printf.h"
 
 /*
 ** 						~ PRINTF LOOP ~
@@ -34,12 +32,14 @@ int		ft_printf(char *format, ...)
 		{
 			p.printed = 0;
 			if (!format[1])
-				break ;
+				break;
 			format = parse_optionals(++format, &p);
 			if (*format == '%')
 				p.len += percent_char(&p);
 			format = conversion_specifier(format, ap, &p);
+		//	ft_putchar(*format);
 		}
+		
 		else
 			p.len += p_putchar(*format);
 		++format;
@@ -61,7 +61,7 @@ int		ft_printf(char *format, ...)
 ** 4) s : pointer to a string
 ** 5) n : the number of characters written so far is stored into the integer
 ** indicated by the int * pointer argument. No argument is converted.
-** 6) m : (Glibc extension.) Print output of strerror(errno). no arg. required
+** 6) m : Print output of strerror(errno). no arg. required
 ** 7) {} : adds color
 ** if the character is uppercase then p->cs.uppercase will be set to 1.
 */
@@ -87,8 +87,10 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nm", *format))
-		ft_putnchar(p->min_length - MIN(1, p->min_length), ((p->flags.zero) ?
+		ft_putnchar(p->min_length, ((p->flags.zero) ?
 			'0' : ' '));
+			//ft_putnchar(p->min_length - MIN(1, p->min_length), ((p->flags.zero) ?
+			//'0' : ' '));
 	return (format);
 }
 
@@ -121,20 +123,20 @@ void	ft_putnchar(int len, char c)
 char	*color(char *format, t_printf *p)
 {
 	p->printed = 5;
-	if (!ft_strncmp(format, "{red}", 5))
-		COLOR("\033[31m", 5);
-	else if (!ft_strncmp(format, "{green}", 7))
-		COLOR("\033[32m", 7);
-	else if (!ft_strncmp(format, "{yellow}", 8))
-		COLOR("\033[33m", 8);
-	else if (!ft_strncmp(format, "{blue}", 6))
-		COLOR("\033[34m", 6);
-	else if (!ft_strncmp(format, "{purple}", 8))
-		COLOR("\033[35m", 8);
-	else if (!ft_strncmp(format, "{cyan}", 6))
-		COLOR("\033[36m", 6);
-	else if (!ft_strncmp(format, "{eoc}", 5))
-		COLOR("\033[37m", 5);
+	if (!ft_strncmp(format, "{red}", ft_strlen("{red}")))
+		COLOR(PF_RED, 5);
+	else if (!ft_strncmp(format, "{green}", ft_strlen("{green}")))
+		COLOR(PF_GREEN, 7);
+	else if (!ft_strncmp(format, "{yellow}", ft_strlen("{yellow}")))
+		COLOR(PF_YELLOW, 8);
+	else if (!ft_strncmp(format, "{blue}", ft_strlen("{blue}")))
+		COLOR(PF_BLUE, 6);
+	else if (!ft_strncmp(format, "{purple}", ft_strlen("{purple}")))
+		COLOR(PF_PURPLE, 8);
+	else if (!ft_strncmp(format, "{cyan}", ft_strlen("{cyan}")))
+		COLOR(PF_CYAN, 6);
+	else if (!ft_strncmp(format, "{eoc}", ft_strlen("{eoc}")))
+		COLOR(PF_EOC, 5);
 	else
 		p->printed = 0;
 	p->len += p->printed;

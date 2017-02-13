@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/12 11:44:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/13 06:58:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		string(va_list ap, t_printf *p)
 }
 
 /*
-** prints output of strerror(errno). no arg. required
+** prints string and returns its len, if no len will print (null) and return 6
 */
 
 int		ft_printf_putstr(char *s)
