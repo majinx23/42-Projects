@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/12 10:05:59 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/14 06:54:09 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,7 +114,8 @@ SRC = ft_atoi.c \
 	  ft_ulltoa_base.c \
 	  ft_lltoa_base.c \
 	  ft_ldtoa.c \
-	  ft_round.c
+	  ft_round.c \
+	  ft_putstr_free.c
 
 all: $(NAME)
 

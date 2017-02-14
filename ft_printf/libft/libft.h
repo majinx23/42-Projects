@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 12:07:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 06:54:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ size_t				ft_strlen(const char *str);
 int					ft_strlencmp(const char *s1, const char *s2);
 void				ft_putchar(char c);
 void				ft_putstr(const char *str);
+void				ft_putstr_free(const char *str);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 void				ft_swap(int *a, int *b);

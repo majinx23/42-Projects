@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 12:10:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 09:31:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,11 +259,7 @@ j = printf("{%s}", 0);
 	i = ft_printf("{%s}", 0);
 	printf(" -> %d for my PF\n", i);
 
-	printf("\nprintf(\"{%%s}\", \"abc\")\n");
-j = printf("%s", "abc");
-	printf(" -> %d for LIBC PF\n", j);
-	i = ft_printf("%s", "abc");
-	printf(" -> %d for my PF\n", i);
+
 
 	printf("\nprintf(\"%%d\", -42)\n");
 	i = ft_printf("%d", -42);
@@ -273,31 +269,196 @@ j = printf("%s", "abc");
 
 
 
-	printf("\nprintf(\"%% Zoooo\")\n");
-	i = ft_printf("% Zoooo");
-	printf(" -> %d for my PF\n", i);
-	j = printf("% Zoooo");
-	printf(" -> %d for LIBC PF\n", j);
+
 
 printf("\nprintf(\"%%S\", L\"我是一只猫。)\n");
 	i = ft_printf("%S", L"我是一只猫。");
 	printf(" -> %d for my PF\n", i);
 	j = printf("%S", L"我是一只猫。");
 	printf(" -> %d for LIBC PF\n", j);
-*/
 
-printf("\nprintf(\"{%%S}\", NULL)\n");
-	i = ft_printf("{%S}", NULL);
+	printf("\nprintf(\"%% d\", -9999)\n");
+	i = ft_printf("% d", -9999);
 	printf(" -> %d for my PF\n", i);
-	j = printf("{%S}", NULL);
+	j = printf("% d", -9999);
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"%%15.4s\", \"42\")\n");
+	i = ft_printf("%15.4s", "42");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%15.4s", "42");
+	printf(" -> %d for LIBC PF\n", j);
+
+		printf("\nprintf(\"{%%s}\", \"abc\")\n");
+j = printf("%s", "abc");
+	printf(" -> %d for LIBC PF\n", j);
+	i = ft_printf("%s", "abc");
+	printf(" -> %d for my PF\n", i);
+
+	printf("\nprintf(\"%%D\", LONG_MAX)\n");
+	i = ft_printf("%D", LONG_MAX);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%D", LONG_MAX);
+	printf(" -> %d for LIBC PF\n", j);
+
+		printf("\nprintf(\"{%%4d}\", 10000)\n");
+	i = ft_printf("{%4d}", 10000);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%4d}", 10000);
+	printf(" -> %d for LIBC PF\n", j);
+
+		printf("\nprintf(\"{%%10d}\", 42)\n");
+	i = ft_printf("{%10d}", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%10d}", 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%%5p}\", 0) \n");
+	i = ft_printf("{%5p}", 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%5p}", 0);
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"%%O\", LONG_MIN)\n");
+	i = ft_printf("%O", LONG_MIN);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%O", LONG_MIN);
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%%03c}\", 0)\n");
+	i = ft_printf("{%03c}", 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%03c}", 0);
 	printf(" -> %d for LIBC PF\n", j);
 
 
-/*
-	printf("\nprintf(\"%%\", )\n");
-	i = ft_printf(, );
+	printf("\nprintf(\"{%%05.c}\", 0)\n");
+	i = ft_printf("{%05.c}", 0);
 	printf(" -> %d for my PF\n", i);
-	j = printf(, );
+	j = printf("{%05.c}", 0);
+	printf(" -> %d for LIBC PF\n", j);
+
+
+		printf("\nprintf(\"{%%5}\", 0)\n");
+	i = ft_printf("{%d}", -5);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%d}", -5);
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%%.4d}\", 42)\n");
+	i = ft_printf("{%.4d}", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%.4d}", 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+
+	
+printf("\nprintf(\"{%%03.2d}\", 5)\n");
+	i = ft_printf("{%03.2d}", 5);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%03.2d}", 5);
+	printf(" -> %d for LIBC PF\n", j);
+
+
+printf("\nprintf(\"%%.4d\", 424242)\n");
+	i = ft_printf("%.4d", 424242);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%.4d", 424242);
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"{%%05.s}\", 0)\n");
+	i = ft_printf("{%05.s}", 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%05.s}", 0);
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"{%%05s}\", \"abc\")\n");
+	i = ft_printf("{%05s}", "abc");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%05s}", "abc");
+	printf(" -> %d for LIBC PF\n", j);
+
+
+printf("\nprintf(\"%%15.4s\", \"I am 42\")\n");
+	i = ft_printf("%15.4s", "I am 42");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%15.4s", "I am 42");
+	printf(" -> %d for LIBC PF\n", j);
+	
+printf("\nprintf(\"{%%1RA}\")\n");
+	i = ft_printf("{%1RA}");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%1RA}");
+	printf(" -> %d for LIBC PF\n", j);
+	
+		printf("\nprintf(\"%% Zoooo\")\n");
+	i = ft_printf("% Zoooo");
+	printf(" -> %d for my PF\n", i);
+	j = printf("% Zoooo");
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"%%+o\", 0)\n");
+	i = ft_printf("%+o", 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%+o", 0);
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"%%+d\", 42)\n");
+	i = ft_printf("%+d", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%+d", 42);
+	printf(" -> %d for LIBC PF\n", j);
+	
+	printf("\nprintf(\"%%10R\");\n");
+	i = ft_printf("%10R");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%10R");
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"%%ls, %%ls\", L\"ÊM-^ZM-^VÁM-^BM-^I\", L\"ŸM-^Dÿ≠ŸM-^E ÿÆŸM-^Fÿ≤ŸM-ÿ±\")\n");
+	i = ft_printf("%ls, %ls", L"ÊM-^ZM-^VÁM-^BM-^I", L"ŸM-^Dÿ≠ŸM-^E ÿÆŸM-^Fÿ≤ŸM-ÿ±");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%ls, %ls", L"ÊM-^ZM-^VÁM-^BM-^I", L"ŸM-^Dÿ≠ŸM-^E ÿÆŸM-^Fÿ≤ŸM-ÿ±");
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"%%4.15s\", \"I am 42\")\n");
+	i = ft_printf("%4.15s", "I am 42");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%4.15s", "I am 42");
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"%% u\", 9999)\n");
+	i = ft_printf("% u", 9999);
+	printf(" -> %d for my PF\n", i);
+	j = printf("% u", 9999);
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"%%c\", 200)\n");
+	i = ft_printf("%c", 200);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%c", 200);
+	printf(" -> %d for LIBC PF\n", j);
+	
+*/
+
+
+printf("\nprintf(\"%% u|%%+u\", 42, 42)\n");
+	i = ft_printf("% u|%+u", 42, 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("% u|%+u", 42, 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+/*
+	printf("\n  \n");
+	i = ft_
+	printf(" -> %d for my PF\n", i);
+	j = 
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"{%%030S}\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B\")\n");
+	i = ft_printf("{%030S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%030S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
 	printf(" -> %d for LIBC PF\n", j);
 
 	printf("\n-- %%O, LONG_MAX --\n");              A REVOIR
@@ -305,5 +466,11 @@ printf("\nprintf(\"{%%S}\", NULL)\n");
 	printf(" -> %d for my PF\n", i);
 	j = printf("%O", LONG_MAX);
 	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%%S}\", NULL)\n");
+	i = ft_printf("{%S}", NULL);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%S}", NULL);
+	printf(" -> %d for LIBC PF\n", j);                   // a revoir
 */
 }

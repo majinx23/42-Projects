@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 10:52:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 09:32:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ft_putnb but for printf (returns len and adds padding)
 */
 
-int		p_putnb(va_list ap, t_printf *p)
+void	pf_putnb(va_list ap, t_printf *p)
 {
 	char		*s;
 	intmax_t	n;
@@ -35,13 +35,19 @@ int		p_putnb(va_list ap, t_printf *p)
 	else
 		n = ((intmax_t)va_arg(ap, int));
 	(p->flags.zero) ? p->precision = p->min_length : 0;
+	
 	s = itoa_printf(n, p);
-	sp_padding = p->min_length - MIN(p->printed, p->min_length);
+	sp_padding = (p->printed > p->min_length) ? 0 : p->min_length - p->printed;
+//	(sp_padding && p->apply_precision) ? ft_putchar(' ') : 0;
+//	(sp_padding && p->apply_precision) ? sp_padding-- : 0;
+//	ft_putnbr(sp_padding);
+//	ft_putnbr(p->min_length);
+//	ft_putnbr(p->printed);
+	
 	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
-	ft_putstr(s);
-	free(s);
+	ft_putstr_free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
-	return (MAX(p->printed, p->min_length));
+	p->len += MAX(p->printed, p->min_length);
 }
 
 /*
@@ -50,7 +56,7 @@ int		p_putnb(va_list ap, t_printf *p)
 ** printf only handle binary, octal and hex.
 */
 
-int		p_putnb_base(int base, va_list ap, t_printf *p)
+void	pf_putnb_base(int base, va_list ap, t_printf *p)
 {
 	char		*s;
 	uintmax_t	n;
@@ -71,10 +77,9 @@ int		p_putnb_base(int base, va_list ap, t_printf *p)
 	s = itoa_base_printf(n, base, p);
 	sp_padding = MAX(0, (p->min_length - p->printed));
 	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
-	ft_putstr(s);
-	free(s);
+	ft_putstr_free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
-	return (MAX(p->printed, p->min_length));
+	p->len += MAX(p->printed, p->min_length);
 }
 
 /*
@@ -103,9 +108,9 @@ char	*itoa_printf(intmax_t n, t_printf *p)
 		return (NULL);
 	tmp = ABS(n);
 	itoa_base_fill(tmp, 10, s, p);
-	(p->flags.plus) ? s[0] = '+' : 0;
-	(n < 0) ? s[0] = '-' : 0;
 	(p->flags.sp) ? s[0] = ' ' : 0;
+	(n < 0) ? s[0] = '-' : 0;
+	(p->flags.plus) ? s[0] = '+' : 0;
 	return (s);
 }
 
@@ -139,6 +144,7 @@ char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 	itoa_base_fill(n, b, s, p);
 	(p->flags.sharp && ((b == 8 && !ext) || (b == 16 && n))) ? s[0] = '0' : 0;
 	(p->flags.sharp && b == 16 && n) ? s[1] = 'x' - p->cs.upcase * 32 : 0;
+//	(n == 0) ? s[0] = '0' : 0;
 	return (s);
 }
 
@@ -159,4 +165,5 @@ void	itoa_base_fill(uintmax_t tmp, int b, char *s, t_printf *p)
 		s[len] = tmp % b + ((tmp % b < 10) ? '0' : letter);
 		tmp /= b;
 	}
+	(p->apply_precision && p->flags.zero) ? s[0] = ' ' : 0;
 }

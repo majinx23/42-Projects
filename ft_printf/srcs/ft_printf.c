@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 11:23:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 08:45:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		ft_printf(char *format, ...)
 		}
 		
 		else	
-			p.len += p_putchar(*format);
+			pf_putchar(*format, &p);
 		++format;
 	}
 	va_end(ap);
@@ -69,28 +69,29 @@ int		ft_printf(char *format, ...)
 */
 
 char	*conversion_specifier(char *format, va_list ap, t_printf *p)
-{
-	p->cs.upcase = 0;
-	(*format == 'd' || *format == 'D' || *format == 'i') ?
-		p->len += p_putnb(ap, p) : 0;
-	(*format == 'b' || *format == 'B') ? p->len += p_putnb_base(2, ap, p) : 0;
-	(*format == 'o' || *format == 'O') ? p->len += p_putnb_base(8, ap, p) : 0;
-	(*format == 'u' || *format == 'U') ? p->len += p_putnb_base(10, ap, p) : 0;
-	(*format == 'X') ? p->cs.upcase = 1 : 0;
-	(*format == 'x' || *format == 'X') ? p->len += p_putnb_base(16, ap, p) : 0;
-	if (*format == 'C' || *format == 'D' || *format == 'S' || *format == 'U')
+{	
+	if (ft_strchr("CDSUOB", *format))
 		p->lm.llong = 1;
-	(*format == 'c' || *format == 'C') ? p->len += character(ap, p) : 0;
-	if (*format == 's' || *format == 'S')
-		p->len += p->lm.llong ? wide_string(ap, p) : string(ap, p);
+	p->cs.upcase = (*format == 'X') ? 1 : 0;
+	(*format == 'x' || *format == 'X') ? pf_putnb_base(16, ap, p) : 0;
+	(*format == 'u' || *format == 'U') ? pf_putnb_base(10, ap, p) : 0;
+	(*format == 'o' || *format == 'O') ? pf_putnb_base(8, ap, p) : 0;
+	(*format == 'b' || *format == 'B') ? pf_putnb_base(2, ap, p) : 0;
+	(ft_strchr("dDi", *format)) ? pf_putnb(ap, p) : 0;
+	(*format == 'c' || *format == 'C') ? pf_character(ap, p) : 0;
+	(*format == 's' && !p->lm.llong) ? p->len += pf_string(ap, p) : 0;
+	if (*format == 'S' || (*format == 's' && p->lm.llong))
+		p->len += pf_wide_string(ap, p);
 	(*format == 'p') ? p->len += print_pointer_address(ap, p) : 0;
 	(*format == 'n') ? print_len(ap, p->len) : 0;
-	(*format == 'm') ? p->len += ft_printf_putstr(strerror(errno)) : 0;
+	(*format == 'm') ? p->len += ft_printf_putstr(strerror(errno), p) : 0;
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nm", *format))
 	{
-		p->len += p_putchar(*format);
+		p->min_length > 1 ? ft_putnchar(p->min_length - 1, ' ') : 0;
+		p->min_length > 1 ? p->len += p->min_length - 1 : 0;
+		pf_putchar(*format, p);
 //		ft_putnchar(MAX(1, p->min_length - 1), ((p->flags.zero) ? '0' : ' '));
 
 	}

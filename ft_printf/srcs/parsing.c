@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 08:29:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 07:00:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	*precision(char *format, t_printf *p)
 		while (ft_strchr("0123456789", *format))
 			++format;
 		p->apply_precision = 1;
-		p->flags.zero = 0;
+//		p->flags.zero = 0;
 	}
 	return (format);
 }
