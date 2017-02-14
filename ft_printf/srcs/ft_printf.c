@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 08:45:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 10:11:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	if (ft_strchr("CDSUOB", *format))
 		p->lm.llong = 1;
 	p->cs.upcase = (*format == 'X') ? 1 : 0;
+
 	(*format == 'x' || *format == 'X') ? pf_putnb_base(16, ap, p) : 0;
 	(*format == 'u' || *format == 'U') ? pf_putnb_base(10, ap, p) : 0;
 	(*format == 'o' || *format == 'O') ? pf_putnb_base(8, ap, p) : 0;
@@ -88,17 +89,23 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nm", *format))
-	{
-		p->min_length > 1 ? ft_putnchar(p->min_length - 1, ' ') : 0;
+	{	
+		if (!p->flags.min && p->min_length > 1)
+			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
 		p->min_length > 1 ? p->len += p->min_length - 1 : 0;
 		pf_putchar(*format, p);
+		if (p->flags.min && p->min_length > 1)
+			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
 //		ft_putnchar(MAX(1, p->min_length - 1), ((p->flags.zero) ? '0' : ' '));
 
 	}
 			//ft_putnchar(p->min_length - MIN(1, p->min_length), ((p->flags.zero) ?
 			//'0' : ' '));
+			//		if (p->precision == 0 && p->min_length)
 	return (format);
 }	
+
+
 
 /*
 ** small function that displays printf current value

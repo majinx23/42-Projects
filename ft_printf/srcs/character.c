@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 09:29:20 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/14 10:11:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 int		percent_char(t_printf *p)
 {
 
-	if (!p->flags.min)
-		ft_putnchar(p->min_length, (p->flags.zero) ? '0' : ' ');
+	if (!p->flags.min && p->min_length - 1 > 0)
+		ft_putnchar(p->min_length - 1, (p->flags.zero) ? '0' : ' ');
 	ft_putwchar('%');
 	if (p->flags.min)
 		ft_putnchar(p->min_length, ' ');
