@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 19:03:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 20:56:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int		main(int ac, char **av)
 	setlocale(LC_ALL, "");
 	(void)ac;
 
+
+/*
 	printf("--16 en hexa--\n");
 	i = ft_printf("Mon printf  : %x\n", 16);
 	j = printf("Vrai printf : %x\n", 16);
 	printf("Moi %d Le vrai : %d\n", i, j);
-/*
-
+	
 	printf("\n--et -16 en hexa--\n");
 	n = -16;
 	i = ft_printf("Mon printf  : %x\n", n);
@@ -657,9 +658,21 @@ i = ft_printf("{%.*s}", -5, "42");
 	printf(" -> %d for my PF\n", i);
 	j = printf("blah %n blah\n", &val);
 	printf(" -> %d for LIBC PF\n", j);
+
+
+//	printf("\nprintf(\"%%-5%%\");\n");
+	i = ft_printf("%-5%");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%-5%");
+	printf(" -> %d for LIBC PF\n", j);
+
+//printf("\nprintf(\"%%#08x\", 42);\n");
+	i = ft_printf("%#08x", 42); 
+	printf(" -> %d for my PF\n", i);
+	j = printf("%#08x", 42); 
+	printf(" -> %d for LIBC PF\n", j);
+
 */
-
-
 
 
 

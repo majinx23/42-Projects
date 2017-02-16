@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 15:55:33 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:45:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 20:35:51 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ char	*color(char *format, t_printf *p)
 	return (format - 1);
 }
 
+/*
+** bonus function that handles float
+*/
+
 void	pf_putdouble(va_list ap, t_printf *p)
 {
 	char		*s;
@@ -80,6 +84,11 @@ void	pf_putdouble(va_list ap, t_printf *p)
 	p->len += MAX(p->printed, p->min_length);
 }
 
+/*
+** calculates the size of what should be malloced
+** the decimals malloced are calculated with p->precision
+*/
+
 char	*pf_ldtoa(double n, t_printf *p)
 {
 	long		tmp;
@@ -88,7 +97,7 @@ char	*pf_ldtoa(double n, t_printf *p)
 
 	if (p->apply_precision && !p->precision)
 		return (itoa_printf((intmax_t)n, p));
-	else
+	else if (!p->apply_precision)
 		p->precision = 6;
 	len = (p->precision > 0) ? 1 : 0;
 	tmp = (long)(ABS(n));
@@ -108,6 +117,11 @@ char	*pf_ldtoa(double n, t_printf *p)
 	return (s);
 }
 
+/*
+** decimal is first calculated as the riht part, then we multiply it by
+** 10 power p->precision + 1 in order to get the rounding.
+*/
+
 void	ldtoa_fill(double n, char *s, t_printf *p)
 {
 	int		len;
@@ -117,7 +131,7 @@ void	ldtoa_fill(double n, char *s, t_printf *p)
 
 	decimal = ABS(n);
 	decimal = (decimal - (long)(ABS(n))) * ft_pow(10, p->precision + 1);
-	decimal = ((long)decimal % 10 > 4) ? (decimal + 10) / 10 : decimal / 10;
+	decimal = ((long)decimal % 10 > 4) ? (decimal) / 10 + 1 : decimal / 10;
 	len = p->printed - 1 - p->precision;
 	accuracy = p->printed - 1 - len;
 	s[p->printed] = '\0';

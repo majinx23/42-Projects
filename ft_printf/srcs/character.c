@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:35:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 20:47:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		percent_char(t_printf *p)
 		ft_putnchar(p->min_length - 1, (p->flags.zero) ? '0' : ' ');
 	ft_putwchar('%', 4);
 	if (p->flags.min)
-		ft_putnchar(p->min_length, ' ');
+		ft_putnchar(p->min_length - 1, (p->flags.zero) ? '0' : ' ');
 	return (MAX(p->min_length, 1));
 }
 
