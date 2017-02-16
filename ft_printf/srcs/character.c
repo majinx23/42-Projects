@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 10:51:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 11:18:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		percent_char(t_printf *p)
 {
 	if (!p->flags.min && p->min_length - 1 > 0)
 		ft_putnchar(p->min_length - 1, (p->flags.zero) ? '0' : ' ');
-	ft_putwchar('%');
+	ft_putwchar('%', 4);
 	if (p->flags.min)
 		ft_putnchar(p->min_length, ' ');
 	return (MAX(p->min_length, 1));
@@ -41,7 +41,7 @@ void	pf_character(va_list ap, t_printf *p)
 //	ft_putnbr(p->flags.zero);
 	if (!p->flags.min)
 		ft_putnchar(p->min_length - MIN(len, p->min_length), (p->flags.zero) ? '0' : ' ');
-	(p->lm.llong) ? ft_putwchar(c) : ft_putchar(c);
+	(p->lm.llong) ? ft_putwchar(c, 4) : ft_putchar(c);
 	if (p->flags.min)
 		ft_putnchar(p->min_length - MIN(len, p->min_length), ' ');
 	p->len += MAX(p->min_length, len);

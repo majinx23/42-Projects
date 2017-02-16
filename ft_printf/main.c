@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 10:28:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 11:24:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -532,7 +532,24 @@ printf("\nprintf(\"{%%030S}\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-
 	printf(" -> %d for LIBC PF\n", j);
 
 */
+printf("\nprintf(\"%%S\", L\"Á±≥\")\n");
+	i = ft_printf("%S", L"Á±≥");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%S", L"Á±≥");
+	printf(" -> %d for LIBC PF\n", j);
 
+
+printf("\nprintf(\"{%% S}\", L\"(null)\")\n");
+	i = ft_printf("{% S}", L"(null)");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{% S}", L"(null)");
+	printf(" -> %d for LIBC PF\n", j);
+	
+	printf("\nprintf(\"%%.4S\", L\"我是一只猫。\")\n");
+	i = ft_printf("%.4S", L"我是一只猫。");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%.4S", L"我是一只猫。");
+	printf(" -> %d for LIBC PF\n", j);
 
 
 printf("\nprintf(\"{%%05p}\", 0)\n");
@@ -541,6 +558,17 @@ printf("\nprintf(\"{%%05p}\", 0)\n");
 	j = printf("{%05p}", 0);
 	printf(" -> %d for LIBC PF\n", j);
 
+	printf("\nprintf(\"{%% S}\", L\"(null)\")\n");
+	i = ft_printf("{% S}", L"(null)");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{% S}", L"(null)");
+	printf(" -> %d for LIBC PF\n", j);
+
+printf("\nprintf(\"%%15.4S\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B\")\n");
+	i = ft_printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for LIBC PF\n", j);
 
 /*
 	printf("\n  \n");
