@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 14:19:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 14:30:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		ft_printf(char *format, ...)
 				p.min_length = ABS(p.min_length);
 				if (p.apply_precision)
 				{
-					p.precision = p.min_length;
+					p.precision = (!p.flags.min) ? p.min_length : 0;
+					p.apply_precision = (!p.min_length) ? 1 : 0;
 					p.min_length = 0;
 				}
 				++format;
