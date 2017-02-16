@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 15:55:33 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:28:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:30:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*pf_ldtoa(double n, t_printf *p)
 		++len;
 	}
 	(p->flags.zero) ? p->precision = p->min_length : 0;
-	p->printed = p->precision + len;
+	p->printed = p->precision + len + ((n < 0) ? 1 : 0);
 	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))
 		return (NULL);
 	ldtoa_fill(n, s, p);
