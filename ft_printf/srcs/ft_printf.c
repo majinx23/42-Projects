@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 13:02:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 13:56:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ int		ft_printf(char *format, ...)
 			
 			if (*format == '%')
 				p.len += percent_char(&p);
+			else if (*format == 42)
+			{
+				p.min_length = (int)va_arg(ap, int);
+				p.flags.min = (p.min_length < 0) ? 1 : 0;
+				p.min_length = ABS(p.min_length);
+				++format;
+			}
 			format = conversion_specifier(format, ap, &p);
 //			ft_putstr(format);
 		//	ft_putchar(*format);

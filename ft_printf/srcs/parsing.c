@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 13:08:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 13:51:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,7 @@ char	*field_width(char *format, t_printf *p)
 	{
 		p->min_length = MAX(1, ft_atoi(format));
 		while (ft_strchr("0123456789", *format))
-			++format;
-	//	if (!p->flags.min && !p->flags.zero && (ft_strchr("xXoO", *format)))
-	//		p->min_length = 0;		
+			++format;	
 	}
 	return (format);
 }
@@ -125,9 +123,6 @@ char	*precision(char *format, t_printf *p)
 		while (ft_strchr("0123456789", *format))
 			++format;
 		p->apply_precision = 1;
-
-
-//		p->flags.zero = 0;
 	}
 	return (format);
 }

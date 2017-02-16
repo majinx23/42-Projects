@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 11:09:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 13:49:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,8 @@ int		pf_wide_string(va_list ap, t_printf *p)
 	{
 
 		charlen = ft_putwchar(*s, wlen);
-	//	ft_putnbr(charlen);
 		p->printed += charlen;
 		++s;
-			
-//		ft_putnbr(p->printed);//
-//			ft_putstr("\n");
 	}
 		//	ft_putnbr(p->printed);
 	if (p->flags.min)

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 13:02:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 14:03:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -579,10 +579,9 @@ printf("\nprintf(\"%%15.4S\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M
 	i = ft_printf("{%S}", NULL);
 	printf(" -> %d for my PF\n", i);
 	j = printf("{%S}", NULL);
-	printf(" -> %d for LIBC PF\n", j);                 
+	printf(" -> %d for LIBC PF\n", j);        
 
-*/
-	printf("\n  \n");
+		printf("\n  \n");
 	i = ft_printf("%X", 42);
 	printf(" -> %d for my PF\n", i);
 	j = printf("%X", 42);
@@ -593,7 +592,41 @@ printf("\nprintf(\"%%*d\", 5, 42);\n");
 	i = ft_printf("%*d", 5, 42);
 	printf(" -> %d for my PF\n", i);
 	j = printf("%*d", 5, 42);
+	printf(" -> %d for LIBC PF\n", j);         
+
+			printf("\n  \n");
+	i = ft_printf("%X", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%X", 42);
 	printf(" -> %d for LIBC PF\n", j);
+
+/printf("\nprintf(\"%%s\", \"abc\")\n");
+	i = ft_printf("%s", "abc");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%s", "abc");
+	printf(" -> %d for LIBC PF\n", j);
+
+			if (*format == 42)
+			{
+				p.min_length = (int)va_arg(ap, int);
+				++format;
+			}
+
+			i = ft_printf("%15.4d", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%15.4d", 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+*/
+   
+//	printf("\nprintf(\"%%*d\", 5, 42);\n"); 
+	i = ft_printf("{%.*d}", 5, 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%.*d}", 5, 42);
+	printf(" -> %d for LIBC PF\n", j);  
+	
+
+
 
 /*
 	printf("\n  \n");
