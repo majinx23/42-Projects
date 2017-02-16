@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:53:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:35:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	pf_character(va_list ap, t_printf *p)
 	c = va_arg(ap, unsigned);
 	len = (p->lm.llong) ? ft_wcharlen(c) : 1;
 	if (!p->flags.min)
-		ft_putnchar(p->min_length - MIN(len, p->min_length), (p->flags.zero) ? '0' : ' ');
+		ft_putnchar(p->min_length - MIN(len, p->min_length),
+		(p->flags.zero) ? '0' : ' ');
 	(p->lm.llong) ? ft_putwchar(c, 4) : ft_putchar(c);
 	if (p->flags.min)
 		ft_putnchar(p->min_length - MIN(len, p->min_length), ' ');

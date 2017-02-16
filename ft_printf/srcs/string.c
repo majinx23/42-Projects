@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:44:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:50:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,19 @@ int		pf_wide_string(va_list ap, t_printf *p)
 		return (ft_printf_putwstr((wchar_t *)s));
 	wlen = (int)(ft_wstrlen((unsigned *)s));
 	(p->apply_precision) ? wlen = MIN(p->precision, wlen) : 0;
-
 	sp_padding = MAX(p->min_length - wlen, 0);
 	p->apply_precision = (p->min_length > p->precision) ? 0 : 1;
 	if (!p->flags.min)
-		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');	
+		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');
 	charlen = 0;
 	while (*s && (wlen -= charlen) > 0)
 	{
-
 		charlen = ft_putwchar(*s, wlen);
 		p->printed += charlen;
 		++s;
 	}
 	if (p->flags.min)
-		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');	
+		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');
 	p->printed += MAX(sp_padding, 0);
 	return (p->printed);
 }
@@ -84,7 +82,8 @@ int		ft_printf_putstr(char *s, t_printf *p)
 {
 	if (!s)
 	{
-		(!p->flags.zero) ? ft_putstr("(null)") : ft_putnchar(p->min_length, '0');
+		(!p->flags.zero) ? ft_putstr("(null)") :
+			ft_putnchar(p->min_length, '0');
 		return ((!p->flags.zero) ? 6 : p->min_length);
 	}
 	ft_putstr(s);
@@ -93,7 +92,6 @@ int		ft_printf_putstr(char *s, t_printf *p)
 
 int		ft_printf_putwstr(wchar_t *s)
 {
-	
 	(s == L'\0') ? ft_putstr("(null)") : ft_putwstr(s);
 	return (!s ? 6 : (int)ft_wstrlen((unsigned *)s));
 }

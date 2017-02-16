@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 15:55:33 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:30:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:45:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** bonuses done :
 **   1) *   wildcard_length_modifier
-**   2) n   print_len (please refer to ft_printf.c)
+**   2) n   print_len (refer to ft_printf.c : *va_arg(ap, int *) = p->len;)
 **   3) m   ft_printf_putstr(strerror(errno), p)
 **   4) {}  color
 **   5) fF  ldtoa
@@ -35,9 +35,9 @@ void	wildcard_length_modifier(va_list ap, t_printf *p)
 	if (!p->apply_precision)
 		p->min_length = tmp;
 	else
-	{	
+	{
 		p->precision = (!p->flags.min) ? tmp : 0;
-		p->apply_precision = (!tmp) ? 1 : 0;		
+		p->apply_precision = (!tmp) ? 1 : 0;
 	}
 }
 
@@ -72,17 +72,11 @@ void	pf_putdouble(va_list ap, t_printf *p)
 {
 	char		*s;
 	double		n;
-//	int			sp_padding;
-
 
 	n = (double)va_arg(ap, double);
-	
 	(p->flags.zero) ? p->precision = p->min_length : 0;
 	s = pf_ldtoa(n, p);
-//	sp_padding = (p->printed > p->min_length) ? 0 : p->min_length - p->printed;
-//	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
 	ft_putstr_free(s);
-//	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
 	p->len += MAX(p->printed, p->min_length);
 }
 
@@ -121,9 +115,8 @@ void	ldtoa_fill(double n, char *s, t_printf *p)
 	double	decimal;
 	long	value;
 
-	decimal = ABS(n); 
-	decimal -= (long)(ABS(n));
-	decimal *= ft_pow(10, p->precision + 1);
+	decimal = ABS(n);
+	decimal = (decimal - (long)(ABS(n))) * ft_pow(10, p->precision + 1);
 	decimal = ((long)decimal % 10 > 4) ? (decimal + 10) / 10 : decimal / 10;
 	len = p->printed - 1 - p->precision;
 	accuracy = p->printed - 1 - len;
@@ -133,10 +126,8 @@ void	ldtoa_fill(double n, char *s, t_printf *p)
 	{
 		s[len + accuracy + 1] = value % 10 + '0';
 		value /= 10;
-		
 	}
-	if (p->precision > 0)
-		s[len] = '.';
+	(p->precision > 0) ? s[len] = '.' : 0;
 	value = (long)(ABS(n));
 	while (len--)
 	{

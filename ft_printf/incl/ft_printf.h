@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 17:53:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:45:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int				ft_printf_putwstr(wchar_t *s);
 */
 
 int				print_pointer_address(va_list ap, t_printf *p);
-void			print_len(va_list ap, int len);
 void			wildcard_length_modifier(va_list ap, t_printf *p);
 char			*color(char *format, t_printf *p);
 void			pf_putdouble(va_list ap, t_printf *p);

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 16:58:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:46:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,15 @@ int		ft_printf(char *format, ...)
 		if (*format == '%')
 		{
 			if (!(format[1]))
-				break;
+				break ;
 			p.printed = 0;
 			p.pointer = 0;
 			format = parse_optionals(++format, ap, &p);
 			if (*format == '%')
 				p.len += percent_char(&p);
-	//		else if (*format == 42 && ++format)
-	//			wildcard_length_modifier(ap, &p);
 			format = conversion_specifier(format, ap, &p);
 		}
-		
-		else	
+		else
 			pf_putchar(*format, &p);
 		++format;
 	}
@@ -69,7 +66,7 @@ int		ft_printf(char *format, ...)
 */
 
 char	*conversion_specifier(char *format, va_list ap, t_printf *p)
-{	
+{
 	(ft_strchr("CDSUOB", *format)) ? p->lm.llong = 1 : 0;
 	p->cs.upcase = (*format == 'X') ? 1 : 0;
 	(*format == 'x' || *format == 'X') ? pf_putnb_base(16, ap, p) : 0;
@@ -82,13 +79,13 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	if (*format == 'S' || (*format == 's' && p->lm.llong))
 		p->len += pf_wide_string(ap, p);
 	(*format == 'p') ? p->len += print_pointer_address(ap, p) : 0;
-	(*format == 'n') ? print_len(ap, p->len) : 0;
+	(*format == 'n') ? *va_arg(ap, int *) = p->len : 0;
 	(*format == 'm') ? p->len += ft_printf_putstr(strerror(errno), p) : 0;
 	(*format == 'f' || *format == 'F') ? pf_putdouble(ap, p) : 0;
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nmfF", *format))
-	{	
+	{
 		if (!p->flags.min && p->min_length > 1)
 			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
 		p->min_length > 1 ? p->len += p->min_length - 1 : 0;
@@ -97,7 +94,7 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
 	}
 	return (format);
-}	
+}
 
 /*
 ** function used to adjust length for padding due to the flag -
@@ -122,7 +119,8 @@ int		print_pointer_address(va_list ap, t_printf *p)
 	p->flags.sharp = 0;
 	pointer = va_arg(ap, void *);
 	s = itoa_base_printf((uintmax_t)pointer, 16, p);
-	sp_padding = (p->printed > p->min_length - 2) ? 0 : p->min_length - 2 - p->printed;
+	sp_padding = (p->printed > p->min_length - 2) ? 0 :
+		p->min_length - 2 - p->printed;
 	if (!p->flags.min)
 		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	ft_putstr("0x");
@@ -130,17 +128,4 @@ int		print_pointer_address(va_list ap, t_printf *p)
 	if (p->flags.min)
 		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	return (MAX(p->printed + 2, p->min_length));
-}
-
-/*
-** small function that displays printf current value
-*/
-
-void	print_len(va_list ap, int len)
-{
-	// *va_arg(ap, int *) = len;
-	int *pointer;
-
-	pointer = va_arg(ap, int *);
-	*pointer = len;
 }

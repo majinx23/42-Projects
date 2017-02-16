@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:54:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:48:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	pf_putnb(va_list ap, t_printf *p)
 	else
 		n = ((intmax_t)va_arg(ap, int));
 	(p->flags.zero) ? p->precision = p->min_length : 0;
-	
 	s = itoa_printf(n, p);
 	sp_padding = (p->printed > p->min_length) ? 0 : p->min_length - p->printed;
 	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
@@ -129,7 +128,6 @@ char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 	(p->flags.zero) ? p->precision = p->min_length : 0;
 	ext = (len >= p->precision) ? 0 : 1;
 	p->printed = MAX(p->precision, len);
-
 	(p->flags.sharp && b == 8 && !ext) ? p->printed += 1 : 0;
 	(p->flags.sharp && b == 16 && n) ? p->printed += 2 : 0;
 	if (!(s = (char*)malloc(sizeof(char) * (p->printed + 1))))

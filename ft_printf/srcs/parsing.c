@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:42:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:48:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*field_width(char *format, t_printf *p)
 	{
 		p->min_length = MAX(1, ft_atoi(format));
 		while (ft_strchr("0123456789", *format))
-			++format;	
+			++format;
 	}
 	return (format);
 }
