@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 11:37:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 13:02:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -569,7 +569,39 @@ printf("\nprintf(\"%%15.4S\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M
 	j = printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
 	printf(" -> %d for LIBC PF\n", j);
 
+		printf("\n-- %%O, LONG_MAX --\n");            
+	i = ft_printf("%O", LONG_MAX);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%O", LONG_MAX);
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%%S}\", NULL)\n");
+	i = ft_printf("{%S}", NULL);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%S}", NULL);
+	printf(" -> %d for LIBC PF\n", j);                 
+
 */
+	printf("\n  \n");
+	i = ft_printf("%X", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%X", 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+
+printf("\nprintf(\"%%*d\", 5, 42);\n");
+	i = ft_printf("%*d", 5, 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%*d", 5, 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+/*
+	printf("\n  \n");
+	i = ft_
+	printf(" -> %d for my PF\n", i);
+	j = 
+	printf(" -> %d for LIBC PF\n", j);
+
 printf("\nprintf(\"{%%05p}\", 0)\n");   // OK as undefined
 	i = ft_printf("{%05p}", 0);
 	printf(" -> %d for my PF\n", i);
@@ -583,25 +615,5 @@ printf("\nprintf(\"{%%05p}\", 0)\n");   // OK as undefined
 	printf(" -> %d for LIBC PF\n", j);
 
 
-/*
-	printf("\n  \n");
-	i = ft_
-	printf(" -> %d for my PF\n", i);
-	j = 
-	printf(" -> %d for LIBC PF\n", j);
-
-
-
-	printf("\n-- %%O, LONG_MAX --\n");              A REVOIR
-	i = ft_printf("%O", LONG_MAX);
-	printf(" -> %d for my PF\n", i);
-	j = printf("%O", LONG_MAX);
-	printf(" -> %d for LIBC PF\n", j);
-
-	printf("\nprintf(\"{%%S}\", NULL)\n");
-	i = ft_printf("{%S}", NULL);
-	printf(" -> %d for my PF\n", i);
-	j = printf("{%S}", NULL);
-	printf(" -> %d for LIBC PF\n", j);                   // a revoir
 */
 }

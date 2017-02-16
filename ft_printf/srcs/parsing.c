@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 10:02:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 13:08:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,16 @@ char	*parse_flags(char *format, t_flags *flags)
 {
 	while (ft_strchr("#0+- ", *format))
 	{
-		(*format == '#') ? flags->sharp = 1 : 0;
-		(*format == '0') ? flags->zero = 1 : 0;
-		(*format == '+') ? flags->plus = 1 : 0;
-		(*format == '-') ? flags->min = 1 : 0;
-		(*format == ' ') ? flags->sp = 1 : 0;
+		if (*format == '#')
+			flags->sharp = 1;
+		else if (*format == '0')
+			flags->zero = 1;
+		else if (*format == '+')
+			flags->plus = 1;
+		else if (*format == '-')
+			flags->min = 1;
+		else if (*format == ' ')
+			flags->sp = 1;
 		++format;
 	}
 	if (flags->min)
