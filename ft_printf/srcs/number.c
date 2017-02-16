@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:33:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:54:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	pf_putnb(va_list ap, t_printf *p)
 	
 	s = itoa_printf(n, p);
 	sp_padding = (p->printed > p->min_length) ? 0 : p->min_length - p->printed;
-//	(sp_padding && p->apply_precision) ? ft_putchar(' ') : 0;
 	(!p->flags.zero && !p->flags.min) ? ft_putnchar(sp_padding, ' ') : 0;
 	ft_putstr_free(s);
 	p->flags.min ? ft_putnchar(sp_padding, ' ') : 0;
@@ -138,7 +137,6 @@ char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 	itoa_base_fill(n, b, s, p);
 	(p->flags.sharp && ((b == 8 && !ext) || (b == 16 && n))) ? s[0] = '0' : 0;
 	(p->flags.sharp && b == 16 && n) ? s[1] = 'x' - p->cs.upcase * 32 : 0;
-//	(n == 0) ? s[0] = '0' : 0;
 	return (s);
 }
 

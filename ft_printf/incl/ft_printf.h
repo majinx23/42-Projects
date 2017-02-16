@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:05:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 17:53:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
 # define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
-# define ABS(a)				(a < 0) ? -a : a;
+# define ABS(a)				(a < 0) ? -a : a
 # define COLOR(s,n)			ft_putstr(s), (format += n)		
 # define PF_RED				"\033[31m"
 # define PF_GREEN			"\033[32m"
@@ -96,11 +96,19 @@ char			*conversion_specifier(char *format, va_list ap, t_printf *p);
 int				percent_char(t_printf *p);
 void			ft_putnchar(int len, char c);
 
+/*
+** number related functions
+*/
+
 void			pf_putnb(va_list ap, t_printf *p);
 void			pf_putnb_base(int base, va_list ap, t_printf *p);
 char			*itoa_printf(intmax_t d, t_printf *p);
 char			*itoa_base_printf(uintmax_t d, int b, t_printf *p);
 void			itoa_base_fill(uintmax_t tmp, int base, char *str, t_printf *p);
+
+/*
+** strings and characters related functions
+*/
 
 int				pf_string(va_list ap, t_printf *p);
 int				pf_wide_string(va_list ap, t_printf *p);
@@ -109,8 +117,16 @@ void			pf_putchar(char c, t_printf *p);
 int				ft_printf_putstr(char *s, t_printf *p);
 int				ft_printf_putwstr(wchar_t *s);
 
+/*
+** bonus
+*/
+
 int				print_pointer_address(va_list ap, t_printf *p);
 void			print_len(va_list ap, int len);
+void			wildcard_length_modifier(va_list ap, t_printf *p);
 char			*color(char *format, t_printf *p);
+void			pf_putdouble(va_list ap, t_printf *p);
+char			*pf_ldtoa(double n, t_printf *p);
+void			ldtoa_fill(double n, char *s, t_printf *p);
 
 #endif

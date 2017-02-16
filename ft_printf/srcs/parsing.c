@@ -6,31 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 15:34:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:42:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ft_printf.h"
-
-/*
-** 						~ LENGTH given as argument ~
-*/
-
-void	wildcard_length_modifier(va_list ap, t_printf *p)
-{
-	int		tmp;
-
-	tmp = (int)va_arg(ap, int);
-	p->flags.min = (tmp < 0) ? 1 : 0;
-	tmp = ABS(tmp);
-	if (!p->apply_precision)
-		p->min_length = tmp;
-	else
-	{	
-		p->precision = (!p->flags.min) ? tmp : 0;
-		p->apply_precision = (!tmp) ? 1 : 0;		
-	}
-}
 
 /*
 ** 						~ PARSING OPTONAL INPUTS ~

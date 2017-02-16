@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 13:49:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:44:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ int		pf_wide_string(va_list ap, t_printf *p)
 	p->apply_precision = (p->min_length > p->precision) ? 0 : 1;
 	if (!p->flags.min)
 		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');	
-	//	ft_putchar('w');
-//		ft_putnbr(wlen);//
-	//	ft_putchar('\n');
-//		ft_putnbr(p->apply_precision);//
 	charlen = 0;
 	while (*s && (wlen -= charlen) > 0)
 	{
@@ -45,12 +41,9 @@ int		pf_wide_string(va_list ap, t_printf *p)
 		p->printed += charlen;
 		++s;
 	}
-		//	ft_putnbr(p->printed);
 	if (p->flags.min)
-		ft_putnchar(sp_padding, ' ');
+		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');	
 	p->printed += MAX(sp_padding, 0);
-
-//		ft_putnbr(p->printed);
 	return (p->printed);
 }
 
@@ -69,13 +62,6 @@ int		pf_string(va_list ap, t_printf *p)
 	len = (int)(ft_strlen((char*)s));
 	(p->apply_precision) ? len = MIN(p->precision, len) : 0;
 	sp_padding = (p->min_length - len) > 0 ? (p->min_length - len) : 0;
-//	ft_putnchar(sp_padding, ' ');
-
-
-//	ft_putnbr(sp_padding);
-//	ft_putnbr(p->min_length);
-//	ft_putnbr(len);
-	//	sp_padding = MIN(p->precision - len, len);
 	if (!p->flags.min)
 		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');
 	while ((char)*s && len--)

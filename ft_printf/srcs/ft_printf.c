@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 14:58:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 16:58:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	(*format == 'p') ? p->len += print_pointer_address(ap, p) : 0;
 	(*format == 'n') ? print_len(ap, p->len) : 0;
 	(*format == 'm') ? p->len += ft_printf_putstr(strerror(errno), p) : 0;
+	(*format == 'f' || *format == 'F') ? pf_putdouble(ap, p) : 0;
 	if (*format == '{')
 		return (color(format, p));
-	if (!ft_strchr("sSpdDibBoOuUxXcC%nm", *format))
+	if (!ft_strchr("sSpdDibBoOuUxXcC%nmfF", *format))
 	{	
 		if (!p->flags.min && p->min_length > 1)
 			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
@@ -94,28 +95,9 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 		pf_putchar(*format, p);
 		if (p->flags.min && p->min_length > 1)
 			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
-//		ft_putnchar(MAX(1, p->min_length - 1), ((p->flags.zero) ? '0' : ' '));
-
 	}
-			//ft_putnchar(p->min_length - MIN(1, p->min_length), ((p->flags.zero) ?
-			//'0' : ' '));
-			//		if (p->precision == 0 && p->min_length)
 	return (format);
 }	
-
-
-
-/*
-** small function that displays printf current value
-*/
-
-void	print_len(va_list ap, int len)
-{
-	int *pointer;
-
-	pointer = va_arg(ap, int *);
-	*pointer = len;
-}
 
 /*
 ** function used to adjust length for padding due to the flag -
@@ -127,30 +109,38 @@ void	ft_putnchar(int len, char c)
 		ft_putchar(c);
 }
 
-
 /*
-** bonus function that handles colors
+** function that displays pointer address
 */
 
-char	*color(char *format, t_printf *p)
+int		print_pointer_address(va_list ap, t_printf *p)
 {
-	p->printed = 5;
-	if (!ft_strncmp(format, "{red}", ft_strlen("{red}")))
-		COLOR(PF_RED, 5);
-	else if (!ft_strncmp(format, "{green}", ft_strlen("{green}")))
-		COLOR(PF_GREEN, 7);
-	else if (!ft_strncmp(format, "{yellow}", ft_strlen("{yellow}")))
-		COLOR(PF_YELLOW, 8);
-	else if (!ft_strncmp(format, "{blue}", ft_strlen("{blue}")))
-		COLOR(PF_BLUE, 6);
-	else if (!ft_strncmp(format, "{purple}", ft_strlen("{purple}")))
-		COLOR(PF_PURPLE, 8);
-	else if (!ft_strncmp(format, "{cyan}", ft_strlen("{cyan}")))
-		COLOR(PF_CYAN, 6);
-	else if (!ft_strncmp(format, "{eoc}", ft_strlen("{eoc}")))
-		COLOR(PF_EOC, 5);
-	else
-		p->printed = 0;
-	p->len += p->printed;
-	return (format - 1);
+	int				sp_padding;
+	char			*s;
+	void			*pointer;
+
+	p->flags.sharp = 0;
+	pointer = va_arg(ap, void *);
+	s = itoa_base_printf((uintmax_t)pointer, 16, p);
+	sp_padding = (p->printed > p->min_length - 2) ? 0 : p->min_length - 2 - p->printed;
+	if (!p->flags.min)
+		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
+	ft_putstr("0x");
+	ft_putstr(s);
+	if (p->flags.min)
+		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
+	return (MAX(p->printed + 2, p->min_length));
+}
+
+/*
+** small function that displays printf current value
+*/
+
+void	print_len(va_list ap, int len)
+{
+	// *va_arg(ap, int *) = len;
+	int *pointer;
+
+	pointer = va_arg(ap, int *);
+	*pointer = len;
 }
