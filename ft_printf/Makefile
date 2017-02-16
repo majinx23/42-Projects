@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/16 16:55:31 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/16 19:08:27 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ clean:
 	/bin/rm -rf $(OBJ)
 
 fclean: clean
+	make -C libft/ fclean
 	/bin/rm -rf $(NAME)
 
 re: fclean all

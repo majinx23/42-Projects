@@ -6,7 +6,7 @@
 #    By: angavrel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 19:19:12 by angavrel          #+#    #+#              #
-#    Updated: 2017/01/20 18:48:45 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/16 19:07:18 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ $(NAME): $(OBJS)
 	@echo "$(GREEN)Compiling objects files into $(NAME)...$(NOC)"
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJS_PATH) -I $(LIBFT_PATH) -I $(HEADERS) -L $(LIBFT_PATH) -lft
 	@$(CC) $(FLAGS) -I $(OBJS) $@ $<
-#	@make -C $(LIBMATH_PATH)
+	@make -C $(LIBMATH_PATH)
 	@echo "$(GREEN)$(NAME)'s program created.$(NOC)"
 
 lib:
@@ -85,7 +85,7 @@ objs:
 clean:
 	@rm -f $(OBJS)
 	@make clean -C $(LIBFT_PATH)
-#	@make clean -C $(LIBMATH_PATH)
+	@make clean -C $(LIBMATH_PATH)
 	@make clean -C $(MLX_PATH)
 	@rmdir $(OBJS_PATH) 2> /dev/null || true
 	@echo "$(GREEN)$(NAME)'s .o files deleted.$(NOC)"
@@ -93,7 +93,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -C $(LIBFT_PATH)
-#	@make fclean -C $(LIBMATH_PATH)
+	@make fclean -C $(LIBMATH_PATH)
 	@echo "$(GREEB)$(NAME) Project fully cleaned.$(NOC)"
 
 re: fclean all

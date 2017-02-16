@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:55:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 19:13:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** printf will return p.len: the total len of what was displayed by printf
 ** if there is a % we will parse user input, else we will display it.
 */
-
+#include <stdio.h>//
 int		ft_printf(char *format, ...)
 {
 	va_list		ap;
