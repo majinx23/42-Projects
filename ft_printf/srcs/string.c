@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 10:17:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 10:27:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,38 @@ int		pf_wide_string(va_list ap, t_printf *p)
 	wchar_t		*s;
 	int			wlen;
 	int			sp_padding;
+	int			charlen;
 
-	if ((s = va_arg(ap, wchar_t *)) && !s)
+	if (!(s = va_arg(ap, wchar_t *)))
 		return (ft_printf_putwstr((wchar_t *)s));
 	wlen = (int)(ft_wstrlen((unsigned *)s));
 	(p->apply_precision) ? wlen = MIN(p->precision, wlen) : 0;
-	sp_padding = p->min_length - MIN(p->precision, wlen);
-//	if (!p->flags.min)
-//		ft_putnchar(sp_padding, ' ');		
-	while (*s && wlen--)
+//	ft_putnbr(wlen);//
+	sp_padding = MAX(p->min_length - wlen, 0);
+	p->apply_precision = (p->min_length > p->precision) ? 0 : 1;
+	if (!p->flags.min)
+		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');	
+	//	ft_putchar('w');
+//		ft_putnbr(wlen);//
+	//	ft_putchar('\n');
+//		ft_putnbr(p->apply_precision);//
+	charlen = 0;
+	while (*s && (wlen -= charlen) > p->apply_precision)
 	{
-		p->printed += ft_putwchar(*s);
+		charlen = ft_putwchar(*s);
+		p->printed += charlen;
 		++s;
+			
+//		ft_putnbr(p->printed);//
+//			ft_putstr("\n");
 	}
+		//	ft_putnbr(p->printed);
 	if (p->flags.min)
 		ft_putnchar(sp_padding, ' ');
-	return (p->printed + MAX(sp_padding, 0));
+	p->printed += MAX(sp_padding, 0);
+
+//		ft_putnbr(p->printed);
+	return (p->printed);
 }
 
 /*
@@ -93,6 +109,7 @@ int		ft_printf_putstr(char *s, t_printf *p)
 
 int		ft_printf_putwstr(wchar_t *s)
 {
-	(!s) ? ft_putstr("(null)") : ft_putwstr(s);
+	
+	(s == L'\0') ? ft_putstr("(null)") : ft_putwstr(s);
 	return (!s ? 6 : (int)ft_wstrlen((unsigned *)s));
 }

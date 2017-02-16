@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 20:03:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 10:06:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 10:49:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*itoa_printf(intmax_t n, t_printf *p)
 	itoa_base_fill(tmp, 10, s, p);
 	(p->flags.sp) ? s[0] = ' ' : 0;
 	(n < 0) ? s[0] = '-' : 0;
-	(p->flags.plus) ? s[0] = '+' : 0;
+	(p->flags.plus && n >= 0) ? s[0] = '+' : 0;
 	return (s);
 }
 
@@ -134,8 +134,6 @@ char	*itoa_base_printf(uintmax_t n, int b, t_printf *p)
 	}
 	(p->flags.zero) ? p->precision = p->min_length : 0;
 	ext = (len >= p->precision) ? 0 : 1;
-//	(p->flags.sharp && b == 8 && !ext) ? --p->precision : 0;
-//	(p->flags.sharp && b == 16 && n) ? p->precision -= 2 : 0;
 	p->printed = MAX(p->precision, len);
 
 	(p->flags.sharp && b == 8 && !ext) ? p->printed += 1 : 0;

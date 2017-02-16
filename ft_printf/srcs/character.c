@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 10:11:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 10:51:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 int		percent_char(t_printf *p)
 {
-
 	if (!p->flags.min && p->min_length - 1 > 0)
 		ft_putnchar(p->min_length - 1, (p->flags.zero) ? '0' : ' ');
 	ft_putwchar('%');
@@ -75,6 +74,6 @@ int		print_pointer_address(va_list ap, t_printf *p)
 	ft_putstr("0x");
 	ft_putstr(s);
 	if (p->flags.min)
-		ft_putnchar(sp_padding, ' ');
+		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	return (MAX(p->printed + 2, p->min_length));
 }

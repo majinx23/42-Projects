@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 10:11:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 10:43:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		ft_printf(char *format, ...)
 			if (!(format[1]))
 				break;
 			p.printed = 0;
+			p.pointer = 0;
 			format = parse_optionals(++format, &p);
 			
 			if (*format == '%')
@@ -70,10 +71,8 @@ int		ft_printf(char *format, ...)
 
 char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 {	
-	if (ft_strchr("CDSUOB", *format))
-		p->lm.llong = 1;
+	(ft_strchr("CDSUOB", *format)) ? p->lm.llong = 1 : 0;
 	p->cs.upcase = (*format == 'X') ? 1 : 0;
-
 	(*format == 'x' || *format == 'X') ? pf_putnb_base(16, ap, p) : 0;
 	(*format == 'u' || *format == 'U') ? pf_putnb_base(10, ap, p) : 0;
 	(*format == 'o' || *format == 'O') ? pf_putnb_base(8, ap, p) : 0;

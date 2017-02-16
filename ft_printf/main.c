@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/14 10:07:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 10:28:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -468,13 +468,77 @@ printf("\nprintf(\"%%c\", 200)\n");
 	printf(" -> %d for my PF\n", i);
 	j = printf("{%#.5x}", 1);
 	printf(" -> %d for LIBC PF\n", j);
-*/
 
+	printf("\nprintf(\"%%+d\", -42)\n");
+	i = ft_printf("%+d", -42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%+d", -42);
+	printf(" -> %d for LIBC PF\n", j);
+	
+		printf("\n-- %%color --\n");                     
+	i = ft_printf("%{red}haha\n");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%{red}haha\n");
+	printf(" -> %d for LIBC PF\n", j);
+
+
+printf("\nprintf(\"{%%030S}\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B\")\n");
+	i = ft_printf("{%030S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%030S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%% S}\", NULL);\n");
+	j = printf("{% S}", NULL);
+	printf(" -> %d for LIBC PF\n", j);
+	i = ft_printf("{% S}", NULL);
+	printf(" -> %d for my PF\n", i);
+
+	printf("\nprintf(\"{%%30S}\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B\")\n");
+	i = ft_printf("{%30S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%30S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for LIBC PF\n", j);
+	
 
 	printf("\nprintf(\"{%%05.S}\", L\"42 c est cool\")\n");
 	i = ft_printf("{%05.S}", L"42 c est cool");
 	printf(" -> %d for my PF\n", i);
 	j = printf("{%05.S}", L"42 c est cool");
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"%%.4S\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B\")\n");
+	i = ft_printf("%.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"%%.4S\", L\"我是一只猫。\")\n");
+	i = ft_printf("%.4S", L"我是一只猫。");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%.4S", L"我是一只猫。");
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"{%% S}\", L\"(null)\")\n");
+	i = ft_printf("{% S}", L"(null)");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{% S}", L"(null)");
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf((\"%%4.1S\", L\"Jambon\")\n");
+	i = ft_printf("%4.1S", L"Jambon");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%4.1S", L"Jambon");
+	printf(" -> %d for LIBC PF\n", j);
+
+*/
+
+
+
+printf("\nprintf(\"{%%05p}\", 0)\n");
+	i = ft_printf("{%05p}", 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%05p}", 0);
 	printf(" -> %d for LIBC PF\n", j);
 
 
@@ -485,11 +549,7 @@ printf("\nprintf(\"%%c\", 200)\n");
 	j = 
 	printf(" -> %d for LIBC PF\n", j);
 
-printf("\nprintf(\"{%%030S}\", L\"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B\")\n");
-	i = ft_printf("{%030S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
-	printf(" -> %d for my PF\n", i);
-	j = printf("{%030S}", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B");
-	printf(" -> %d for LIBC PF\n", j);
+
 
 	printf("\n-- %%O, LONG_MAX --\n");              A REVOIR
 	i = ft_printf("%O", LONG_MAX);
