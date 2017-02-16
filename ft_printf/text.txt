@@ -1,4 +1,0 @@
-*[32m plain characters,[31m character escape sequences,[31m \c[31m and format specifications
-[35mprintf(COOL, ...?)
-Hello !\a:   \b:   \f:   \n:
-   \r:   \t:	   \v:   \':'   \\:\   

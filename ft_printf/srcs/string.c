@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:50:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:52:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		pf_string(va_list ap, t_printf *p)
 	unsigned	*s;
 	int			len;
 	int			sp_padding;
-	
+
 	if (!(s = va_arg(ap, unsigned*)))
 		return (ft_printf_putstr((char *)s, p));
 	len = (int)(ft_strlen((char*)s));

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 12:03:12 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 11:32:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 19:01:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		ft_putwchar(unsigned wc, int wlen)
 			else if (nb_bytes == 3)
 			{
 				ft_putchar(((wc & (0xf << 12)) >> 12) + 0xE0);
-				ft_putchar(((wc & (0x3f << 6)) >> 6) + 0x80);	
+				ft_putchar(((wc & (0x3f << 6)) >> 6) + 0x80);
 			}
 			else
 			{

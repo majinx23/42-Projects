@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:46:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:55:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,7 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 	if (*format == '{')
 		return (color(format, p));
 	if (!ft_strchr("sSpdDibBoOuUxXcC%nmfF", *format))
-	{
-		if (!p->flags.min && p->min_length > 1)
-			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
-		p->min_length > 1 ? p->len += p->min_length - 1 : 0;
-		pf_putchar(*format, p);
-		if (p->flags.min && p->min_length > 1)
-			ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
-	}
+		cs_not_found(format, p);
 	return (format);
 }
 
@@ -128,4 +121,14 @@ int		print_pointer_address(va_list ap, t_printf *p)
 	if (p->flags.min)
 		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	return (MAX(p->printed + 2, p->min_length));
+}
+
+void	cs_not_found(char *format, t_printf *p)
+{
+	if (!p->flags.min && p->min_length > 1)
+		ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
+	p->min_length > 1 ? p->len += p->min_length - 1 : 0;
+	pf_putchar(*format, p);
+	if (p->flags.min && p->min_length > 1)
+		ft_putnchar(p->min_length - 1, p->flags.zero ? '0' : ' ');
 }

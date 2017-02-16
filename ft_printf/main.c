@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:46:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 19:03:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # include <stdio.h>
 # include <locale.h>
+# include <stdio.h>
 
 int		main(int ac, char **av)
 {
@@ -33,12 +34,12 @@ int		main(int ac, char **av)
 
 	setlocale(LC_ALL, "");
 	(void)ac;
-/*
+
 	printf("--16 en hexa--\n");
 	i = ft_printf("Mon printf  : %x\n", 16);
 	j = printf("Vrai printf : %x\n", 16);
 	printf("Moi %d Le vrai : %d\n", i, j);
-
+/*
 
 	printf("\n--et -16 en hexa--\n");
 	n = -16;

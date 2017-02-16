@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:45:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:57:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
 # define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
 # define ABS(a)				(a < 0) ? -a : a
-# define COLOR(s,n)			ft_putstr(s), (format += n)		
+# define COLOR(s,n)			ft_putstr(s), (format += n)
 # define PF_RED				"\033[31m"
 # define PF_GREEN			"\033[32m"
 # define PF_YELLOW			"\033[33m"
@@ -27,10 +27,7 @@
 
 # include "../libft/libft.h"
 # include <stdarg.h>
-# include <locale.h>
 # include <errno.h>
-# include <stdio.h>//
-# include <limits.h> //
 
 /*
 ** refer to parsing.c for description of variables in below structures
@@ -92,8 +89,9 @@ char			*length_modifier(char *format, t_length_modifier *lm);
 ** parsing conversion specifier
 */
 
-char			*conversion_specifier(char *format, va_list ap, t_printf *p);
 int				percent_char(t_printf *p);
+char			*conversion_specifier(char *format, va_list ap, t_printf *p);
+void			cs_not_found(char *format, t_printf *p);
 void			ft_putnchar(int len, char c);
 
 /*
