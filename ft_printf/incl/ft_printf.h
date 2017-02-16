@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 13:45:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:05:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int				ft_printf_putchar(char c);
 ** parsing optional parameters
 */
 
-char			*parse_optionals(char *format, t_printf *p);
+char			*parse_optionals(char *format, va_list ap, t_printf *p);
 char			*parse_flags(char *format, t_flags *flags);
 char			*field_width(char *format, t_printf *p);
 char			*precision(char *format, t_printf *p);

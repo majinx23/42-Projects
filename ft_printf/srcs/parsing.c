@@ -6,11 +6,28 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 14:12:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:06:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ft_printf.h"
+
+/*
+** 						~ LENGTH given as argument ~
+*/
+
+void	wildcard_length_modifier(va_list ap, t_printf *p)
+{
+	p->min_length = (int)va_arg(ap, int);
+	p->flags.min = (p->min_length < 0) ? 1 : 0;
+	p->min_length = ABS(p->min_length);
+	if (p->apply_precision)
+	{
+		p->precision = (!p->flags.min) ? p->min_length : 0;
+		p->apply_precision = (!p->min_length) ? 1 : 0;
+		p->min_length = 0;
+	}
+}
 
 /*
 ** 						~ PARSING OPTONAL INPUTS ~
@@ -20,18 +37,22 @@
 ** Please refer to the man for a more accurate and full description.
 */
 
-char	*parse_optionals(char *format, t_printf *p)
+char	*parse_optionals(char *format, va_list ap, t_printf *p)
 {
 	p->flags = (t_flags) {.sharp = 0, .zero = 0, .min = 0, .plus = 0, .sp = 0};
-	format = parse_flags(format, &p->flags);
 	p->min_length = 0;
-	format = field_width(format, p);
 	p->precision = 1;
 	p->apply_precision = 0;
-	format = precision(format, p);
 	p->lm = (t_length_modifier)
 		{.sshort = 0, .llong = 0, .intmax = 0, .sizet = 0};
+	if (*format == '*' && ++format)
+		wildcard_length_modifier(ap, p);
+	format = parse_flags(format, &p->flags);
+	format = field_width(format, p);
+	format = precision(format, p);
 	format = length_modifier(format, &p->lm);
+	if (*format == '*' && ++format)
+		wildcard_length_modifier(ap, p);
 	return (format);
 }
 

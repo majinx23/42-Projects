@@ -6,17 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 14:30:30 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 14:58:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ft_printf.h"
-
-/*
-** 						~ LENGTH given as argument ~
-*/
-
-
 
 /*
 ** 						~ PRINTF LOOP ~
@@ -40,26 +34,12 @@ int		ft_printf(char *format, ...)
 				break;
 			p.printed = 0;
 			p.pointer = 0;
-			format = parse_optionals(++format, &p);
-			
+			format = parse_optionals(++format, ap, &p);
 			if (*format == '%')
 				p.len += percent_char(&p);
-			else if (*format == 42)
-			{
-				p.min_length = (int)va_arg(ap, int);
-				p.flags.min = (p.min_length < 0) ? 1 : 0;
-				p.min_length = ABS(p.min_length);
-				if (p.apply_precision)
-				{
-					p.precision = (!p.flags.min) ? p.min_length : 0;
-					p.apply_precision = (!p.min_length) ? 1 : 0;
-					p.min_length = 0;
-				}
-				++format;
-			}
+	//		else if (*format == 42 && ++format)
+	//			wildcard_length_modifier(ap, &p);
 			format = conversion_specifier(format, ap, &p);
-//			ft_putstr(format);
-		//	ft_putchar(*format);
 		}
 		
 		else	

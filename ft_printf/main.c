@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 14:29:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:06:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -625,14 +625,27 @@ i = ft_printf("{%.*s}", -5, "42");
 	j = printf("{%.*s}", -5, "42");
 	printf(" -> %d for LIBC PF\n", j); 
 
-
-*/
-   
- 
 		i = ft_printf("{%.*s}", 0, "42");
 	printf(" -> %d for my PF\n", i);
 	j = printf("{%.*s}", 0, "42");
 	printf(" -> %d for LIBC PF\n", j);  
+
+
+	i = ft_printf("%*.*d", 0, 3, 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%*.*d", 0, 3, 0);
+	printf(" -> %d for LIBC PF\n", j);
+*/
+   		i = ft_printf("{%.*s}", 0, "42");
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%.*s}", 0, "42");
+	printf(" -> %d for LIBC PF\n", j);  
+ 
+	
+
+
+
+
 
 
 
