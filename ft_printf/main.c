@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 14:03:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 14:17:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -612,19 +612,19 @@ printf("\nprintf(\"%%*d\", 5, 42);\n");
 				++format;
 			}
 
-			i = ft_printf("%15.4d", 42);
+	//	printf("\nprintf(\"%%*d\", 5, 42);\n"); 
+	
+	
+		i = ft_printf("%15.4d", 42);
 	printf(" -> %d for my PF\n", i);
 	j = printf("%15.4d", 42);
 	printf(" -> %d for LIBC PF\n", j);
-
 */
    
-//	printf("\nprintf(\"%%*d\", 5, 42);\n"); 
-	i = ft_printf("{%.*d}", 5, 42);
+i = ft_printf("{%.*d}", 5, 42);
 	printf(" -> %d for my PF\n", i);
 	j = printf("{%.*d}", 5, 42);
 	printf(" -> %d for LIBC PF\n", j);  
-	
 
 
 

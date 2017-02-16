@@ -6,11 +6,17 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 13:56:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/16 14:19:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ft_printf.h"
+
+/*
+** 						~ LENGTH given as argument ~
+*/
+
+
 
 /*
 ** 						~ PRINTF LOOP ~
@@ -43,6 +49,11 @@ int		ft_printf(char *format, ...)
 				p.min_length = (int)va_arg(ap, int);
 				p.flags.min = (p.min_length < 0) ? 1 : 0;
 				p.min_length = ABS(p.min_length);
+				if (p.apply_precision)
+				{
+					p.precision = p.min_length;
+					p.min_length = 0;
+				}
 				++format;
 			}
 			format = conversion_specifier(format, ap, &p);
