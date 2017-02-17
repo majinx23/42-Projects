@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 10:01:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 10:53:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		ft_printf(char *format, ...)
 			|| (!format[3] && format[2] == 'h'))))
 				break ;
 			p.printed = 0;
-			p.pointer = 0;
 			format = parse_optionals(++format, ap, &p);
 			if (*format == '%')
 				p.len += percent_char(&p);
@@ -110,8 +109,9 @@ int		print_pointer_address(va_list ap, t_printf *p)
 	char			*s;
 	void			*pointer;
 
-	p->flags.sharp = 0;
 	pointer = va_arg(ap, void *);
+	p->flags.sharp = 0;
+	p->min_length -= (p->flags.zero ? 2 : 0);
 	s = itoa_base_printf((uintmax_t)pointer, 16, p);
 	sp_padding = (p->printed > p->min_length - 2) ? 0 :
 		p->min_length - 2 - p->printed;

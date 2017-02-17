@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:57:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 10:53:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct	s_printf
 	t_length_modifier		lm;
 	t_conversion_specifier	cs;
 	int						printed;
-	int						pointer;
 }				t_printf;
 
 /*

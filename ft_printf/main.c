@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 10:17:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 10:30:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -697,20 +697,27 @@ printf("\nprintf(\"%% \")\n");
 	j = printf("%ll#x", 9223372036854775807);
 	printf(" -> %d for LIBC PF\n", j);
 
+
 	//printf("\nprintf(\"%%15.4S\", L\"我是一只猫。\");\n"); // OK as undefined
 	i = ft_printf("%15.4S", L"我是一只猫。");
 	printf(" -> %d for my PF\n", i);
 	j = printf("%15.4S", L"我是一只猫。");
 	printf(" -> %d for LIBC PF\n", j);
 
-*/
-
-	
-	i = ft_printf("%4.S", L"我是一只猫。");
+		i = ft_printf("%4.S", L"我是一只猫。");
 	printf(" -> %d for my PF\n", i);
 	j = printf("%4.S", L"我是一只猫。");
 	printf(" -> %d for LIBC PF\n", j);
 
+*/
+
+	
+
+//printf("\nprintf(\"{%%05p}\", 0)\n");   // OK as undefined
+	i = ft_printf("{%05p}", 0);
+	printf(" -> %d for my PF\n", i);
+	j = printf("{%05p}", 0);
+	printf(" -> %d for LIBC PF\n", j);
 
 
 
@@ -722,11 +729,7 @@ printf("\nprintf(\"%% \")\n");
 	j = 
 	printf(" -> %d for LIBC PF\n", j);
 
-//printf("\nprintf(\"{%%05p}\", 0)\n");   // OK as undefined
-	i = ft_printf("{%05p}", 0);
-	printf(" -> %d for my PF\n", i);
-	j = printf("{%05p}", 0);
-	printf(" -> %d for LIBC PF\n", j);
+
 
 
 
