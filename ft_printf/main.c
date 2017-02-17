@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 10:30:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 14:23:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 # include <stdio.h>
 # include <locale.h>
-# include <stdio.h>
 
 int		main(int ac, char **av)
 {
