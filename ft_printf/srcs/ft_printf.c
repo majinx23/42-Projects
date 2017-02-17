@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 10:53:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 11:07:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int		print_pointer_address(va_list ap, t_printf *p)
 	if (!p->flags.min)
 		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	ft_putstr("0x");
-	ft_putstr(s);
+	ft_putstr_free(s);
 	if (p->flags.min)
 		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	return (MAX(p->printed + 2, p->min_length));
