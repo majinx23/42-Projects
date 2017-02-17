@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:16:05 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:48:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 09:46:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 ** here we parse the % to check for optional inputs :
 ** 1) flags, 2) field width, 3) precision and 4) length modifiers.
 ** Please refer to the man for a more accurate and full description.
+** 5) the call to wildcard_length_modifier is a bonus where the '*' given
+** the field_width or precision in the va_list ap.
+** 6) the second call to parse_flags is to handle undefined behaviors.
 */
 
 char	*parse_optionals(char *format, va_list ap, t_printf *p)
@@ -34,6 +37,7 @@ char	*parse_optionals(char *format, va_list ap, t_printf *p)
 	format = field_width(format, p);
 	format = precision(format, p);
 	format = length_modifier(format, &p->lm);
+	format = parse_flags(format, &p->flags);
 	if (*format == '*' && ++format)
 		wildcard_length_modifier(ap, p);
 	return (format);

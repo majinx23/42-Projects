@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 19:16:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 10:01:00 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** printf will return p.len: the total len of what was displayed by printf
 ** if there is a % we will parse user input, else we will display it.
 */
-#include <stdio.h>//
+
 int		ft_printf(char *format, ...)
 {
 	va_list		ap;
@@ -30,7 +30,8 @@ int		ft_printf(char *format, ...)
 	{
 		if (*format == '%')
 		{
-			if (!(format[1]))
+			if (!format[1] || (format[1] == ' ' && (!format[2]
+			|| (!format[3] && format[2] == 'h'))))
 				break ;
 			p.printed = 0;
 			p.pointer = 0;
@@ -122,6 +123,10 @@ int		print_pointer_address(va_list ap, t_printf *p)
 		ft_putnchar(sp_padding, ((p->flags.zero) ? '0' : ' '));
 	return (MAX(p->printed + 2, p->min_length));
 }
+
+/*
+** function if no conversion specifier was found.
+*/
 
 void	cs_not_found(char *format, t_printf *p)
 {

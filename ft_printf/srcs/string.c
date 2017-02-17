@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 19:31:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 18:52:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 10:19:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int		pf_wide_string(va_list ap, t_printf *p)
 		return (ft_printf_putwstr((wchar_t *)s));
 	wlen = (int)(ft_wstrlen((unsigned *)s));
 	(p->apply_precision) ? wlen = MIN(p->precision, wlen) : 0;
-	sp_padding = MAX(p->min_length - wlen, 0);
+	sp_padding = MAX(p->min_length - wlen +
+		(p->apply_precision && p->precision > 1 ? 1 : 0), 0);
 	p->apply_precision = (p->min_length > p->precision) ? 0 : 1;
 	if (!p->flags.min)
 		ft_putnchar(sp_padding, (p->flags.zero) ? '0' : ' ');

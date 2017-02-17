@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:38 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/16 20:56:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/17 10:17:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -672,12 +672,47 @@ i = ft_printf("{%.*s}", -5, "42");
 	j = printf("%#08x", 42); 
 	printf(" -> %d for LIBC PF\n", j);
 
+printf("\nprintf(\"%% \")\n");
+	i = ft_printf("% ");  
+	printf(" -> %d for my PF\n", i);
+	j = printf("% ");  
+	printf(" -> %d for LIBC PF\n", j);
+
+	printf("\nprintf(\"%% h\")\n");
+	i = ft_printf("% h"); 
+	printf(" -> %d for my PF\n", i);
+	j = printf("% h"); 
+	printf(" -> %d for LIBC PF\n", j);
+
+
+//printf("\nprintf(\"%%5+d\", 42)\n");
+	i = ft_printf("%5+d", 42);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%5+d", 42);
+	printf(" -> %d for LIBC PF\n", j);
+
+	//printf("\nprintf(\"%%ll#x\", 9223372036854775807)\n");
+	i = ft_printf("%ll#x", 9223372036854775807);
+	printf(" -> %d for my PF\n", i);
+	j = printf("%ll#x", 9223372036854775807);
+	printf(" -> %d for LIBC PF\n", j);
+
+	//printf("\nprintf(\"%%15.4S\", L\"我是一只猫。\");\n"); // OK as undefined
+	i = ft_printf("%15.4S", L"我是一只猫。");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%15.4S", L"我是一只猫。");
+	printf(" -> %d for LIBC PF\n", j);
+
 */
 
-
-
-
 	
+	i = ft_printf("%4.S", L"我是一只猫。");
+	printf(" -> %d for my PF\n", i);
+	j = printf("%4.S", L"我是一只猫。");
+	printf(" -> %d for LIBC PF\n", j);
+
+
+
 
 
 /*
@@ -687,17 +722,13 @@ i = ft_printf("{%.*s}", -5, "42");
 	j = 
 	printf(" -> %d for LIBC PF\n", j);
 
-printf("\nprintf(\"{%%05p}\", 0)\n");   // OK as undefined
+//printf("\nprintf(\"{%%05p}\", 0)\n");   // OK as undefined
 	i = ft_printf("{%05p}", 0);
 	printf(" -> %d for my PF\n", i);
 	j = printf("{%05p}", 0);
 	printf(" -> %d for LIBC PF\n", j);
 
-	printf("\nprintf(\"%%15.4S\", L\"我是一只猫。\");\n"); // OK as undefined
-	i = ft_printf("%15.4S", L"我是一只猫。");
-	printf(" -> %d for my PF\n", i);
-	j = printf("%15.4S", L"我是一只猫。");
-	printf(" -> %d for LIBC PF\n", j);
+
 
 
 */
