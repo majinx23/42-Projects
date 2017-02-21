@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_htoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstswap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/29 17:05:59 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/18 15:57:24 by angavrel         ###   ########.fr       */
+/*   Created: 2017/02/19 13:45:58 by angavrel          #+#    #+#             */
+/*   Updated: 2017/02/19 14:51:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_htoi(char *s)
+t_list		*ft_lstswap(t_list *lst1, t_list *lst2)
 {
-	int n;
-
-	n = 0;
-	while (*s)
-	{
-		n *= 16;
-		if (*s >= 'A' && *s <= 'F')
-			n += *s - 'A' + 10;
-		else
-			n += ft_isdigit(*s) ? *s - '0' : *s - 'a' + 10;
-		++s;
-	}
-	return (n);
+		lst1->next = lst2->next;
+		lst2->next = lst1;
+		return (lst2);
 }

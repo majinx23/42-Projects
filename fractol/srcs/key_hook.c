@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 05:47:09 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/10 23:00:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/18 15:47:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,31 @@ void		ft_black_screen(t_3d *d)
 
 /*
 ** Change fractal function
+** d->rng will generate different kind of Julias
 */
 
 static void	set_fractal(int k, t_3d *d)
 {
-	if (k >= KEY_1 && k <= KEY_6)
+	if (k >= KEY_1 && k <= KEY_5)
 	{
 		if (k == KEY_5)
 		{
 			d->fractal = BARNSLEY;
 			(!(d->a)) ? ft_black_screen(d) : ++d->a;
 			d->max = 5000;
+			fractol(d);
 		}
 		else
 		{
-			d->rng = random() % 6;
 			if (k == KEY_1)
 				d->fractal = MANDELBROT;
 			else if (k == KEY_2)
 				d->fractal = JULIA;
 			else if (k == KEY_3)
 				d->fractal = PHOENIX;
-			else if (k == KEY_4)
+			else
 				d->fractal = FLOWERBROT;
+			d->rng = random() % 6;
 			init_julia_set(d);
 		}
 	}
@@ -95,22 +97,25 @@ static void	set_fractal(int k, t_3d *d)
 
 static void	set_color(int k, t_3d *d)
 {
-	if (k == KEY_PAD_0)
-		d->color = 0;
-	else if (k == KEY_PAD_1)
-		d->color = 1;
-	else if (k == KEY_PAD_2)
-		d->color = 2;
-	else if (k == KEY_PAD_3)
-		d->color = 3;
-	else if (k == KEY_PAD_4)
-		d->color = 4;
-	else if (k == KEY_PAD_5)
-		d->color = 5;
-	else if (k == KEY_PAD_6)
-		d->color = 6;
-	else if (k == KEY_PAD_7)
-		d->color = 7;
+	if (k >= KEY_PAD_0 && k <= KEY_PAD_7)
+	{
+		if (k == KEY_PAD_0)
+			d->color = 0;
+		else if (k == KEY_PAD_1)
+			d->color = 1;
+		else if (k == KEY_PAD_2)
+			d->color = 2;
+		else if (k == KEY_PAD_3)
+			d->color = 3;
+		else if (k == KEY_PAD_4)
+			d->color = 4;
+		else if (k == KEY_PAD_5)
+			d->color = 5;
+		else if (k == KEY_PAD_6)
+			d->color = 6;
+		else
+			d->color = 7;
+	}
 }
 
 /*
@@ -129,12 +134,9 @@ int			key_hook(int k, t_3d *d)
 	}
 	if (k == KEY_H)
 		d->menu = d->menu ? 0 : 1;
-	else
-	{
-		set_padding_imax(k, d);
-		set_fractal(k, d);
-		set_color(k, d);
-	}
+	set_padding_imax(k, d);
+	set_fractal(k, d);
+	set_color(k, d);
 	mlx_destroy_image(d->img.mlx, d->img.image);
 	init_img(d);
 	fractol(d);

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 16:14:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/21 00:52:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 # define ABS(a)				(a < 0) ? -a : a
 # define COLOR(s,n)			ft_putstr(s), (format += n)
 # define PF_RED				"\033[31m"
-# define PF_GREEN			"\033[32m"
-# define PF_YELLOW			"\033[33m"
-# define PF_BLUE			"\033[34m"
-# define PF_PURPLE			"\033[35m"
-# define PF_CYAN			"\033[36m"
-# define PF_EOC				"\033[36m"
+# define PF_GREEN			"\033[32m\033[1m"
+# define PF_YELLOW			"\033[33m\033[1m"
+# define PF_BLUE			"\033[34m\033[1m"
+# define PF_PURPLE			"\033[35m\033[1m"
+# define PF_CYAN			"\033[36m\033[1m"
+# define PF_EOC				"\033[37m\033[0m"
 
 # include "libft.h"
 # include <stdarg.h>

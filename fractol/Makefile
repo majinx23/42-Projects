@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 23:54:02 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/07 22:30:31 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/18 16:00:10 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ FLAGS = -Wall -Werror -Wextra
 
 OBJ = $(addprefix $(OBJ_PATH)/,$(SRC:.c=.o))
 
-INC = -I $(INC_PATH) -I $(LIBFT_PATH)/includes
+INC = -I $(INC_PATH) -I $(LIBFT_PATH)
 
 all: lib $(NAME)
 
@@ -52,9 +52,8 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 
 clean:
 	@echo "\033[31m.o files supressed\033[0m"
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ_PATH)
 	@make -C libft/ clean
-	@rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
 	@echo "\033[31mProgram deleted\033[0m"

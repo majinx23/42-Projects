@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 17:20:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/19 15:03:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ float				ft_fclamp(float n, float min, float max);
 char				*ft_str2lower(char *s);
 char				*ft_itoa_base(int n, int b);
 double				ft_pow(double n, int pow);
+t_list				*ft_lstswap(t_list *lst1, t_list *lst2);
 
 /*
 ** printf functions

@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/17 17:03:47 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/19 13:45:38 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,7 +119,8 @@ SRCS_NAME = ft_atoi.c \
 	ft_printf.c \
 	number.c \
 	parsing.c \
-	string.c
+	string.c \
+	ft_lstswap.c
 
 ### PATH ###
 SRCS_PATH = srcs/
