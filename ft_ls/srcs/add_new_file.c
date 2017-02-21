@@ -6,11 +6,15 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 17:05:57 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:10:08 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/21 23:29:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+/*
+** stores file full path data
+*/
 
 static int		get_full_path(char path[PATH_MAX], char *name,
 								char full_path[PATH_MAX])
@@ -25,9 +29,16 @@ static int		get_full_path(char path[PATH_MAX], char *name,
 			full_path[i++] = '/';
 	while (*name && i < PATH_MAX)
 		full_path[i++] = *name++;
-	i < PATH_MAX ? (full_path[i] = '\0') : (errno = ENAMETOOLONG);
+	if (i < PATH_MAX)
+		full_path[i] = '\0';
+	else
+		errno = ENAMETOOLONG;
 	return ((i < PATH_MAX) ? 1 : 0);
 }
+
+/*
+** file structure
+*/
 
 static t_file	*new_file(char path[PATH_MAX], char *name, t_stat *stat)
 {
@@ -50,7 +61,11 @@ static t_file	*new_file(char path[PATH_MAX], char *name, t_stat *stat)
 	return (new);
 }
 
-int				add_new_file(char path[PATH_MAX], char *name, t_file **begin)
+/*
+** adds a new file in the list or create a liste if it didn't exist'
+*/
+
+int				add_new_file(char path[PATH_MAX], char *name, t_file **lst)
 {
 	char		full_path[PATH_MAX];
 	t_stat		stat;
@@ -62,13 +77,13 @@ int				add_new_file(char path[PATH_MAX], char *name, t_file **begin)
 	}
 	if (lstat(full_path, &stat) == -1)
 		return (-1);
-	if (!*begin)
+	if (!*lst)
+		*lst = new_file(path, name, &stat);
+	else
 	{
-		*begin = new_file(path, name, &stat);
-		return (1);
+		while ((*lst)->next)
+			lst = &((*lst)->next);
+		(*lst)->next = new_file(path, name, &stat);
 	}
-	while ((*begin)->next)
-		begin = &((*begin)->next);
-	(*begin)->next = new_file(path, name, &stat);
 	return (1);
 }

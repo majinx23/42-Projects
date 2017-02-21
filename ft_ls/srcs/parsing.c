@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 13:18:29 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:01:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 00:23:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,27 @@ int		parse_options(char *s, int *flags)
 	while (*(++s))
 	{
 		if (*s == 'a')
-			*flags |= 1;
+			*flags |= LS_A;
 		else if (*s == 'R')
-			*flags |= 4;
+			*flags |= LS_RR;
 		else if (*s == 'r')
-			*flags |= 8;
+			*flags |= LS_R;
 		else if (*s == 't')
-			*flags |= 16;
+			*flags |= LS_T;
 		else if (*s == 'd')
-			*flags |= 32;
-		else if (*s == 'c')
-			*flags |= 64;
+			*flags |= LS_D;
+		else if (*s == 'G')
+			*flags |= LS_G;
 		else if ((*s == 'l') || (*s == '1'))
 		{
-			*flags |= (*s == 'l') ? 2 : 128;
-			*flags &= (*s == 'l') ? ~128 : ~2;
+			*flags |= (*s == 'l') ? LS_L : LS_ONE;
+			*flags &= (*s == 'l') ? ~LS_ONE : ~LS_L;
 		}
 		else
 			ls_error(s, USAGE);
 	}
+	if (*flags & LS_A || *flags & LS_R || *flags & LS_RR || *flags & LS_T)
+		*flags |= LS_ONE;
 	return (1);
 }
 
@@ -86,7 +88,7 @@ int		ls_error(char *s, int error)
 		ft_putstr_fd("ft_ls: illegal option -- ", 2);
 		ft_putchar_fd(*s, 2);
 		ft_putchar_fd('\n', 2);
-		ft_putendl_fd("usage: ft_ls [-Ralrt] [file ...]", 2);
+		ft_putendl_fd("usage: ft_ls [-alRrtdG1] [file ...]", 2);
 	}
 	else if (error == ERRNO || error == MALL_ERR)
 		ft_putstr_fd("ft_ls: ", 2);

@@ -6,30 +6,35 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 17:06:45 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:10:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 00:04:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+/*
+** reads folder content
+*/
+
 static t_file	*read_folder(char path[PATH_MAX], char *name, int options)
 {
 	t_file			*begin;
-	DIR				*dir;
+	DIR				*folder;
 	struct dirent	*entry;
 
-	if (!(dir = opendir(path)))
-	{
-		ls_error(name, 0);
-		return (NULL);
-	}
 	begin = NULL;
-	while ((entry = readdir(dir)))
+	if (!(folder = opendir(path)))
+		ls_error(name, 0);
+	else if (!(options & LS_D))
 	{
-		if (entry->d_name[0] != '.' || (options & LS_A))
-			add_new_file(path, entry->d_name, &begin);
-	}
-	closedir(dir);
+		while ((entry = readdir(folder)))
+			if (entry->d_name[0] != '.' || (options & LS_A))
+				add_new_file(path, entry->d_name, &begin);
+	}		
+	else
+		add_new_file(path, ".", &begin);
+	if (folder)
+		closedir(folder);
 	return (begin);
 }
 
@@ -44,25 +49,28 @@ static void 	print_folder_name(char *full_path, int number, int *first)
 		ft_printf("\n%s:\n", full_path);
 }
 
-int				print_folders(t_file *begin, int options, t_bool first,
-								int number)
+/*
+** display folders and content
+*/
+
+int				print_folders(t_file *begin, int flags, t_bool empty, int n)
 {
 	t_file			*file;
 
 	file = begin;
-	if (!(options & LS_RR) && !first)
+	if (!(flags & LS_RR) && !empty)
 		return (1);
 	while (file)
 	{
 		if (S_ISDIR(file->mode) &&
-			(first || (ft_strcmp(file->name, ".") && ft_strcmp(file->name, ".."))))
+			(empty || (ft_strcmp(file->name, ".") && ft_strcmp(file->name, ".."))))
 		{
-			print_folder_name(file->full_path, number, &first);
-			begin = read_folder(file->full_path, file->name, options);
+			print_folder_name(file->full_path, n, &empty);	
+			begin = read_folder(file->full_path, file->name, flags);
 			if (begin)
 			{
-				display_list(&begin, options);
-				print_folders(begin, options, 0, -1);
+				display_list(&begin, flags);
+				print_folders(begin, flags, 0, -1);
 				free_list_content(&begin);
 			}
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 03:09:33 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:09:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 00:17:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int		display_basic_list(t_file *lst, int flags)
 	t_index	i;
 	t_file	*tmp_lst;
 
-	maxlen = lst_maxlen(lst) + 1;
+	maxlen = lst_maxlen(lst) + ((flags & LS_G) ? 1 : 4);
 	ioctl(0, TIOCGWINSZ, &ts);
 	i.x = (!(flags & 128)) ? ts.ts_cols / maxlen : 1;
 	i.y = 0;
@@ -94,7 +94,7 @@ int				display_list(t_file **lst, int flags)
 
 void		display_name(t_file *l, int flags)
 {
-	if (flags & LS_C)
+	if (flags & LS_G)
 	{
 		if (S_ISDIR(l->mode))
 			ft_printf("%{cyan}%s%{eoc}", l->name);

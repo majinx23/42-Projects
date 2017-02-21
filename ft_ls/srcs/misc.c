@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 17:06:25 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:09:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:36:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		ft_sort_tab(char **tab, int size, int (*f)(const char*, const char*))
 	int		i;
 	int		j;
 	char	*tmp;
+
 
 	j = 0;
 	while (j < size)

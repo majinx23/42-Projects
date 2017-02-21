@@ -42,7 +42,7 @@ enum	{ERRNO, USAGE, MALL_ERR};
 # define LS_R	8
 # define LS_T	16
 # define LS_D	32
-# define LS_C	64
+# define LS_G	64
 # define LS_ONE 128
 
 typedef struct stat		t_stat;
@@ -91,7 +91,7 @@ int		ls_error(char *s, int error);
 ** displaying files
 */
 
-t_file	*init_files_list(char **av, int ac, int flags, int first);
+t_file	*init_files_list(char **av, int ac, int first);
 
 
 

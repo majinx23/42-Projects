@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_list_items.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 03:09:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:09:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:51:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ int				display_list_items(t_file *file, int size[6], int flags)
 	display_time(file);
 	if (str[0] != 'l')
 		display_name(file, flags);
-	//	ft_printf("%s", file->name);
 	else
 	{
 		ft_bzero(buf, NAME_MAX + 1);

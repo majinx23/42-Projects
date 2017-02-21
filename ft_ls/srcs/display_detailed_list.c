@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_detailed_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 03:09:19 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 03:09:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/21 23:31:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ int		display_detailed_list(t_file *lst, int flags)
 	return (1);
 }
 
-int			get_row_size(t_file *file, int size[6], int *total)
+/*
+** function to calculate row size
+*/
+
+int		get_row_size(t_file *file, int size[6], int *total)
 {
 	int	len;
 
