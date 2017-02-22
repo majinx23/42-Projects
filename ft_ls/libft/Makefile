@@ -6,13 +6,13 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/19 13:45:38 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/22 01:12:05 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-INC = -I ./incl/
+INC = -I ./includes/
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -114,13 +114,13 @@ SRCS_NAME = ft_atoi.c \
 	  ft_ldtoa.c \
 	  ft_round.c \
 	  ft_putstr_free.c \
-	bonus.c \
-	character.c \
+	ft_lstswap.c \
 	ft_printf.c \
-	number.c \
-	parsing.c \
-	string.c \
-	ft_lstswap.c
+	pf_bonus.c \
+	pf_character.c \
+	pf_number.c \
+	pf_parsing.c \
+	pf_string.c \
 
 ### PATH ###
 SRCS_PATH = srcs/

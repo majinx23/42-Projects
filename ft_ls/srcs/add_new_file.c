@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 17:05:57 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 23:29:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 03:47:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_file	*new_file(char path[PATH_MAX], char *name, t_stat *stat)
 	new->st_nlink = stat->st_nlink;
 	new->st_uid = stat->st_uid;
 	new->st_gid = stat->st_gid;
-	new->st_size = stat->st_size;
+	new->size = stat->st_size;
 	new->st_rdev = stat->st_rdev;
 	new->time = stat->st_mtimespec.tv_sec;
 	new->ntime = stat->st_mtimespec.tv_nsec;

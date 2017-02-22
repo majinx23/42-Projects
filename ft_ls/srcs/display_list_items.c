@@ -6,14 +6,14 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 03:09:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/21 22:51:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 07:00:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 /*
-** function to know what is the type of the file
+** function to get file type
 */
 
 static char		get_file_type(int mode)
@@ -36,6 +36,10 @@ static char		get_file_type(int mode)
 	else
 		return ('-');
 }
+
+/*
+** function to get number of links
+*/
 
 static char		get_file_acl(char path[PATH_MAX])
 {
@@ -97,34 +101,34 @@ static void		display_time(t_file *file)
 
 /*
 ** function used for -l option
-** 
+** name is not display is file type is a link
 */
 
-int				display_list_items(t_file *file, int size[6], int flags)
+int				display_list_items(t_file *file, int size[7], int flags)
 {
 	char	str[12];
 	char	buf[NAME_MAX + 1];
 
+	(flags & LS_S) ? ft_printf("%*hu ", size[0], file->st_blocks) : 0;
 	display_chmod(str, file->mode, file->full_path);
-	ft_printf(" %*hu", size[0], file->st_nlink);
-	ft_printf(" %-*s", size[1], getpwuid(file->st_uid)->pw_name);
-	ft_printf("  %-*s", size[2], getgrgid(file->st_gid)->gr_name);
+	ft_printf(" %*hu", size[1], file->st_nlink);
+	ft_printf(" %-*s", size[2], getpwuid(file->st_uid)->pw_name);
+	ft_printf("  %-*s", size[3], getgrgid(file->st_gid)->gr_name);
 	if (str[0] != 'c' && str[0] != 'b')
-		ft_printf("  %*lld", size[3], file->st_size);
+		ft_printf("  %*lld", size[4], file->size);
 	else
 	{
-		ft_printf(" %*d", size[4], major(file->st_rdev));
-		ft_printf(", %*d", size[5], minor(file->st_rdev));
+		ft_printf(" %*d", size[5], major(file->st_rdev));
+		ft_printf(", %*d", size[6], minor(file->st_rdev));
 	}
 	display_time(file);
 	if (str[0] != 'l')
-		display_name(file, flags);
+		display_name(file, flags, 0);
 	else
 	{
 		ft_bzero(buf, NAME_MAX + 1);
 		readlink(file->full_path, buf, NAME_MAX);
 		ft_printf("%s -> %s", file->name, buf);
 	}
-	ft_putchar('\n');
 	return (1);
 }

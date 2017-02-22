@@ -6,11 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 19:18:44 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/17 11:07:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 04:19:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/ft_printf.h"
+#include "ft_printf.h"
 
 /*
 ** 						~ PRINTF LOOP ~
@@ -95,8 +95,14 @@ char	*conversion_specifier(char *format, va_list ap, t_printf *p)
 
 void	ft_putnchar(int len, char c)
 {
+	char	*s;
+
+	if (!(s = (char *)malloc(sizeof(char) * len + 1)))
+		return ;
+	s[len] = '\0';
 	while (len--)
-		ft_putchar(c);
+		s[len] = c;
+	ft_putstr_free(s);
 }
 
 /*
