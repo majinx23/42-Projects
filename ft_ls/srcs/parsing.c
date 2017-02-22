@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 13:18:29 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/22 05:21:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/22 07:28:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int			ls_error(char *s, int error)
 		ft_putstr_fd("ft_ls: illegal option -- ", 2);
 		ft_putchar_fd(*s, 2);
 		ft_putchar_fd('\n', 2);
-		ft_putendl_fd("usage: ft_ls [-alRrtdG1S] [file ...]", 2);
+		ft_putendl_fd("usage: ft_ls [-alRrtdG1Ss] [file ...]", 2);
 	}
 	else if (error == ERRNO || error == MALL_ERR)
 		ft_putstr_fd("ft_ls: ", 2);
