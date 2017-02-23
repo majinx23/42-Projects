@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 13:18:29 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/22 07:28:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/02/23 02:07:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ int			parse_options(char *s, int *flags)
 			ls_error(s, USAGE);
 		*flags |= (1 << n);
 		if ((*s == 'l') || (*s == '1'))
-		{
-			*flags |= (*s == 'l') ? LS_L : LS_ONE;
 			*flags &= (*s == 'l') ? ~LS_ONE : ~LS_L;
-		}
 	}
 	return (1);
 }
