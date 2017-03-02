@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/02 14:55:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/02 18:05:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void        filler_loop(t_filler *f)
 	board_char2int(f->max, b);
     SKIP_LINE;
 	filler_atoi(&f->piece_dim, line + 6);
-	get_piece(f, line, b);
+	trim_piece(f, line, b);
     SKIP_LINE;
 	if (i.y != -1)
     	filler_loop(f);
@@ -84,6 +84,7 @@ void        filler_loop(t_filler *f)
 		i.y = -1;
 }
 
+/*
 void	get_piece(t_filler *f, char *line, char b[f->max.y][f->max.x])
 {
 	t_index	i;
@@ -96,6 +97,69 @@ void	get_piece(t_filler *f, char *line, char b[f->max.y][f->max.x])
 		 ft_strcpy(p[i.y], line);
 	}
 	piece_char2int(f->piece_dim, p);
+	display_board(f->max, b); // debug
+	display_piece(f->piece_dim, p); // debug function
+	solver(f, b, p);
+}
+*/
+
+/*
+** remove extra rows and columns from transmitted piece
+*/
+
+void	trim_piece(t_filler *f, char *line, BOARD)
+{
+	char	tmp[f->piece_dim.y][f->piece_dim.x];
+	t_index	i;
+	t_index	t;
+
+	i.y = -1;
+    while (++i.y < f->piece_dim.y)
+	{
+		 get_next_line(0, &line);
+		 ft_strcpy(tmp[i.y], line);
+	}
+	piece_char2int(f, f->piece_dim, tmp);
+	t = f->piece_dim;
+	f->piece_dim.y = f->max_dim.y - f->min_dim.y + 1;
+	f->piece_dim.x = f->max_dim.x - f->min_dim.x + 1;
+						
+	ft_putendl_fd(" min dim.x\n", 2);
+	ft_putnbr_fd(f->piece_dim.x, 2);
+/*	ft_putnbr_fd(f->min_dim.x, 2);
+ft_putendl_fd(" min dim.x\n", 2);
+	ft_putnbr_fd(f->min_dim.y, 2);
+	ft_putendl_fd(" min dim.x\n", 2);
+	ft_putnbr_fd(f->max_dim.x, 2);
+	ft_putendl_fd(" max dim.x\n", 2);
+	ft_putnbr_fd(f->max_dim.y, 2);
+	ft_putendl_fd(" max dim.y\n", 2);*/
+	get_piece(f, b, t, tmp);
+}
+
+/*
+**
+*/
+
+void	get_piece(t_filler *f, BOARD, t_index t, char tmp[t.y][t.x])
+{
+	char	p[f->piece_dim.y][f->piece_dim.x];
+	t_index	i;
+	t_index	new;
+
+	i.y = f->min_dim.y -1;
+	new.y = 0;
+    while (++i.y <= f->max_dim.y)
+	{
+		new.x = 0;
+		i.x = f->min_dim.x -1;
+		while (++i.x <= f->max_dim.x)
+		{
+			p[new.y][new.x] = tmp[i.y][i.x];
+			++new.x;
+		}
+		++new.y;
+	}
 	display_board(f->max, b); // debug
 	display_piece(f->piece_dim, p); // debug function
 	solver(f, b, p);
@@ -146,17 +210,39 @@ void	board_char2int(t_index max, char b[max.y][max.x])
 ** 1 replaces * and 0 replaces .
 */
 
-void	piece_char2int(t_index max, char p[max.y][max.x])
+void	piece_char2int(t_filler *f, t_index max, char p[max.y][max.x])
 {
 	t_index	i;
+
+	f->min_dim = (t_index) {.y = max.y, .x = max.x};
+//	f->min_dim.y = max.y;
+//	f->min_dim.x = max.x;
+	f->max_dim = (t_index) {.y = 0, .x = 0};
 
 	i.y = -1;
     while (++i.y < max.y)
     {
 		i.x = -1;
 		while (++i.x < max.x)
+		{
 			p[i.y][i.x] = INT2(p[i.y][i.x]);
+			if (p[i.y][i.x])
+			{
+				f->max_dim.y = MAX(f->max_dim.y, i.y);
+				f->max_dim.x = MAX(f->max_dim.x, i.x);
+	//			if (i.y < f->min_dim.y)
+	//				f->min_dim.y = i.y;
+	//			if (i.x< f->min_dim.x)
+	//				f->min_dim.x = i.x;	
+				f->min_dim.y = MIN(f->min_dim.y, i.y);
+				f->min_dim.x = MIN(f->min_dim.x, i.x);
+	//			ft_putnbr_fd(f->min_dim.x, 2);
+	//			ft_putendl_fd("hahgagagaegegaeg\n", 2);
+
+			}
+		}
     }
+	
 }
 
 void	display_board(t_index max, char b[max.y][max.x])

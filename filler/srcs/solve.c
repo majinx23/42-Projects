@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/02 14:56:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/02 18:10:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void		solver(t_filler *f, BOARD, PIECE)
 
 	
 	shortest_distance(f, b, p);
+	LAST.y -= f->min_dim.y;
+	LAST.x -= f->min_dim.x;
 	return_piece(LAST.y, LAST.x);
 	++f->turn;
 }
@@ -125,7 +127,7 @@ int		put_piece_on_J(t_filler *f, BOARD, PIECE)
 
 	max_score = 0;
 	f->padding.y = 0;
-	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) &&
+	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) && 
 	(f->padding.y < f->piece_dim.y))
 	{
 		f->padding.x = 0;
@@ -159,14 +161,14 @@ int		piece_valid_position(t_filler *f, BOARD, PIECE)
 	int		connect;
 	t_index	i;
 	int		cell;
-
+/*
 	ft_putstr_fd("Piece [", 2);
 	ft_putnbr_fd(f->piece_dim.y, 2);
 	ft_putstr_fd("] [", 2);
 	ft_putnbr_fd(f->piece_dim.x, 2);
 	ft_putstr_fd("]\n", 2);
 	ft_putstr_fd("\033[37m", 2);
-	connect = 0;
+*/	connect = 0;
 	f->score = 0;
 	i.y = -1;
 	while (++i.y < f->piece_dim.y)
@@ -190,7 +192,7 @@ int		piece_valid_position(t_filler *f, BOARD, PIECE)
 			}
 		}
 	}
-	return (!connect ? 0 : 1);
+	return (connect);
 //	return (connect * f->score); // connect is either equal to 0 or 1.
 }
 

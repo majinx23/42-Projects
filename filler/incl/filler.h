@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/02 14:51:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/02 16:26:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "libft.h"
 # include <mlx.h>
 
+
+# define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
+# define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
 # define SKIP_LINE		get_next_line(0, &line)
 # define PLY			f->player
 # define CPU			f->cpu
@@ -49,6 +52,10 @@ typedef struct	s_corners
 	t_index		se;
 }				t_corners;
 
+/*
+** structure for graphic bonus
+*/
+
 typedef struct	s_env
 {
 	void		*mlx;
@@ -61,7 +68,6 @@ typedef struct	s_env
 	t_index		i;
 }				t_env;
 
-
 /*
 ** board is the board stocked as char* while b is the board as int *
 */
@@ -72,7 +78,9 @@ typedef struct	s_filler
 	int			player;
 	t_index		max;
 	t_index		piece_dim;
-	
+	t_index		min_dim;
+	t_index		max_dim;
+
 	t_index		cpu_closest_piece;
 	t_index		player_closest_piece;
 	int			distance;
@@ -97,9 +105,10 @@ int				get_board_dimension(t_filler *filler, char *s);
 
 void			filler_loop(t_filler *filler);
 void			filler_atoi(t_index *i, char *s);
-void			get_piece(t_filler *f, char *line, char b[f->max.y][f->max.x]);
+void			trim_piece(t_filler *f, char *line, BOARD);
+void			get_piece(t_filler *f, BOARD, t_index t, char tmp[t.y][t.x]);
 void			board_char2int(t_index max, char b[max.y][max.x]);
-void			piece_char2int(t_index max, char p[max.y][max.x]);
+void			piece_char2int(t_filler *f, t_index max, char p[max.y][max.x]);
 
 /*
 ** debug/display functions//
