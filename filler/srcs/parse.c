@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/10 20:07:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/02 14:55:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
 
 int			main(void)
 {
-	t_filler	*f;
+	t_filler	f;
+	t_env		env;
     char        *line;
 
-	f = init_filler();
+	ft_bzero(&env, sizeof(t_env));
+	f.env = &env;
+	init_filler(&f);
     get_next_line(0, &line);//$$$ exec p[1-2]
-//   f->player = (line[10] - '1') ? 'X' : 'O';
-//   f->cpu = (f->player == 'X') ? 'O' : 'X';
-	PLY = (line[10] - '1') ? 2 : 1;
-	CPU = (f->player >> 1) ? 1 : 2;
-//	ft_putnbr_fd(PLY, 2);
-//	ft_putnbr_fd(CPU, 2);
+	f.player = (line[10] - '1') ? 2 : 1;
+	f.cpu = (f.player >> 1) ? 1 : 2;
     get_next_line(0, &line);//Plateau 14 17:       
-    get_board_dimension(f, line);
-    filler_loop(f);
+  	filler_atoi(&f.max, line + 8);
+//	ft_init_win(f.env, f.max);
+    filler_loop(&f);
 	return (0);
 }
 
@@ -41,19 +41,86 @@ int			main(void)
 ** variables initialization
 */
 
-t_filler	*init_filler(void)
+void		init_filler(t_filler *f)
 {
-	t_filler *f;
-
-	if (!(f = (t_filler*)malloc(sizeof(t_filler))))
-		return (NULL);
     LAST = (t_index) {.y = 8, .x = 2};
 	f->cpu_closest_piece = (t_index) {.y = 0, .x = 0};
-	f->b = NULL;
-	f->p= NULL;
 	f->distance = 2147483647;
 	f->turn = 0;
-	return (f);
+	f->piece_dim = (t_index) {.y = 8, .x = 0};
+	f->max = (t_index) {.y = 8, .x = 0};
+}
+
+/*
+** first SKIP_LINE is for skipping 012345...
+** then we store into an array data related to the board shape
+** second SKIP_LINE is to get piece dimensions (Piece 5 6)
+** then we store into an array data related to the piece shape
+** third SKIP_LINE is to skip Plateau as we already know board dimensions
+*/
+
+void        filler_loop(t_filler *f)
+{
+    t_index	i;
+    char    *line;
+	char	b[f->max.y][f->max.x];
+
+    SKIP_LINE;
+    i.y = -1;
+    while (++i.y < f->max.y)
+	{
+        get_next_line(0, &line);
+		ft_strcpy(b[i.y], line + 4);
+	}
+//		ft_putnbr_fd(f.max.x, 2);
+	board_char2int(f->max, b);
+    SKIP_LINE;
+	filler_atoi(&f->piece_dim, line + 6);
+	get_piece(f, line, b);
+    SKIP_LINE;
+	if (i.y != -1)
+    	filler_loop(f);
+	else
+		i.y = -1;
+}
+
+void	get_piece(t_filler *f, char *line, char b[f->max.y][f->max.x])
+{
+	t_index	i;
+	char	p[f->piece_dim.y][f->piece_dim.x];
+
+	i.y = -1;
+    while (++i.y < f->piece_dim.y)
+	{
+		 get_next_line(0, &line);
+		 ft_strcpy(p[i.y], line);
+	}
+	piece_char2int(f->piece_dim, p);
+	display_board(f->max, b); // debug
+	display_piece(f->piece_dim, p); // debug function
+	solver(f, b, p);
+}
+
+/*
+** reset y and x value then
+** getting y, skipping the space, getting x.
+*/
+
+void	filler_atoi(t_index *max, char *s)
+{
+	int		r;
+
+	r = 0;
+	while (*s >= '0' && *s <= '9')
+		r = r * 10 + *s++ - '0';
+	max->y = r;
+	++s;
+	r = 0;
+	while (*s >= '0' && *s <= '9')
+		r = r * 10 + *s++ - '0';
+	max->x = r;
+	if (max->x <= 0 || max->y <= 0)
+		EXIT_MSG("Wrong dimensions");	
 }
 
 /*
@@ -61,16 +128,16 @@ t_filler	*init_filler(void)
 ** 1 for Player and 2 for CPU, 0 if empty.
 */
 
-void	board_char2int(t_filler *f)
+void	board_char2int(t_index max, char b[max.y][max.x])
 {
 	t_index	i;
 
 	i.y = -1;
-    while (++i.y < f->max.y)
+    while (++i.y < max.y)
     {
 		i.x = -1;
-		while (++i.x < f->max.x)
-			f->b[i.y][i.x] = INT(f->b[i.y][i.x + 4]);
+		while (++i.x < max.x)
+			b[i.y][i.x] = INT(b[i.y][i.x]);
     }
 }
 
@@ -79,37 +146,37 @@ void	board_char2int(t_filler *f)
 ** 1 replaces * and 0 replaces .
 */
 
-void	piece_char2int(t_filler *f)
+void	piece_char2int(t_index max, char p[max.y][max.x])
 {
 	t_index	i;
 
 	i.y = -1;
-    while (++i.y < f->piece_dim.y)
+    while (++i.y < max.y)
     {
 		i.x = -1;
-		while (++i.x < f->piece_dim.x)
-			f->p[i.y][i.x] = INT2(f->p[i.y][i.x]);
+		while (++i.x < max.x)
+			p[i.y][i.x] = INT2(p[i.y][i.x]);
     }
 }
 
-void	display_board(t_filler *f)
+void	display_board(t_index max, char b[max.y][max.x])
 {
 	t_index	i;
 
 	ft_putchar_fd('\n', 2);
 	i.y = -1;
-    while (++i.y < f->max.y)
+    while (++i.y < max.y)
     {
 		i.x = -1;
-		while (++i.x < f->max.x)
+		while (++i.x < max.x)
 		{
-			if (!f->b[i.y][i.x])
+			if (!b[i.y][i.x])
        			ft_putstr_fd("\033[30m", 2);
-			else if (f->b[i.y][i.x] >> 1)
+			else if (b[i.y][i.x] >> 1)
 				ft_putstr_fd("\033[31m", 2);
 			else
 				ft_putstr_fd("\033[32m", 2);
-			ft_putnbr_fd(f->b[i.y][i.x], 2);
+			ft_putnbr_fd(b[i.y][i.x], 2);
 			ft_putstr_fd("\033[37m", 2);
 		}
 		ft_putchar_fd('\n', 2);
@@ -117,19 +184,19 @@ void	display_board(t_filler *f)
 	ft_putchar_fd('\n', 2);
 }
 
-void	display_piece(t_filler *f)
+void	display_piece(t_index max, char p[max.y][max.x])
 {
 	t_index	i;
 
 	ft_putchar_fd('\n', 2);
 	i.y = -1;
-    while (++i.y < f->piece_dim.y)
+    while (++i.y < max.y)
     {
 		i.x = -1;
-		while (++i.x < f->piece_dim.x)
+		while (++i.x < max.x)
 		{
-			(!f->p[i.y][i.x]) ? ft_putstr_fd("\033[33m", 2) : ft_putstr_fd("\033[32m", 2);
-			ft_putnbr_fd(f->p[i.y][i.x], 2);
+			(!p[i.y][i.x]) ? ft_putstr_fd("\033[33m", 2) : ft_putstr_fd("\033[32m", 2);
+			ft_putnbr_fd(p[i.y][i.x], 2);
 			ft_putstr_fd("\033[37m", 2);
       	 	
 		}
@@ -225,115 +292,3 @@ Player with O: error on input
 
 
 
-/*
-** first SKIP_LINE is for skipping 012345...
-** then we store into an array data related to the board shape
-** second SKIP_LINE is to get piece dimensions (Piece 5 6)
-** then we store into an array data related to the piece shape
-** third SKIP_LINE is to skip Plateau as we already know board dimensions
-*/
-
-void        filler_loop(t_filler *f)
-{
-    t_index	i;
-    char    *line;
-
-    SKIP_LINE;
-    i.y = -1;
-ft_putstr_fd("test", 2);
-    while (++i.y < f->max.y)
-	{ 
-        get_next_line(0, &line);
-		ft_strcpy(f->b[i.y], line);
-	}
-	
-	board_char2int(f);
-	
-		ft_putstr_fd("test", 2);
-    SKIP_LINE;
-		ft_putstr_fd("1", 2);
-	get_piece(f, line);
-ft_putstr_fd("2", 2);
-//	ft_putchar_fd('\n', 2);
-//	ft_putnbr_fd(f->piece_dim.x * f->piece_dim.y, 2);
-//	ft_putchar_fd('\n', 2);
-	
-    i.y = -1;
-	ft_putstr_fd("3", 2);
-    while (++i.y < f->piece_dim.y)
-        get_next_line(0, &f->p[i.y]);
-
-	piece_char2int(f);
-
-//	trim_piece_extra_rows(f);
-//	trim_piece_extra_columns(f);
-
-	
-	display_board(f); // debug
-	display_piece(f); // debug function
-
-	solver(f);
-    SKIP_LINE;
-	if (i.y != -1)
-    	filler_loop(f);
-	else
-		i.y = -1;
-}
-
-/*
-** Assuming that VM sends correct data
-*/
-
-int		get_board_dimension(t_filler *f, char *s)
-{
-	int		i;
-
-	filler_atoi(&f->max, s + 8);
-	if (!(f->b = (char **)malloc(sizeof(char *) * (f->max.y + 1))))
-		EXIT_MSG("Failed to malloc board dimensions");
-	i = -1;
-	while (++i < f->max.y)
-		if (!(f->b[i] = (char *)malloc(6 + f->max.x)))
-			EXIT_MSG("Failed to malloc board dimensions");
-	return (1);
-}
-
-int		get_piece(t_filler *f, char *s)
-{
-	int i;
-
-	filler_atoi(&f->piece_dim, s + 6);
-
-	if (!(f->p = (char **)malloc(sizeof(char *) * (f->piece_dim.y + 1))))
-		EXIT_MSG("Failed to malloc piece");
-	i = -1;
-	while (++i < f->piece_dim.y)
-	{
-		if (!(f->p[i] = (char *)ft_memalloc(f->piece_dim.x + 1)))
-			EXIT_MSG("Failed to malloc piece");
-		f->p[i][f->piece_dim.x] = '\0';
-	}
-	return (1);
-}
-
-/*
-** reset y and x value then
-** getting y, skipping the space, getting x.
-*/
-
-void	filler_atoi(t_index *i, char *s)
-{
-	int		r;
-
-	r = 0;
-	while (*s >= '0' && *s <= '9')
-		r = r * 10 + *s++ - '0';
-	i->y = r;
-	++s;
-	r = 0;
-	while (*s >= '0' && *s <= '9')
-		r = r * 10 + *s++ - '0';
-	i->x = r;
-	if (i->x <= 0 || i->y <= 0)
-		EXIT_MSG("Wrong dimensions");	
-}

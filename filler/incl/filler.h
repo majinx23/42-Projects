@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/11 00:11:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/02 14:51:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h> //printf to be removed before final push
 # include "libft.h"
+# include <mlx.h>
 
 # define SKIP_LINE		get_next_line(0, &line)
 # define PLY			f->player
@@ -25,13 +26,15 @@
 # define J				f->player_closest_piece
 # define INT(c)			(int)((c - 46) / 21)
 # define INT2(c)		(int)((46 - c) >> 2)
+# define BOARD			char b[f->max.y][f->max.x]
+# define PIECE			char p[f->piece_dim.y][f->piece_dim.x]
 
 typedef struct	s_index
 {
-	int	x;
-	int	y;
+	int			x;
+	int			y;
 }				t_index;
-
+			
 /*
 ** board is the board
 ** max is max dimension y and x of the board
@@ -46,7 +49,17 @@ typedef struct	s_corners
 	t_index		se;
 }				t_corners;
 
-
+typedef struct	s_env
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			endian;
+	int			sl;
+	t_index		i;
+}				t_env;
 
 
 /*
@@ -57,11 +70,7 @@ typedef struct	s_filler
 {
 	int			cpu;
 	int			player;
-
-	char		**b;
 	t_index		max;
-	
-	char		**p;
 	t_index		piece_dim;
 	
 	t_index		cpu_closest_piece;
@@ -75,6 +84,7 @@ typedef struct	s_filler
 	int			score;
 	t_corners	corners;
 	int			turn;
+	t_env		*env;
 }				t_filler;
 
 
@@ -82,24 +92,38 @@ typedef struct	s_filler
 ** initialization and parsing functions
 */
 
-t_filler		*init_filler(void);
+void			init_filler(t_filler *f);
 int				get_board_dimension(t_filler *filler, char *s);
+
+void			filler_loop(t_filler *filler);
 void			filler_atoi(t_index *i, char *s);
-int				get_piece(t_filler *filler, char *s);
-void			board_char2int(t_filler *f);
-void			piece_char2int(t_filler *f);
+void			get_piece(t_filler *f, char *line, char b[f->max.y][f->max.x]);
+void			board_char2int(t_index max, char b[max.y][max.x]);
+void			piece_char2int(t_index max, char p[max.y][max.x]);
+
+/*
+** debug/display functions//
+*/
+void			display_board(t_index max, char b[max.y][max.x]);//
+void			display_piece(t_index max, char p[max.y][max.x]);//
 
 /*
 ** solving algos
 */
 
-void			filler_loop(t_filler *filler);
-void			solver(t_filler *filler);
-int				put_piece(t_filler *filler);
-void			return_piece(int a, int b);
-void			shortest_distance(t_filler *f);
-int				player_closest(t_filler *f);
-int				try_put_piece_around_J(t_filler *f);
-int				try_put_piece(t_filler *f);
+void			solver(t_filler *f, BOARD, PIECE);
+void			shortest_distance(t_filler *f, BOARD, PIECE);
+int				player_closest(t_filler *f, BOARD, PIECE);
+int				put_piece_on_J(t_filler *f, BOARD, PIECE);
+int				piece_valid_position(t_filler *f, BOARD, PIECE);
+int				put_piece(t_filler *f, BOARD, PIECE);
 
+void			return_piece(int a, int b);
+
+/*
+** filler interaction
+*/
+
+void			update_board(t_filler *f, BOARD);
+void			ft_init_win(t_env *env, t_index max);
 #endif

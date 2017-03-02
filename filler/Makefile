@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/09 20:21:41 by angavrel         ###   ########.fr        #
+#    Updated: 2017/02/23 09:29:48 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,15 @@ OBJ_PATH  = obj/
 LIBFT_PATH = libft/
 
 SRCS_NAME =	parse.c \
-			solve.c
+			solve.c \
+			draw.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(SRCS_NAME:.c=.o))
 
 $(NAME): $(OBJ)
 #	make -C $(LIBFT_PATH)
-	gcc $(FLAGS) $(OBJ) $(INC) -L $(LIBFT_PATH) -lft -o $(NAME)
+	gcc $(FLAGS) $(OBJ) $(INC) -L $(LIBFT_PATH) -lft -framework OpenGL -framework AppKit -lmlx -o $(NAME)
 
 all: $(NAME)
 
