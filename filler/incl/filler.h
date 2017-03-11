@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/02 16:26:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/11 04:43:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,37 @@
 # include "libft.h"
 # include <mlx.h>
 
+/*
+** mathematics functions used as define
+*/
 
-# define MAX(a, b)			b & ((a - b) >> 31) | a & (~(a - b) >> 31)
-# define MIN(a, b)			a & ((a - b) >> 31) | b & (~(a - b) >> 31)
+# define MAX(a, b)			(a > b ? a : b)
+# define MIN(a, b)			(a < b ? a : b)
+
+/*
+** Board and Piece are saved on the stack
+** INT converts board dta into 2 (opponent), 1 (player) and 0 (.)
+** INT2 convert piece data into 1 (*) amd 0 (.) 
+*/
+
+# define BOARD			int b[f->max.y][f->max.x]
+# define PIECE			int p[f->piece_dim.y][f->piece_dim.x]
+# define INT(c)			(int)((c - 46) / 21)
+# define INT2(c)		(int)((46 - c) >> 2)
+
+/*
+** other usefull define
+*/
+
 # define SKIP_LINE		get_next_line(0, &line)
 # define PLY			f->player
 # define CPU			f->cpu
 # define LAST 			f->last_p
 # define EXIT_MSG(s)	ft_putstr("\033[31m"), ft_putendl(s), exit(-1)
-# define C				f->cpu_closest_piece
-# define J				f->player_closest_piece
-# define INT(c)			(int)((c - 46) / 21)
-# define INT2(c)		(int)((46 - c) >> 2)
-# define BOARD			char b[f->max.y][f->max.x]
-# define PIECE			char p[f->piece_dim.y][f->piece_dim.x]
+
+/*
+** structure for (y, x) points
+*/
 
 typedef struct	s_index
 {
@@ -39,18 +56,14 @@ typedef struct	s_index
 }				t_index;
 			
 /*
-** board is the board
-** max is max dimension y and x of the board
-** player is the position of the player.
+** this list saved all valid positions
 */
 
-typedef struct	s_corners
+typedef struct		s_point
 {
-	t_index		nw;
-	t_index		sw;
-	t_index		ne;
-	t_index		se;
-}				t_corners;
+	t_index			i;
+	struct s_point	*next;
+}					t_point;
 
 /*
 ** structure for graphic bonus
@@ -70,6 +83,8 @@ typedef struct	s_env
 
 /*
 ** board is the board stocked as char* while b is the board as int *
+** max is max dimension y and x of the board
+** player is the position of the player.
 */
 
 typedef struct	s_filler
@@ -79,60 +94,65 @@ typedef struct	s_filler
 	t_index		max;
 	t_index		piece_dim;
 	t_index		min_dim;
-	t_index		max_dim;
-
-	t_index		cpu_closest_piece;
-	t_index		player_closest_piece;
-	int			distance;
-
-	t_index		padding;
 	t_index		last_p;
-	int			found;
-
-	int			score;
-	t_corners	corners;
 	int			turn;
+
 	t_env		*env;
 }				t_filler;
 
-
 /*
-** initialization and parsing functions
+** debug/display functions ~ debug.c//
 */
 
-void			init_filler(t_filler *f);
-int				get_board_dimension(t_filler *filler, char *s);
+void			display_min(t_filler *f);//
+void			display_board(t_index max, int b[max.y][max.x]);//
+void			display_piece(t_index max, int p[max.y][max.x]);//
+void			display_last(t_filler *f);//
+void			display_turn_nb(t_filler *f);//
+void			display_points(t_point **points);//
+
+/*
+** initialization and parsing functions ~ parse.c
+*/
 
 void			filler_loop(t_filler *filler);
+void			board_char2int(t_filler *f, char *s, int y, BOARD);
+//void			board_char2int(int player, t_index max, int b[max.y][max.x]);
+//void			piece_char2int(t_index max, int y, char *s, int p[max.y][max.x]);
 void			filler_atoi(t_index *i, char *s);
-void			trim_piece(t_filler *f, char *line, BOARD);
-void			get_piece(t_filler *f, BOARD, t_index t, char tmp[t.y][t.x]);
-void			board_char2int(t_index max, char b[max.y][max.x]);
-void			piece_char2int(t_filler *f, t_index max, char p[max.y][max.x]);
+void 			free_piece(t_filler *f, PIECE);
+//void			trim_piece(t_filler *f, char *line, BOARD);
+//void			get_piece(t_filler *f, BOARD, t_index t, char tmp[t.y][t.x]);
+
+void			get_piece_dimension(t_filler *f, char *line, BOARD);
+void			trim_piece(t_filler *f, PIECE);
+int				check_min(t_filler *f, int y, int x, PIECE);
 
 /*
-** debug/display functions//
-*/
-void			display_board(t_index max, char b[max.y][max.x]);//
-void			display_piece(t_index max, char p[max.y][max.x]);//
-
-/*
-** solving algos
+** solving algos ~ solver.c
 */
 
 void			solver(t_filler *f, BOARD, PIECE);
-void			shortest_distance(t_filler *f, BOARD, PIECE);
-int				player_closest(t_filler *f, BOARD, PIECE);
-int				put_piece_on_J(t_filler *f, BOARD, PIECE);
-int				piece_valid_position(t_filler *f, BOARD, PIECE);
-int				put_piece(t_filler *f, BOARD, PIECE);
-
 void			return_piece(int a, int b);
+void			surround(t_filler *f, BOARD, t_point *points);
+int				g_d(t_filler *f, BOARD, int y, int x);
+int				next_to_cpu(t_filler *f, BOARD, t_index i);
 
 /*
-** filler interaction
+** Save relevant (y, x) valid positions inside a list ~ valid_positions.c
+*/
+
+int				put_piece(t_filler *f, BOARD, PIECE, t_point **points);
+int				is_valid_position(t_filler *f, BOARD, PIECE, t_index c);
+void			add_point(t_point **points, int y, int x);
+t_point			*new_point(int y, int x);
+void			free_saved_positions(t_point **points);
+
+/*
+** mlx interaction... to be done later
 */
 
 void			update_board(t_filler *f, BOARD);
 void			ft_init_win(t_env *env, t_index max);
+
 #endif

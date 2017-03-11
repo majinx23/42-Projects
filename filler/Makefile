@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/02/23 09:29:48 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/11 00:59:12 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,12 @@ SRCS_PATH = srcs/
 OBJ_PATH  = obj/
 LIBFT_PATH = libft/
 
-SRCS_NAME =	parse.c \
+SRCS_NAME =	main.c \
+			parse.c \
 			solve.c \
-			draw.c
+			valid_positions.c \
+			draw.c \
+			debug.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(SRCS_NAME:.c=.o))

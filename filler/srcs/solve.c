@@ -6,231 +6,104 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/02 18:10:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/11 05:35:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/filler.h"
 
 /*
-make FLAGS="" re
-time ./angavrel.filler
-$$$ exec p2 : [players/superjeannot.filler]
-Plateau 15 17:
-01234567890123456
-000 .................
-001 .................
-002 .................
-003 .................
-004 .................
-005 .................
-006 .................
-007 .................
-008 ..O..............
-009 .................
-010 .................
-011 .................
-012 ..............X..
-013 .................
-014 .................
-Piece 2 2:
-*.
-*.
-
-*/
-
-/*
 ** update_board is a graphic bonus to redraw the mlx
+** before returning the piece coordinates (LAST.y LAST.x) we add back the min
+** that was initially removed from the piece.
 */
 
-void		solver(t_filler *f, BOARD, PIECE)
+void	solver(t_filler *f, BOARD, PIECE)
 {
-//	update_board(f, b);
-	ft_putstr_fd("\033[32m", 2);
-	ft_putstr_fd("~~~ Turn ", 2);
-	ft_putnbr_fd(f->turn, 2);
-	ft_putstr_fd(" ~~~\n", 2);
-	ft_putstr_fd("\033[37m", 2);
-
+	t_point	*points;
 	
-	shortest_distance(f, b, p);
-	LAST.y -= f->min_dim.y;
-	LAST.x -= f->min_dim.x;
-	return_piece(LAST.y, LAST.x);
-	++f->turn;
+//	update_board(f, b);
+	points = NULL;
+
+	put_piece(f, b, p, &points);
+	if (!points)
+		return_piece(-1, -1);
+	else
+	{
+		surround(f, b, points);
+		return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
+		free_saved_positions(&points);
+	}
+//	display_turn_nb(f);//
+//	display_last(f);//
+//	display_piece(f->piece_dim, p); // debug function
+//	display_board(f->max, b); // debug
 }
 
-
 /*
-** localize CPU pieces.
-** note perso : faire une fonction affine pour voir si ce point proche permet de bloquer
+** main strategy is to surround opponent by finding the shortest distance
+** between our saved valid positions and the computer
 */
 
-void		shortest_distance(t_filler *f, BOARD, PIECE)
+void	surround(t_filler *f, BOARD, t_point *points)
 {
-	t_index	i;
-	f->found = 0;
-
-	i.y = -1;
-	while (++i.y < f->max.y)
+	LAST = points->i;
+	while (points)
 	{
-		i.x = -1;
-		while (++i.x < f->max.x)
-		{	
-			if (b[i.y][i.x] == CPU)
-			{
-				C = i;
-				player_closest(f, b, p);
-			}
-		}
+		if (g_d(f, b, points->i.y, points->i.x) < g_d(f, b, LAST.y, LAST.x))
+			LAST = points->i;
+		points = points->next;
 	}
 }
 
 /*
-** localize player pieces and calculate distance to check if it is shorter.
-** if the distance is shorter then it tries to put the piece.
+** get_distance
+** compare computer location compare to saved points and check if distance is
+** closer, if try to put the piece.
+** it returns directly distance if equal to 2
 */
 
-int			player_closest(t_filler *f, BOARD, PIECE)
+int		g_d(t_filler *f, BOARD, int y, int x)
 {
+	t_index	i;
+	int		distance;
 	int		tmp;
-	t_index	i;
 
+	distance = f->max.y * f->max.y + f->max.x * f->max.x;
 	i.y = -1;
 	while (++i.y < f->max.y)
 	{
 		i.x = -1;
 		while (++i.x < f->max.x)
-		{	
-			if (b[i.y][i.x] == PLY)
-			{
-				tmp = (C.x - i.x) * (C.x - i.x) + (C.y - i.y) * (C.y - i.y);	
-				if (tmp <= f->distance)
-				{
-					f->distance = tmp;
-					J = i;
-					put_piece_on_J(f, b, p);
-				}
-			}
+		{
+			tmp = (i.y - y) * (i.y - y) + (i.x - x) * (i.x - x);
+			if (b[i.y][i.x] >> 1 && next_to_cpu(f, b, i) && tmp < distance)
+				if ((distance = tmp) == 2)
+					return (distance);
 		}
 	}
-	return (1);
+	return (distance);
 }
 
 /*
-** now that closest point has been localised, we try to put the piece around.
+** absolute priority if piece is close to the cpu
 */
 
-int		put_piece_on_J(t_filler *f, BOARD, PIECE)
+int		next_to_cpu(t_filler *f, BOARD, t_index i)
 {
-	int		max_score;
-
-	max_score = 0;
-	f->padding.y = 0;
-	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) && 
-	(f->padding.y < f->piece_dim.y))
-	{
-		f->padding.x = 0;
-		while ((J.x + f->piece_dim.x - f->padding.x < f->max.x) &&
-		(f->padding.x < f->piece_dim.x))
-		{
-			
-			if (piece_valid_position(f, b, p) > max_score)
-			{
-				max_score = f->score;
-				LAST.y = J.y - f->padding.y;
-				LAST.x = J.x - f->padding.x;
-				f->found = 1;
-				return (1);
-			}
-			++f->padding.x;
-		}
-		++f->padding.y;
-	}
-	return (-1);
+	return ((i.y > 0 && i.y < f->max.y - 1
+		&& (b[i.y + 1][i.x] >> 1 || b[i.y - 1][i.x] >> 1))
+	|| (i.x > 0 && i.x < f->max.x - 1
+		&& (b[i.y][i.x + 1] >> 1 || b[i.y][i.x - 1] >> 1))
+	|| (!i.y && b[i.y + 1][i.x] >> 1) || (!i.x && b[i.y][i.x + 1] >> 1)
+	|| (i.y == f->max.y - 1 && b[i.y - 1][i.x] >> 1)
+	|| (i.x == f->max.x - 1 && b[i.y][i.x - 1] >> 1)
+	? 1 : 0);
 }
-
-/*
-** if number of connections is equal to 2 then piece is invalid in this area.
-** it should be connected to only one. kezo rap
-*/
-
-
-int		piece_valid_position(t_filler *f, BOARD, PIECE)
-{
-	int		connect;
-	t_index	i;
-	int		cell;
-/*
-	ft_putstr_fd("Piece [", 2);
-	ft_putnbr_fd(f->piece_dim.y, 2);
-	ft_putstr_fd("] [", 2);
-	ft_putnbr_fd(f->piece_dim.x, 2);
-	ft_putstr_fd("]\n", 2);
-	ft_putstr_fd("\033[37m", 2);
-*/	connect = 0;
-	f->score = 0;
-	i.y = -1;
-	while (++i.y < f->piece_dim.y)
-	{
-		i.x = -1;
-		while (++i.x < f->piece_dim.x)
-		{
-			if (p[i.y][i.x] == 1)
-			{
-				cell = b[i.y + J.y - f->padding.y][i.x + J.x - f->padding.x];
-				if (cell == 2)
-					return (0);
-				else if (cell == 1)
-				{
-					++connect;
-					if (connect >= 2)
-						return (0);
-				}
-				else // score will take the area value instead of 
-					f->score += cell;
-			}
-		}
-	}
-	return (connect);
-//	return (connect * f->score); // connect is either equal to 0 or 1.
-}
-
-
-
-
-
-/*
-int		try_put_piece_around_J(t_filler *f)
-{
-	f->padding.y = 0;
-	while ((J.y + f->piece_dim.y - f->padding.y < f->max.y) &&
-	(f->padding.y < f->piece_dim.y))
-	{
-		f->padding.x = 0;
-		while ((J.x + f->piece_dim.x - f->padding.x < f->max.x) &&
-		(f->padding.x < f->piece_dim.x))
-		{
-			if (try_put_piece(f) == 1)
-			{
-				LAST.y = J.y - f->padding.y;
-				LAST.x = J.x - f->padding.x;
-				f->found = 1;
-				return (1);
-			}
-			++f->padding.x;
-		}
-		++f->padding.y;
-	}
-	return (-1);
-}
-*/
-
-
-
 
 /*
 ** returns to cpu coordinates chosen to put piece
+** I did this before ft_printf was done :X ...
 */
 
 void	return_piece(int a, int b)
@@ -248,7 +121,7 @@ void	return_piece(int a, int b)
 	while ((tmp.y /= 10) >= 1)
 		++i.y;
 	if (!(s = (char*)malloc(sizeof(char) * (i.x + i.y + 3))))
-		return ;	
+		return ;
 	s[i.x] = ' ';
 	s[i.x + i.y + 1] = '\n';
 	s[i.x + i.y + 2] = '\0';

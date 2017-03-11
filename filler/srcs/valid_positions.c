@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 21:07:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/10 22:53:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/11 04:27:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@
 int		put_piece(t_filler *f, BOARD, PIECE, t_point **points)
 {
 	t_index	i;
-	int		success;
 
-	success = 0;
 	i.y = 0;
 	while (i.y < f->max.y)
 	{
@@ -30,19 +28,18 @@ int		put_piece(t_filler *f, BOARD, PIECE, t_point **points)
 		while (i.x < f->max.x)
 		{
 			if (is_valid_position(f, b, p, i))
-			{
 				add_point(points, i.y, i.x);
-				++success;
-			}
 			++i.x;
 		}
 		++i.y;
 	}
-	return (success ? 1 : 0);
+	return (1);
 }
 
 /*
 ** We try to determine is the piece is put in an invalid spot:
+** extra if (pad.y + i.y - f->min_dim.y < 0 || pad.x + i.x - f->min_dim.x < 0)
+** checks that we can indeed put the TOKEN on the board.
 ** 1) pad.y + i.y >= f->max.y || pad.x + i.x >= f->max.x checks that we don't go
 ** over the board size.
 ** 2) if there is already a computer (b[pad.y + i.y][pad.x + i.x] >> 1).
@@ -62,6 +59,8 @@ int		is_valid_position(t_filler *f, BOARD, PIECE, t_index i)
 		pad.x = 0;
 		while (pad.x < f->piece_dim.x)
 		{
+			if (pad.y + i.y - f->min_dim.y < 0 || pad.x + i.x - f->min_dim.x < 0)
+				return (0);
 			if (p[pad.y][pad.x])
 			{
 				if (pad.y + i.y >= f->max.y || pad.x + i.x >= f->max.x
@@ -124,7 +123,6 @@ void	free_saved_positions(t_point **points)
 	while (lst)
 	{
 		tmp = lst;
-		tmp = NULL;
 		free(tmp);
 		lst = lst->next;
 	}
