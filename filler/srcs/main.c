@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 05:38:02 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/11 06:13:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int			main(void)
 	ft_bzero(&env, sizeof(t_env));
 	f.env = &env;
     get_next_line(0, &line);
-	f.player = (line[10] - '1') ? 2 : 1;
-	f.cpu = (f.player >> 1) ? 1 : 2;
+	f.player = line[10] - '0';
+	f.cpu = (f.player & 2) >> 1 | (f.player & 1) << 1;
     get_next_line(0, &line);
 	f.max = (t_index) {.y = 0, .x = 0};      
   	filler_atoi(&f.max, line + 8);
@@ -60,10 +60,13 @@ void        filler_loop(t_filler *f)
     i.y = -1;
     while (++i.y < f->max.y)
 	{
-        get_next_line(0, &line);
+		if (get_next_line(0, &line) == -1)
+		{
+			ft_error("GNL Error");
+			exit(1);
+		}
 		board_char2int(f, line + 4, i.y, b);
 	}
-//	board_char2int(PLY, f->max, b);
     SKIP_LINE;
 	f->piece_dim = (t_index) {.y = 0, .x = 0};
 	filler_atoi(&f->piece_dim, line + 6);
@@ -82,8 +85,10 @@ void	board_char2int(t_filler *f, char *s, int y, BOARD)
 
 	x = -1;
 	while (s[++x])
-		if (s[x] == 'o' || s[x] == 'O')
+		if (s[x] == 'O')
 			b[y][x] = PLY;
-		else if (s[x] == 'x' || s[x] == 'X')
-			b[y][x] = (PLY - 1);
+		else if (s[x] == 'X')
+			b[y][x] = (PLY & 2) >> 1 | (PLY & 1) << 1;
+		else
+			b[y][x] = 0;
 }

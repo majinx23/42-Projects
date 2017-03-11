@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 05:03:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/11 06:13:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,8 @@ void	filler_atoi(t_index *max, char *s)
 		r = r * 10 + *s++ - '0';
 	max->x = r;
 	if (max->x <= 0 || max->y <= 0)
-		EXIT_MSG("Wrong dimensions");	
+	{
+		ft_error("Wrong dimensions");
+		exit(1);
+	}
 }

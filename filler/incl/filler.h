@@ -6,14 +6,13 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 04:43:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/11 06:16:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLER_H
 # define FILLER_H
 
-# include <stdio.h> //printf to be removed before final push
 # include "libft.h"
 # include <mlx.h>
 
@@ -32,18 +31,18 @@
 
 # define BOARD			int b[f->max.y][f->max.x]
 # define PIECE			int p[f->piece_dim.y][f->piece_dim.x]
-# define INT(c)			(int)((c - 46) / 21)
 # define INT2(c)		(int)((46 - c) >> 2)
 
 /*
 ** other usefull define
+** SKIP_LINE to skip useless lines
+** LAST it the last point sent to the Virtual Machine
+** Exit messg is to exit;
 */
 
 # define SKIP_LINE		get_next_line(0, &line)
 # define PLY			f->player
-# define CPU			f->cpu
 # define LAST 			f->last_p
-# define EXIT_MSG(s)	ft_putstr("\033[31m"), ft_putendl(s), exit(-1)
 
 /*
 ** structure for (y, x) points
@@ -96,7 +95,6 @@ typedef struct	s_filler
 	t_index		min_dim;
 	t_index		last_p;
 	int			turn;
-
 	t_env		*env;
 }				t_filler;
 
@@ -117,13 +115,8 @@ void			display_points(t_point **points);//
 
 void			filler_loop(t_filler *filler);
 void			board_char2int(t_filler *f, char *s, int y, BOARD);
-//void			board_char2int(int player, t_index max, int b[max.y][max.x]);
-//void			piece_char2int(t_index max, int y, char *s, int p[max.y][max.x]);
 void			filler_atoi(t_index *i, char *s);
 void 			free_piece(t_filler *f, PIECE);
-//void			trim_piece(t_filler *f, char *line, BOARD);
-//void			get_piece(t_filler *f, BOARD, t_index t, char tmp[t.y][t.x]);
-
 void			get_piece_dimension(t_filler *f, char *line, BOARD);
 void			trim_piece(t_filler *f, PIECE);
 int				check_min(t_filler *f, int y, int x, PIECE);
