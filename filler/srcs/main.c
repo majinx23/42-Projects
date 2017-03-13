@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 06:50:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 08:25:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,14 @@
 int			main(void)
 {
 	t_filler	f;
-	t_env		env;
     char        *line;
 
-	ft_bzero(&env, sizeof(t_env));
-	f.env = &env;
     get_next_line(0, &line);
 	f.player = line[10] - '0';
 	f.cpu = (f.player & 2) >> 1 | (f.player & 1) << 1;
     get_next_line(0, &line);
 	f.max = (t_index) {.y = 0, .x = 0};      
   	filler_atoi(&f.max, line + 8);
-//	ft_init_win(f.env, f.max);
 	f.turn = 0;
 	while (f.turn < 10)// 1
 	    filler_loop(&f);

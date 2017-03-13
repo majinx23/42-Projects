@@ -28,9 +28,9 @@ int		is_disadvantaged(t_filler *f, BOARD, t_index *ply_area)
 			}
 		}
 	}
-	(get_relative_position(f, b, cpu_area, *ply_area) ?
+	(get_relative_position(f, cpu_area, *ply_area) ?
 		ft_putnbr_fd(1, 2) : ft_putnbr_fd(0, 2));
-	return (get_relative_position(f, b, cpu_area, *ply_area));
+	return (get_relative_position(f, cpu_area, *ply_area));
 }
 
 /*
@@ -38,7 +38,7 @@ int		is_disadvantaged(t_filler *f, BOARD, t_index *ply_area)
 ** SE = South East, NW = North West... etc;
 */
 
-int		get_relative_position(t_filler *f, BOARD, t_index cpu_area, t_index i)
+int		get_relative_position(t_filler *f, t_index cpu_area, t_index i)
 {
 	cpu_area.y /= f->cpu_score;
 	cpu_area.x /= f->cpu_score;
@@ -60,13 +60,29 @@ int		get_relative_position(t_filler *f, BOARD, t_index cpu_area, t_index i)
 		(POSITION == NW || POSITION == W || POSITION == SW))
 		|| ((f->min_area.y <= f->max_area.y - f->max.y) &&
 		(POSITION == NW || POSITION == NE || POSITION == N)));
-//	return (get_direction(f, b));
+}
+
+
+/*
+** try to break through to be fight on equal ground
+*/
+
+void	break_through(t_filler *f, BOARD, t_point *points)
+{
+//	get_direction(f, b);
+	LAST = points->i;
+	while (points)
+	{
+		if (b_o(f, b, points->i.y, points->i.x) < b_o(f, b, LAST.y, LAST.x))
+			LAST = points->i;
+		points = points->next;
+	}
 }
 
 /*
-** function detects if it is disadvantaged.
+** function check which would be the best direction
 */
-
+/*
 int		get_direction(t_filler *f, BOARD)
 {
 	t_index	i;
@@ -77,27 +93,12 @@ int		get_direction(t_filler *f, BOARD)
 		i.x = f->min_area.x -1;
 		while (++i.x <= f->max_area.x)
 		{
-		//	if (b[i.y][i.x] >> 1)
+			if (b[i.y][i.x] >> 1)
 
 		}
 	}
 	return (0);
-}
-
-/*
-** try to break through to be fight on equal ground
-*/
-
-void	break_through(t_filler *f, BOARD, t_point *points)
-{
-	LAST = points->i;
-	while (points)
-	{
-		if (b_o(f, b, points->i.y, points->i.x) < b_o(f, b, LAST.y, LAST.x))
-			LAST = points->i;
-		points = points->next;
-	}
-}
+}*/
 
 /*
 ** best_odds : keep only the best point

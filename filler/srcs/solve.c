@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 06:50:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 08:19:13 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	solver(t_filler *f, BOARD, PIECE)
 	t_point	*points;
 	t_index	ply_area;
 	
-//	update_board(f, b);
 	points = NULL;
 	ply_area = (t_index) {.x = 0, .y = 0};
 	f->cpu_score = 0;

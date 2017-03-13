@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 06:50:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 08:42:27 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FILLER_H
 
 # include "libft.h"
-# include <mlx.h>
 
 /*
 ** mathematics functions used as define
@@ -29,8 +28,12 @@
 
 # define BOARD			int b[f->max.y][f->max.x]
 # define PIECE			int p[f->piece_dim.y][f->piece_dim.x]
-# define POSITION		f->position
 
+/*
+** relative position of player compared to cpu.
+*/
+
+# define POSITION		f->position
 # define SE				3
 # define SW				1
 # define NE				9
@@ -72,22 +75,6 @@ typedef struct		s_point
 }					t_point;
 
 /*
-** structure for graphic bonus
-*/
-
-typedef struct	s_env
-{
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*data;
-	int			bpp;
-	int			endian;
-	int			sl;
-	t_index		i;
-}				t_env;
-
-/*
 ** board is the board stocked as char* while b is the board as int *
 ** max is max dimension y and x of the board
 ** player is the position of the player.
@@ -102,7 +89,6 @@ typedef struct	s_filler
 	t_index		min_dim;
 	t_index		last_p;
 	int			turn;
-	t_env		*env;
 	t_index		min_area;
 	t_index		max_area;
 	int			cpu_score;
@@ -155,9 +141,8 @@ int				next_to_cpu(t_filler *f, BOARD, t_index i);
 */
 
 int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
-int				get_relative_position(t_filler *f, BOARD, 
-					t_index cpu_area, t_index i);
-int				get_direction(t_filler *f, BOARD);
+int				get_relative_position(t_filler *f, t_index cpu_area, t_index i);
+//int				get_direction(t_filler *f, BOARD);
 void			break_through(t_filler *f, BOARD, t_point *points);
 int				b_o(t_filler *f, BOARD, int y, int x);
 
@@ -170,12 +155,5 @@ int				is_valid_position(t_filler *f, BOARD, PIECE, t_index c);
 void			add_point(t_point **points, int y, int x);
 t_point			*new_point(int y, int x);
 void			free_saved_positions(t_point **points);
-
-/*
-** mlx interaction... to be done later
-*/
-
-void			update_board(t_filler *f, BOARD);
-void			ft_init_win(t_env *env, t_index max);
 
 #endif
