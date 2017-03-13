@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 06:13:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 06:50:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			main(void)
   	filler_atoi(&f.max, line + 8);
 //	ft_init_win(f.env, f.max);
 	f.turn = 0;
-	while (1)
+	while (f.turn < 10)// 1
 	    filler_loop(&f);
 	return (0);
 }
@@ -67,6 +67,8 @@ void        filler_loop(t_filler *f)
 		}
 		board_char2int(f, line + 4, i.y, b);
 	}
+	check_min_area(f, b);
+	check_max_area(f, b);
     SKIP_LINE;
 	f->piece_dim = (t_index) {.y = 0, .x = 0};
 	filler_atoi(&f->piece_dim, line + 6);
@@ -91,4 +93,64 @@ void	board_char2int(t_filler *f, char *s, int y, BOARD)
 			b[y][x] = (PLY & 2) >> 1 | (PLY & 1) << 1;
 		else
 			b[y][x] = 0;
+}
+
+/*
+** function to check trimmed board limits (min point and max point)
+*/
+
+void	check_min_area(t_filler *f, BOARD)
+{
+	t_index	i;
+
+	i.y = -1;
+	f->min_area.y = -1;
+	while (++i.y < f->max.y && f->min_area.y == -1)
+	{
+		i.x = -1;
+		while (++i.x < f->max.x && f->min_area.y == -1)
+		{
+			if (b[i.y][i.x])
+				f->min_area.y = i.y;
+		}
+	}
+	f->min_area.x = -1;
+	i.x = -1;
+	while (++i.x < f->max.x && f->min_area.x == -1)
+	{
+		i.y = -1;
+		while (++i.y < f->max.y && f->min_area.x == -1)
+		{
+			if (b[i.y][i.x])
+				f->min_area.x = i.x;
+		}
+	}
+}
+
+void	check_max_area(t_filler *f, BOARD)
+{
+	t_index	i;
+
+	i.y = f->max.y;
+	f->max_area.y = -1;
+	while (--i.y >= 0 && f->max_area.y == -1)
+	{
+		i.x = f->max.x;
+		while (--i.x >= 0 && f->max_area.y == -1)
+		{
+			if (b[i.y][i.x])
+				f->max_area.y = i.y;
+		}
+	}
+	f->max_area.x = -1;
+	i.x = f->max.x;
+	while (--i.x >= 0 && f->max_area.x == -1)
+	{
+		i.y = f->max.y;
+		while (--i.y >= 0 && f->max_area.x == -1)
+		{
+			if (b[i.y][i.x])
+				f->max_area.x = i.x;
+		}
+	}
 }

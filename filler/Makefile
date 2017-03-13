@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/03/11 00:59:12 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/13 03:26:08 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,9 @@ LIBFT_PATH = libft/
 
 SRCS_NAME =	main.c \
 			parse.c \
-			solve.c \
 			valid_positions.c \
+			solve.c \
+			break_through.c \
 			draw.c \
 			debug.c
 

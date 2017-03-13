@@ -6,11 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 05:35:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 06:50:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/filler.h"
+#include "filler.h"
 
 /*
 ** update_board is a graphic bonus to redraw the mlx
@@ -21,23 +21,30 @@
 void	solver(t_filler *f, BOARD, PIECE)
 {
 	t_point	*points;
+	t_index	ply_area;
 	
 //	update_board(f, b);
 	points = NULL;
-
+	ply_area = (t_index) {.x = 0, .y = 0};
+	f->cpu_score = 0;
+	f->ply_score = 0;
 	put_piece(f, b, p, &points);
 	if (!points)
 		return_piece(-1, -1);
 	else
 	{
-		surround(f, b, points);
+		if (is_disadvantaged(f, b, &ply_area))
+			break_through(f, b, points);
+		else
+			surround(f, b, points);
 		return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
 		free_saved_positions(&points);
 	}
-//	display_turn_nb(f);//
+	display_turn_nb(f);//
 //	display_last(f);//
 //	display_piece(f->piece_dim, p); // debug function
-//	display_board(f->max, b); // debug
+//	display_miniboard(f, f->min_area, f->max_area, b); // debug
+	display_board(f->max, b); // debug
 }
 
 /*
@@ -99,36 +106,4 @@ int		next_to_cpu(t_filler *f, BOARD, t_index i)
 	|| (i.y == f->max.y - 1 && b[i.y - 1][i.x] >> 1)
 	|| (i.x == f->max.x - 1 && b[i.y][i.x - 1] >> 1)
 	? 1 : 0);
-}
-
-/*
-** returns to cpu coordinates chosen to put piece
-** I did this before ft_printf was done :X ...
-*/
-
-void	return_piece(int a, int b)
-{
-	char	*s;
-	t_index	tmp;
-	t_index	i;
-
-	tmp.x = a;
-	tmp.y = b;
-	i.x = (a < 0) ? 2 : 1;
-	i.y = (b < 0) ? 2 : 1;
-	while ((tmp.x /= 10) >= 1)
-		++i.x;
-	while ((tmp.y /= 10) >= 1)
-		++i.y;
-	if (!(s = (char*)malloc(sizeof(char) * (i.x + i.y + 3))))
-		return ;
-	s[i.x] = ' ';
-	s[i.x + i.y + 1] = '\n';
-	s[i.x + i.y + 2] = '\0';
-	while (i.y-- && (s[i.x + 1 + i.y] = b % 10 + '0'))
-		b /= 10;
-	while (i.x-- && (s[i.x] = a  % 10 + '0'))
-		a /= 10;
-	ft_putstr(s);
-	free(s);
 }

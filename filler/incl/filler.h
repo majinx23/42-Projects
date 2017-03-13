@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 06:16:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 06:50:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,20 @@
 
 /*
 ** Board and Piece are saved on the stack
-** INT converts board dta into 2 (opponent), 1 (player) and 0 (.)
-** INT2 convert piece data into 1 (*) amd 0 (.) 
 */
 
 # define BOARD			int b[f->max.y][f->max.x]
 # define PIECE			int p[f->piece_dim.y][f->piece_dim.x]
-# define INT2(c)		(int)((46 - c) >> 2)
+# define POSITION		f->position
+
+# define SE				3
+# define SW				1
+# define NE				9
+# define NW				7
+# define E				6
+# define W				4
+# define S				2
+# define N				8
 
 /*
 ** other usefull define
@@ -96,6 +103,11 @@ typedef struct	s_filler
 	t_index		last_p;
 	int			turn;
 	t_env		*env;
+	t_index		min_area;
+	t_index		max_area;
+	int			cpu_score;
+	int			ply_score;
+	int			position;
 }				t_filler;
 
 /*
@@ -104,32 +116,50 @@ typedef struct	s_filler
 
 void			display_min(t_filler *f);//
 void			display_board(t_index max, int b[max.y][max.x]);//
+void			display_miniboard(t_filler *f, t_index min, t_index max, int b[f->max.y][f->max.x]);//debug
 void			display_piece(t_index max, int p[max.y][max.x]);//
 void			display_last(t_filler *f);//
 void			display_turn_nb(t_filler *f);//
 void			display_points(t_point **points);//
 
 /*
-** initialization and parsing functions ~ parse.c
+** initialization and parsing functions ~ main.c
 */
 
 void			filler_loop(t_filler *filler);
 void			board_char2int(t_filler *f, char *s, int y, BOARD);
-void			filler_atoi(t_index *i, char *s);
-void 			free_piece(t_filler *f, PIECE);
+void			check_min_area(t_filler *f, BOARD);
+void			check_max_area(t_filler *f, BOARD);
+
+/*
+** parsing and triming piece ~ parse.c
+*/
+
 void			get_piece_dimension(t_filler *f, char *line, BOARD);
-void			trim_piece(t_filler *f, PIECE);
 int				check_min(t_filler *f, int y, int x, PIECE);
+void			trim_piece(t_filler *f, PIECE);
+void			filler_atoi(t_index *i, char *s);
+void			return_piece(int a, int b);
 
 /*
 ** solving algos ~ solver.c
 */
 
 void			solver(t_filler *f, BOARD, PIECE);
-void			return_piece(int a, int b);
 void			surround(t_filler *f, BOARD, t_point *points);
 int				g_d(t_filler *f, BOARD, int y, int x);
 int				next_to_cpu(t_filler *f, BOARD, t_index i);
+
+/*
+** PLAN B: break_through algo ~ break_through.c
+*/
+
+int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
+int				get_relative_position(t_filler *f, BOARD, 
+					t_index cpu_area, t_index i);
+int				get_direction(t_filler *f, BOARD);
+void			break_through(t_filler *f, BOARD, t_point *points);
+int				b_o(t_filler *f, BOARD, int y, int x);
 
 /*
 ** Save relevant (y, x) valid positions inside a list ~ valid_positions.c

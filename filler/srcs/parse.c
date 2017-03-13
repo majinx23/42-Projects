@@ -6,11 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 06:13:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 03:29:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/filler.h"
+#include "filler.h"
 
 /*
 ** function to trim piece
@@ -30,7 +30,7 @@ void	get_piece_dimension(t_filler *f, char *line, BOARD)
 		get_next_line(0, &line);
 		i.x = -1;
 		while (++i.x < f->piece_dim.x)
-			p[i.y][i.x] = INT2(line[i.x]);
+			p[i.y][i.x] = (int)((46 - line[i.x]) >> 2);
 	}
 	f->min_dim = (t_index) {.x = 1, .y = 1};
 	while (!check_min(f, f->piece_dim.y, f->min_dim.x, p))
@@ -43,7 +43,7 @@ void	get_piece_dimension(t_filler *f, char *line, BOARD)
 		trim_piece(f, p);
 	solver(f, b, p);
 }
-
+	
 /*
 ** check useful rows and columns
 */
@@ -107,8 +107,37 @@ void	filler_atoi(t_index *max, char *s)
 		r = r * 10 + *s++ - '0';
 	max->x = r;
 	if (max->x <= 0 || max->y <= 0)
-	{
-		ft_error("Wrong dimensions");
 		exit(1);
-	}
+}
+
+/*
+** returns to cpu coordinates chosen to put piece
+** I did this before ft_printf was done :X ...
+*/
+
+void	return_piece(int a, int b)
+{
+	char	*s;
+	t_index	tmp;
+	t_index	i;
+
+	tmp.x = a;
+	tmp.y = b;
+	i.x = (a < 0) ? 2 : 1;
+	i.y = (b < 0) ? 2 : 1;
+	while ((tmp.x /= 10) >= 1)
+		++i.x;
+	while ((tmp.y /= 10) >= 1)
+		++i.y;
+	if (!(s = (char*)malloc(sizeof(char) * (i.x + i.y + 3))))
+		return ;
+	s[i.x] = ' ';
+	s[i.x + i.y + 1] = '\n';
+	s[i.x + i.y + 2] = '\0';
+	while (i.y-- && (s[i.x + 1 + i.y] = b % 10 + '0'))
+		b /= 10;
+	while (i.x-- && (s[i.x] = a  % 10 + '0'))
+		a /= 10;
+	ft_putstr(s);
+	free(s);
 }
