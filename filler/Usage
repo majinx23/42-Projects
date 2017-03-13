@@ -1,1 +1,1 @@
-make re && ./filler_vm -f maps/map00 -p1 ./angavrel.filler -p2 players/superjeannot.filler
+make re && ./filler_vm -f maps/map01 -p2 ./angavrel.filler -p1 players/carli.filler > test

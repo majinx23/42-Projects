@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 08:25:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 09:21:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			main(void)
 	f.max = (t_index) {.y = 0, .x = 0};      
   	filler_atoi(&f.max, line + 8);
 	f.turn = 0;
-	while (f.turn < 10)// 1
+	while (1)//f.turn < 10)// 1
 	    filler_loop(&f);
 	return (0);
 }

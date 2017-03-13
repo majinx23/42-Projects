@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 08:42:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/13 10:28:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ typedef struct	s_filler
 	int			cpu_score;
 	int			ply_score;
 	int			position;
+	t_index		min_ply;
+	t_index		max_ply;
+	t_index		min_cpu;
+	t_index		max_cpu;
+
 }				t_filler;
 
 /*
@@ -142,9 +147,9 @@ int				next_to_cpu(t_filler *f, BOARD, t_index i);
 
 int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
 int				get_relative_position(t_filler *f, t_index cpu_area, t_index i);
-//int				get_direction(t_filler *f, BOARD);
+int				get_direction(t_filler *f, BOARD);
 void			break_through(t_filler *f, BOARD, t_point *points);
-int				b_o(t_filler *f, BOARD, int y, int x);
+int				score(t_filler *f, BOARD, int y, int x);
 
 /*
 ** Save relevant (y, x) valid positions inside a list ~ valid_positions.c

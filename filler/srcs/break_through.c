@@ -62,7 +62,6 @@ int		get_relative_position(t_filler *f, t_index cpu_area, t_index i)
 		(POSITION == NW || POSITION == NE || POSITION == N)));
 }
 
-
 /*
 ** try to break through to be fight on equal ground
 */
@@ -73,7 +72,7 @@ void	break_through(t_filler *f, BOARD, t_point *points)
 	LAST = points->i;
 	while (points)
 	{
-		if (b_o(f, b, points->i.y, points->i.x) < b_o(f, b, LAST.y, LAST.x))
+		if (score(f, b, points->i.y, points->i.x) > score(f, b, LAST.y, LAST.x))
 			LAST = points->i;
 		points = points->next;
 	}
@@ -104,24 +103,35 @@ int		get_direction(t_filler *f, BOARD)
 ** best_odds : keep only the best point
 */
 
-int		b_o(t_filler *f, BOARD, int y, int x)
+int		score(t_filler *f, BOARD, int y, int x)
 {
 	t_index	i;
-	int		distance;
-	int		tmp;
+	int		score;
 
-	distance = f->max.y * f->max.y + f->max.x * f->max.x;
+	score = 0;
 	i.y = -1;
 	while (++i.y < f->max.y)
 	{
 		i.x = -1;
 		while (++i.x < f->max.x)
 		{
-			tmp = (i.y - y) * (i.y - y) + (i.x - x) * (i.x - x);
-			if (b[i.y][i.x] >> 1 && next_to_cpu(f, b, i) && tmp < distance)
-				if ((distance = tmp) == 2)
-					return (distance);
+			score = 
 		}
 	}
-	return (distance);
+	return (score);
+}
+
+/*
+** absolute priority if piece is close to the cpu
+*/
+
+int		next_to_cpu(t_filler *f, BOARD, t_index i)
+{
+	return ((i.y >= 0 && i.y < f->max.y
+		&& (b[i.y + 1][i.x] >> 1 || b[i.y - 1][i.x] >> 1))
+	|| (i.x > 0 && i.x < f->max.x - 1
+		&& (b[i.y][i.x + 1] >> 1 || b[i.y][i.x - 1] >> 1))
+	|| (!i.y && b[i.y + 1][i.x] >> 1) || (!i.x && b[i.y][i.x + 1] >> 1)
+	|| (i.y == f->max.y - 1 && b[i.y - 1][i.x] >> 1)
+	|| (i.x == f->max.x - 1 && b[i.y][i.x - 1] >> 1));
 }
