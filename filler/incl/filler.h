@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 10:28:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/14 10:57:40 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
 int				get_relative_position(t_filler *f, t_index cpu_area, t_index i);
 int				get_direction(t_filler *f, BOARD);
 void			break_through(t_filler *f, BOARD, t_point *points);
-int				score(t_filler *f, BOARD, int y, int x);
+int				score(t_filler *f, BOARD, t_index p);
 
 /*
 ** Save relevant (y, x) valid positions inside a list ~ valid_positions.c

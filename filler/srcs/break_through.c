@@ -72,7 +72,7 @@ void	break_through(t_filler *f, BOARD, t_point *points)
 	LAST = points->i;
 	while (points)
 	{
-		if (score(f, b, points->i.y, points->i.x) > score(f, b, LAST.y, LAST.x))
+		if (score(f, b, points->i) > score(f, b, LAST))
 			LAST = points->i;
 		points = points->next;
 	}
@@ -103,7 +103,7 @@ int		get_direction(t_filler *f, BOARD)
 ** best_odds : keep only the best point
 */
 
-int		score(t_filler *f, BOARD, int y, int x)
+int		score(t_filler *f, BOARD, t_index p)
 {
 	t_index	i;
 	int		score;
@@ -115,7 +115,10 @@ int		score(t_filler *f, BOARD, int y, int x)
 		i.x = -1;
 		while (++i.x < f->max.x)
 		{
-			score = 
+	//		score += get_board_limit(f, b, i, p);
+	//		score += get_board_size();
+	//		score += ();
+
 		}
 	}
 	return (score);
@@ -125,7 +128,7 @@ int		score(t_filler *f, BOARD, int y, int x)
 ** absolute priority if piece is close to the cpu
 */
 
-int		next_to_cpu(t_filler *f, BOARD, t_index i)
+int		get_board_limit(t_filler *f, BOARD, t_index i)
 {
 	return ((i.y >= 0 && i.y < f->max.y
 		&& (b[i.y + 1][i.x] >> 1 || b[i.y - 1][i.x] >> 1))
@@ -134,4 +137,62 @@ int		next_to_cpu(t_filler *f, BOARD, t_index i)
 	|| (!i.y && b[i.y + 1][i.x] >> 1) || (!i.x && b[i.y][i.x + 1] >> 1)
 	|| (i.y == f->max.y - 1 && b[i.y - 1][i.x] >> 1)
 	|| (i.x == f->max.x - 1 && b[i.y][i.x - 1] >> 1));
+}
+
+/*
+** function to check trimmed board limits (min point and max point)
+*/
+
+void	check_min_ply(t_filler *f, BOARD)
+{
+	t_index	i;
+
+	f->min_ply.y = -1;
+	i.y = f->min_area.y - 1;
+	while (++i.y < f->max_area.y)
+	{
+		i.x = f->min_area.y - 1;
+		while (++i.x < f->max_area.x)
+			if (b[i.y][i.x] & 1 && f->min_ply.y == -1)
+				f->min_ply.y = i.y;
+			else if (b[i.y][i.x] >> 1 && f->min_cpu.y == -1)
+				f->min_ply.y = i.y;
+	}
+	f->min_ply.x = -1;
+	i.x = f->min_area.x -1;
+	while (++i.x < f->max_area.x && f->min_ply.x == -1 && f->min_cpu.y == -1)
+	{
+		i.y = -1;
+		while (++i.y < f->max_area.y && f->min_ply.x == -1)
+			if (b[i.y][i.x] == 1)
+				f->min_area.x = i.x;
+	}
+}
+
+void	check_max_ply(t_filler *f, BOARD)
+{
+	t_index	i;
+
+	i.y = f->max_area.y;
+	f->max_ply.y = -1;
+	while (--i.y >= 0 && f->max_ply.y == -1)
+	{
+		i.x = f->max_area.x;
+		while (--i.x >= 0 && f->max_ply.y == -1)
+		{
+			if (b[i.y][i.x] == 1)
+				f->max_ply.y = i.y;
+		}
+	}
+	f->max_ply.x = -1;
+	i.x = f->max_area.x;
+	while (--i.x >= 0 && f->max_ply.x == -1)
+	{
+		i.y = f->max_area.y;
+		while (--i.y >= 0 && f->max_ply.x == -1)
+		{
+			if (b[i.y][i.x] == 1)
+				f->max_ply.x = i.x;
+		}
+	}
 }
