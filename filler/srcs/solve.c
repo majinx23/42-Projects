@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 09:48:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 13:35:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	solver(t_filler *f, BOARD, PIECE)
 		if (is_disadvantaged(f, b, &ply_area))
 			break_through(f, b, points);
 		else
-			surround(f, b, points);
+			surround(f, b, points);   
 		return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
 		free_saved_positions(&points);
 	}
@@ -43,7 +43,7 @@ void	solver(t_filler *f, BOARD, PIECE)
 //	display_last(f);//
 //	display_piece(f->piece_dim, p); // debug function
 //	display_miniboard(f, f->min_area, f->max_area, b); // debug
-	display_board(f->max, b); // debug
+	feed_board(f->max, b); // debug
 }
 
 /*

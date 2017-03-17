@@ -18,6 +18,33 @@ void	display_last(t_filler *f)//debug
 	ft_putstr_fd(")\n", 2);
 }
 
+void	feed_board(t_index max, int b[max.y][max.x])//debug
+{
+	t_index	i;
+	int		fd;
+	
+	system("touch board.map");
+	fd = open("board.map", O_WRONLY | O_APPEND);
+	i.y = -1;
+    while (++i.y < max.y)
+    {
+		i.x = -1;
+		while (++i.x < max.x)
+		{
+			if (!b[i.y][i.x])
+       			ft_putstr_fd("\033[30m", fd);
+			else if (b[i.y][i.x] >> 1)
+				ft_putstr_fd("\033[31m", fd);
+			else
+				ft_putstr_fd("\033[32m", fd);
+			ft_putnbr_fd(b[i.y][i.x], fd);
+			ft_putstr_fd("\033[37m", fd);
+		}
+		ft_putchar_fd('\n', fd);
+    }
+	ft_putchar_fd('\n', fd);
+}
+
 void	display_board(t_index max, int b[max.y][max.x])//debug
 {
 	t_index	i;
@@ -95,7 +122,12 @@ void	display_turn_nb(t_filler *f)//debug
 	ft_putstr_fd("\033[32m", 2);
 	ft_putstr_fd("~~~ Turn ", 2);
 	ft_putnbr_fd(f->turn, 2);
-	ft_putstr_fd(" ~~~\n", 2);
+	ft_putstr_fd(" ~~~\nPLY: ", 2);
+	ft_putnbr_fd(f->ply_score, 2);
+	ft_putstr_fd("vs CPU: ", 2);
+	ft_putnbr_fd(f->cpu_score, 2);
+	ft_putstr_fd("\n", 2);
+	f->ply_score = 0;
 	ft_putstr_fd("\033[37m", 2);
 	++f->turn;
 }

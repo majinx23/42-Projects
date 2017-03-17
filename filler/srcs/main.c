@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 09:21:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 13:37:14 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int			main(void)
 	t_filler	f;
     char        *line;
 
+	system("> board.map");
     get_next_line(0, &line);
 	f.player = line[10] - '0';
 	f.cpu = (f.player & 2) >> 1 | (f.player & 1) << 1;
@@ -32,7 +33,7 @@ int			main(void)
 	f.max = (t_index) {.y = 0, .x = 0};      
   	filler_atoi(&f.max, line + 8);
 	f.turn = 0;
-	while (1)//f.turn < 10)// 1
+	while (f.turn < 10)// 1
 	    filler_loop(&f);
 	return (0);
 }

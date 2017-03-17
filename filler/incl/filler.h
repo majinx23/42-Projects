@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/14 10:57:40 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 13:36:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void			display_piece(t_index max, int p[max.y][max.x]);//
 void			display_last(t_filler *f);//
 void			display_turn_nb(t_filler *f);//
 void			display_points(t_point **points);//
+void			feed_board(t_index max, int b[max.y][max.x]);//debug
 
 /*
 ** initialization and parsing functions ~ main.c
