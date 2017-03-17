@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/13 03:29:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 23:32:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,44 @@ int		check_min(t_filler *f, int y, int x, PIECE)
 
 /*
 ** trim piece by removing extra rows and columns from TOKEN
+** also checks if it is rather vertical or horizontal.
 */
 
 void	trim_piece(t_filler *f, PIECE)
 {
 	t_index		i;
+	t_index		tmp;
 
+	f->max_dim = (t_index) {.x = 0, .y = 0};
 	i.y = -1;
-	while (++i.y < f->piece_dim.y - f->min_dim.y)
+	while (++i.y < f->piece_dim.y - f->min_dim.y)// && (i.x = -1))
 	{
 		i.x = -1;
+		tmp.x = 0;
 		while (++i.x < f->piece_dim.x - f->min_dim.x)
 		{
 			p[i.y][i.x] = p[i.y + f->min_dim.y][i.x + f->min_dim.x];
 			p[i.y + f->min_dim.y][i.x + f->min_dim.x] = 0;
+			p[i.y][i.x] ? ++tmp.x : 0;
 		}
+		f->max_dim.x = (tmp.x > f->max_dim.x ? tmp.x : f->max_dim.x);
 	}
+	i.x = -1;
+	while (++i.x < f->piece_dim.x - f->min_dim.x)// && (i.y == -1))
+	{
+		i.y = -1;
+		tmp.y = 0;
+		while (++i.y < f->piece_dim.y - f->min_dim.y)
+			p[i.y][i.x] ? ++tmp.y : 0;
+		f->max_dim.y = (tmp.y > f->max_dim.y ? tmp.y : f->max_dim.y);
+	}
+	if (f->max_dim.y == f->max_dim.x)
+		f->ver_hor = 0;
+	else
+		f->ver_hor = f->max_dim.y > f->max_dim.x ? 1 : -1;
+//	display_piece(f->piece_dim, p);//
+//	ft_putnbr_fd(f->ver_hor, 2);//
+//	ft_putchar_fd('\n', 2);//
 }
 
 /*

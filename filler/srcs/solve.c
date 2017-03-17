@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 13:35:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 23:44:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ void	solver(t_filler *f, BOARD, PIECE)
 		return_piece(-1, -1);
 	else
 	{
-		if (is_disadvantaged(f, b, &ply_area))
+	//	ft_putstr_fd("has center ?", 2);
+	//	ft_putnbr_fd(has_captured_center(f, b), 2);
+	//	ft_putendl_fd("\n", 2);
+		if (!has_captured_center(f, b))
+			surround(f, b, points); 
+		else if (is_disadvantaged(f, b, &ply_area))
 			break_through(f, b, points);
 		else
 			surround(f, b, points);   
@@ -43,7 +48,7 @@ void	solver(t_filler *f, BOARD, PIECE)
 //	display_last(f);//
 //	display_piece(f->piece_dim, p); // debug function
 //	display_miniboard(f, f->min_area, f->max_area, b); // debug
-	feed_board(f->max, b); // debug
+	display_board(f->max, b); // debug
 }
 
 /*
@@ -56,7 +61,7 @@ void	surround(t_filler *f, BOARD, t_point *points)
 	LAST = points->i;
 	while (points)
 	{
-		if (g_d(f, b, points->i.y, points->i.x) < g_d(f, b, LAST.y, LAST.x))
+		if (g_d(f, b, points->i) < g_d(f, b, LAST))
 			LAST = points->i;
 		points = points->next;
 	}
@@ -69,7 +74,7 @@ void	surround(t_filler *f, BOARD, t_point *points)
 ** it returns directly distance if equal to 2
 */
 
-int		g_d(t_filler *f, BOARD, int y, int x)
+int		g_d(t_filler *f, BOARD, t_index p)
 {
 	t_index	i;
 	int		distance;
@@ -82,7 +87,7 @@ int		g_d(t_filler *f, BOARD, int y, int x)
 		i.x = -1;
 		while (++i.x < f->max.x)
 		{
-			tmp = (i.y - y) * (i.y - y) + (i.x - x) * (i.x - x);
+			tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
 			if (b[i.y][i.x] >> 1 && next_to_cpu(f, b, i) && tmp < distance)
 				if ((distance = tmp) == 2)
 					return (distance);

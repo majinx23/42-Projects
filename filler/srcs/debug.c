@@ -30,16 +30,7 @@ void	feed_board(t_index max, int b[max.y][max.x])//debug
     {
 		i.x = -1;
 		while (++i.x < max.x)
-		{
-			if (!b[i.y][i.x])
-       			ft_putstr_fd("\033[30m", fd);
-			else if (b[i.y][i.x] >> 1)
-				ft_putstr_fd("\033[31m", fd);
-			else
-				ft_putstr_fd("\033[32m", fd);
 			ft_putnbr_fd(b[i.y][i.x], fd);
-			ft_putstr_fd("\033[37m", fd);
-		}
 		ft_putchar_fd('\n', fd);
     }
 	ft_putchar_fd('\n', fd);

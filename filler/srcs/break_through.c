@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   break_through.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/17 14:56:39 by angavrel          #+#    #+#             */
+/*   Updated: 2017/03/17 23:31:10 by angavrel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filler.h"
 
 /*
@@ -63,45 +75,128 @@ int		get_relative_position(t_filler *f, t_index cpu_area, t_index i)
 }
 
 /*
+** check if we are in the central area compared to cpu
+*/
+
+int		has_captured_center(t_filler *f, BOARD)
+{
+	t_index	i;
+	int		check;
+
+	i.y = f->min_area.y - 1;
+	while (++i.y < f->max_area.y)
+	{
+		i.x = f->min_area.x - 1;
+		check = 0;
+		while (++i.x < f->max_area.x)
+			check |= b[i.y][i.x];
+		if ((check & 1) && (check & 2))
+			return (1);
+	}
+	i.x = f->min_area.x - 1;
+	while (++i.x < f->max_area.x)
+	{
+		i.y = f->min_area.y - 1;
+		check = 0;
+		while (++i.y < f->max_area.y)
+			check |= b[i.y][i.x];
+		if ((check & 1) && (check & 2))
+			return (1);
+	}
+	return (0);
+}
+
+/*
+** we send T or B (TOP or BOTTOM) for char tb and L or R for lr
+*/
+
+void		get_direction(t_filler *f)
+{
+	char		lr;
+	char		tb;
+
+	lr = (f->position == SE || f->position == NE
+		|| f->position == S || f->position == N ? 'L' : 'R');
+	tb = (f->position == SE || f->position == SW
+		|| f->position == S ? 'T' : 'B');
+	ft_putendl_fd("", 2);//
+//	ft_putstr_fd(&lr, 2);//
+	ft_putendl_fd(&tb, 2);//
+	ft_putendl_fd("", 2);//
+	f->dir.x = (lr = 'L' ? -1 : 1);
+	f->dir.y = (tb = 'T' ? -1 : 1);
+}
+
+/*
 ** try to break through to be fight on equal ground
 */
 
 void	break_through(t_filler *f, BOARD, t_point *points)
 {
-//	get_direction(f, b);
+	get_direction(f);
+//	ft_putendl_fd("break through !", 2);
 	LAST = points->i;
 	while (points)
 	{
-		if (score(f, b, points->i) > score(f, b, LAST))
-			LAST = points->i;
+		if (f->dir.y < 0)
+		{
+			if ((f->dir.x < 0 && points->i.y > LAST.y && points->i.x < LAST.x)
+			||	(f->dir.x > 0 && points->i.y > LAST.y && points->i.x > LAST.x))
+					LAST = points->i;
+		}
+		else
+		{
+			if ((f->dir.x < 0 && points->i.y < LAST.y && points->i.x < LAST.x)
+			||	(f->dir.x > 0 && points->i.y < LAST.y && points->i.x > LAST.x))
+					LAST = points->i;
+		}
 		points = points->next;
 	}
 }
 
+
+
+int		g_d2(t_filler *f, BOARD, t_index p)
+{
+	t_index	i;
+	int		distance;
+	int		tmp;
+
+	distance = f->max.y * f->max.y + f->max.x * f->max.x;
+	i.y = -1;
+	while (++i.y < f->max.y)
+	{
+		i.x = -1;
+		while (++i.x < f->max.x)
+		{
+			tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
+			if (!i.x && b[i.y][i.x] >> 1 && tmp < distance && tmp > 6)
+				if ((distance = tmp) == 7)
+					return (distance);
+		}
+	}
+	return (distance);
+}
+
 /*
 ** function check which would be the best direction
-*/
-/*
-int		get_direction(t_filler *f, BOARD)
+
+
+int		get_direction(t_filler *f, BOARD, t_index i)
 {
 	t_index	i;
 	
-	i.y = f->min_area.y - 1;
-	while (++i.y <= f->max_area.y)
+	if (POSITION == SE)
 	{
-		i.x = f->min_area.x -1;
-		while (++i.x <= f->max_area.x)
-		{
-			if (b[i.y][i.x] >> 1)
+		if ()
 
-		}
 	}
 	return (0);
-}*/
-
-/*
-** best_odds : keep only the best point
+}
 */
+/*
+** scoring system : keep only the best point
+
 
 int		score(t_filler *f, BOARD, t_index p)
 {
@@ -122,7 +217,7 @@ int		score(t_filler *f, BOARD, t_index p)
 		}
 	}
 	return (score);
-}
+}*/
 
 /*
 ** absolute priority if piece is close to the cpu

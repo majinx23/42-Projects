@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 13:36:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 23:28:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,23 @@ typedef struct	s_filler
 {
 	int			cpu;
 	int			player;
-	t_index		max;
-	t_index		piece_dim;
-	t_index		min_dim;
-	t_index		last_p;
 	int			turn;
-	t_index		min_area;
-	t_index		max_area;
+	t_index		max;
+	t_index		last_p;
 	int			cpu_score;
 	int			ply_score;
 	int			position;
+	t_index		dir;
+	t_index		piece_dim;
+	t_index		min_dim;
+	t_index		max_dim;
+	int			ver_hor;
+	t_index		min_area;
+	t_index		max_area;
 	t_index		min_ply;
 	t_index		max_ply;
 	t_index		min_cpu;
 	t_index		max_cpu;
-
 }				t_filler;
 
 /*
@@ -139,7 +141,7 @@ void			return_piece(int a, int b);
 
 void			solver(t_filler *f, BOARD, PIECE);
 void			surround(t_filler *f, BOARD, t_point *points);
-int				g_d(t_filler *f, BOARD, int y, int x);
+int				g_d(t_filler *f, BOARD, t_index p);
 int				next_to_cpu(t_filler *f, BOARD, t_index i);
 
 /*
@@ -147,10 +149,13 @@ int				next_to_cpu(t_filler *f, BOARD, t_index i);
 */
 
 int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
+int				has_captured_center(t_filler *f, BOARD);
+void			get_to_center(t_filler *f, t_point *points);
 int				get_relative_position(t_filler *f, t_index cpu_area, t_index i);
-int				get_direction(t_filler *f, BOARD);
+void			get_direction(t_filler *f);
 void			break_through(t_filler *f, BOARD, t_point *points);
 int				score(t_filler *f, BOARD, t_index p);
+int				g_d2(t_filler *f, BOARD, t_index p);
 
 /*
 ** Save relevant (y, x) valid positions inside a list ~ valid_positions.c
