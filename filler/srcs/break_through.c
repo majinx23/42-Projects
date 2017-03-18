@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 14:56:39 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 17:34:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:12:59 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,95 +130,20 @@ int		reach_borders(t_filler *f, t_index p)
 {
 	t_index	i;
 	int		distance;
+	int		tmp;
 
-	distance = f->max.y * f->max.y + f->max.x * f->max.x;
-	if (f->ver_hor < 0 && ((f->goal & 2) || (f->goal & 4)))
+	distance = 0;//f->max.y * f->max.y + f->max.x * f->max.x;
+	tmp = 0;
+	if ((f->goal & 2) || (f->goal & 4))
 	{
 		i.x = ((f->goal & 2) ? 0 : f->max.x - 1);
-		distance = (i.x - p.x) * (i.x - p.x) / (f->max_dim.x + 1);
+		tmp = (i.x - p.x) * (i.x - p.x) / (f->max_dim.x + 1);
 	}
-	else if ((f->goal & 1) || (f->goal & 8))
+	if ((f->goal & 1) || (f->goal & 8))
 	{
 		i.y = ((f->goal & 1) ? 0 : f->max.y - 1);
 		distance = (i.y - p.y) * (i.y - p.y) / (f->max_dim.y + 1);
 	}
-	else if ((f->goal & 2) || (f->goal & 4))
-	{
-		i.x = ((f->goal & 2) ? 0 : f->max.x - 1);
-		distance = (i.x - p.x) * (i.x - p.x) / (f->max_dim.x + 1);
-	}
+	distance = tmp < distance ? tmp : distance;
 	return (distance);
-}
-
-/*
-** absolute priority if piece is close to the cpu
-*/
-
-int		get_board_limit(t_filler *f, BOARD, t_index i)
-{
-	return ((i.y >= 0 && i.y < f->max.y
-		&& (b[i.y + 1][i.x] >> 1 || b[i.y - 1][i.x] >> 1))
-	|| (i.x > 0 && i.x < f->max.x - 1
-		&& (b[i.y][i.x + 1] >> 1 || b[i.y][i.x - 1] >> 1))
-	|| (!i.y && b[i.y + 1][i.x] >> 1) || (!i.x && b[i.y][i.x + 1] >> 1)
-	|| (i.y == f->max.y - 1 && b[i.y - 1][i.x] >> 1)
-	|| (i.x == f->max.x - 1 && b[i.y][i.x - 1] >> 1));
-}
-
-/*
-** function to check trimmed board limits (min point and max point)
-*/
-
-void	check_min_ply(t_filler *f, BOARD)
-{
-	t_index	i;
-
-	f->min_ply.y = -1;
-	i.y = f->min_area.y - 1;
-	while (++i.y < f->max_area.y)
-	{
-		i.x = f->min_area.y - 1;
-		while (++i.x < f->max_area.x)
-			if (b[i.y][i.x] & 1 && f->min_ply.y == -1)
-				f->min_ply.y = i.y;
-			else if (b[i.y][i.x] >> 1 && f->min_cpu.y == -1)
-				f->min_ply.y = i.y;
-	}
-	f->min_ply.x = -1;
-	i.x = f->min_area.x -1;
-	while (++i.x < f->max_area.x && f->min_ply.x == -1 && f->min_cpu.y == -1)
-	{
-		i.y = -1;
-		while (++i.y < f->max_area.y && f->min_ply.x == -1)
-			if (b[i.y][i.x] == 1)
-				f->min_area.x = i.x;
-	}
-}
-
-void	check_max_ply(t_filler *f, BOARD)
-{
-	t_index	i;
-
-	i.y = f->max_area.y;
-	f->max_ply.y = -1;
-	while (--i.y >= 0 && f->max_ply.y == -1)
-	{
-		i.x = f->max_area.x;
-		while (--i.x >= 0 && f->max_ply.y == -1)
-		{
-			if (b[i.y][i.x] == 1)
-				f->max_ply.y = i.y;
-		}
-	}
-	f->max_ply.x = -1;
-	i.x = f->max_area.x;
-	while (--i.x >= 0 && f->max_ply.x == -1)
-	{
-		i.y = f->max_area.y;
-		while (--i.y >= 0 && f->max_ply.x == -1)
-		{
-			if (b[i.y][i.x] == 1)
-				f->max_ply.x = i.x;
-		}
-	}
 }

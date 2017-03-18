@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 17:27:48 by angavrel         ###   ########.fr       */
+/*   Created: 2017/03/18 18:11:35 by angavrel          #+#    #+#             */
+/*   Updated: 2017/03/18 19:30:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 
 void	solver(t_filler *f, BOARD, PIECE)
 {
-	t_point	*points;
-	t_index	ply_area;
-	
+	t_point		*points;
+	t_index		ply_area;
+
 	points = NULL;
 	ply_area = (t_index) {.x = 0, .y = 0};
 	f->cpu_score = 0;
@@ -33,19 +33,20 @@ void	solver(t_filler *f, BOARD, PIECE)
 	has_reached_borders(f, b);
 	if (points)
 	{
-		surround(f, b, points);  
 		if (!has_captured_center(f, b) && f->goal)
 			break_through(f, points);
-		//display_points(&points);
+		else
+			surround(f, b, points);
 		free_saved_positions(&points);
 	}
 	return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
+}
 //	display_turn_nb(f);//
 //	display_last(f);//
 //	display_piece(f->piece_dim, p); // debug function
 //	display_miniboard(f, f->min_area, f->max_area, b); // debug
 //	display_board(f->max, b); // debug
-}
+//}
 
 /*
 ** main strategy is to surround opponent by finding the shortest distance
@@ -65,7 +66,6 @@ void	surround(t_filler *f, BOARD, t_point *points)
 				LAST = points->i;
 			else if (f->ver_hor < 0 && points->i.x < LAST.x)
 				LAST = points->i;
-
 		}
 		points = points->next;
 	}
@@ -80,9 +80,9 @@ void	surround(t_filler *f, BOARD, t_point *points)
 
 int		g_d(t_filler *f, BOARD, t_index p)
 {
-	t_index	i;
-	int		distance;
-	int		tmp;
+	t_index		i;
+	int			distance;
+	int			tmp;
 
 	distance = f->max.y * f->max.y + f->max.x * f->max.x;
 	i.y = -1;
@@ -106,7 +106,7 @@ int		g_d(t_filler *f, BOARD, t_index p)
 
 int		next_to_cpu(t_filler *f, BOARD, t_index i)
 {
-	return (b[i.y][i.x] >> 1 && 
+	return (b[i.y][i.x] >> 1 &&
 	((i.y > 0 && i.y < f->max.y - 1
 		&& (!b[i.y + 1][i.x] || !b[i.y - 1][i.x]))
 	|| (i.x > 0 && i.x < f->max.x - 1

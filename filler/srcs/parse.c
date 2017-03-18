@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 17:16:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 18:46:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** function to trim piece
 ** --f->min_dim.x; is to convert the dimension into index
-** if the minimum index of y or x is different from 0 
+** if the minimum index of y or x is different from 0
 ** then we will trim our piece
 */
 
@@ -25,7 +25,7 @@ void	get_piece_dimension(t_filler *f, char *line, BOARD)
 	t_index	i;
 
 	i.y = -1;
-    while (++i.y < f->piece_dim.y)
+	while (++i.y < f->piece_dim.y)
 	{
 		get_next_line(0, &line);
 		i.x = -1;
@@ -35,10 +35,16 @@ void	get_piece_dimension(t_filler *f, char *line, BOARD)
 	f->min_dim = (t_index) {0, 0};
 	f->min_dim = ft_check_min_piece(f, p);
 	if (f->min_dim.y || f->min_dim.x)
+	{
 		trim_piece(f, p);
+		if (f->max_dim.y == f->max_dim.x)
+			f->ver_hor = 0;
+		else
+			f->ver_hor = f->max_dim.y > f->max_dim.x ? 1 : -1;
+	}
 	solver(f, b, p);
 }
-	
+
 /*
 ** check useful rows and columns
 */
@@ -67,7 +73,6 @@ t_index	ft_check_min_piece(t_filler *f, PIECE)
 				min.x = i.x;
 	}
 	return (min);
-
 }
 
 /*
@@ -82,9 +87,8 @@ void	trim_piece(t_filler *f, PIECE)
 
 	f->max_dim = (t_index) {.x = 0, .y = 0};
 	i.y = -1;
-	while (++i.y < f->piece_dim.y - f->min_dim.y)// && (i.x = -1))
+	while (++i.y < f->piece_dim.y - f->min_dim.y && (i.x = -1))
 	{
-		i.x = -1;
 		tmp.x = 0;
 		while (++i.x < f->piece_dim.x - f->min_dim.x)
 		{
@@ -95,21 +99,13 @@ void	trim_piece(t_filler *f, PIECE)
 		f->max_dim.x = (tmp.x > f->max_dim.x ? tmp.x : f->max_dim.x);
 	}
 	i.x = -1;
-	while (++i.x < f->piece_dim.x - f->min_dim.x)// && (i.y == -1))
+	while (++i.x < f->piece_dim.x - f->min_dim.x  && (i.y = -1))
 	{
-		i.y = -1;
 		tmp.y = 0;
 		while (++i.y < f->piece_dim.y - f->min_dim.y)
 			p[i.y][i.x] ? ++tmp.y : 0;
 		f->max_dim.y = (tmp.y > f->max_dim.y ? tmp.y : f->max_dim.y);
 	}
-	if (f->max_dim.y == f->max_dim.x)
-		f->ver_hor = 0;
-	else
-		f->ver_hor = f->max_dim.y > f->max_dim.x ? 1 : -1;
-//	display_piece(f->piece_dim, p);//
-//	ft_putnbr_fd(f->ver_hor, 2);//
-//	ft_putchar_fd('\n', 2);//
 }
 
 /*
@@ -162,6 +158,5 @@ void	return_piece(int a, int b)
 		b /= 10;
 	while (i.x-- && (s[i.x] = a  % 10 + '0'))
 		a /= 10;
-	ft_putstr(s);
-	free(s);
+	ft_putstr_free(s);
 }

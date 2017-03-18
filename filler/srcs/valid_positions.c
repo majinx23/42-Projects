@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 21:07:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 15:22:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 18:46:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int		is_valid_position(t_filler *f, BOARD, PIECE, t_index i)
 		pad.x = 0;
 		while (pad.x < f->piece_dim.x)
 		{
-			if (pad.y + i.y - f->min_dim.y < 0 || pad.x + i.x - f->min_dim.x < 0)
+			if (pad.y + i.y - f->min_dim.y < 0
+					|| pad.x + i.x - f->min_dim.x < 0)
 				return (0);
 			if (p[pad.y][pad.x])
 			{

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 16:52:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 18:39:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,24 @@
 ** second one is for //Plateau 14 17:
 */
 
-int			main(void)
+int		main(void)
 {
 	t_filler	f;
-    char        *line;
+	char		*line;
 
 	system("> board.map");
-    get_next_line(0, &line);
+	get_next_line(0, &line);
 	f.player = line[10] - '0';
 	f.cpu = (f.player & 2) >> 1 | (f.player & 1) << 1;
-    get_next_line(0, &line);
-	f.max = (t_index) {.y = 0, .x = 0};      
-  	filler_atoi(&f.max, line + 8);
+	get_next_line(0, &line);
+	f.max = (t_index) {.y = 0, .x = 0};
+	filler_atoi(&f.max, line + 8);
 	f.turn = 0;
 	f.goal = 0;
-	while (f.turn < 700)// 1
-	    filler_loop(&f);
+	while (1)
+		filler_loop(&f);
 	return (0);
 }
-
 
 /*
 ** first SKIP_LINE is used in order to skip "012345..."
@@ -48,15 +47,15 @@ int			main(void)
 ** third SKIP_LINE is to skip Plateau as we already know board dimensions
 */
 
-void        filler_loop(t_filler *f)
+void	filler_loop(t_filler *f)
 {
-    t_index	i;
-    char    *line;
+	t_index	i;
+	char	*line;
 	int		b[f->max.y][f->max.x];
 
-    SKIP_LINE;
-    i.y = -1;
-    while (++i.y < f->max.y)
+	SKIP_LINE;
+	i.y = -1;
+	while (++i.y < f->max.y)
 	{
 		if (get_next_line(0, &line) == -1)
 		{
@@ -65,14 +64,13 @@ void        filler_loop(t_filler *f)
 		}
 		board_char2int(f, line + 4, i.y, b);
 	}
-
 	f->min_area = ft_check_min(f, b);
 	check_max_area(f, b);
-    SKIP_LINE;
+	SKIP_LINE;
 	f->piece_dim = (t_index) {.y = 0, .x = 0};
 	filler_atoi(&f->piece_dim, line + 6);
 	get_piece_dimension(f, line, b);
-    SKIP_LINE;
+	SKIP_LINE;
 }
 
 /*
