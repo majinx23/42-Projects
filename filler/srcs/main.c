@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 18:39:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:50:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	filler_loop(t_filler *f)
 ** 1 for Player and 2 for CPU, 0 if empty.
 */
 
-void	board_char2int(t_filler *f, char *s, int y, BOARD)
+void	board_char2int(t_filler *f, char *s, int y, int b[f->max.y][f->max.x])
 {
 	int	x;
 
@@ -96,7 +96,7 @@ void	board_char2int(t_filler *f, char *s, int y, BOARD)
 ** function to check trimmed board limits (min point and max point)
 */
 
-t_index	ft_check_min(t_filler *f, BOARD)
+t_index	ft_check_min(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 	t_index	min;
@@ -122,7 +122,7 @@ t_index	ft_check_min(t_filler *f, BOARD)
 	return (min);
 }
 
-void	check_max_area(t_filler *f, BOARD)
+void	check_max_area(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 

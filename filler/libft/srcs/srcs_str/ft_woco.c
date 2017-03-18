@@ -6,14 +6,15 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 17:27:49 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/14 18:05:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:35:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** nice function inspired from N. Alliot to count occurence of character in a word
+** nice function inspired from N. Alliot to count occurence of
+** character in a word
 */
 
 int		ft_woco(const char *s, char c)

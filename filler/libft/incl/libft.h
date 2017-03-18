@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:29:58 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/16 15:40:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:38:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int					ft_is_power_of_x(unsigned n, unsigned x);
 int					ft_is_power_of_2(unsigned int n);
 int					ft_intarray_is_sorted(int *array, size_t array_size);
 int					ft_is_integer(char *str);
-int					ft_is_alrdy_contained(int *tab, int size, int val, int index);
+int					ft_is_alrdy_contained(int *tab, int size, int val,
+						int index);
 
 /*
 ** color functions

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 18:11:35 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 19:30:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:52:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 ** that was initially removed from the piece.
 */
 
-void	solver(t_filler *f, BOARD, PIECE)
+void	solver(t_filler *f, int b[f->max.y][f->max.x],
+			int p[f->piece_dim.y][f->piece_dim.x])
 {
 	t_point		*points;
 	t_index		ply_area;
@@ -41,6 +42,7 @@ void	solver(t_filler *f, BOARD, PIECE)
 	}
 	return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
 }
+
 //	display_turn_nb(f);//
 //	display_last(f);//
 //	display_piece(f->piece_dim, p); // debug function
@@ -53,7 +55,7 @@ void	solver(t_filler *f, BOARD, PIECE)
 ** between our saved valid positions and the computer
 */
 
-void	surround(t_filler *f, BOARD, t_point *points)
+void	surround(t_filler *f, int b[f->max.y][f->max.x], t_point *points)
 {
 	LAST = points->i;
 	while (points)
@@ -104,7 +106,7 @@ int		g_d(t_filler *f, BOARD, t_index p)
 ** absolute priority if piece is close to the cpu
 */
 
-int		next_to_cpu(t_filler *f, BOARD, t_index i)
+int		next_to_cpu(t_filler *f, int b[f->max.y][f->max.x], t_index i)
 {
 	return (b[i.y][i.x] >> 1 &&
 	((i.y > 0 && i.y < f->max.y - 1

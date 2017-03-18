@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 14:56:39 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 19:12:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:50:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		is_disadvantaged(t_filler *f, BOARD, t_index *ply_area)
 	i.y = f->min_area.y - 1;
 	while (++i.y <= f->max_area.y)
 	{
-		i.x = f->min_area.x -1;
+		i.x = f->min_area.x - 1;
 		while (++i.x <= f->max_area.x)
 		{
 			if (b[i.y][i.x] >> 1 && ++f->cpu_score)
@@ -76,7 +76,7 @@ int		get_relative_position(t_filler *f, t_index cpu_area, t_index i)
 ** check if we are in the central area compared to cpu
 */
 
-int		has_captured_center(t_filler *f, BOARD)
+int		has_captured_center(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 	int		check;
@@ -110,7 +110,6 @@ int		has_captured_center(t_filler *f, BOARD)
 
 void	break_through(t_filler *f, t_point *points)
 {
-
 	LAST = points->i;
 	while (points)
 	{
@@ -132,7 +131,7 @@ int		reach_borders(t_filler *f, t_index p)
 	int		distance;
 	int		tmp;
 
-	distance = 0;//f->max.y * f->max.y + f->max.x * f->max.x;
+	distance = f->max.y * f->max.y + f->max.x * f->max.x;
 	tmp = 0;
 	if ((f->goal & 2) || (f->goal & 4))
 	{

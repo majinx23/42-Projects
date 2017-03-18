@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/03/18 19:11:05 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/18 19:54:54 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(SRCS_NAME:.c=.o))
 
 $(NAME): $(OBJ)
-#	make -C $(LIBFT_PATH)
+	make -C $(LIBFT_PATH)
 	gcc $(FLAGS) $(OBJ) $(INC) -L $(LIBFT_PATH) -lft -framework OpenGL -framework AppKit -lmlx -o $(NAME)
 
 all: $(NAME)
@@ -43,7 +43,7 @@ $(OBJ_PATH)%.o: $(SRCS_PATH)%.c
 	gcc -c $(FLAGS) $< $(INC) -o $@
 
 clean:
-#	make -C $(LIBFT_PATH) fclean
+	make -C $(LIBFT_PATH) fclean
 	/bin/rm -rf $(OBJ)
 
 fclean: clean

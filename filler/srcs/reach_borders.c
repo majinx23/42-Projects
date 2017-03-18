@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 00:54:16 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 18:31:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:51:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** we try to reach sides depending on starting position
 */
 
-void	has_reached_borders(t_filler *f, BOARD)
+void	has_reached_borders(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index		ply_area;
 
@@ -43,7 +43,7 @@ void	has_reached_borders(t_filler *f, BOARD)
 			f->goal |= ~8;
 }
 
-int		has_reached_top(t_filler *f, BOARD)
+int		has_reached_top(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 
@@ -58,7 +58,7 @@ int		has_reached_top(t_filler *f, BOARD)
 	return (0);
 }
 
-int		has_reached_bot(t_filler *f, BOARD)
+int		has_reached_bot(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 
@@ -73,7 +73,7 @@ int		has_reached_bot(t_filler *f, BOARD)
 	return (0);
 }
 
-int		has_reached_left(t_filler *f, BOARD)
+int		has_reached_left(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 
@@ -88,7 +88,7 @@ int		has_reached_left(t_filler *f, BOARD)
 	return (0);
 }
 
-int		has_reached_right(t_filler *f, BOARD)
+int		has_reached_right(t_filler *f, int b[f->max.y][f->max.x])
 {
 	t_index	i;
 

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 16:34:46 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/14 18:35:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:36:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 int		ft_get_median(int *tab, size_t size, float position)
 {
-	int 	cpy[size];
+	int		cpy[size];
 	size_t	i;
 	int		pos;
 
