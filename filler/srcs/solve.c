@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 02:21:20 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 17:27:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,24 @@ void	solver(t_filler *f, BOARD, PIECE)
 	ply_area = (t_index) {.x = 0, .y = 0};
 	f->cpu_score = 0;
 	f->ply_score = 0;
+	LAST.y = f->min_dim.y + 42;
+	LAST.x = f->min_dim.x + 42;
 	put_piece(f, b, p, &points);
-	if (!points)
-		return_piece(-1, -1);
-	else
+	has_reached_borders(f, b);
+	if (points)
 	{
-	//	ft_putstr_fd("has center ?", 2);
-	//	ft_putnbr_fd(has_captured_center(f, b), 2);
-	//	ft_putendl_fd("\n", 2);
-		if (!has_captured_center(f, b))
-			surround(f, b, points); 
-		else if (f->goal)//(is_disadvantaged(f, b, &ply_area))
-			break_through(f, b, points);
-		else
-			surround(f, b, points);   
-		return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
+		surround(f, b, points);  
+		if (!has_captured_center(f, b) && f->goal)
+			break_through(f, points);
+		//display_points(&points);
 		free_saved_positions(&points);
 	}
-	display_turn_nb(f);//
+	return_piece(LAST.y - f->min_dim.y, LAST.x - f->min_dim.x);
+//	display_turn_nb(f);//
 //	display_last(f);//
 //	display_piece(f->piece_dim, p); // debug function
 //	display_miniboard(f, f->min_area, f->max_area, b); // debug
-	display_board(f->max, b); // debug
+//	display_board(f->max, b); // debug
 }
 
 /*

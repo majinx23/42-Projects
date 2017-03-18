@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 23:54:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 17:16:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,8 @@ void	get_piece_dimension(t_filler *f, char *line, BOARD)
 		while (++i.x < f->piece_dim.x)
 			p[i.y][i.x] = (int)((46 - line[i.x]) >> 2);
 	}
-	f->min_dim = (t_index) {.x = 1, .y = 1};
-	while (!check_min(f, f->piece_dim.y, f->min_dim.x, p))
-		++f->min_dim.x;
-	--f->min_dim.x;
-	while (!check_min(f, f->min_dim.y, f->piece_dim.x, p))
-		++f->min_dim.y;
-	--f->min_dim.y;
+	f->min_dim = (t_index) {0, 0};
+	f->min_dim = ft_check_min_piece(f, p);
 	if (f->min_dim.y || f->min_dim.x)
 		trim_piece(f, p);
 	solver(f, b, p);
@@ -48,24 +43,31 @@ void	get_piece_dimension(t_filler *f, char *line, BOARD)
 ** check useful rows and columns
 */
 
-int		check_min(t_filler *f, int y, int x, PIECE)
+t_index	ft_check_min_piece(t_filler *f, PIECE)
 {
 	t_index	i;
-	int		n;
+	t_index	min;
 
-	n = 0;
-	i.y = 0;
-	while (i.y < y)
+	i.y = -1;
+	min.y = -1;
+	while (++i.y < f->piece_dim.y && min.y == -1)
 	{
-		i.x = 0;
-		while (i.x < x)
-		{
-			n += p[i.y][i.x];
-			++i.x;
-		}
-		++i.y;
+		i.x = -1;
+		while (++i.x < f->piece_dim.x && min.y == -1)
+			if (p[i.y][i.x])
+				min.y = i.y;
 	}
-	return (n);
+	i.x = -1;
+	min.x = -1;
+	while (++i.x < f->piece_dim.x && min.x == -1)
+	{
+		i.y = -1;
+		while (++i.y < f->piece_dim.y && min.x == -1)
+			if (p[i.y][i.x])
+				min.x = i.x;
+	}
+	return (min);
+
 }
 
 /*
@@ -105,9 +107,9 @@ void	trim_piece(t_filler *f, PIECE)
 		f->ver_hor = 0;
 	else
 		f->ver_hor = f->max_dim.y > f->max_dim.x ? 1 : -1;
-	display_piece(f->piece_dim, p);//
-	ft_putnbr_fd(f->ver_hor, 2);//
-	ft_putchar_fd('\n', 2);//
+//	display_piece(f->piece_dim, p);//
+//	ft_putnbr_fd(f->ver_hor, 2);//
+//	ft_putchar_fd('\n', 2);//
 }
 
 /*

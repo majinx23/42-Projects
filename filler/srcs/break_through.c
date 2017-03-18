@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 14:56:39 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 02:16:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 17:34:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,138 +105,50 @@ int		has_captured_center(t_filler *f, BOARD)
 }
 
 /*
-** we send T or B (TOP or BOTTOM) for char tb and L or R for lr
-*/
-
-void		get_direction(t_filler *f, BOARD)
-{
-	char		lr;
-	char		tb;
-
-	lr = (f->position == SE || f->position == NE
-		|| f->position == S || f->position == N ? 'L' : 'R');
-	tb = (f->position == SE || f->position == SW
-		|| f->position == S ? 'T' : 'B');
-	ft_putendl_fd("", 2);//
-//	ft_putstr_fd(&lr, 2);//
-	ft_putendl_fd(&tb, 2);//
-	ft_putendl_fd("", 2);//
-	f->dir.x = (lr = 'L' ? -1 : 1);
-	f->dir.y = (tb = 'T' ? -1 : 1);
-	reach_borders(f, b);
-}
-
-/*
 ** try to break through to be fight on equal ground
 */
 
-void	break_through(t_filler *f, BOARD, t_point *points)
+void	break_through(t_filler *f, t_point *points)
 {
-	get_direction(f, b);
-//	ft_putendl_fd("break through !", 2);
+
 	LAST = points->i;
 	while (points)
 	{
-		if (g_d2(f, b, points->i) < g_d2(f, b, LAST))
+		if (reach_borders(f, points->i) < reach_borders(f, LAST))
 			LAST = points->i;
-/*		if (f->dir.y < 0)
-		{
-			if ((f->dir.x < 0 && points->i.y > LAST.y && points->i.x < LAST.x)
-			||	(f->dir.x > 0 && points->i.y > LAST.y && points->i.x > LAST.x))
-					LAST = points->i;
-		}
-		else
-		{
-			if ((f->dir.x < 0 && points->i.y < LAST.y && points->i.x < LAST.x)
-			||	(f->dir.x > 0 && points->i.y < LAST.y && points->i.x > LAST.x))
-					LAST = points->i;
-		}*/
-
 		points = points->next;
 	}
 }
 
+/*
+** check if the piece is rather horizontal (f->ver_hor < 0)
+** or vertical (f->ver_hor > 0), if horizontal it will check the x distance
+** from the relevant side
+*/
 
-
-int		g_d2(t_filler *f, BOARD, t_index p)
+int		reach_borders(t_filler *f, t_index p)
 {
 	t_index	i;
 	int		distance;
-	int		tmp;
 
 	distance = f->max.y * f->max.y + f->max.x * f->max.x;
-	if ((f->goal & 1) || (f->goal & 8))
+	if (f->ver_hor < 0 && ((f->goal & 2) || (f->goal & 4)))
+	{
+		i.x = ((f->goal & 2) ? 0 : f->max.x - 1);
+		distance = (i.x - p.x) * (i.x - p.x) / (f->max_dim.x + 1);
+	}
+	else if ((f->goal & 1) || (f->goal & 8))
 	{
 		i.y = ((f->goal & 1) ? 0 : f->max.y - 1);
-		distance = (i.y - p.y) * (i.y - p.y);
+		distance = (i.y - p.y) * (i.y - p.y) / (f->max_dim.y + 1);
 	}
 	else if ((f->goal & 2) || (f->goal & 4))
 	{
 		i.x = ((f->goal & 2) ? 0 : f->max.x - 1);
-		distance = (i.x - p.x) * (i.x - p.x);
+		distance = (i.x - p.x) * (i.x - p.x) / (f->max_dim.x + 1);
 	}
 	return (distance);
-
-	/*
-	while (++i.y < f->max.y)
-	{
-		tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
-
-
-
-
-		i.x = -1;
-		while (++i.x < f->max.x)
-		{
-			tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
-			if (b[i.y][i.x] >> 1 && tmp < distance)
-				if ((distance = tmp) == 2)
-					return (distance);
-		}
-	}
-	return (distance);*/
 }
-
-/*
-** function check which would be the best direction
-
-
-int		get_direction(t_filler *f, BOARD, t_index i)
-{
-	t_index	i;
-	
-	if (POSITION == SE)
-	{
-		if ()
-
-	}
-	return (0);
-}
-*/
-/*
-** scoring system : keep only the best point
-
-
-int		score(t_filler *f, BOARD, t_index p)
-{
-	t_index	i;
-	int		score;
-
-	score = 0;
-	i.y = -1;
-	while (++i.y < f->max.y)
-	{
-		i.x = -1;
-		while (++i.x < f->max.x)
-		{
-	//		score += get_board_limit(f, b, i, p);
-	//		score += get_board_size();
-	//		score += ();
-
-		}
-	}
-	return (score);
-}*/
 
 /*
 ** absolute priority if piece is close to the cpu

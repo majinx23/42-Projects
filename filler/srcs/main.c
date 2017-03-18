@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 05:38:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 00:50:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 16:52:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int			main(void)
 	f.max = (t_index) {.y = 0, .x = 0};      
   	filler_atoi(&f.max, line + 8);
 	f.turn = 0;
-	while (f.turn < 300)// 1
+	f.goal = 0;
+	while (f.turn < 700)// 1
 	    filler_loop(&f);
 	return (0);
 }
@@ -64,7 +65,8 @@ void        filler_loop(t_filler *f)
 		}
 		board_char2int(f, line + 4, i.y, b);
 	}
-	check_min_area(f, b);
+
+	f->min_area = ft_check_min(f, b);
 	check_max_area(f, b);
     SKIP_LINE;
 	f->piece_dim = (t_index) {.y = 0, .x = 0};
@@ -96,32 +98,30 @@ void	board_char2int(t_filler *f, char *s, int y, BOARD)
 ** function to check trimmed board limits (min point and max point)
 */
 
-void	check_min_area(t_filler *f, BOARD)
+t_index	ft_check_min(t_filler *f, BOARD)
 {
 	t_index	i;
+	t_index	min;
 
 	i.y = -1;
-	f->min_area.y = -1;
-	while (++i.y < f->max.y && f->min_area.y == -1)
+	min.y = -1;
+	while (++i.y < f->max.y && min.y == -1)
 	{
 		i.x = -1;
-		while (++i.x < f->max.x && f->min_area.y == -1)
-		{
+		while (++i.x < f->max.x && min.y == -1)
 			if (b[i.y][i.x])
-				f->min_area.y = i.y;
-		}
+				min.y = i.y;
 	}
-	f->min_area.x = -1;
 	i.x = -1;
-	while (++i.x < f->max.x && f->min_area.x == -1)
+	min.x = -1;
+	while (++i.x < f->max.x && min.x == -1)
 	{
 		i.y = -1;
-		while (++i.y < f->max.y && f->min_area.x == -1)
-		{
+		while (++i.y < f->max.y && min.x == -1)
 			if (b[i.y][i.x])
-				f->min_area.x = i.x;
-		}
+				min.x = i.x;
 	}
+	return (min);
 }
 
 void	check_max_area(t_filler *f, BOARD)

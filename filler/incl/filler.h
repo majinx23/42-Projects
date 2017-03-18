@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 01:54:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 17:22:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void			feed_board(t_index max, int b[max.y][max.x]);//debug
 
 void			filler_loop(t_filler *filler);
 void			board_char2int(t_filler *f, char *s, int y, BOARD);
-void			check_min_area(t_filler *f, BOARD);
+t_index			ft_check_min(t_filler *f, BOARD);
 void			check_max_area(t_filler *f, BOARD);
 
 /*
@@ -131,7 +131,7 @@ void			check_max_area(t_filler *f, BOARD);
 */
 
 void			get_piece_dimension(t_filler *f, char *line, BOARD);
-int				check_min(t_filler *f, int y, int x, PIECE);
+t_index			ft_check_min_piece(t_filler *f, PIECE);
 void			trim_piece(t_filler *f, PIECE);
 void			filler_atoi(t_index *i, char *s);
 void			return_piece(int a, int b);
@@ -151,12 +151,12 @@ int				next_to_cpu(t_filler *f, BOARD, t_index i);
 
 int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
 int				has_captured_center(t_filler *f, BOARD);
-void			get_to_center(t_filler *f, t_point *points);
+
 int				get_relative_position(t_filler *f, t_index cpu_area, t_index i);
 void			get_direction(t_filler *f, BOARD);
-void			break_through(t_filler *f, BOARD, t_point *points);
-int				score(t_filler *f, BOARD, t_index p);
-int				g_d2(t_filler *f, BOARD, t_index p);
+
+void			break_through(t_filler *f, t_point *points);
+int				reach_borders(t_filler *f, t_index p);
 
 /*
 ** checks if sides are reached
@@ -166,7 +166,7 @@ int				has_reached_top(t_filler *f, BOARD);
 int				has_reached_bot(t_filler *f, BOARD);
 int				has_reached_left(t_filler *f, BOARD);
 int				has_reached_right(t_filler *f, BOARD);
-int 			reach_borders(t_filler *f, BOARD);
+void			has_reached_borders(t_filler *f, BOARD);
 
 /*
 ** Save relevant (y, x) valid positions inside a list ~ valid_positions.c
@@ -174,8 +174,8 @@ int 			reach_borders(t_filler *f, BOARD);
 
 int				put_piece(t_filler *f, BOARD, PIECE, t_point **points);
 int				is_valid_position(t_filler *f, BOARD, PIECE, t_index c);
-void			add_point(t_point **points, int y, int x);
-t_point			*new_point(int y, int x);
+void			add_point(t_point **points, t_index i);
+t_point			*new_point(t_index i);
 void			free_saved_positions(t_point **points);
 
 #endif

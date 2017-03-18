@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 00:54:16 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/18 02:21:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 17:08:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int has_reached_right(t_filler *f, BOARD)
 ** we try to reach sides depending on starting position
 */
 
-int reach_borders(t_filler *f, BOARD)
+void has_reached_borders(t_filler *f, BOARD)
 {
     t_index     ply_area;
 

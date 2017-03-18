@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 21:07:50 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/11 04:27:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 15:22:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		put_piece(t_filler *f, BOARD, PIECE, t_point **points)
 		while (i.x < f->max.x)
 		{
 			if (is_valid_position(f, b, p, i))
-				add_point(points, i.y, i.x);
+				add_point(points, i);
 			++i.x;
 		}
 		++i.y;
@@ -80,7 +80,7 @@ int		is_valid_position(t_filler *f, BOARD, PIECE, t_index i)
 ** create a new one if there was none before, else create a new one at the end
 */
 
-void	add_point(t_point **points, int y, int x)
+void	add_point(t_point **points, t_index i)
 {
 	t_point	*lst;
 
@@ -88,24 +88,23 @@ void	add_point(t_point **points, int y, int x)
 	{
 		while (lst->next)
 			lst = lst->next;
-		lst->next = new_point(y, x);
+		lst->next = new_point(i);
 	}
 	else
-		*points = new_point(y, x);
+		*points = new_point(i);
 }
 
 /*
 ** function to create a new (x, y) point inside the list
 */
 
-t_point	*new_point(int y, int x)
+t_point	*new_point(t_index i)
 {
 	t_point	*point;
 
 	if (!(point = (t_point *)malloc(sizeof(t_point))))
 		return (NULL);
-	point->i.y = y;
-	point->i.x = x;
+	point->i = i;
 	point->next = NULL;
 	return (point);
 }

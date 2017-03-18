@@ -115,7 +115,7 @@ void	display_turn_nb(t_filler *f)//debug
 	ft_putnbr_fd(f->turn, 2);
 	ft_putstr_fd(" ~~~\nPLY: ", 2);
 	ft_putnbr_fd(f->ply_score, 2);
-	ft_putstr_fd("vs CPU: ", 2);
+	ft_putstr_fd(" vs CPU: ", 2);
 	ft_putnbr_fd(f->cpu_score, 2);
 	ft_putstr_fd("\n", 2);
 	f->ply_score = 0;
