@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 23:44:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 02:21:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	solver(t_filler *f, BOARD, PIECE)
 	//	ft_putendl_fd("\n", 2);
 		if (!has_captured_center(f, b))
 			surround(f, b, points); 
-		else if (is_disadvantaged(f, b, &ply_area))
+		else if (f->goal)//(is_disadvantaged(f, b, &ply_area))
 			break_through(f, b, points);
 		else
 			surround(f, b, points);   
@@ -63,6 +63,14 @@ void	surround(t_filler *f, BOARD, t_point *points)
 	{
 		if (g_d(f, b, points->i) < g_d(f, b, LAST))
 			LAST = points->i;
+		else if (g_d(f, b, points->i) == g_d(f, b, LAST))
+		{
+			if (f->ver_hor > 0 && points->i.y < LAST.y)
+				LAST = points->i;
+			else if (f->ver_hor < 0 && points->i.x < LAST.x)
+				LAST = points->i;
+
+		}
 		points = points->next;
 	}
 }
@@ -88,7 +96,7 @@ int		g_d(t_filler *f, BOARD, t_index p)
 		while (++i.x < f->max.x)
 		{
 			tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
-			if (b[i.y][i.x] >> 1 && next_to_cpu(f, b, i) && tmp < distance)
+			if (next_to_cpu(f, b, i) && tmp < distance)
 				if ((distance = tmp) == 2)
 					return (distance);
 		}
@@ -102,11 +110,12 @@ int		g_d(t_filler *f, BOARD, t_index p)
 
 int		next_to_cpu(t_filler *f, BOARD, t_index i)
 {
-	return ((i.y > 0 && i.y < f->max.y - 1
-		&& (b[i.y + 1][i.x] >> 1 || b[i.y - 1][i.x] >> 1))
+	return (b[i.y][i.x] >> 1 && 
+	((i.y > 0 && i.y < f->max.y - 1
+		&& (!b[i.y + 1][i.x] || !b[i.y - 1][i.x]))
 	|| (i.x > 0 && i.x < f->max.x - 1
-		&& (b[i.y][i.x + 1] >> 1 || b[i.y][i.x - 1] >> 1))
-	|| (!i.y && b[i.y + 1][i.x] >> 1) || (!i.x && b[i.y][i.x + 1] >> 1)
-	|| (i.y == f->max.y - 1 && b[i.y - 1][i.x] >> 1)
-	|| (i.x == f->max.x - 1 && b[i.y][i.x - 1] >> 1));
+		&& (!b[i.y][i.x + 1] || !b[i.y][i.x - 1]))
+	|| (!i.y && !b[i.y + 1][i.x]) || (!i.x && !b[i.y][i.x + 1])
+	|| (i.y == f->max.y - 1 && !b[i.y - 1][i.x])
+	|| (i.x == f->max.x - 1 && !b[i.y][i.x - 1])));
 }

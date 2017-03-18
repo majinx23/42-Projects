@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:07:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 23:28:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 01:54:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct	s_filler
 	t_index		max_ply;
 	t_index		min_cpu;
 	t_index		max_cpu;
+	int			goal;
 }				t_filler;
 
 /*
@@ -152,10 +153,20 @@ int				is_disadvantaged(t_filler *f, BOARD, t_index *ply_area);
 int				has_captured_center(t_filler *f, BOARD);
 void			get_to_center(t_filler *f, t_point *points);
 int				get_relative_position(t_filler *f, t_index cpu_area, t_index i);
-void			get_direction(t_filler *f);
+void			get_direction(t_filler *f, BOARD);
 void			break_through(t_filler *f, BOARD, t_point *points);
 int				score(t_filler *f, BOARD, t_index p);
 int				g_d2(t_filler *f, BOARD, t_index p);
+
+/*
+** checks if sides are reached
+*/
+
+int				has_reached_top(t_filler *f, BOARD);
+int				has_reached_bot(t_filler *f, BOARD);
+int				has_reached_left(t_filler *f, BOARD);
+int				has_reached_right(t_filler *f, BOARD);
+int 			reach_borders(t_filler *f, BOARD);
 
 /*
 ** Save relevant (y, x) valid positions inside a list ~ valid_positions.c

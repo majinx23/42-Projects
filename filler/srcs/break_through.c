@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 14:56:39 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 23:31:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/18 02:16:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int		is_disadvantaged(t_filler *f, BOARD, t_index *ply_area)
 			}
 		}
 	}
-	(get_relative_position(f, cpu_area, *ply_area) ?
-		ft_putnbr_fd(1, 2) : ft_putnbr_fd(0, 2));
 	return (get_relative_position(f, cpu_area, *ply_area));
 }
 
@@ -110,7 +108,7 @@ int		has_captured_center(t_filler *f, BOARD)
 ** we send T or B (TOP or BOTTOM) for char tb and L or R for lr
 */
 
-void		get_direction(t_filler *f)
+void		get_direction(t_filler *f, BOARD)
 {
 	char		lr;
 	char		tb;
@@ -125,6 +123,7 @@ void		get_direction(t_filler *f)
 	ft_putendl_fd("", 2);//
 	f->dir.x = (lr = 'L' ? -1 : 1);
 	f->dir.y = (tb = 'T' ? -1 : 1);
+	reach_borders(f, b);
 }
 
 /*
@@ -133,12 +132,14 @@ void		get_direction(t_filler *f)
 
 void	break_through(t_filler *f, BOARD, t_point *points)
 {
-	get_direction(f);
+	get_direction(f, b);
 //	ft_putendl_fd("break through !", 2);
 	LAST = points->i;
 	while (points)
 	{
-		if (f->dir.y < 0)
+		if (g_d2(f, b, points->i) < g_d2(f, b, LAST))
+			LAST = points->i;
+/*		if (f->dir.y < 0)
 		{
 			if ((f->dir.x < 0 && points->i.y > LAST.y && points->i.x < LAST.x)
 			||	(f->dir.x > 0 && points->i.y > LAST.y && points->i.x > LAST.x))
@@ -149,7 +150,8 @@ void	break_through(t_filler *f, BOARD, t_point *points)
 			if ((f->dir.x < 0 && points->i.y < LAST.y && points->i.x < LAST.x)
 			||	(f->dir.x > 0 && points->i.y < LAST.y && points->i.x > LAST.x))
 					LAST = points->i;
-		}
+		}*/
+
 		points = points->next;
 	}
 }
@@ -163,19 +165,36 @@ int		g_d2(t_filler *f, BOARD, t_index p)
 	int		tmp;
 
 	distance = f->max.y * f->max.y + f->max.x * f->max.x;
-	i.y = -1;
+	if ((f->goal & 1) || (f->goal & 8))
+	{
+		i.y = ((f->goal & 1) ? 0 : f->max.y - 1);
+		distance = (i.y - p.y) * (i.y - p.y);
+	}
+	else if ((f->goal & 2) || (f->goal & 4))
+	{
+		i.x = ((f->goal & 2) ? 0 : f->max.x - 1);
+		distance = (i.x - p.x) * (i.x - p.x);
+	}
+	return (distance);
+
+	/*
 	while (++i.y < f->max.y)
 	{
+		tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
+
+
+
+
 		i.x = -1;
 		while (++i.x < f->max.x)
 		{
 			tmp = (i.y - p.y) * (i.y - p.y) + (i.x - p.x) * (i.x - p.x);
-			if (!i.x && b[i.y][i.x] >> 1 && tmp < distance && tmp > 6)
-				if ((distance = tmp) == 7)
+			if (b[i.y][i.x] >> 1 && tmp < distance)
+				if ((distance = tmp) == 2)
 					return (distance);
 		}
 	}
-	return (distance);
+	return (distance);*/
 }
 
 /*

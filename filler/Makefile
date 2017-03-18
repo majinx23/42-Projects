@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/28 18:36:22 by angavrel          #+#    #+#              #
-#    Updated: 2017/03/13 08:43:22 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/18 01:55:05 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS_NAME =	main.c \
 			valid_positions.c \
 			solve.c \
 			break_through.c \
+			reach_borders.c \
 			debug.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))

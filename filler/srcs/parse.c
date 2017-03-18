@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:18:24 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/17 23:32:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/17 23:54:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	trim_piece(t_filler *f, PIECE)
 		f->ver_hor = 0;
 	else
 		f->ver_hor = f->max_dim.y > f->max_dim.x ? 1 : -1;
-//	display_piece(f->piece_dim, p);//
-//	ft_putnbr_fd(f->ver_hor, 2);//
-//	ft_putchar_fd('\n', 2);//
+	display_piece(f->piece_dim, p);//
+	ft_putnbr_fd(f->ver_hor, 2);//
+	ft_putchar_fd('\n', 2);//
 }
 
 /*
